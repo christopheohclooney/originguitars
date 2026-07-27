@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+/*
+  Origin Guitars — design tokens (Stage 0)
+
+  Light only. There is deliberately no dark theme: the guitars supply every
+  colour on the site, so the UI stays out of their way.
+
+  The one rule that drives the whole palette: --color-black is reserved for
+  primary CTAs. Everything else that reads as "black" is --color-ink, a touch
+  lighter, so a button is always the darkest element on any given screen.
+*/
+
+@theme {
+  /* Ink — text, logo, headings */
+  --color-ink: #141414;
+  --color-ink-muted: #737373;
+  --color-ink-disabled: #a3a3a3;
+
+  /* CTA — primary buttons only, never body text */
+  --color-black: #000000;
+
+  /* Surfaces */
+  --color-surface: #fafafa;
+  --color-canvas: #f4f4f4;
+
+  /* Lines */
+  --color-line: #e8e8e8;
+  --color-line-strong: #d4d4d4;
+
+  /* Functional — validation only, never decorative */
+  --color-danger: #b42318;
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+:root {
+  /*
+    Taken from the logo's forward lean. Used for dividers, badge cuts and
+    accent rules — never applied to type. The wordmark's letterforms are an
+    asset, not a typeface.
+  */
+  --slant: 12deg;
+}
+
+body {
+  background: #ffffff;
+  color: var(--color-ink);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
