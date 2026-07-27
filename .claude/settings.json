@@ -1,6 +1,7 @@
 {
-  "description": "Impeccable design detector: immediate-tier checks after Edit/Write/MultiEdit on UI files, full-rule deep pass on Stop.",
-  "hooks": {
+  "description": "Impeccable design detector: immediate-tier checks after Edit/Write/MultiEdit on UI files, full-rule deep pass on Stop. DISABLED until real UI code exists - see _disabledHooks below. Re-enable by moving _disabledHooks back to \"hooks\".",
+  "hooks": {},
+  "_disabledHooks": {
     "PostToolUse": [
       {
         "matcher": "Edit|Write|MultiEdit",
