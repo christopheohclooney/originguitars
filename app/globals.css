@@ -19,6 +19,7 @@
 
   /* CTA — primary buttons only, never body text */
   --color-black: #000000;
+  --color-cta-hover: #262626;
 
   /* Surfaces */
   --color-surface: #fafafa;

@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import type { CSSProperties, ReactNode } from "react";
 
+import {
+  Button,
+  buttonBase,
+  buttonSizes as btnSize,
+  buttonVariants as btnVariant,
+} from "@/components/ui/button";
+
 export const metadata: Metadata = {
   title: "Design foundation — Origin Guitars",
   description:
@@ -108,46 +115,7 @@ function TypeRow({
 
 /* --------------------------------------------------------------- buttons */
 
-const btnBase =
-  "inline-flex items-center justify-center rounded-full font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
-
-const btnSize = {
-  lg: "h-14 px-9 text-[1.0625rem]",
-  md: "h-12 px-7 text-[0.9375rem]",
-  sm: "h-10 px-5 text-[0.875rem]",
-} as const;
-
-const btnVariant = {
-  primary: "bg-black text-white hover:bg-[#262626] active:bg-black",
-  secondary:
-    "border border-line-strong bg-white text-ink hover:border-ink active:bg-surface",
-  tertiary:
-    "px-0 text-ink underline underline-offset-[6px] decoration-line-strong hover:decoration-ink",
-} as const;
-
-function Button({
-  variant = "primary",
-  size = "md",
-  disabled,
-  className = "",
-  children,
-}: {
-  variant?: keyof typeof btnVariant;
-  size?: keyof typeof btnSize;
-  disabled?: boolean;
-  className?: string;
-  children: ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      disabled={disabled}
-      className={`${btnBase} ${btnSize[size]} ${btnVariant[variant]} disabled:cursor-not-allowed disabled:border-transparent disabled:bg-canvas disabled:text-ink-disabled disabled:no-underline disabled:hover:bg-canvas ${className}`}
-    >
-      {children}
-    </button>
-  );
-}
+const btnBase = buttonBase;
 
 function StateNote({ children }: { children: ReactNode }) {
   return (
