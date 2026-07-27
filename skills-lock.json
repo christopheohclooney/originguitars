@@ -6,6 +6,12 @@
       "sourceType": "github",
       "skillPath": "skills/brainstorming/SKILL.md",
       "computedHash": "225b53fce53d627d3a1e94bfea84060ccdbf11a58a2d5cf11eefef89d598020e"
+    },
+    "framer-motion": {
+      "source": "dylantarre/animation-principles",
+      "sourceType": "github",
+      "skillPath": "skills/09-by-tool-framework/framer-motion/SKILL.md",
+      "computedHash": "562bde7d5264b63f4e8402dc20b199118e97d652d501dc58af3fdf3a29f9a1dd"
     }
   }
 }
