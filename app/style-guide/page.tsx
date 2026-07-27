@@ -225,6 +225,49 @@ export default function StyleGuidePage() {
       </header>
 
       <Section
+        title="The wordmark"
+        intro="Everything below is derived from this file. The lean measures 11.959° off vertical on both I glyphs, rounded to 12° as the working value, and every path fills pure black. The letterforms are an asset and stay one — they are never set as body or UI text, which is what keeps the wordmark the single loud element on a page."
+      >
+        <div className="border border-line bg-white px-8 py-16 md:px-16 md:py-24">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/origin-wordmark-black.svg"
+            alt="Origin Guitars"
+            width={574}
+            height={120}
+            className="h-auto w-full max-w-[460px]"
+          />
+        </div>
+        <div className="mt-8 grid gap-8 sm:grid-cols-3">
+          <div>
+            <p className="text-[0.9375rem] font-medium">Fill</p>
+            <p className="mt-1.5 font-mono text-[0.8125rem] text-ink-muted">
+              #000000
+            </p>
+            <p className="mt-1.5 max-w-[40ch] text-[0.875rem] leading-[1.5] text-ink-muted">
+              Sampled from the source SVG, not the rendering.
+            </p>
+          </div>
+          <div>
+            <p className="text-[0.9375rem] font-medium">Lean</p>
+            <p className="mt-1.5 font-mono text-[0.8125rem] text-ink-muted">
+              11.959° → 12°
+            </p>
+            <p className="mt-1.5 max-w-[40ch] text-[0.875rem] leading-[1.5] text-ink-muted">
+              Stored as --slant, applied to brand devices only.
+            </p>
+          </div>
+          <div>
+            <p className="text-[0.9375rem] font-medium">Never as type</p>
+            <p className="mt-1.5 max-w-[40ch] text-[0.875rem] leading-[1.5] text-ink-muted">
+              Hand-adjusted outlines, not a font file. Setting UI text in them
+              would dilute the one mark that has to carry.
+            </p>
+          </div>
+        </div>
+      </Section>
+
+      <Section
         title="Colour"
         intro="Two blacks, deliberately. Ink sets every heading, every line of body copy and the wordmark. Pure black is spent only on primary buttons, which makes the action the single darkest thing on any screen without needing a colour to announce itself."
       >

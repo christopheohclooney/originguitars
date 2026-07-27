@@ -124,12 +124,25 @@ It is rendered live and fixed on the style guide, not as a flat specimen, so
 the scroll behaviour can be felt. An inline copy above the anatomy notes lets
 the parts be inspected without scrolling.
 
+## Values taken from the logo file
+
+`Origin - Standard (Black).svg` arrived mid-build, so both assumed values were
+checked against the source rather than read off a rendering.
+
+- **Fill:** every path is `fill="black"` — `#000000`. Confirmed. There is no
+  rich black, spot colour or tint in the file.
+- **Lean:** measured off the parallelogram `I` glyphs, whose left edges run
+  `dx 18.884` over `dy 89.157`. That is **11.959°** from vertical, identical on
+  both glyphs. Rounded to `12°` as `--slant`; the 0.04° difference is not
+  perceivable and a round number is easier to reason about.
+
+The asset is served from `public/origin-wordmark-black.svg` and displayed at
+the top of the style guide, since it is what the rest of the system derives
+from. The original upload remains at the repo root; Stage 1 should consolidate
+the two.
+
 ## Known gaps
 
-- **The logo source file was never received.** Only the two markdown docs
-  landed on disk; the logo came through as a conversation image. `#000000` and
-  the 12° slant are read from the rendering, not sampled from the file. Both
-  should be confirmed against the source SVG before Stage 1.
 - Typefaces are placeholders pending Christy's sourcing.
 - `app/page.tsx` is a Stage 0 stub linking to the style guide, so the root
   route is not create-next-app boilerplate. Stage 1 replaces it.
@@ -140,5 +153,6 @@ the parts be inspected without scrolling.
 ## Verification
 
 - `npm run build` passes; all routes prerender static.
-- Rendered at 1440×900 and 390×844. No horizontal overflow at either.
+- Rendered at 1440×900 and 390×844. No horizontal overflow at either, no
+  console errors, no failed requests.
 - Impeccable mechanical detector returns no findings.
