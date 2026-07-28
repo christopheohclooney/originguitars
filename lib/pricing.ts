@@ -59,6 +59,57 @@ export function calculateTotalPence(selections: Selections): number {
   }, BASE_PRICE_PENCE);
 }
 
+/** One row of the review modal's spec list. */
+export type SpecLine = {
+  /** The group id — unique across the configuration, so it keys the list. */
+  id: string;
+  label: string;
+  value: string;
+  deltaPence: number;
+};
+
+export type SpecSummary = {
+  lines: SpecLine[];
+  basePence: number;
+  /** Everything above the base price — the review modal's "Upgrades" line. */
+  upgradesPence: number;
+  totalPence: number;
+};
+
+/**
+ * The whole configuration as a flat, ordered list, for review.
+ *
+ * Walks the same steps and the same `visibleGroups` the builder renders, so a
+ * group hidden by a conditional (inlay colour, once the inlay is None) is
+ * absent from the list for exactly the reason it is absent from the price.
+ */
+export function buildSpecSummary(selections: Selections): SpecSummary {
+  const lines: SpecLine[] = [];
+
+  for (const step of builderSteps) {
+    for (const group of visibleGroups(step, selections)) {
+      const option = selectedOption(group, selections);
+      if (!option) continue;
+
+      lines.push({
+        id: group.id,
+        label: group.reviewLabel ?? group.label ?? step.title,
+        value: option.label,
+        deltaPence: option.priceDeltaPence,
+      });
+    }
+  }
+
+  const totalPence = calculateTotalPence(selections);
+
+  return {
+    lines,
+    basePence: BASE_PRICE_PENCE,
+    upgradesPence: totalPence - BASE_PRICE_PENCE,
+    totalPence,
+  };
+}
+
 /** What the sticky bar shows for a step. */
 export function summaryLabel(
   step: BuilderStep,

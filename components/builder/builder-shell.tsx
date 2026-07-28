@@ -4,6 +4,7 @@ import Image, { type StaticImageData } from "next/image";
 import { useCallback, useMemo, useState } from "react";
 
 import { InfoTip } from "@/components/builder/info-tip";
+import { ReviewModal } from "@/components/builder/review-modal";
 import { PriceBar } from "@/components/ui/price-bar";
 import {
   builderSteps,
@@ -159,6 +160,7 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
     touched: new Set<string>(),
   }));
   const [stepIndex, setStepIndex] = useState(0);
+  const [reviewOpen, setReviewOpen] = useState(false);
 
   const step = builderSteps[stepIndex];
   const groups = useMemo(
@@ -181,6 +183,17 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
         ),
       };
     });
+  }, []);
+
+  /*
+   * Stable identities: the modal's key effect depends on `onClose`, and a new
+   * function every render would re-run it — stealing focus back to the panel
+   * mid-interaction.
+   */
+  const closeReview = useCallback(() => setReviewOpen(false), []);
+  const editFromReview = useCallback(() => {
+    setReviewOpen(false);
+    setStepIndex(0);
   }, []);
 
   /*
@@ -322,8 +335,22 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
         stepCurrent={stepIndex + 1}
         stepTotal={TOTAL_STEPS}
         priceLabel={formatPrice(totalPence)}
-        // Review opens a modal in Stage 4 — nothing to wire it to yet.
+        onReview={() => setReviewOpen(true)}
       />
+
+      {/*
+        Review is a modal over the builder, not a route: the specification
+        stays live behind it, so Close is a return rather than a navigation and
+        Edit is a step change rather than a page load.
+      */}
+      {reviewOpen && (
+        <ReviewModal
+          onClose={closeReview}
+          onEdit={editFromReview}
+          image={image}
+          selections={selections}
+        />
+      )}
     </main>
   );
 }

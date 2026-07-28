@@ -30,6 +30,12 @@ export type OptionGroup = {
   id: string;
   /** Shown above the options when a step has more than one group. */
   label?: string;
+  /**
+   * The name this group goes by in the review list, where it is read out of
+   * the context of its step. "Finish" is unambiguous under the Headstock
+   * heading and useless in a flat list next to the body finish.
+   */
+  reviewLabel?: string;
   options: BuilderOption[];
   defaultOptionId: string;
   /** Hidden entirely unless this returns true. */
@@ -181,6 +187,7 @@ export const builderSteps: BuilderStep[] = [
       {
         id: "colourFamily",
         label: "Finish",
+        reviewLabel: "Body finish",
         defaultOptionId: COLOUR_FAMILIES.solid,
         options: [
           { id: COLOUR_FAMILIES.solid, label: "Solid", priceDeltaPence: 0 },
@@ -192,6 +199,7 @@ export const builderSteps: BuilderStep[] = [
       {
         id: "colour",
         label: "Colour",
+        reviewLabel: "Body colour",
         defaultOptionId: "jet-black",
         options: colours,
         /* Only the chosen family's colours are shown, as on the Mod Shop. */
@@ -243,6 +251,7 @@ export const builderSteps: BuilderStep[] = [
       {
         id: "inlay",
         label: "Style",
+        reviewLabel: "Inlay",
         defaultOptionId: "dots",
         options: [
           { id: "none", label: "None", priceDeltaPence: 0 },
@@ -294,6 +303,7 @@ export const builderSteps: BuilderStep[] = [
       {
         id: "headstockFinish",
         label: "Finish",
+        reviewLabel: "Headstock finish",
         /*
          * Black rather than matched, so the untouched default configuration
          * sums exactly to BASE_PRICE_PENCE. Any default carrying a delta makes
