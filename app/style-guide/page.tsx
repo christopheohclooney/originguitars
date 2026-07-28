@@ -5,8 +5,8 @@ import {
   Button,
   buttonBase,
   buttonSizes as btnSize,
-  buttonVariants as btnVariant,
 } from "@/components/ui/button";
+import { PriceBar as SharedPriceBar } from "@/components/ui/price-bar";
 
 export const metadata: Metadata = {
   title: "Design foundation — Origin Guitars",
@@ -125,48 +125,20 @@ function StateNote({ children }: { children: ReactNode }) {
 
 /* ------------------------------------------------------------ price bar */
 
+/*
+ * The specimen renders the shared component the builder uses, with demo props,
+ * so the reference sheet and the live bar cannot drift apart.
+ */
 function PriceBar({ fixed }: { fixed?: boolean }) {
   return (
-    <div
-      className={
-        fixed
-          ? "fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white"
-          : "border border-line bg-white"
-      }
-    >
-      <div
-        className={`flex items-center justify-between gap-4 py-3 sm:gap-6 sm:py-4 ${
-          fixed ? shell : "px-6"
-        }`}
-      >
-        <div className="min-w-0">
-          <p className="whitespace-nowrap text-[0.75rem] font-medium uppercase tracking-[0.08em] text-ink-muted">
-            Body colour
-          </p>
-          <p className="mt-1 truncate text-[0.875rem] font-medium sm:text-[0.9375rem]">
-            Alder — Skyburst Metallic
-          </p>
-        </div>
-
-        <div className="flex shrink-0 items-center gap-5">
-          <p className="hidden font-mono text-[0.8125rem] text-ink-muted sm:block">
-            03 / 13
-          </p>
-          <button
-            type="button"
-            className={`${btnBase} ${btnVariant.primary} h-12 gap-4 px-6 text-[0.9375rem] sm:h-14 sm:gap-5 sm:px-9 sm:text-[1.0625rem]`}
-          >
-            <span className="font-mono tabular-nums">£1,949.00</span>
-            <span
-              aria-hidden
-              className="h-5 w-px bg-white/35"
-              style={slant}
-            />
-            <span>Review</span>
-          </button>
-        </div>
-      </div>
-    </div>
+    <SharedPriceBar
+      variant={fixed ? "fixed" : "static"}
+      stepLabel="Body colour"
+      selectionLabel="Alder — Skyburst Metallic"
+      stepCurrent={3}
+      stepTotal={13}
+      priceLabel="£1,949.00"
+    />
   );
 }
 

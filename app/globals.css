@@ -85,3 +85,14 @@ body {
 details[open] [data-accordion-bar] {
   transform: translateX(-50%) scaleY(0);
 }
+
+/*
+  Builder option tiles wrap a visually-hidden radio, so keyboard focus lands on
+  an invisible input. This lifts the focus ring onto the tile the user can
+  actually see. Written here for the same reason as the rule above — the
+  equivalent Tailwind variant is not reliable in this setup.
+*/
+[data-option-tile]:has(input:focus-visible) {
+  outline: 2px solid var(--color-ink);
+  outline-offset: 2px;
+}
