@@ -33,7 +33,7 @@ function Section({
     <section className="border-t border-line py-20 md:py-28">
       <div className={shell}>
         <div aria-hidden className="mb-6 h-[5px] w-11 bg-black" style={slant} />
-        <h2 className="font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-bold leading-[1.08] tracking-[-0.02em]">
+        <h2 className="font-display text-[clamp(1.875rem,3.75vw,2.5rem)] font-bold leading-[1.08] tracking-[-0.02em]">
           {title}
         </h2>
         <p className="mt-4 max-w-[68ch] text-[1.0625rem] leading-[1.65] text-ink-muted">
@@ -153,7 +153,7 @@ export default function StyleGuidePage() {
           <p className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink-muted">
             Origin Guitars · Design foundation
           </p>
-          <h1 className="mt-6 max-w-[16ch] font-display text-[clamp(2.25rem,5vw,3.25rem)] font-bold leading-[1.02] tracking-[-0.025em]">
+          <h1 className="mt-6 max-w-[16ch] font-display text-[clamp(2.5rem,5.5vw,3.75rem)] font-bold leading-[1.02] tracking-[-0.025em]">
             Design foundation
           </h1>
           <p className="mt-7 max-w-[68ch] text-[1.125rem] leading-[1.55] text-ink-muted">
@@ -328,18 +328,18 @@ export default function StyleGuidePage() {
           </div>
         </div>
 
-        <TypeRow spec="Display · Archivo Bold · 40–68px · 0.98 · -0.03em · 700">
-          <p className="font-display text-[clamp(2.5rem,6.5vw,4.25rem)] font-bold leading-[0.98] tracking-[-0.03em]">
+        <TypeRow spec="Display · Archivo Bold · 46–80px · 0.98 · -0.03em · 700">
+          <p className="font-display text-[clamp(2.875rem,7.5vw,5rem)] font-bold leading-[0.98] tracking-[-0.03em]">
             Built to order in the UK
           </p>
         </TypeRow>
-        <TypeRow spec="H1 · Archivo Bold · 36–52px · 1.02 · -0.025em · 700">
-          <p className="font-display text-[clamp(2.25rem,5vw,3.25rem)] font-bold leading-[1.02] tracking-[-0.025em]">
+        <TypeRow spec="H1 · Archivo Bold · 40–60px · 1.02 · -0.025em · 700">
+          <p className="font-display text-[clamp(2.5rem,5.5vw,3.75rem)] font-bold leading-[1.02] tracking-[-0.025em]">
             The Element
           </p>
         </TypeRow>
-        <TypeRow spec="H2 · Archivo Bold · 28–36px · 1.08 · -0.02em · 700">
-          <p className="font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-bold leading-[1.08] tracking-[-0.02em]">
+        <TypeRow spec="H2 · Archivo Bold · 30–40px · 1.08 · -0.02em · 700">
+          <p className="font-display text-[clamp(1.875rem,3.75vw,2.5rem)] font-bold leading-[1.08] tracking-[-0.02em]">
             How it works
           </p>
         </TypeRow>

@@ -42,7 +42,7 @@ export default function HomePage() {
       <section className="relative overflow-hidden bg-canvas">
         <div className={`${shell} pt-16 md:pt-24`}>
           <HeroRule />
-          <h1 className="mt-8 max-w-[13ch] font-display text-[clamp(2.5rem,6.5vw,4.25rem)] font-bold leading-[0.98] tracking-[-0.03em]">
+          <h1 className="mt-8 max-w-[13ch] font-display text-[clamp(2.875rem,7.5vw,5rem)] font-bold leading-[0.98] tracking-[-0.03em]">
             No one else will have this one
           </h1>
           <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-16">
@@ -80,7 +80,7 @@ export default function HomePage() {
       */}
       <section className="py-24 md:py-36">
         <div className={shell}>
-          <p className="max-w-[26ch] font-display text-[clamp(1.5rem,3vw,2.125rem)] font-bold leading-[1.15] tracking-[-0.02em]">
+          <p className="max-w-[26ch] font-display text-[clamp(1.75rem,3.4vw,2.5rem)] font-bold leading-[1.15] tracking-[-0.02em]">
             A guitar built to your spec should not mean signature-artist money
             or a two-year wait.
           </p>
@@ -107,7 +107,7 @@ export default function HomePage() {
         <div className={shell}>
           <Reveal>
             <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-              <h2 className="max-w-[16ch] font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-bold leading-[1.08] tracking-[-0.02em]">
+              <h2 className="max-w-[16ch] font-display text-[clamp(1.875rem,3.75vw,2.5rem)] font-bold leading-[1.08] tracking-[-0.02em]">
                 Four steps, no surprises
               </h2>
               <p className="max-w-[38ch] text-[1rem] leading-[1.65] text-ink-muted">
@@ -136,7 +136,7 @@ export default function HomePage() {
                     className="absolute -left-5 top-1 hidden h-14 w-px bg-line-strong md:block"
                   />
                 )}
-                <p className="font-display text-[3rem] font-bold leading-none tracking-[-0.02em] text-line-strong">
+                <p className="font-display text-[3.25rem] font-bold leading-none tracking-[-0.02em] text-line-strong">
                   {step.n}
                 </p>
                 <h3 className="mt-6 text-[1.25rem] font-bold leading-[1.3] tracking-[-0.005em]">
@@ -165,7 +165,7 @@ export default function HomePage() {
         <div
           className={`${shell} flex flex-col gap-6 md:flex-row md:items-center md:justify-between`}
         >
-          <p className="max-w-[34ch] font-display text-[1.375rem] font-bold leading-[1.25] tracking-[-0.015em]">
+          <p className="max-w-[34ch] font-display text-[1.625rem] font-bold leading-[1.25] tracking-[-0.015em]">
             Questions before you start?
           </p>
           <Link

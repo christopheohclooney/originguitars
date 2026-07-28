@@ -81,7 +81,7 @@ export default function FaqPage() {
         <p className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink-muted">
           FAQ
         </p>
-        <h1 className="mt-6 max-w-[18ch] font-display text-[clamp(2.25rem,5vw,3.25rem)] font-bold leading-[1.02] tracking-[-0.025em]">
+        <h1 className="mt-6 max-w-[18ch] font-display text-[clamp(2.5rem,5.5vw,3.75rem)] font-bold leading-[1.02] tracking-[-0.025em]">
           Answered before you spend anything
         </h1>
         <p className="mt-8 max-w-[62ch] text-[1.125rem] leading-[1.6] text-ink-muted">
@@ -130,7 +130,7 @@ export default function FaqPage() {
 
       <section className="border-t border-line py-20 md:py-28">
         <div className={shell}>
-          <h2 className="max-w-[22ch] font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-bold leading-[1.08] tracking-[-0.02em]">
+          <h2 className="max-w-[22ch] font-display text-[clamp(1.875rem,3.75vw,2.5rem)] font-bold leading-[1.08] tracking-[-0.02em]">
             Still deciding?
           </h2>
           <p className="mt-4 max-w-[60ch] text-[1.0625rem] leading-[1.6] text-ink-muted">

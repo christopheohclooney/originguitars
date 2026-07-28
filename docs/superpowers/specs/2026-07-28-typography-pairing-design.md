@@ -33,16 +33,17 @@ may ask it for anything heavier — there is no 800 or 900 file, and the browser
 would have to fake it.
 
 *(This started as Archivo Black, a separate single-weight family at 400. The
-swap to Archivo 700 is a weight change only: the scale, tracking, leading and
-every assignment below are unchanged.)*
+swap to Archivo 700 changed the face and the weight; the display sizes were
+then taken back up in a second pass — see the scale below. Tracking, leading
+and every role assignment are unchanged.)*
 
 ## Scale
 
 | Role | Family | Size | Leading | Tracking | Weight |
 |---|---|---|---|---|---|
-| Display | Archivo Bold | 40–68px | 0.98 | -0.03em | 700 |
-| H1 | Archivo Bold | 36–52px | 1.02 | -0.025em | 700 |
-| H2 | Archivo Bold | 28–36px | 1.08 | -0.02em | 700 |
+| Display | Archivo Bold | 46–80px | 0.98 | -0.03em | 700 |
+| H1 | Archivo Bold | 40–60px | 1.02 | -0.025em | 700 |
+| H2 | Archivo Bold | 30–40px | 1.08 | -0.02em | 700 |
 | H3 | Heros | 20px | 1.3 | -0.005em | 700 |
 | Body large | Heros | 18px | 1.6 | — | 400 |
 | Body | Heros | 16px | 1.65 | — | 400 |
@@ -51,11 +52,18 @@ every assignment below are unchanged.)*
 | Figure | Heros | 14–15px | — | 0.01em | 400, tabular |
 | Price | Archivo Bold | 17–22px | — | 0.005em | 700, tabular |
 
-Display sizes came *down* from the previous scale — the hero from 88px to
-68px, H1 from 64px to 52px. That was set against Archivo Black, which carried
-far more mass than the face it replaced. Archivo Bold is lighter, so there is
-now headroom to take the hero back up if it wants it — worth a look on review,
-but out of scope for a weight change.
+Display sizes went down and then most of the way back up. They were cut
+against Archivo Black — hero 88px to 68px, H1 64px to 52px — because Black
+carried far more mass at any given size than the face it replaced. Archivo
+Bold is lighter, so the headroom came back and the sizes were restored to
+just under the original scale: hero 80px, H1 60px, H2 40px.
+
+They stop just short of where they were rather than landing exactly on it,
+because Archivo Bold is still heavier than the Geist Bold those numbers were
+drawn for. Everything below H2 is unchanged — the crossover to Heros at H3,
+the body sizes, and the compact display type inside the builder and the review
+modal, which is bounded by the sticky bar and the panel rather than by the
+page.
 
 H3 is the line where the pairing crosses over: section titles are display,
 subheads are Heros Bold. That line was drawn for Archivo Black, whose counters
@@ -127,6 +135,8 @@ plausible-looking. The font variable is now named `--font-archivo` and
   elements resolve to the Archivo face at weight 700, body to the Heros stack.
   `document.fonts` reports one loaded face, `archivo 700`, so the bold is the
   drawn cut and not a synthesised one.
-- No horizontal overflow at 1440 on Home, Models, FAQ, Builder or the style
-  guide. No page errors.
+- Headline wrapping and overflow checked at 1440, 1024, 768 and 390 across
+  Home, About, Models, FAQ and the style guide after the sizes went up: no
+  horizontal overflow at any width, the hero holds two lines everywhere, and
+  only the FAQ title takes a third line at 390. No page errors.
 - Review modal spec rows measured at 15px label / 14px figure as specified.
