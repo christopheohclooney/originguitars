@@ -1,8 +1,8 @@
 "use client";
 
+import Image, { type StaticImageData } from "next/image";
 import { useState } from "react";
 
-import { ImagePlaceholder } from "@/components/image-placeholder";
 import { PriceBar } from "@/components/ui/price-bar";
 import { builderSteps, PLANNED_STEP_COUNT } from "@/data/options";
 import {
@@ -63,7 +63,7 @@ function StepArrow({
   );
 }
 
-export function BuilderShell({ imageSrc }: { imageSrc: string | null }) {
+export function BuilderShell({ image }: { image: StaticImageData }) {
   const [selections, setSelections] = useState<Selections>(defaultSelections);
   const [stepIndex, setStepIndex] = useState(0);
 
@@ -83,19 +83,21 @@ export function BuilderShell({ imageSrc }: { imageSrc: string | null }) {
             */}
             <div className="lg:sticky lg:top-[104px] lg:self-start">
               <div className="flex items-center justify-center bg-canvas p-6 md:p-10">
-                {imageSrc ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={imageSrc}
-                    alt="The Origin Element, right-handed, as currently specified"
-                    className="max-h-[46vh] w-auto object-contain lg:max-h-[calc(100svh-280px)]"
-                  />
-                ) : (
-                  <ImagePlaceholder
-                    className="aspect-[3/4] w-full max-w-[22rem]"
-                    label="Element photography to follow"
-                  />
-                )}
+                {/*
+                  The supplied photo has a baked-in white background, which
+                  reads as a white box floating on the canvas grey. Multiply
+                  drops the white out while leaving the instrument intact — the
+                  backdrop is near-white, so the tonal shift is negligible.
+                  Swap this out if a cut-out with real transparency arrives.
+                */}
+                <Image
+                  src={image}
+                  alt="The Origin Element, shown as currently specified"
+                  priority
+                  placeholder="blur"
+                  sizes="(min-width: 1024px) 45vw, 90vw"
+                  className="h-auto max-h-[42svh] w-auto object-contain mix-blend-multiply lg:max-h-[calc(100svh-280px)]"
+                />
               </div>
             </div>
 
