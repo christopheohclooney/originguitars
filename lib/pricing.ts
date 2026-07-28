@@ -1,6 +1,11 @@
-import { BASE_PRICE_PENCE, type BuilderStep } from "@/data/options";
+import {
+  BASE_PRICE_PENCE,
+  builderSteps,
+  type BuilderStep,
+  type OptionGroup,
+} from "@/data/options";
 
-/** A map of step id to the option id chosen for it. */
+/** A map of option-group id to the option id chosen for it. */
 export type Selections = Record<string, string>;
 
 const gbp = new Intl.NumberFormat("en-GB", {
@@ -20,32 +25,47 @@ export function formatDelta(pence: number): string {
   return `${sign}${gbp.format(Math.abs(pence) / 100)}`;
 }
 
-/** The delta a single step contributes, given what is currently selected. */
-export function stepDeltaPence(
+/**
+ * Groups that currently apply. A hidden group contributes nothing — an inlay
+ * colour must not be charged for once the inlay itself is set to none.
+ */
+export function visibleGroups(
   step: BuilderStep,
   selections: Selections,
-): number {
-  const chosen = step.options.find((o) => o.id === selections[step.id]);
-  return chosen?.priceDeltaPence ?? 0;
+): OptionGroup[] {
+  return step.groups.filter((g) => g.visibleWhen?.(selections) ?? true);
+}
+
+/** The option currently chosen in a group, if any. */
+export function selectedOption(group: OptionGroup, selections: Selections) {
+  return group.options.find((o) => o.id === selections[group.id]);
 }
 
 /**
- * Base price plus every selected option's delta.
+ * Base price plus every selected option's delta, across every visible group.
  *
- * Runs entirely client-side — the build spec is explicit that no backend call
- * happens until submission.
+ * Derived on each call rather than held in state, so the displayed total can
+ * never drift from the selections. Runs entirely client-side — the build spec
+ * is explicit that no backend call happens until submission.
  */
-export function calculateTotalPence(
-  steps: BuilderStep[],
-  selections: Selections,
-): number {
-  return steps.reduce(
-    (total, step) => total + stepDeltaPence(step, selections),
-    BASE_PRICE_PENCE,
-  );
+export function calculateTotalPence(selections: Selections): number {
+  return builderSteps.reduce((total, step) => {
+    return (
+      total +
+      visibleGroups(step, selections).reduce((stepTotal, group) => {
+        return stepTotal + (selectedOption(group, selections)?.priceDeltaPence ?? 0);
+      }, 0)
+    );
+  }, BASE_PRICE_PENCE);
 }
 
-/** The option object currently chosen for a step, if any. */
-export function selectedOption(step: BuilderStep, selections: Selections) {
-  return step.options.find((o) => o.id === selections[step.id]);
+/** What the sticky bar shows for a step. */
+export function summaryLabel(
+  step: BuilderStep,
+  selections: Selections,
+): string {
+  const groups = visibleGroups(step, selections);
+  const target =
+    groups.find((g) => g.id === step.summaryGroupId) ?? groups[0];
+  return target ? (selectedOption(target, selections)?.label ?? "Not selected") : "—";
 }

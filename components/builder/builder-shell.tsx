@@ -1,38 +1,37 @@
 "use client";
 
 import Image, { type StaticImageData } from "next/image";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
+import { InfoTip } from "@/components/builder/info-tip";
 import { PriceBar } from "@/components/ui/price-bar";
-import { builderSteps, PLANNED_STEP_COUNT } from "@/data/options";
+import {
+  builderSteps,
+  TOTAL_STEPS,
+  type BuilderOption,
+  type OptionGroup,
+} from "@/data/options";
+import { applyRules, defaultSelections } from "@/lib/builder-rules";
 import {
   calculateTotalPence,
   formatDelta,
   formatPrice,
   selectedOption,
+  summaryLabel,
+  visibleGroups,
   type Selections,
 } from "@/lib/pricing";
 import { shell, slant } from "@/lib/style";
 
 /*
- * Stage 3a — the builder shell, following the Mod Shop layout.
+ * Stage 3b — the full option sequence, following the Mod Shop layout.
  *
- * Full-bleed canvas with the instrument shown large and horizontal, option
- * controls in a tray underneath, price bar pinned below that. The guitar is
- * the subject of the screen; the controls sit under it rather than competing
- * for width beside it.
+ * Full-bleed canvas with the instrument large and horizontal, option controls
+ * in a tray underneath, price bar pinned below that.
  *
- * State lives entirely in React and the price is derived on every render, per
- * the build spec: the builder runs client-side with no backend call until
- * submission. Only the handedness step is defined; the tray is built to take
- * the remaining ten without changing shape.
+ * Every change goes through `applyRules`, so an impossible combination can
+ * never be held in state even briefly. See lib/builder-rules.ts.
  */
-
-function defaultSelections(): Selections {
-  return Object.fromEntries(
-    builderSteps.map((step) => [step.id, step.defaultOptionId]),
-  );
-}
 
 function StepArrow({
   direction,
@@ -68,36 +67,140 @@ function StepArrow({
   );
 }
 
+function OptionControl({
+  group,
+  option,
+  isSelected,
+  isAvailable,
+  onSelect,
+}: {
+  group: OptionGroup;
+  option: BuilderOption;
+  isSelected: boolean;
+  isAvailable: boolean;
+  onSelect: () => void;
+}) {
+  const input = (
+    <input
+      type="radio"
+      name={group.id}
+      value={option.id}
+      checked={isSelected}
+      disabled={!isAvailable}
+      onChange={onSelect}
+      className="sr-only"
+    />
+  );
+
+  /* Colours read as swatches; everything else reads as a labelled pill. */
+  if (option.swatch) {
+    return (
+      <label
+        data-option-tile
+        title={`${option.label} · ${formatDelta(option.priceDeltaPence)}`}
+        className={`relative inline-flex h-11 w-11 items-center justify-center rounded-full transition-shadow ${
+          isAvailable ? "cursor-pointer" : "cursor-not-allowed opacity-40"
+        } ${
+          isSelected
+            ? "ring-1 ring-ink ring-offset-4 ring-offset-white"
+            : "hover:ring-1 hover:ring-line-strong hover:ring-offset-4 hover:ring-offset-white"
+        }`}
+      >
+        {input}
+        <span
+          aria-hidden
+          className="h-full w-full rounded-full border border-line-strong"
+          style={{ backgroundColor: option.swatch }}
+        />
+        <span className="sr-only">
+          {option.label}, {formatDelta(option.priceDeltaPence)}
+          {isAvailable ? "" : " — unavailable"}
+        </span>
+      </label>
+    );
+  }
+
+  return (
+    <label
+      data-option-tile
+      className={`flex items-center gap-3 rounded-full border px-6 py-3.5 transition-colors ${
+        isAvailable ? "cursor-pointer" : "cursor-not-allowed opacity-45"
+      } ${
+        isSelected
+          ? "border-ink ring-1 ring-ink"
+          : isAvailable
+            ? "border-line-strong hover:border-ink"
+            : "border-line"
+      }`}
+    >
+      {input}
+      <span className="text-[0.9375rem] font-medium">{option.label}</span>
+      {option.tooltip && (
+        <InfoTip text={option.tooltip} label={option.label} />
+      )}
+      <span className="font-mono text-[0.8125rem] text-ink-muted">
+        {formatDelta(option.priceDeltaPence)}
+      </span>
+    </label>
+  );
+}
+
 export function BuilderShell({ image }: { image: StaticImageData }) {
-  const [selections, setSelections] = useState<Selections>(defaultSelections);
+  /*
+   * Selections and the touched set move together — the transparent-headstock
+   * rule needs both to decide. Holding them in one atomic update avoids a
+   * setState nested inside another updater, which React is free to run twice.
+   */
+  const [{ selections }, setState] = useState<{
+    selections: Selections;
+    touched: ReadonlySet<string>;
+  }>(() => ({
+    selections: applyRules(defaultSelections(), new Set()),
+    touched: new Set<string>(),
+  }));
   const [stepIndex, setStepIndex] = useState(0);
 
   const step = builderSteps[stepIndex];
-  const chosen = selectedOption(step, selections);
-  const totalPence = calculateTotalPence(builderSteps, selections);
+  const groups = useMemo(
+    () => visibleGroups(step, selections),
+    [step, selections],
+  );
+  const totalPence = useMemo(
+    () => calculateTotalPence(selections),
+    [selections],
+  );
+
+  const choose = useCallback((groupId: string, optionId: string) => {
+    setState((prev) => {
+      const touched = new Set(prev.touched).add(groupId);
+      return {
+        touched,
+        selections: applyRules(
+          { ...prev.selections, [groupId]: optionId },
+          touched,
+        ),
+      };
+    });
+  }, []);
 
   /*
    * Fixed height from the lg breakpoint up, so canvas + tray + bar resolve to
-   * a single screen the way Mod Shop's configurator does. `min-h` alone let
-   * main grow past the viewport, which pushed the option pills behind the
-   * price bar. Below lg the page flows and scrolls normally.
+   * a single screen the way Mod Shop's configurator does. Below lg the page
+   * flows and scrolls normally.
    */
   return (
     <main className="flex min-h-[calc(100svh-72px)] flex-col lg:h-[calc(100svh-72px)] lg:min-h-0">
-      {/*
-        Full bleed, edge to edge. Deliberately outside the page gutter — the
-        instrument is the screen, not a picture sitting in a box on it.
-      */}
       <div className="flex min-h-0 flex-1 items-center justify-center bg-canvas px-4 py-6 md:px-10 md:py-8">
         {/*
           The supplied photo is a portrait shot on a white ground, rotated and
           trimmed to a wide band at build time. Multiply drops the remaining
-          white out against the near-white canvas. Replace with a real cut-out
-          when one exists — that would also allow a cast shadow.
+          white out against the near-white canvas. It shows the manufacturer's
+          reference instrument, not the current specification — per-option
+          imagery arrives with the real photography.
         */}
         <Image
           src={image}
-          alt="The Origin Element, shown as currently specified"
+          alt="The Origin Element"
           priority
           placeholder="blur"
           sizes="100vw"
@@ -107,7 +210,7 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
 
       {/* Option tray */}
       <div className="border-t border-line bg-white">
-        <div className={`${shell} py-8 md:py-10`}>
+        <div className={`${shell} py-6 md:py-8`}>
           <div className="flex items-center justify-center gap-2 sm:gap-4">
             <StepArrow
               direction="prev"
@@ -125,7 +228,7 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
                   className="mx-2 inline-block h-3 w-px translate-y-[1px] bg-line-strong"
                   style={slant}
                 />
-                {String(PLANNED_STEP_COUNT).padStart(2, "0")}
+                {String(TOTAL_STEPS).padStart(2, "0")}
               </span>
             </h1>
             <StepArrow
@@ -138,59 +241,86 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
           </div>
 
           {step.intro && (
-            <p className="mx-auto mt-4 max-w-[58ch] text-center text-[0.9375rem] leading-[1.6] text-ink-muted">
+            <p className="mx-auto mt-3 max-w-[62ch] text-center text-[0.9375rem] leading-[1.55] text-ink-muted">
               {step.intro}
             </p>
           )}
 
-          <fieldset className="mt-8">
-            <legend className="sr-only">{step.title}</legend>
-            <div className="flex flex-wrap justify-center gap-3">
-              {step.options.map((option) => {
-                const isSelected = selections[step.id] === option.id;
-                return (
-                  <label
-                    key={option.id}
-                    data-option-tile
-                    className={`flex cursor-pointer items-center gap-4 rounded-full border px-7 py-3.5 transition-colors ${
-                      isSelected
-                        ? "border-ink ring-1 ring-ink"
-                        : "border-line-strong hover:border-ink"
-                    }`}
-                  >
-                    <input
-                      type="radio"
-                      name={step.id}
-                      value={option.id}
-                      checked={isSelected}
-                      onChange={() =>
-                        setSelections((prev) => ({
-                          ...prev,
-                          [step.id]: option.id,
-                        }))
-                      }
-                      className="sr-only"
-                    />
-                    <span className="text-[0.9375rem] font-medium">
-                      {option.label}
-                    </span>
-                    <span className="font-mono text-[0.8125rem] text-ink-muted">
-                      {formatDelta(option.priceDeltaPence)}
-                    </span>
-                  </label>
-                );
-              })}
-            </div>
-          </fieldset>
+          <div className="mt-6 flex flex-col gap-5">
+            {groups.map((group) => {
+              const shownOptions = group.options.filter(
+                (o) => group.optionVisible?.(o, selections) ?? true,
+              );
+              const hasUnavailable = shownOptions.some(
+                (o) => !(group.optionAvailable?.(o, selections) ?? true),
+              );
+
+              return (
+                <fieldset key={group.id}>
+                  <legend className="sr-only">
+                    {group.label ?? step.title}
+                  </legend>
+
+                  {groups.length > 1 && group.label && (
+                    <p
+                      aria-hidden
+                      className="mb-3 text-center text-[0.75rem] font-medium uppercase tracking-[0.08em] text-ink-muted"
+                    >
+                      {group.label}
+                    </p>
+                  )}
+
+                  <div className="flex flex-wrap items-center justify-center gap-3">
+                    {shownOptions.map((option) => {
+                      const available =
+                        group.optionAvailable?.(option, selections) ?? true;
+                      return (
+                        <OptionControl
+                          key={option.id}
+                          group={group}
+                          option={option}
+                          isSelected={selections[group.id] === option.id}
+                          isAvailable={available}
+                          onSelect={() => choose(group.id, option.id)}
+                        />
+                      );
+                    })}
+                  </div>
+
+                  {/* Name the swatch, which cannot carry its own label. */}
+                  {shownOptions.some((o) => o.swatch) && (
+                    <p className="mt-3 text-center text-[0.875rem] text-ink-muted">
+                      <span className="font-medium text-ink">
+                        {selectedOption(group, selections)?.label}
+                      </span>
+                      <span className="mx-2 text-line-strong">·</span>
+                      <span className="font-mono text-[0.8125rem]">
+                        {formatDelta(
+                          selectedOption(group, selections)?.priceDeltaPence ??
+                            0,
+                        )}
+                      </span>
+                    </p>
+                  )}
+
+                  {hasUnavailable && group.unavailableNote && (
+                    <p className="mx-auto mt-3 max-w-[56ch] text-center text-[0.8125rem] leading-[1.5] text-ink-muted">
+                      {group.unavailableNote}
+                    </p>
+                  )}
+                </fieldset>
+              );
+            })}
+          </div>
         </div>
       </div>
 
       <PriceBar
         variant="sticky"
         stepLabel={step.shortLabel}
-        selectionLabel={chosen?.label ?? "Not selected"}
+        selectionLabel={summaryLabel(step, selections)}
         stepCurrent={stepIndex + 1}
-        stepTotal={PLANNED_STEP_COUNT}
+        stepTotal={TOTAL_STEPS}
         priceLabel={formatPrice(totalPence)}
         // Review opens a modal in Stage 4 — nothing to wire it to yet.
       />
