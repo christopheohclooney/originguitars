@@ -1,0 +1,10 @@
+TeX Gyre Heros 2.609
+
+Copyright: The Polish TeX Users Group GUST on behalf of Local TeX Users Groups
+
+GUST Font Licence (GFL), legally identical to the LaTeX Project Public License (LPPL). This work has the LPPL maintenance status `maintained', the Current Maintainer of this work is GUST e-Foundry
+
+Full licence text: https://www.gust.org.pl/fonts/licenses/GUST-FONT-LICENSE.txt
+
+Retrieved from the font files' own name table. The upstream package is
+published by GUST on CTAN: https://ctan.org/pkg/tex-gyre

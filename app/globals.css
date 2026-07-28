@@ -60,18 +60,20 @@
 }
 
 /*
-  TeX Gyre Heros is not in the repository yet.
+  TeX Gyre Heros, self-hosted. GUST Font Licence — see the licence file beside
+  the fonts.
 
-  It is not on npm, not on Google Fonts, and CTAN — the only place GUST
-  publishes it — is unreachable from the build environment this was written
-  in. Until the woff2 files are dropped into public/fonts/tex-gyre-heros/ (see
-  the README there), the stack above resolves to whichever Helvetica-metric
-  face the visitor's machine has, which is what keeps this honest rather than
-  silently shipping a different typeface under the right name.
+  Subset from the OTFs GUST publishes on CTAN, which are kept alongside as the
+  source of truth. Latin and latin-ext, which takes each cut from 120KB to
+  34KB; the coverage was checked against every character the site can actually
+  render rather than assumed, and U+2192 is in there explicitly because the
+  Google latin range this subset is otherwise modelled on carries ↑ and ↓ but
+  not →, which the style guide sets.
 
-  Adding the two files and uncommenting this block is the whole switch-over —
-  no component changes, no token changes.
-
+  `swap` rather than `block`: the fallbacks behind it in the stack are all
+  Helvetica-metric, so the swap moves letterforms without moving a single line
+  break. There is nothing to protect against by hiding the text first.
+*/
 @font-face {
   font-family: "TeX Gyre Heros";
   src: url("/fonts/tex-gyre-heros/texgyreheros-regular.woff2") format("woff2");
@@ -87,7 +89,6 @@
   font-style: normal;
   font-display: swap;
 }
-*/
 
 :root {
   /*
