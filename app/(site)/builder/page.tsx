@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import elementFull from "@/public/models/element/element-full.jpg";
+import elementSide from "@/public/models/element/element-side.jpg";
 import { BuilderShell } from "@/components/builder/builder-shell";
 
 export const metadata: Metadata = {
@@ -14,7 +14,11 @@ export const metadata: Metadata = {
  * real dimensions at build time and can generate a blur placeholder and
  * responsive sizes. A missing file fails the build loudly, which is what we
  * want for an asset that appears on every builder step.
+ *
+ * `element-side.jpg` is the manufacturer's portrait shot rotated clockwise and
+ * trimmed to a wide band (see scripts/prepare-element-image.mjs). The original
+ * is kept alongside it as the source of truth.
  */
 export default function BuilderPage() {
-  return <BuilderShell image={elementFull} />;
+  return <BuilderShell image={elementSide} />;
 }
