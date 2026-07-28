@@ -21,7 +21,7 @@ export function ImagePlaceholder({
           className="mx-auto h-[5px] w-11 bg-ink-disabled"
           style={slant}
         />
-        <p className="mt-5 text-[0.75rem] font-medium uppercase tracking-[0.08em] text-ink-muted">
+        <p className="mt-5 text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink">
           {label}
         </p>
       </div>

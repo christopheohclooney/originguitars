@@ -56,16 +56,16 @@ export function PriceBar({
         }`}
       >
         <div className="min-w-0">
-          <p className="whitespace-nowrap text-[0.75rem] font-medium uppercase tracking-[0.08em] text-ink-muted">
+          <p className="whitespace-nowrap text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink-muted">
             {stepLabel}
           </p>
-          <p className="mt-1 truncate text-[0.875rem] font-medium sm:text-[0.9375rem]">
+          <p className="mt-1 truncate text-[0.9375rem] font-bold">
             {selectionLabel}
           </p>
         </div>
 
         <div className="flex shrink-0 items-center gap-5">
-          <p className="hidden font-mono text-[0.8125rem] text-ink-muted sm:block">
+          <p className="hidden text-[0.875rem] tabular-nums tracking-[0.01em] text-ink-muted sm:block">
             {pad(stepCurrent)} / {pad(stepTotal)}
           </p>
           <button
@@ -74,7 +74,16 @@ export function PriceBar({
             disabled={reviewDisabled}
             className={`${buttonBase} ${buttonVariants.primary} h-12 gap-4 px-6 text-[0.9375rem] disabled:cursor-not-allowed disabled:bg-canvas disabled:text-ink-disabled disabled:hover:bg-canvas sm:h-14 sm:gap-5 sm:px-9 sm:text-[1.0625rem]`}
           >
-            <span className="font-mono tabular-nums">{priceLabel}</span>
+            {/*
+              The one figure on the site that is a display moment rather than
+              data: the running total, in Archivo Black. Never font-bold with
+              it — the face is already black, and synthesis would close the
+              counters at this size. Tabular so the divider beside it does not
+              shift as the total changes.
+            */}
+            <span className="font-display font-normal tabular-nums tracking-[0.005em]">
+              {priceLabel}
+            </span>
             <span
               aria-hidden
               className="h-5 w-px bg-white/35"

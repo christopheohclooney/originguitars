@@ -65,7 +65,7 @@ export function SiteHeader() {
                     href={link.href}
                     aria-current={active ? "page" : undefined}
                     className={`text-[0.9375rem] transition-colors hover:text-ink focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink ${
-                      active ? "font-medium text-ink" : "text-ink-muted"
+                      active ? "font-bold text-ink" : "text-ink-muted"
                     }`}
                   >
                     {link.label}
@@ -130,7 +130,7 @@ export function SiteHeader() {
                     href={link.href}
                     onClick={() => setOpen(false)}
                     aria-current={pathname === link.href ? "page" : undefined}
-                    className="block py-5 text-[1.375rem] font-semibold tracking-[-0.015em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+                    className="block py-5 text-[1.375rem] font-bold tracking-[-0.005em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
                   >
                     {link.label}
                   </Link>

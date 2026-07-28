@@ -17,7 +17,7 @@ function ComingSoonBadge() {
   return (
     <span className="inline-flex bg-canvas px-4 py-1.5" style={slant}>
       <span
-        className="text-[0.75rem] font-medium uppercase tracking-[0.08em] text-ink-muted"
+        className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink"
         style={unslant}
       >
         Coming soon
@@ -31,11 +31,13 @@ export default function ModelsPage() {
     <main>
       {/* Header */}
       <section className={`${shell} pt-16 pb-16 md:pt-24 md:pb-20`}>
-        <p className="font-mono text-[0.8125rem] text-ink-muted">Models</p>
-        <h1 className="mt-6 max-w-[18ch] text-[clamp(2.75rem,6vw,4rem)] font-bold leading-[1.02] tracking-[-0.03em]">
+        <p className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink-muted">
+          Models
+        </p>
+        <h1 className="mt-6 max-w-[18ch] font-display text-[clamp(2.25rem,5vw,3.25rem)] font-normal leading-[1.02] tracking-[-0.025em]">
           One shape now, more on the bench
         </h1>
-        <p className="mt-8 max-w-[62ch] text-[1.125rem] leading-[1.55] text-ink-muted">
+        <p className="mt-8 max-w-[62ch] text-[1.125rem] leading-[1.6] text-ink-muted">
           Every Origin starts from a base specification and goes wherever you
           take it. The Element is buildable today. Two more are in development,
           and they will appear here the moment they are ready to order.
@@ -65,7 +67,7 @@ export default function ModelsPage() {
                     className="h-[5px] w-11 bg-black"
                     style={slant}
                   />
-                  <h2 className="mt-6 text-[clamp(2rem,4.5vw,2.75rem)] font-bold leading-[1.06] tracking-[-0.025em]">
+                  <h2 className="mt-6 font-display text-[clamp(1.875rem,4vw,2.5rem)] font-normal leading-[1.06] tracking-[-0.025em]">
                     {model.name}
                   </h2>
                   <p className="mt-2 text-[1.0625rem] text-ink-muted">
@@ -82,10 +84,10 @@ export default function ModelsPage() {
                         key={spec.label}
                         className="flex items-baseline justify-between gap-6 border-b border-line py-3.5"
                       >
-                        <dt className="text-[0.75rem] font-medium uppercase tracking-[0.08em] text-ink-muted">
+                        <dt className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink-muted">
                           {spec.label}
                         </dt>
-                        <dd className="text-right font-mono text-[0.875rem]">
+                        <dd className="text-right text-[0.9375rem] tabular-nums">
                           {spec.value}
                         </dd>
                       </div>
@@ -114,7 +116,7 @@ export default function ModelsPage() {
               className="mb-6 h-[5px] w-11 bg-black"
               style={slant}
             />
-            <h2 className="text-[2rem] font-bold leading-[1.1] tracking-[-0.02em]">
+            <h2 className="font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-normal leading-[1.08] tracking-[-0.02em]">
               In development
             </h2>
             <p className="mt-4 max-w-[60ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
@@ -131,7 +133,7 @@ export default function ModelsPage() {
                   label="In development"
                 />
                 <div className="mt-6 flex flex-wrap items-center gap-4">
-                  <h3 className="text-[1.375rem] font-semibold leading-[1.2] tracking-[-0.015em]">
+                  <h3 className="text-[1.25rem] font-bold leading-[1.3] tracking-[-0.005em]">
                     {model.name}
                   </h3>
                   <ComingSoonBadge />
@@ -152,7 +154,7 @@ export default function ModelsPage() {
       <section className="border-t border-line py-20 md:py-28">
         <div className={shell}>
           <Reveal>
-            <h2 className="max-w-[22ch] text-[2rem] font-bold leading-[1.1] tracking-[-0.02em]">
+            <h2 className="max-w-[22ch] font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-normal leading-[1.08] tracking-[-0.02em]">
               Not sure where to start?
             </h2>
             <p className="mt-4 max-w-[60ch] text-[1.0625rem] leading-[1.6] text-ink-muted">

@@ -32,9 +32,62 @@
   /* Functional — validation only, never decorative */
   --color-danger: #b42318;
 
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /*
+    Type — Archivo Black for display, TeX Gyre Heros for everything else.
+
+    There is no third family. Mono is gone: Heros carries the figures, whose
+    digits are uniform width in the Helvetica model, so prices and step
+    counters still set as a column with `tabular-nums`. The one figure that
+    is a display moment rather than data — the running total in the sticky
+    bar — takes Archivo Black.
+
+    The Heros stack lists Helvetica-metric faces behind it on purpose. Heros
+    is a Helvetica clone, so every fallback here sets to the same widths and
+    the line breaks do not move: nobody sees a different layout, only slightly
+    different letterforms, and anyone with Heros installed already sees the
+    real thing.
+  */
+  /*
+    Registered here, not just set on <html> by next/font — Tailwind builds the
+    `font-display` utility from this entry, and without it the class compiles
+    to nothing and display type silently falls back to body text.
+  */
+  --font-display: var(--font-archivo-black);
+
+  --font-sans:
+    "TeX Gyre Heros", "Nimbus Sans", Helvetica, "Liberation Sans", Arial,
+    sans-serif;
 }
+
+/*
+  TeX Gyre Heros is not in the repository yet.
+
+  It is not on npm, not on Google Fonts, and CTAN — the only place GUST
+  publishes it — is unreachable from the build environment this was written
+  in. Until the woff2 files are dropped into public/fonts/tex-gyre-heros/ (see
+  the README there), the stack above resolves to whichever Helvetica-metric
+  face the visitor's machine has, which is what keeps this honest rather than
+  silently shipping a different typeface under the right name.
+
+  Adding the two files and uncommenting this block is the whole switch-over —
+  no component changes, no token changes.
+
+@font-face {
+  font-family: "TeX Gyre Heros";
+  src: url("/fonts/tex-gyre-heros/texgyreheros-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TeX Gyre Heros";
+  src: url("/fonts/tex-gyre-heros/texgyreheros-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+*/
 
 :root {
   /*

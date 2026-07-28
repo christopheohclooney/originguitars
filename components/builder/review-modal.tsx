@@ -144,12 +144,12 @@ export function ReviewModal({
         {/* Head */}
         <div className="flex items-start justify-between gap-6 border-b border-line px-6 py-5 md:px-8">
           <div>
-            <p className="font-mono text-[0.75rem] uppercase tracking-[0.08em] text-ink-muted">
+            <p className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink-muted">
               Review
             </p>
             <h2
               id={titleId}
-              className="mt-1.5 text-[1.375rem] font-semibold leading-[1.2] tracking-[-0.015em]"
+              className="mt-1.5 font-display text-[1.375rem] font-normal leading-[1.2] tracking-[-0.01em]"
             >
               Your Element
             </h2>
@@ -195,9 +195,9 @@ export function ReviewModal({
           */}
           <details className="group border-b border-line px-6 md:px-8">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink [&::-webkit-details-marker]:hidden">
-              <span className="text-[1.0625rem] font-medium">Details</span>
+              <span className="text-[1.0625rem] font-bold">Details</span>
               <span className="flex items-center gap-4">
-                <span className="text-[0.875rem] text-ink-muted">
+                <span className="text-[0.875rem] tabular-nums text-ink-muted">
                   {lines.length} options
                 </span>
                 <span aria-hidden className="relative h-3 w-3 shrink-0">
@@ -221,7 +221,7 @@ export function ReviewModal({
                     {line.label}
                   </dt>
                   <dd className="flex items-baseline gap-4 text-right">
-                    <span className="text-[0.9375rem] font-medium">
+                    <span className="text-[0.9375rem] font-bold">
                       {line.value}
                     </span>
                     {/*
@@ -230,7 +230,7 @@ export function ReviewModal({
                       disabled-grey — "Included" is information, and
                       ink-disabled does not carry AA on white at this size.
                     */}
-                    <span className="w-[5.5rem] shrink-0 font-mono text-[0.8125rem] tabular-nums text-ink-muted">
+                    <span className="w-[5.75rem] shrink-0 text-[0.875rem] tabular-nums tracking-[0.01em] text-ink-muted">
                       {formatDelta(line.deltaPence)}
                     </span>
                   </dd>
@@ -243,19 +243,19 @@ export function ReviewModal({
           <div className="border-b border-line px-6 py-6 md:px-8">
             <div className="flex items-baseline justify-between gap-6">
               <p className="text-[0.9375rem] text-ink-muted">Base price</p>
-              <p className="font-mono text-[0.9375rem] tabular-nums">
+              <p className="text-[0.9375rem] tabular-nums tracking-[0.01em]">
                 {formatPrice(basePence)}
               </p>
             </div>
             <div className="mt-3 flex items-baseline justify-between gap-6">
               <p className="text-[0.9375rem] text-ink-muted">Upgrades</p>
-              <p className="font-mono text-[0.9375rem] tabular-nums">
+              <p className="text-[0.9375rem] tabular-nums tracking-[0.01em]">
                 {upgradesPence === 0 ? "—" : formatDelta(upgradesPence)}
               </p>
             </div>
             <div className="mt-5 flex items-baseline justify-between gap-6 border-t border-line pt-5">
-              <p className="text-[1.0625rem] font-medium">Total</p>
-              <p className="font-mono text-[1.375rem] font-medium tabular-nums tracking-[-0.01em]">
+              <p className="text-[1.0625rem] font-bold">Total</p>
+              <p className="font-display text-[1.375rem] font-normal tabular-nums tracking-[0.005em]">
                 {formatPrice(totalPence)}
               </p>
             </div>
@@ -263,13 +263,13 @@ export function ReviewModal({
 
           {/* Policy */}
           <div className="px-6 py-6 md:px-8">
-            <h3 className="text-[0.75rem] font-medium uppercase tracking-[0.08em] text-ink-muted">
+            <h3 className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink-muted">
               {ORDER_POLICY_HEADING}
             </h3>
             {orderPolicy.map((para, i) => (
               <p
                 key={i}
-                className="mt-3 max-w-[66ch] text-[0.875rem] leading-[1.6] text-ink-muted"
+                className="mt-3 max-w-[66ch] text-[0.9375rem] leading-[1.65] text-ink-muted"
               >
                 {para}
               </p>
@@ -290,7 +290,7 @@ export function ReviewModal({
               onChange={(e) => setAccepted(e.target.checked)}
               className="mt-0.5 h-[1.125rem] w-[1.125rem] shrink-0 accent-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
             />
-            <span className="text-[0.875rem] leading-[1.5]">
+            <span className="text-[0.9375rem] leading-[1.5]">
               {POLICY_CONFIRMATION}
             </span>
           </label>
@@ -316,7 +316,7 @@ export function ReviewModal({
               className={`${buttonBase} ${buttonVariants.primary} h-14 gap-4 px-9 text-[1.0625rem] disabled:cursor-not-allowed disabled:bg-canvas disabled:text-ink-disabled disabled:hover:bg-canvas`}
             >
               <span>Add to cart</span>
-              <span className="font-mono tabular-nums">
+              <span className="tabular-nums tracking-[0.01em]">
                 {formatPrice(totalPence)}
               </span>
             </button>
@@ -325,7 +325,7 @@ export function ReviewModal({
           {!accepted && (
             <p
               id={ctaHintId}
-              className="mt-3 text-[0.8125rem] leading-[1.5] text-ink-muted sm:text-right"
+              className="mt-3 text-[0.875rem] leading-[1.5] text-ink-muted sm:text-right"
             >
               Confirm you have read the policy to continue.
             </p>

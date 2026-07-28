@@ -135,11 +135,11 @@ function OptionControl({
       }`}
     >
       {input}
-      <span className="text-[0.9375rem] font-medium">{option.label}</span>
+      <span className="text-[0.9375rem] font-bold">{option.label}</span>
       {option.tooltip && (
         <InfoTip text={option.tooltip} label={option.label} />
       )}
-      <span className="font-mono text-[0.8125rem] text-ink-muted">
+      <span className="text-[0.875rem] tabular-nums tracking-[0.01em] text-ink-muted">
         {formatDelta(option.priceDeltaPence)}
       </span>
     </label>
@@ -231,10 +231,10 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
               disabled={stepIndex === 0}
             />
             <h1 className="flex min-w-0 items-baseline gap-3 text-center">
-              <span className="truncate text-[1.375rem] font-semibold tracking-[-0.015em]">
+              <span className="truncate font-display text-[1.375rem] font-normal tracking-[-0.01em]">
                 {step.title}
               </span>
-              <span className="shrink-0 font-mono text-[0.8125rem] text-ink-muted">
+              <span className="shrink-0 text-[0.875rem] tabular-nums tracking-[0.01em] text-ink-muted">
                 {String(stepIndex + 1).padStart(2, "0")}
                 <span
                   aria-hidden
@@ -254,7 +254,7 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
           </div>
 
           {step.intro && (
-            <p className="mx-auto mt-3 max-w-[62ch] text-center text-[0.9375rem] leading-[1.55] text-ink-muted">
+            <p className="mx-auto mt-3 max-w-[62ch] text-center text-[0.9375rem] leading-[1.6] text-ink-muted">
               {step.intro}
             </p>
           )}
@@ -277,7 +277,7 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
                   {groups.length > 1 && group.label && (
                     <p
                       aria-hidden
-                      className="mb-3 text-center text-[0.75rem] font-medium uppercase tracking-[0.08em] text-ink-muted"
+                      className="mb-3 text-center text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink-muted"
                     >
                       {group.label}
                     </p>
@@ -303,11 +303,11 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
                   {/* Name the swatch, which cannot carry its own label. */}
                   {shownOptions.some((o) => o.swatch) && (
                     <p className="mt-3 text-center text-[0.875rem] text-ink-muted">
-                      <span className="font-medium text-ink">
+                      <span className="font-bold text-ink">
                         {selectedOption(group, selections)?.label}
                       </span>
                       <span className="mx-2 text-line-strong">·</span>
-                      <span className="font-mono text-[0.8125rem]">
+                      <span className="text-[0.875rem] tabular-nums tracking-[0.01em]">
                         {formatDelta(
                           selectedOption(group, selections)?.priceDeltaPence ??
                             0,
@@ -317,7 +317,7 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
                   )}
 
                   {hasUnavailable && group.unavailableNote && (
-                    <p className="mx-auto mt-3 max-w-[56ch] text-center text-[0.8125rem] leading-[1.5] text-ink-muted">
+                    <p className="mx-auto mt-3 max-w-[56ch] text-center text-[0.875rem] leading-[1.55] text-ink-muted">
                       {group.unavailableNote}
                     </p>
                   )}

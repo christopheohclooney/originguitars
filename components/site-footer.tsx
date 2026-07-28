@@ -24,7 +24,7 @@ export function SiteFooter() {
 
           <div className="flex flex-col gap-10 sm:flex-row sm:gap-20">
             <nav aria-label="Footer">
-              <h2 className="text-[0.75rem] font-medium uppercase tracking-[0.08em] text-ink-muted">
+              <h2 className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink-muted">
                 Explore
               </h2>
               <ul className="mt-5 flex flex-col gap-3.5">
@@ -42,7 +42,7 @@ export function SiteFooter() {
             </nav>
 
             <nav aria-label="Legal and contact">
-              <h2 className="text-[0.75rem] font-medium uppercase tracking-[0.08em] text-ink-muted">
+              <h2 className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink-muted">
                 Company
               </h2>
               <ul className="mt-5 flex flex-col gap-3.5">

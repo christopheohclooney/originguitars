@@ -42,11 +42,11 @@ export default function HomePage() {
       <section className="relative overflow-hidden bg-canvas">
         <div className={`${shell} pt-16 md:pt-24`}>
           <HeroRule />
-          <h1 className="mt-8 max-w-[13ch] text-[clamp(3rem,8vw,5.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
+          <h1 className="mt-8 max-w-[13ch] font-display text-[clamp(2.5rem,6.5vw,4.25rem)] font-normal leading-[0.98] tracking-[-0.03em]">
             No one else will have this one
           </h1>
           <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-16">
-            <p className="max-w-[52ch] text-[1.125rem] leading-[1.55] text-ink-muted">
+            <p className="max-w-[52ch] text-[1.125rem] leading-[1.6] text-ink-muted">
               Made-to-order electric guitars, built by hand in the UK. You set
               the spec — shape, timber, hardware, finish — and we build that
               guitar and no other.
@@ -80,11 +80,11 @@ export default function HomePage() {
       */}
       <section className="py-24 md:py-36">
         <div className={shell}>
-          <p className="max-w-[24ch] text-[clamp(1.75rem,4vw,2.75rem)] font-bold leading-[1.1] tracking-[-0.03em]">
+          <p className="max-w-[26ch] font-display text-[clamp(1.5rem,3vw,2.125rem)] font-normal leading-[1.15] tracking-[-0.02em]">
             A guitar built to your spec should not mean signature-artist money
             or a two-year wait.
           </p>
-          <p className="mt-8 max-w-[62ch] text-[1.0625rem] leading-[1.7] text-ink-muted">
+          <p className="mt-8 max-w-[62ch] text-[1.0625rem] leading-[1.65] text-ink-muted">
             Origin builds semi-custom instruments to order, in the United
             Kingdom, at a price that reflects the work rather than the name on
             the headstock.
@@ -107,10 +107,10 @@ export default function HomePage() {
         <div className={shell}>
           <Reveal>
             <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-              <h2 className="max-w-[14ch] text-[clamp(2rem,4.5vw,3rem)] font-bold leading-[1.05] tracking-[-0.03em]">
+              <h2 className="max-w-[16ch] font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-normal leading-[1.08] tracking-[-0.02em]">
                 Four steps, no surprises
               </h2>
-              <p className="max-w-[38ch] text-[1rem] leading-[1.6] text-ink-muted">
+              <p className="max-w-[38ch] text-[1rem] leading-[1.65] text-ink-muted">
                 Nothing is renegotiated after you order. The price you see as
                 you build is the price you pay.
               </p>
@@ -136,13 +136,13 @@ export default function HomePage() {
                     className="absolute -left-5 top-1 hidden h-14 w-px bg-line-strong md:block"
                   />
                 )}
-                <p className="font-mono text-[3.25rem] font-medium leading-none tracking-[-0.04em] text-line-strong">
+                <p className="font-display text-[3rem] font-normal leading-none tracking-[-0.02em] text-line-strong">
                   {step.n}
                 </p>
-                <h3 className="mt-6 text-[1.375rem] font-semibold leading-[1.2] tracking-[-0.015em]">
+                <h3 className="mt-6 text-[1.25rem] font-bold leading-[1.3] tracking-[-0.005em]">
                   {step.title}
                 </h3>
-                <p className="mt-3 text-[0.9375rem] leading-[1.6] text-ink-muted">
+                <p className="mt-3 text-[0.9375rem] leading-[1.65] text-ink-muted">
                   {step.body}
                 </p>
               </StaggerItem>
@@ -165,7 +165,7 @@ export default function HomePage() {
         <div
           className={`${shell} flex flex-col gap-6 md:flex-row md:items-center md:justify-between`}
         >
-          <p className="max-w-[34ch] text-[1.375rem] font-semibold leading-[1.25] tracking-[-0.02em]">
+          <p className="max-w-[34ch] font-display text-[1.375rem] font-normal leading-[1.25] tracking-[-0.015em]">
             Questions before you start?
           </p>
           <Link

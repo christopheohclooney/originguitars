@@ -78,11 +78,13 @@ export default function FaqPage() {
   return (
     <main>
       <section className={`${shell} pt-16 pb-16 md:pt-24 md:pb-20`}>
-        <p className="font-mono text-[0.8125rem] text-ink-muted">FAQ</p>
-        <h1 className="mt-6 max-w-[18ch] text-[clamp(2.75rem,6vw,4rem)] font-bold leading-[1.02] tracking-[-0.03em]">
+        <p className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink-muted">
+          FAQ
+        </p>
+        <h1 className="mt-6 max-w-[18ch] font-display text-[clamp(2.25rem,5vw,3.25rem)] font-normal leading-[1.02] tracking-[-0.025em]">
           Answered before you spend anything
         </h1>
-        <p className="mt-8 max-w-[62ch] text-[1.125rem] leading-[1.55] text-ink-muted">
+        <p className="mt-8 max-w-[62ch] text-[1.125rem] leading-[1.6] text-ink-muted">
           The questions worth having settled before you start a build. If yours
           is not here, the UK team is one email away.
         </p>
@@ -96,7 +98,7 @@ export default function FaqPage() {
                 key={faq.q}
                 className="group border-b border-line first:border-t"
               >
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-8 py-6 text-[1.0625rem] font-medium leading-[1.5] transition-colors hover:text-ink-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink [&::-webkit-details-marker]:hidden">
+                <summary className="flex cursor-pointer list-none items-start justify-between gap-8 py-6 text-[1.0625rem] font-bold leading-[1.45] transition-colors hover:text-ink-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink [&::-webkit-details-marker]:hidden">
                   {faq.q}
                   <span
                     aria-hidden
@@ -114,7 +116,7 @@ export default function FaqPage() {
                   {faq.a.map((para, i) => (
                     <p
                       key={i}
-                      className={`max-w-[66ch] text-[1rem] leading-[1.7] text-ink-muted ${i > 0 ? "mt-4" : ""}`}
+                      className={`max-w-[66ch] text-[1rem] leading-[1.65] text-ink-muted ${i > 0 ? "mt-4" : ""}`}
                     >
                       {para}
                     </p>
@@ -128,7 +130,7 @@ export default function FaqPage() {
 
       <section className="border-t border-line py-20 md:py-28">
         <div className={shell}>
-          <h2 className="max-w-[22ch] text-[2rem] font-bold leading-[1.1] tracking-[-0.02em]">
+          <h2 className="max-w-[22ch] font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-normal leading-[1.08] tracking-[-0.02em]">
             Still deciding?
           </h2>
           <p className="mt-4 max-w-[60ch] text-[1.0625rem] leading-[1.6] text-ink-muted">

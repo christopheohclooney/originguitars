@@ -11,8 +11,13 @@ import type { ReactNode } from "react";
  * styling without a polymorphic wrapper.
  */
 
+/*
+ * Bold, not medium. Heros ships 400 and 700 and nothing between, so a 500
+ * request resolves down to regular — which left every button set in book
+ * weight. Bold is the deliberate choice the two-weight family allows.
+ */
 export const buttonBase =
-  "inline-flex items-center justify-center rounded-full font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
+  "inline-flex items-center justify-center rounded-full font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
 
 export const buttonSizes = {
   lg: "h-14 px-9 text-[1.0625rem]",
