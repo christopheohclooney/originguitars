@@ -44,5 +44,5 @@ Subsetting to latin + latin-ext will cut the files further if size matters.
 
 GUST Font Licence (a LaTeX Project Public Licence variant) — free to use,
 modify and redistribute, including on a commercial site. Keep the licence
-file alongside the fonts when you add them, as `app/fonts/archivo-black-OFL.txt`
+file alongside the fonts when you add them, as `app/fonts/archivo-OFL.txt`
 does for the display face.

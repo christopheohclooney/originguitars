@@ -149,7 +149,7 @@ export function ReviewModal({
             </p>
             <h2
               id={titleId}
-              className="mt-1.5 font-display text-[1.375rem] font-normal leading-[1.2] tracking-[-0.01em]"
+              className="mt-1.5 font-display text-[1.375rem] font-bold leading-[1.2] tracking-[-0.01em]"
             >
               Your Element
             </h2>
@@ -255,7 +255,7 @@ export function ReviewModal({
             </div>
             <div className="mt-5 flex items-baseline justify-between gap-6 border-t border-line pt-5">
               <p className="text-[1.0625rem] font-bold">Total</p>
-              <p className="font-display text-[1.375rem] font-normal tabular-nums tracking-[0.005em]">
+              <p className="font-display text-[1.375rem] font-bold tabular-nums tracking-[0.005em]">
                 {formatPrice(totalPence)}
               </p>
             </div>

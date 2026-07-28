@@ -76,12 +76,10 @@ export function PriceBar({
           >
             {/*
               The one figure on the site that is a display moment rather than
-              data: the running total, in Archivo Black. Never font-bold with
-              it — the face is already black, and synthesis would close the
-              counters at this size. Tabular so the divider beside it does not
-              shift as the total changes.
+              data: the running total, in Archivo Bold. Tabular so the divider
+              beside it does not shift as the total changes.
             */}
-            <span className="font-display font-normal tabular-nums tracking-[0.005em]">
+            <span className="font-display font-bold tabular-nums tracking-[0.005em]">
               {priceLabel}
             </span>
             <span

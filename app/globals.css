@@ -33,13 +33,13 @@
   --color-danger: #b42318;
 
   /*
-    Type — Archivo Black for display, TeX Gyre Heros for everything else.
+    Type — Archivo Bold for display, TeX Gyre Heros for everything else.
 
     There is no third family. Mono is gone: Heros carries the figures, whose
     digits are uniform width in the Helvetica model, so prices and step
     counters still set as a column with `tabular-nums`. The one figure that
     is a display moment rather than data — the running total in the sticky
-    bar — takes Archivo Black.
+    bar — takes Archivo Bold.
 
     The Heros stack lists Helvetica-metric faces behind it on purpose. Heros
     is a Helvetica clone, so every fallback here sets to the same widths and
@@ -52,7 +52,7 @@
     `font-display` utility from this entry, and without it the class compiles
     to nothing and display type silently falls back to body text.
   */
-  --font-display: var(--font-archivo-black);
+  --font-display: var(--font-archivo);
 
   --font-sans:
     "TeX Gyre Heros", "Nimbus Sans", Helvetica, "Liberation Sans", Arial,

@@ -29,7 +29,7 @@ export default function AboutPage() {
         <p className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink-muted">
           About
         </p>
-        <h1 className="mt-6 max-w-[18ch] font-display text-[clamp(2.25rem,5vw,3.25rem)] font-normal leading-[1.02] tracking-[-0.025em]">
+        <h1 className="mt-6 max-w-[18ch] font-display text-[clamp(2.25rem,5vw,3.25rem)] font-bold leading-[1.02] tracking-[-0.025em]">
           A guitar should be worth the wait
         </h1>
         <p className="mt-8 max-w-[62ch] text-[1.1875rem] leading-[1.55] text-ink-muted md:text-[1.375rem]">
@@ -61,7 +61,7 @@ export default function AboutPage() {
                   className="mb-6 h-[5px] w-11 bg-black"
                   style={slant}
                 />
-                <h2 className="font-display text-[1.375rem] font-normal leading-[1.2] tracking-[-0.015em]">
+                <h2 className="font-display text-[1.375rem] font-bold leading-[1.2] tracking-[-0.015em]">
                   Why we started
                 </h2>
               </div>
@@ -119,7 +119,7 @@ export default function AboutPage() {
               be computed at 16px body text and collapse the quote to a sliver.
             */}
             <blockquote>
-              <p className="max-w-[22ch] font-display text-[clamp(1.5rem,3.4vw,2.25rem)] font-normal leading-[1.15] tracking-[-0.02em]">
+              <p className="max-w-[22ch] font-display text-[clamp(1.5rem,3.4vw,2.25rem)] font-bold leading-[1.15] tracking-[-0.02em]">
                 &ldquo;Placeholder pull quote — the one line that should stop
                 somebody scrolling.&rdquo;
               </p>
@@ -149,7 +149,7 @@ export default function AboutPage() {
                   className="mb-6 h-[5px] w-11 bg-black"
                   style={slant}
                 />
-                <h2 className="font-display text-[1.375rem] font-normal leading-[1.2] tracking-[-0.015em]">
+                <h2 className="font-display text-[1.375rem] font-bold leading-[1.2] tracking-[-0.015em]">
                   How they are built
                 </h2>
               </div>
@@ -174,7 +174,7 @@ export default function AboutPage() {
       <section className="border-t border-line py-20 md:py-28">
         <div className={shell}>
           <Reveal>
-            <h2 className="max-w-[20ch] font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-normal leading-[1.08] tracking-[-0.02em]">
+            <h2 className="max-w-[20ch] font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-bold leading-[1.08] tracking-[-0.02em]">
               Start with the Element
             </h2>
             <p className="mt-4 max-w-[60ch] text-[1.0625rem] leading-[1.6] text-ink-muted">

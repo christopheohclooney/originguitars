@@ -33,7 +33,7 @@ function Section({
     <section className="border-t border-line py-20 md:py-28">
       <div className={shell}>
         <div aria-hidden className="mb-6 h-[5px] w-11 bg-black" style={slant} />
-        <h2 className="font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-normal leading-[1.08] tracking-[-0.02em]">
+        <h2 className="font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-bold leading-[1.08] tracking-[-0.02em]">
           {title}
         </h2>
         <p className="mt-4 max-w-[68ch] text-[1.0625rem] leading-[1.65] text-ink-muted">
@@ -153,12 +153,12 @@ export default function StyleGuidePage() {
           <p className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink-muted">
             Origin Guitars · Design foundation
           </p>
-          <h1 className="mt-6 max-w-[16ch] font-display text-[clamp(2.25rem,5vw,3.25rem)] font-normal leading-[1.02] tracking-[-0.025em]">
+          <h1 className="mt-6 max-w-[16ch] font-display text-[clamp(2.25rem,5vw,3.25rem)] font-bold leading-[1.02] tracking-[-0.025em]">
             Design foundation
           </h1>
           <p className="mt-7 max-w-[68ch] text-[1.125rem] leading-[1.55] text-ink-muted">
             The type, colour, button and price-bar decisions everything else is
-            built on. Archivo Black over TeX Gyre Heros, a white page, near-black
+            built on. Archivo Bold over TeX Gyre Heros, a white page, near-black
             ink, and pure black reserved for the primary action — so the guitars
             carry all the colour on the site.
           </p>
@@ -296,21 +296,21 @@ export default function StyleGuidePage() {
 
       <Section
         title="Typography"
-        intro="Archivo Black for display, TeX Gyre Heros for everything else. Archivo Black is a heavy grotesque that answers the wordmark's weight without imitating its letterforms; Heros is a Helvetica in the Swiss line the wordmark comes out of, and it is the one doing the work — every label, every option, every line of policy. There is no third family. Figures set in Heros with tabular numerals, except the running total, which is a display moment and takes Archivo Black."
+        intro="Archivo Bold for display, TeX Gyre Heros for everything else. Archivo at 700 is a grotesque with enough weight to answer the wordmark without imitating its letterforms, and enough room left in the counters to stay open at a headline size; Heros is a Helvetica in the Swiss line the wordmark comes out of, and it is the one doing the work — every label, every option, every line of policy. There is no third family. Figures set in Heros with tabular numerals, except the running total, which is a display moment and takes Archivo Bold."
       >
         <div className="mb-14 grid gap-8 border border-line p-8 sm:grid-cols-2 md:p-10">
           <div>
             <p className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink-muted">
               Display
             </p>
-            <p className="mt-4 font-display text-[2.5rem] font-normal leading-[1] tracking-[-0.025em]">
-              Archivo Black
+            <p className="mt-4 font-display text-[2.5rem] font-bold leading-[1] tracking-[-0.025em]">
+              Archivo Bold
             </p>
             <p className="mt-4 max-w-[38ch] text-[0.9375rem] leading-[1.6] text-ink-muted">
-              One weight, 400, and that is the whole family — it is already
-              black. Headlines, section titles, page titles, the running total.
-              Never asked for in bold: the browser would synthesise weight on
-              top of it and close the counters.
+              One weight is loaded, 700, because 700 is the only cut of it
+              the site uses. Headlines, section titles, page titles, the
+              running total. Never asked for anything heavier — there is no
+              800 or 900 file, and the browser would have to fake it.
             </p>
           </div>
           <div>
@@ -328,18 +328,18 @@ export default function StyleGuidePage() {
           </div>
         </div>
 
-        <TypeRow spec="Display · Archivo Black · 40–68px · 0.98 · -0.03em · 400">
-          <p className="font-display text-[clamp(2.5rem,6.5vw,4.25rem)] font-normal leading-[0.98] tracking-[-0.03em]">
+        <TypeRow spec="Display · Archivo Bold · 40–68px · 0.98 · -0.03em · 700">
+          <p className="font-display text-[clamp(2.5rem,6.5vw,4.25rem)] font-bold leading-[0.98] tracking-[-0.03em]">
             Built to order in the UK
           </p>
         </TypeRow>
-        <TypeRow spec="H1 · Archivo Black · 36–52px · 1.02 · -0.025em · 400">
-          <p className="font-display text-[clamp(2.25rem,5vw,3.25rem)] font-normal leading-[1.02] tracking-[-0.025em]">
+        <TypeRow spec="H1 · Archivo Bold · 36–52px · 1.02 · -0.025em · 700">
+          <p className="font-display text-[clamp(2.25rem,5vw,3.25rem)] font-bold leading-[1.02] tracking-[-0.025em]">
             The Element
           </p>
         </TypeRow>
-        <TypeRow spec="H2 · Archivo Black · 28–36px · 1.08 · -0.02em · 400">
-          <p className="font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-normal leading-[1.08] tracking-[-0.02em]">
+        <TypeRow spec="H2 · Archivo Bold · 28–36px · 1.08 · -0.02em · 700">
+          <p className="font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-bold leading-[1.08] tracking-[-0.02em]">
             How it works
           </p>
         </TypeRow>
@@ -377,8 +377,8 @@ export default function StyleGuidePage() {
             +£450.00
           </p>
         </TypeRow>
-        <TypeRow spec="Price · Archivo Black · 17–22px · tabular · 0.005em · 400">
-          <p className="font-display text-[1.375rem] font-normal tabular-nums tracking-[0.005em]">
+        <TypeRow spec="Price · Archivo Bold · 17–22px · tabular · 0.005em · 700">
+          <p className="font-display text-[1.375rem] font-bold tabular-nums tracking-[0.005em]">
             £1,949.00
           </p>
         </TypeRow>
@@ -405,10 +405,10 @@ export default function StyleGuidePage() {
               <StateNote>700 — labels, controls, emphasis</StateNote>
             </div>
             <div>
-              <p className="font-display text-[0.9375rem] font-normal">
+              <p className="font-display text-[0.9375rem] font-bold">
                 Neck-thru
               </p>
-              <StateNote>Archivo Black — display only</StateNote>
+              <StateNote>Archivo Bold — display only</StateNote>
             </div>
           </div>
         </div>
@@ -466,11 +466,11 @@ export default function StyleGuidePage() {
           <p className="mt-4 max-w-[68ch] text-base leading-[1.65] text-ink-muted">
             The logo pairs a heavy primary with a lighter secondary. That
             relationship is now carried by two families rather than two weights
-            of one — Archivo Black over Heros — and never by reproducing the
+            of one — Archivo Bold over Heros — and never by reproducing the
             letterforms, which stay an asset and never become live text.
           </p>
           <div className="mt-8 border border-line bg-surface px-8 py-12">
-            <p className="font-display text-[2rem] font-normal leading-[1.1] tracking-[-0.02em]">
+            <p className="font-display text-[2rem] font-bold leading-[1.1] tracking-[-0.02em]">
               Specified by you
             </p>
             <p className="mt-3 text-[1.125rem] leading-[1.5] text-ink-muted">

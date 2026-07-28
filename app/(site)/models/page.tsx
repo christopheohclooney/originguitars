@@ -34,7 +34,7 @@ export default function ModelsPage() {
         <p className="text-[0.75rem] font-bold uppercase tracking-[0.1em] text-ink-muted">
           Models
         </p>
-        <h1 className="mt-6 max-w-[18ch] font-display text-[clamp(2.25rem,5vw,3.25rem)] font-normal leading-[1.02] tracking-[-0.025em]">
+        <h1 className="mt-6 max-w-[18ch] font-display text-[clamp(2.25rem,5vw,3.25rem)] font-bold leading-[1.02] tracking-[-0.025em]">
           One shape now, more on the bench
         </h1>
         <p className="mt-8 max-w-[62ch] text-[1.125rem] leading-[1.6] text-ink-muted">
@@ -67,7 +67,7 @@ export default function ModelsPage() {
                     className="h-[5px] w-11 bg-black"
                     style={slant}
                   />
-                  <h2 className="mt-6 font-display text-[clamp(1.875rem,4vw,2.5rem)] font-normal leading-[1.06] tracking-[-0.025em]">
+                  <h2 className="mt-6 font-display text-[clamp(1.875rem,4vw,2.5rem)] font-bold leading-[1.06] tracking-[-0.025em]">
                     {model.name}
                   </h2>
                   <p className="mt-2 text-[1.0625rem] text-ink-muted">
@@ -116,7 +116,7 @@ export default function ModelsPage() {
               className="mb-6 h-[5px] w-11 bg-black"
               style={slant}
             />
-            <h2 className="font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-normal leading-[1.08] tracking-[-0.02em]">
+            <h2 className="font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-bold leading-[1.08] tracking-[-0.02em]">
               In development
             </h2>
             <p className="mt-4 max-w-[60ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
@@ -154,7 +154,7 @@ export default function ModelsPage() {
       <section className="border-t border-line py-20 md:py-28">
         <div className={shell}>
           <Reveal>
-            <h2 className="max-w-[22ch] font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-normal leading-[1.08] tracking-[-0.02em]">
+            <h2 className="max-w-[22ch] font-display text-[clamp(1.75rem,3.5vw,2.25rem)] font-bold leading-[1.08] tracking-[-0.02em]">
               Not sure where to start?
             </h2>
             <p className="mt-4 max-w-[60ch] text-[1.0625rem] leading-[1.6] text-ink-muted">

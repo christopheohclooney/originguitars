@@ -231,7 +231,7 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
               disabled={stepIndex === 0}
             />
             <h1 className="flex min-w-0 items-baseline gap-3 text-center">
-              <span className="truncate font-display text-[1.375rem] font-normal tracking-[-0.01em]">
+              <span className="truncate font-display text-[1.375rem] font-bold tracking-[-0.01em]">
                 {step.title}
               </span>
               <span className="shrink-0 text-[0.875rem] tabular-nums tracking-[0.01em] text-ink-muted">
