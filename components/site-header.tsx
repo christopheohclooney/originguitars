@@ -6,8 +6,7 @@ import { useEffect, useState } from "react";
 
 import { buttonClasses } from "@/components/ui/button";
 import { primaryNav } from "@/lib/nav";
-
-const shell = "mx-auto w-full max-w-[1180px] px-6 md:px-10";
+import { shell } from "@/lib/style";
 
 function Wordmark({ className = "" }: { className?: string }) {
   return (

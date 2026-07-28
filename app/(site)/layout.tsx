@@ -1,3 +1,4 @@
+import { MotionProvider } from "@/components/motion/motion-provider";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
@@ -12,10 +13,10 @@ export default function SiteLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <MotionProvider>
       <SiteHeader />
       <div className="flex-1">{children}</div>
       <SiteFooter />
-    </>
+    </MotionProvider>
   );
 }

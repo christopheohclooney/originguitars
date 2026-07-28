@@ -1,8 +1,7 @@
 import Link from "next/link";
 
 import { footerNav, primaryNav } from "@/lib/nav";
-
-const shell = "mx-auto w-full max-w-[1180px] px-6 md:px-10";
+import { shell } from "@/lib/style";
 
 export function SiteFooter() {
   return (

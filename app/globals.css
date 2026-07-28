@@ -53,3 +53,35 @@ body {
   color: var(--color-ink);
   font-family: var(--font-sans), system-ui, sans-serif;
 }
+
+/*
+  Safety net for scroll reveals.
+
+  Reveals render their hidden state server-side, so anything that stops the
+  animation from running would otherwise leave content permanently invisible.
+  `useReducedMotion` already skips the motion wrapper entirely, but that is a
+  JS hook with a null first pass — this rule does not depend on it, so a
+  reduced-motion visitor can never end up staring at an empty section.
+*/
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/*
+  FAQ accordion indicator: the vertical stroke of the plus collapses when the
+  question is open, turning it into a minus.
+
+  Written here rather than as a Tailwind variant because neither `group-open:`
+  nor an arbitrary `[[open]_&]:` variant produced a rule — both compiled to
+  nothing and the indicator silently stayed a plus.
+*/
+[data-accordion-bar] {
+  transition: transform 200ms ease;
+}
+
+details[open] [data-accordion-bar] {
+  transform: translateX(-50%) scaleY(0);
+}
