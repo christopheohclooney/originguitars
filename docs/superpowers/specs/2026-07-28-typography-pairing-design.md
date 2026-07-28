@@ -99,24 +99,26 @@ is below AA and stays — it is only ever used on disabled controls, which WCAG
 exempts, and the review modal's "Included" rows were moved off it during
 Stage 4 for exactly this reason.
 
-## The Heros files are not in the repository
+## Both faces are self-hosted
 
-TeX Gyre Heros is published by GUST on CTAN. It is not on npm, not on Google
-Fonts, and CTAN was unreachable from the build environment (the network policy
-refused the connection). Rather than ship a different typeface under the Heros
-name, the family is declared first in the token stack with Helvetica-metric
-fallbacks behind it — Nimbus Sans, Helvetica, Liberation Sans, Arial.
+**Archivo** — SIL OFL, one 14KB woff2 in `app/fonts/`, loaded through
+`next/font/local` with the licence beside it.
 
-Heros is itself a Helvetica clone, so every fallback sets to the same widths:
-no line break moves, and anyone who already has Heros installed sees the real
-thing today. `public/fonts/tex-gyre-heros/README.md` has the two filenames to
-add and the conversion command; adding them and uncommenting the two
-`@font-face` blocks in `globals.css` is the entire switch-over.
+**TeX Gyre Heros** — GUST Font Licence, two woff2 cuts of ~34KB in
+`public/fonts/tex-gyre-heros/`, subset from the CTAN OTFs, which are kept
+alongside as the source of truth. Heros arrived late: it is not on npm or
+Google Fonts, and CTAN was unreachable from the build environment, so the
+files came from Larry directly as OTFs and were converted here.
 
-**The screenshots therefore show the metric stand-in, not Heros itself.**
+The subset is the Google latin range plus **U+2192**. That range carries ↑ and
+↓ but not →, which the style guide sets in the wordmark lean figure. Coverage
+was checked against every character the site can render rather than assumed.
 
-Archivo is real and self-hosted — SIL OFL, one 14KB woff2 in `app/fonts/`,
-loaded through `next/font/local` with the licence kept beside it.
+The stack still lists Helvetica-metric fallbacks behind Heros — Nimbus Sans,
+Helvetica, Liberation Sans, Arial — so a failed font load costs letterforms
+and not a single line break. That is also the hazard: a broken woff2 falls
+back to something that looks very nearly right. `document.fonts` is the check,
+and the README says so.
 
 ## Defect found in review
 
@@ -133,8 +135,13 @@ plausible-looking. The font variable is now named `--font-archivo` and
 - `npm run build` and `npm run lint` pass. `geist` removed from dependencies.
 - Rendered families confirmed via `getComputedStyle` on every page: display
   elements resolve to the Archivo face at weight 700, body to the Heros stack.
-  `document.fonts` reports one loaded face, `archivo 700`, so the bold is the
-  drawn cut and not a synthesised one.
+- `document.fonts` reports three loaded faces on every page — `archivo 700`,
+  `TeX Gyre Heros 400`, `TeX Gyre Heros 700` — so nothing is synthesised and
+  nothing is falling back.
+- Heros is genuinely rasterising rather than a metric twin standing in: the
+  same 64px string measures 825.34px in Heros against 825.47px in Liberation
+  Sans (near-identical, as metric twins should be) and 735.94px in serif as a
+  control. Distinct values mean distinct rasterisation.
 - Headline wrapping and overflow checked at 1440, 1024, 768 and 390 across
   Home, About, Models, FAQ and the style guide after the sizes went up: no
   horizontal overflow at any width, the hero holds two lines everywhere, and
