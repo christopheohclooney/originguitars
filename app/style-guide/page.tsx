@@ -174,7 +174,7 @@ export default function StyleGuidePage() {
 
       <Section
         title="The wordmark"
-        intro="Everything below is derived from this file. The lean measures 11.959° off vertical on both I glyphs, rounded to 12° as the working value. The mark is inlined as SVG and fills currentColor rather than shipping as a coloured asset, so it takes its ink from the palette and needs no second file for a dark ground. The letterforms are an asset and stay one — they are never set as body or UI text, which is what keeps the wordmark the single loud element on a page."
+        intro="Everything below is derived from this file. The lean measures 11.959° off vertical on both I glyphs, rounded to 12° as the working value. The supplied dark-background artwork — Origin - Standard (White).svg — is inlined path for path and filled with currentColor rather than loaded as a coloured asset, so the mark takes its ink from the palette and the next palette move does not need a third file. The letterforms are an asset and stay one — they are never set as body or UI text, which is what keeps the wordmark the single loud element on a page."
       >
         <div className="border border-line bg-surface px-8 py-16 md:px-16 md:py-24">
           <Wordmark className="h-auto w-full max-w-[460px] text-ink" />

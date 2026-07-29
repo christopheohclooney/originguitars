@@ -51,7 +51,9 @@
   /*
     The logo's forward lean, measured off the parallelogram "I" glyphs in
     Origin - Standard (Black).svg: dx 18.884 over dy 89.157 = 11.959° from
-    vertical, identical on both. Rounded to 12° as the working value.
+    vertical, identical on both. Rounded to 12° as the working value. The
+    dark-background artwork now shipping in public/ carries the same geometry,
+    so the measurement still holds.
 
     Used for dividers, badge cuts and accent rules — never applied to type.
     The wordmark's letterforms are an asset, not a typeface.

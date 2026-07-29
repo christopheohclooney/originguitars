@@ -1,14 +1,20 @@
 /*
  * The Origin wordmark, inlined rather than loaded as a file.
  *
- * Inlining is what lets the mark be a token: every path fills `currentColor`,
- * so the wordmark takes whatever ink the surrounding element carries — near-
- * white on the page, --color-cta-ink if it ever sits on a CTA fill. A shipped
- * .svg would bake one hex into an asset and need a second file per palette.
+ * Paths are generated verbatim from the supplied dark-background artwork,
+ * public/Origin - Standard (White).svg — same 13 paths, same viewBox, same
+ * 11.959° lean the --slant token is measured from. That file and the original
+ * black one differ only in their fill attribute, so this component renders
+ * either exactly.
  *
- * Geometry is untouched from Origin - Standard (Black).svg, including the
- * 11.959° lean the --slant token is measured from. The letterforms are an
- * asset and stay one — they are never set as body or UI text.
+ * Which is the point of inlining: every path here fills `currentColor`, so the
+ * mark takes whatever ink the surrounding element carries — --color-ink on the
+ * page, --color-cta-ink if it ever sits on a CTA fill. Loading the .svg
+ * directly would bake one hex into the render and need a new asset the next
+ * time the palette moves.
+ *
+ * The letterforms are an asset and stay one — they are never set as body or
+ * UI text.
  */
 export function Wordmark({
   className = "",
