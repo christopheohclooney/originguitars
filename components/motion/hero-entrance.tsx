@@ -35,7 +35,7 @@ export function HeroRule() {
     <div aria-hidden style={slant} className="h-2 w-44">
       <m.div
         data-reveal
-        className="h-full w-full origin-left bg-black"
+        className="h-full w-full origin-left bg-cta"
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         transition={
@@ -63,7 +63,7 @@ export function HeroGuitar({ image }: { image: StaticImageData }) {
         priority
         placeholder="blur"
         sizes="100vw"
-        className="h-auto w-full object-contain mix-blend-multiply"
+        className="h-auto w-full object-contain"
       />
     </m.div>
   );

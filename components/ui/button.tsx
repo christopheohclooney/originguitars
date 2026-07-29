@@ -4,8 +4,8 @@ import type { ReactNode } from "react";
  * Button — locked to the Stage 0 style guide.
  *
  * Pills, following the Mod Shop benchmark. Primary is the only element in the
- * system allowed pure black, which is what makes an action read as the action
- * without needing a colour.
+ * system allowed pure white, which is what makes an action read as the action
+ * on a near-black page without needing a colour.
  *
  * Exported as classes as well as a component so `next/link` can wear the same
  * styling without a polymorphic wrapper.
@@ -33,9 +33,9 @@ const tertiarySizes = {
 } as const;
 
 export const buttonVariants = {
-  primary: "bg-black text-white hover:bg-cta-hover active:bg-black",
+  primary: "bg-cta text-cta-ink hover:bg-cta-hover active:bg-cta",
   secondary:
-    "border border-line-strong bg-white text-ink hover:border-ink active:bg-surface",
+    "border border-line-strong bg-page text-ink hover:border-ink active:bg-surface",
   tertiary:
     "text-ink underline underline-offset-[6px] decoration-line-strong hover:decoration-ink",
 } as const;

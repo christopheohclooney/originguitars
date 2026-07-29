@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { Wordmark } from "@/components/ui/wordmark";
 import { footerNav, primaryNav } from "@/lib/nav";
 import { shell } from "@/lib/style";
 
@@ -9,14 +10,7 @@ export function SiteFooter() {
       <div className={`${shell} py-16 md:py-20`}>
         <div className="flex flex-col gap-12 md:flex-row md:justify-between">
           <div>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src="/origin-wordmark-black.svg"
-              alt="Origin Guitars"
-              width={574}
-              height={120}
-              className="h-[20px] w-auto"
-            />
+            <Wordmark className="h-[20px] w-auto" />
             <p className="mt-6 max-w-[34ch] text-[0.9375rem] leading-[1.6] text-ink-muted">
               Made-to-order electric guitars, built by hand in the UK.
             </p>

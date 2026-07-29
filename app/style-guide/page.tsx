@@ -7,11 +7,12 @@ import {
   buttonSizes as btnSize,
 } from "@/components/ui/button";
 import { PriceBar as SharedPriceBar } from "@/components/ui/price-bar";
+import { Wordmark } from "@/components/ui/wordmark";
 
 export const metadata: Metadata = {
   title: "Design foundation — Origin Guitars",
   description:
-    "Stage 0 style guide: colour, type scale, buttons and the sticky price bar pattern.",
+    "Style guide: colour, type scale, buttons and the sticky price bar pattern.",
 };
 
 /* The logo's forward lean, applied to brand devices only — never to type. */
@@ -32,7 +33,7 @@ function Section({
   return (
     <section className="border-t border-line py-20 md:py-28">
       <div className={shell}>
-        <div aria-hidden className="mb-6 h-[5px] w-11 bg-black" style={slant} />
+        <div aria-hidden className="mb-6 h-[5px] w-11 bg-cta" style={slant} />
         <h2 className="text-[2rem] font-bold leading-[1.1] tracking-[-0.02em]">
           {title}
         </h2>
@@ -51,16 +52,22 @@ type SwatchProps = {
   name: string;
   hex: string;
   use: string;
-  /* Pale chips need a hairline or they vanish against the page. */
+  /* Chips close to the page ground need a hairline or they vanish into it. */
   outline?: boolean;
 };
 
+/*
+ * The chip is filled from the token itself, not from the hex beside it, so a
+ * value edited in globals.css cannot leave this sheet showing the old colour.
+ * The hex is documentation — it is the one thing here that still has to be
+ * kept in step by hand.
+ */
 function Swatch({ name, hex, use, outline }: SwatchProps) {
   return (
     <div>
       <div
         className={`h-24 w-full ${outline ? "border border-line-strong" : ""}`}
-        style={{ backgroundColor: hex }}
+        style={{ backgroundColor: `var(--color-${name})` }}
       />
       <p className="mt-3 text-[0.9375rem] font-medium">{name}</p>
       <p className="font-mono text-[0.8125rem] uppercase text-ink-muted">
@@ -151,41 +158,35 @@ export default function StyleGuidePage() {
       <header className="py-24 md:py-32">
         <div className={shell}>
           <p className="font-mono text-[0.8125rem] text-ink-muted">
-            Origin Guitars · Stage 0
+            Origin Guitars · Design foundation
           </p>
           <h1 className="mt-6 max-w-[16ch] text-[clamp(2.75rem,6vw,4rem)] font-bold leading-[1.02] tracking-[-0.03em]">
             Design foundation
           </h1>
           <p className="mt-7 max-w-[68ch] text-[1.125rem] leading-[1.55] text-ink-muted">
             The colour, type, button and price-bar decisions everything else is
-            built on. White page, near-black ink, pure black reserved for the
-            primary action — so the guitars carry all the colour on the site.
+            built on. Near-black page, near-white ink, pure white reserved for
+            the primary action — so the guitars carry all the colour on the
+            site.
           </p>
         </div>
       </header>
 
       <Section
         title="The wordmark"
-        intro="Everything below is derived from this file. The lean measures 11.959° off vertical on both I glyphs, rounded to 12° as the working value, and every path fills pure black. The letterforms are an asset and stay one — they are never set as body or UI text, which is what keeps the wordmark the single loud element on a page."
+        intro="Everything below is derived from this file. The lean measures 11.959° off vertical on both I glyphs, rounded to 12° as the working value. The mark is inlined as SVG and fills currentColor rather than shipping as a coloured asset, so it takes its ink from the palette and needs no second file for a dark ground. The letterforms are an asset and stay one — they are never set as body or UI text, which is what keeps the wordmark the single loud element on a page."
       >
-        <div className="border border-line bg-white px-8 py-16 md:px-16 md:py-24">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/origin-wordmark-black.svg"
-            alt="Origin Guitars"
-            width={574}
-            height={120}
-            className="h-auto w-full max-w-[460px]"
-          />
+        <div className="border border-line bg-surface px-8 py-16 md:px-16 md:py-24">
+          <Wordmark className="h-auto w-full max-w-[460px] text-ink" />
         </div>
         <div className="mt-8 grid gap-8 sm:grid-cols-3">
           <div>
             <p className="text-[0.9375rem] font-medium">Fill</p>
             <p className="mt-1.5 font-mono text-[0.8125rem] text-ink-muted">
-              #000000
+              currentColor → --color-ink
             </p>
             <p className="mt-1.5 max-w-[40ch] text-[0.875rem] leading-[1.5] text-ink-muted">
-              Sampled from the source SVG, not the rendering.
+              Geometry from the source SVG; colour from the token.
             </p>
           </div>
           <div>
@@ -209,24 +210,24 @@ export default function StyleGuidePage() {
 
       <Section
         title="Colour"
-        intro="Two blacks, deliberately. Ink sets every heading, every line of body copy and the wordmark. Pure black is spent only on primary buttons, which makes the action the single darkest thing on any screen without needing a colour to announce itself."
+        intro="Two whites, deliberately. Ink sets every heading, every line of body copy and the wordmark. Pure white is spent only on primary buttons, which makes the action the single brightest thing on any screen without needing a colour to announce itself. Everything below is a token in globals.css — nothing names a colour at the component."
       >
         <SwatchGroup
           label="Ink"
           swatches={[
             {
               name: "ink",
-              hex: "#141414",
-              use: "Headings, body copy, the wordmark.",
+              hex: "#F2F2F2",
+              use: "Headings, body copy, the wordmark. 17.2:1 on page.",
             },
             {
               name: "ink-muted",
-              hex: "#737373",
-              use: "Secondary copy, spec labels, helper text.",
+              hex: "#9A9A9A",
+              use: "Secondary copy, spec labels, helper text. 7:1 on page.",
             },
             {
               name: "ink-disabled",
-              hex: "#A3A3A3",
+              hex: "#565656",
               use: "Disabled control labels only.",
             },
           ]}
@@ -235,9 +236,20 @@ export default function StyleGuidePage() {
           label="Action"
           swatches={[
             {
-              name: "black",
-              hex: "#000000",
-              use: "Primary CTA fills. Never used for text.",
+              name: "cta",
+              hex: "#FFFFFF",
+              use: "Primary CTA fills and the brand accent rule. Never used for text.",
+            },
+            {
+              name: "cta-hover",
+              hex: "#D6D6D6",
+              use: "Primary hover. Dims rather than lifts.",
+            },
+            {
+              name: "cta-ink",
+              hex: "#0A0A0A",
+              use: "The label sitting on a CTA fill — the one place ink goes dark.",
+              outline: true,
             },
           ]}
         />
@@ -245,21 +257,21 @@ export default function StyleGuidePage() {
           label="Surfaces"
           swatches={[
             {
-              name: "white",
-              hex: "#FFFFFF",
-              use: "Page base.",
+              name: "page",
+              hex: "#0A0A0A",
+              use: "Page base. Near-black, not black — pure black is the CTA label.",
               outline: true,
             },
             {
               name: "surface",
-              hex: "#FAFAFA",
-              use: "Alternating section bands.",
+              hex: "#131313",
+              use: "Alternating section bands, footer, tooltips.",
               outline: true,
             },
             {
               name: "canvas",
-              hex: "#F4F4F4",
-              use: "Guitar image backdrop, swatch tiles.",
+              hex: "#1C1C1C",
+              use: "Guitar image backdrop, image placeholders, swatch tiles.",
               outline: true,
             },
           ]}
@@ -269,15 +281,13 @@ export default function StyleGuidePage() {
           swatches={[
             {
               name: "line",
-              hex: "#E8E8E8",
+              hex: "#2A2A2A",
               use: "Hairlines, dividers, price bar top edge.",
-              outline: true,
             },
             {
               name: "line-strong",
-              hex: "#D4D4D4",
+              hex: "#444444",
               use: "Input borders, unselected swatch rings.",
-              outline: true,
             },
           ]}
         />
@@ -286,11 +296,25 @@ export default function StyleGuidePage() {
           swatches={[
             {
               name: "danger",
-              hex: "#B42318",
+              hex: "#FF7A6E",
               use: "Validation messages only. Never decorative.",
             },
           ]}
         />
+
+        <div className="border-t border-line pt-10">
+          <h3 className="text-[1.375rem] font-semibold tracking-[-0.015em]">
+            Why the page is not pure black
+          </h3>
+          <p className="mt-4 max-w-[68ch] text-base leading-[1.6] text-ink-muted">
+            #0A0A0A rather than #000000, for the same reason the light palette
+            reserved pure black for the button. Holding the extreme of the range
+            back means the CTA and the accent rule have somewhere to go, and a
+            near-black ground gives the surfaces above it — the section bands,
+            the builder canvas — room to separate by lightness instead of by a
+            border.
+          </p>
+        </div>
       </Section>
 
       <Section
@@ -370,7 +394,7 @@ export default function StyleGuidePage() {
 
       <Section
         title="Buttons"
-        intro="Pills, following the Mod Shop benchmark. Primary is the only element on the page allowed pure black. Disabled carries more weight here than usual — the builder locks options that are still coming soon, and those need to read as unavailable rather than broken."
+        intro="Pills, following the Mod Shop benchmark. Primary is the only element on the page allowed pure white, and it hovers by dimming rather than lifting — there is nothing brighter to lift into. Disabled carries more weight here than usual: the builder locks options that are still coming soon, and those need to read as unavailable rather than broken."
       >
         <div className="mb-14">
           <h3 className="mb-6 text-[1.375rem] font-semibold tracking-[-0.015em]">
@@ -407,7 +431,7 @@ export default function StyleGuidePage() {
             </div>
             <div>
               <span
-                className={`${btnBase} ${btnSize.md} bg-[#262626] text-white`}
+                className={`${btnBase} ${btnSize.md} bg-cta-hover text-cta-ink`}
               >
                 Continue
               </span>
@@ -415,7 +439,7 @@ export default function StyleGuidePage() {
             </div>
             <div>
               <span
-                className={`${btnBase} ${btnSize.md} bg-black text-white outline-2 outline-offset-2 outline-ink`}
+                className={`${btnBase} ${btnSize.md} bg-cta text-cta-ink outline-2 outline-offset-2 outline-ink`}
               >
                 Continue
               </span>
@@ -442,7 +466,7 @@ export default function StyleGuidePage() {
       >
         <div className="grid gap-12 md:grid-cols-2">
           <div>
-            <div aria-hidden className="h-[5px] w-11 bg-black" style={slant} />
+            <div aria-hidden className="h-[5px] w-11 bg-cta" style={slant} />
             <StateNote>accent rule — opens every section</StateNote>
           </div>
 
@@ -459,9 +483,9 @@ export default function StyleGuidePage() {
                   Coming soon
                 </span>
               </span>
-              <span className="inline-flex bg-black px-4 py-1.5" style={slant}>
+              <span className="inline-flex bg-cta px-4 py-1.5" style={slant}>
                 <span
-                  className="text-[0.75rem] font-medium uppercase tracking-[0.08em] text-white"
+                  className="text-[0.75rem] font-medium uppercase tracking-[0.08em] text-cta-ink"
                   style={unslant}
                 >
                   New
@@ -488,7 +512,7 @@ export default function StyleGuidePage() {
             <div className="relative h-px w-full bg-line">
               <span
                 aria-hidden
-                className="absolute left-0 top-[-2px] h-[5px] w-11 bg-black"
+                className="absolute left-0 top-[-2px] h-[5px] w-11 bg-cta"
                 style={slant}
               />
             </div>
@@ -499,7 +523,7 @@ export default function StyleGuidePage() {
 
       <Section
         title="Sticky price bar"
-        intro="Persistent across every builder step: where you are, what it costs, and the way out to Review. It sits on white with a hairline top edge rather than as a black slab — the black belongs to the pill. It is live at the bottom of this page, so scroll and it follows."
+        intro="Persistent across every builder step: where you are, what it costs, and the way out to Review. It sits on the page ground with a hairline top edge rather than as a lit slab — the brightness belongs to the pill. It is live at the bottom of this page, so scroll and it follows."
       >
         <PriceBar />
         <div className="mt-8 grid gap-8 sm:grid-cols-3">
@@ -521,7 +545,7 @@ export default function StyleGuidePage() {
             <p className="text-[0.9375rem] font-medium">Right — the action</p>
             <p className="mt-1.5 max-w-[40ch] text-[0.875rem] leading-[1.5] text-ink-muted">
               Running total in tabular mono, slanted divider, then Review. The
-              only black on the bar.
+              only lit element on the bar.
             </p>
           </div>
         </div>

@@ -5,21 +5,9 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { buttonClasses } from "@/components/ui/button";
+import { Wordmark } from "@/components/ui/wordmark";
 import { primaryNav } from "@/lib/nav";
 import { shell } from "@/lib/style";
-
-function Wordmark({ className = "" }: { className?: string }) {
-  return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src="/origin-wordmark-black.svg"
-      alt="Origin Guitars"
-      width={574}
-      height={120}
-      className={className}
-    />
-  );
-}
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -44,14 +32,15 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-line bg-white">
+    <header className="sticky top-0 z-50 border-b border-line bg-page">
       <div className={`${shell} flex h-[72px] items-center justify-between gap-8`}>
         <Link
           href="/"
           className="shrink-0 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
           aria-label="Origin Guitars — home"
         >
-          <Wordmark className="h-[18px] w-auto" />
+          {/* The link already carries the accessible name. */}
+          <Wordmark className="h-[18px] w-auto" title="" />
         </Link>
 
         {/* Desktop */}
@@ -120,7 +109,7 @@ export function SiteHeader() {
       {open && (
         <div
           id="mobile-nav"
-          className="fixed inset-x-0 bottom-0 top-[72px] z-40 overflow-y-auto bg-white md:hidden"
+          className="fixed inset-x-0 bottom-0 top-[72px] z-40 overflow-y-auto bg-page md:hidden"
         >
           <nav aria-label="Primary" className={`${shell} py-8`}>
             <ul className="flex flex-col">

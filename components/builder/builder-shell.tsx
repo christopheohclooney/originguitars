@@ -102,8 +102,8 @@ function OptionControl({
           isAvailable ? "cursor-pointer" : "cursor-not-allowed opacity-40"
         } ${
           isSelected
-            ? "ring-1 ring-ink ring-offset-4 ring-offset-white"
-            : "hover:ring-1 hover:ring-line-strong hover:ring-offset-4 hover:ring-offset-white"
+            ? "ring-1 ring-ink ring-offset-4 ring-offset-page"
+            : "hover:ring-1 hover:ring-line-strong hover:ring-offset-4 hover:ring-offset-page"
         }`}
       >
         {input}
@@ -192,11 +192,12 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
     <main className="flex min-h-[calc(100svh-72px)] flex-col lg:h-[calc(100svh-72px)] lg:min-h-0">
       <div className="flex min-h-0 flex-1 items-center justify-center bg-canvas px-4 py-6 md:px-10 md:py-8">
         {/*
-          The supplied photo is a portrait shot on a white ground, rotated and
-          trimmed to a wide band at build time. Multiply drops the remaining
-          white out against the near-white canvas. It shows the manufacturer's
-          reference instrument, not the current specification — per-option
-          imagery arrives with the real photography.
+          The supplied photo is a portrait shot on a white ground, rotated,
+          trimmed to a wide band and keyed to a transparent PNG at build time
+          (scripts/prepare-element-image.mjs), so it composites on the dark
+          canvas without a blend mode. It shows the manufacturer's reference
+          instrument, not the current specification — per-option imagery
+          arrives with the real photography.
         */}
         <Image
           src={image}
@@ -204,12 +205,12 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
           priority
           placeholder="blur"
           sizes="100vw"
-          className="max-h-full w-auto max-w-[1500px] object-contain mix-blend-multiply"
+          className="max-h-full w-auto max-w-[1500px] object-contain"
         />
       </div>
 
       {/* Option tray */}
-      <div className="border-t border-line bg-white">
+      <div className="border-t border-line bg-page">
         <div className={`${shell} py-6 md:py-8`}>
           <div className="flex items-center justify-center gap-2 sm:gap-4">
             <StepArrow

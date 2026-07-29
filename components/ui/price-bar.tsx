@@ -6,8 +6,8 @@ import { shell, slant } from "@/lib/style";
 
 /*
  * The persistent builder bar: where you are, what it costs, and the way out to
- * Review. White with a hairline top edge rather than a black slab — the black
- * belongs to the pill.
+ * Review. It sits on the page ground with a hairline top edge rather than as a
+ * lit slab — the brightness belongs to the pill.
  *
  * Shared between the builder and the style guide so the specimen and the real
  * thing cannot drift.
@@ -22,9 +22,9 @@ export type PriceBarVariant =
   | "static";
 
 const wrapperFor: Record<PriceBarVariant, string> = {
-  sticky: "sticky bottom-0 z-40 border-t border-line bg-white",
-  fixed: "fixed inset-x-0 bottom-0 z-40 border-t border-line bg-white",
-  static: "border border-line bg-white",
+  sticky: "sticky bottom-0 z-40 border-t border-line bg-page",
+  fixed: "fixed inset-x-0 bottom-0 z-40 border-t border-line bg-page",
+  static: "border border-line bg-page",
 };
 
 export function PriceBar({
@@ -77,7 +77,7 @@ export function PriceBar({
             <span className="font-mono tabular-nums">{priceLabel}</span>
             <span
               aria-hidden
-              className="h-5 w-px bg-white/35"
+              className="h-5 w-px bg-cta-ink/35"
               style={slant}
             />
             <span>Review</span>

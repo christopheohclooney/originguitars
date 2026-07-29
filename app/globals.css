@@ -1,36 +1,47 @@
 @import "tailwindcss";
 
 /*
-  Origin Guitars — design tokens (Stage 0)
+  Origin Guitars — design tokens
 
-  Light only. There is deliberately no dark theme: the guitars supply every
-  colour on the site, so the UI stays out of their way.
+  Dark only. There is deliberately no light theme: the guitars supply every
+  colour on the site, so the UI stays out of their way, and a near-black page
+  lets an instrument sit on it the way a stage does.
 
-  The one rule that drives the whole palette: --color-black is reserved for
-  primary CTAs. Everything else that reads as "black" is --color-ink, a touch
-  lighter, so a button is always the darkest element on any given screen.
+  The one rule that drives the whole palette: --color-cta is the brightest
+  value in the system and is reserved for primary actions. Everything else
+  that reads as "white" is --color-ink, a touch dimmer, so a button is always
+  the brightest element on any given screen.
+
+  Every value below is a token. Nothing in a component should name a colour
+  directly — a palette change should only ever mean editing this block.
 */
 
 @theme {
-  /* Ink — text, logo, headings */
-  --color-ink: #141414;
-  --color-ink-muted: #737373;
-  --color-ink-disabled: #a3a3a3;
+  /* Ink — text, logo, headings. Reads *on* --color-page. */
+  --color-ink: #f2f2f2;
+  --color-ink-muted: #9a9a9a;
+  --color-ink-disabled: #565656;
 
   /* CTA — primary buttons only, never body text */
-  --color-black: #000000;
-  --color-cta-hover: #262626;
+  --color-cta: #ffffff;
+  --color-cta-hover: #d6d6d6;
+  /* Label sitting on a CTA fill — the one place ink goes dark. */
+  --color-cta-ink: #0a0a0a;
 
-  /* Surfaces */
-  --color-surface: #fafafa;
-  --color-canvas: #f4f4f4;
+  /* Surfaces — page is the floor, each step above it is lighter */
+  --color-page: #0a0a0a;
+  --color-surface: #131313;
+  --color-canvas: #1c1c1c;
 
-  /* Lines */
-  --color-line: #e8e8e8;
-  --color-line-strong: #d4d4d4;
+  /* Lines — lifted enough to survive a near-black ground without glowing */
+  --color-line: #2a2a2a;
+  --color-line-strong: #444444;
 
   /* Functional — validation only, never decorative */
-  --color-danger: #b42318;
+  --color-danger: #ff7a6e;
+
+  /* Depth. On a dark ground a shadow has to be far heavier to register. */
+  --shadow-pop: 0 8px 24px rgba(0, 0, 0, 0.55);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -46,10 +57,16 @@
     The wordmark's letterforms are an asset, not a typeface.
   */
   --slant: 12deg;
+
+  /*
+    Tells the UA the page is dark, so form controls, scrollbars and the
+    overscroll gutter come through dark rather than as a white flash.
+  */
+  color-scheme: dark;
 }
 
 body {
-  background: #ffffff;
+  background: var(--color-page);
   color: var(--color-ink);
   font-family: var(--font-sans), system-ui, sans-serif;
 }
