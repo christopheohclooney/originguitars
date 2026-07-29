@@ -15,9 +15,24 @@ import type { ReactNode } from "react";
  * Bold, not medium. Heros ships 400 and 700 and nothing between, so a 500
  * request resolves down to regular — which left every button set in book
  * weight. Bold is the deliberate choice the two-weight family allows.
+ *
+ * `leading-none` is load-bearing, not decorative. Left unset, line-height
+ * resolves to `normal`, which is derived from the active font's own vertical
+ * metrics — and those metrics are not close enough between faces to leave to
+ * chance. TeX Gyre Heros sets the USE_TYPO_METRICS flag with a deliberately
+ * tight OS/2 typo ascender/descender, so its `normal` line-height is ~0.945em;
+ * the Helvetica-metric fallbacks ahead of it in the swap (Liberation Sans,
+ * Arial) resolve `normal` from their much taller hhea metrics, ~1.15em. In a
+ * fixed-height, flex-centered pill that gap is a real ~3px at button text
+ * sizes — enough that the label visibly drops as the swap completes, and it
+ * doesn't return: the label just sits off-centre in the settled state too.
+ * `line-height: 1` makes the line box a function of font-size alone, so
+ * centering inside `items-center` no longer depends on which font is active.
+ * Every button label inherits this — including the price and "Review" spans
+ * composed directly in PriceBar, which do not set their own line-height.
  */
 export const buttonBase =
-  "inline-flex items-center justify-center rounded-full font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
+  "inline-flex items-center justify-center rounded-full font-bold leading-none transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
 
 export const buttonSizes = {
   lg: "h-14 px-9 text-[1.0625rem]",
