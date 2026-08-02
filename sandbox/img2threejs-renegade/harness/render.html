@@ -1,0 +1,97 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><style>html,body{margin:0;background:#fff}canvas{display:block}</style></head>
+<body>
+<script type="module">
+import './bundle.js';
+const THREE = window.THREE;
+
+
+const params = new URLSearchParams(location.search);
+const view = params.get('view') || 'front';
+const W = parseInt(params.get('w') || '800', 10);
+const H = parseInt(params.get('h') || '1200', 10);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(1);
+renderer.setSize(W, H);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 1.0;
+renderer.shadowMap.enabled = true;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color('#ffffff');
+// metals with no envMap render BLACK - a studio environment is mandatory, and the
+// flake finish has nothing to reflect without it.
+const pmrem = new THREE.PMREMGenerator(renderer);
+{
+  const envScene = new THREE.Scene();
+  envScene.background = new THREE.Color('#f2f2f2');
+  const box = new THREE.BoxGeometry(1,1,1);
+  const mk = (c,i,p,s2) => { const m = new THREE.Mesh(box, new THREE.MeshBasicMaterial({color:c}));
+    m.position.set(...p); m.scale.set(...s2); m.material.side = THREE.BackSide; return m; };
+  const room = new THREE.Mesh(new THREE.BoxGeometry(20,20,20), new THREE.MeshBasicMaterial({color:'#e8e8e8', side:THREE.BackSide}));
+  envScene.add(room);
+  const soft = (c,i,p,s2)=>{ const m=new THREE.Mesh(box,new THREE.MeshBasicMaterial({color:c})); m.position.set(...p); m.scale.set(...s2); return m; };
+  envScene.add(soft('#ffffff',1,[0,8,3],[9,0.3,6]));   // key softbox
+  envScene.add(soft('#dfe8f5',1,[7,1,4],[0.3,7,6]));   // side fill
+  envScene.add(soft('#ffffff',1,[-6,2,-5],[0.3,7,6])); // back rim
+  scene.environment = pmrem.fromScene(envScene, 0.04).texture;
+}
+
+let model;
+try {
+  model = window.makeModel({}, {});
+} catch (e) {
+  document.title = 'MODEL_ERROR: ' + e.message;
+  window.__error = String(e && e.stack || e);
+}
+
+if (model) {
+  scene.add(model);
+  // root is a container in the spec but the schema has no 'group' primitive, so it
+  // generates as a 1x1x1 box that swallows the model. Hide it before framing.
+  model.traverse(o => {
+    const sc = o.userData && o.userData.sculptComponent;
+    if (o.isMesh && sc && sc.id === 'root') o.visible = false;
+  });
+  try { const l = window.makeLights && window.makeLights(); if (l) scene.add(l); } catch (e) {}
+  // guarantee some light even if the lookdev helper is a no-op at this pass
+  const key = new THREE.DirectionalLight('#fff6e8', 2.6); key.position.set(-0.35, 0.78, 0.52).multiplyScalar(5);
+  const fill = new THREE.DirectionalLight('#dce6f2', 0.9); fill.position.set(0.62, 0.18, 0.46).multiplyScalar(5);
+  const rim = new THREE.DirectionalLight('#ffffff', 1.4); rim.position.set(0.15, -0.35, -0.92).multiplyScalar(5);
+  scene.add(key, fill, rim, new THREE.AmbientLight('#b8bcc4', 0.25));
+  scene.add(new THREE.HemisphereLight('#ffffff', '#9aa0a8', 0.6));
+
+  // frame the model
+  const box = new THREE.Box3();
+  model.traverse(o => { if (o.isMesh && o.visible) box.expandByObject(o); });
+  const size = box.getSize(new THREE.Vector3());
+  const center = box.getCenter(new THREE.Vector3());
+  window.__bbox = { size: size.toArray(), center: center.toArray() };
+
+  const aspect = W / H;
+  const pad = 1.06;
+  let cam;
+  if (view === 'three-quarter') {
+    cam = new THREE.PerspectiveCamera(28, aspect, 0.01, 100);
+    const dist = (Math.max(size.y / aspect, size.x) * pad) / (2 * Math.tan((28 * Math.PI / 180) / 2));
+    cam.position.set(center.x + dist * 0.42, center.y + dist * 0.06, center.z + dist * 0.90);
+  } else {
+    // orthographic to match the near-telecentric product shots
+    const hh = (size.y * pad) / 2;
+    const hw = Math.max(hh * aspect, (size.x * pad) / 2);
+    cam = new THREE.OrthographicCamera(-hw, hw, hh, -hh, 0.01, 100);
+    const d = Math.max(size.z, size.x, size.y) * 4;
+    if (view === 'back') cam.position.set(center.x, center.y, center.z - d);
+    else if (view === 'left') cam.position.set(center.x - d, center.y, center.z);
+    else if (view === 'right') cam.position.set(center.x + d, center.y, center.z);
+    else cam.position.set(center.x, center.y, center.z + d);
+  }
+  cam.lookAt(center);
+  cam.updateProjectionMatrix();
+  renderer.render(scene, cam);
+}
+window.__ready = true;
+</script>
+</body></html>
