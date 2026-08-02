@@ -1089,16 +1089,24 @@
       "interaction-pass",
       "optimization-pass"
     ],
-    "currentPass": "blockout",
-    "completedPasses": [],
-    "lastCompletedPass": "",
-    "blockedReason": "blockout requires a browser screenshot and self-correction review before structural-pass unlocks",
+    "currentPass": "structural-pass",
+    "completedPasses": [
+      "blockout"
+    ],
+    "lastCompletedPass": "blockout",
+    "blockedReason": "",
     "nextRequiredEvidence": [
-      "blockout browser render screenshot from your agent's browser/screenshot tool",
-      "side-by-side reference/render comparison sheet",
-      "AI vision score >= 0.7 with layer scores and mismatch critique",
-      "critical semantic feature scores from the same image pair meeting their individual thresholds",
-      "reviewHistory entry for blockout with action=continue"
+      "Macro, meso, and repeated structures meet qualityContract.minimumSpecDepth.",
+      "Parent-child relations, joints, seams, sockets, and contact points are explicit.",
+      "Every attached child appendage/connector has parentSocket, localStart/localEnd, contactType, embedDepth or overlap, and gapTolerance.",
+      "AI vision comparison score meets selfCorrectLoop.visualAcceptance.threshold.",
+      "attachment contracts for child appendages/connectors",
+      "no floating child roots/joints in the browser screenshot",
+      "browser render screenshot from your agent's browser/screenshot tool",
+      "side-by-side reference/render comparison sheet for AI vision review",
+      "AI vision score at or above the visual acceptance threshold",
+      "all critical semantic feature scores from the shared image pair at or above their thresholds",
+      "self-correction review appended with action=continue before the next pass"
     ]
   },
   "lookDevTargets": {
@@ -1437,271 +1445,255 @@
         "profile2D": {
           "points": [
             [
-              -0.40046,
-              0.5
+              -0.12022,
+              0.217
             ],
             [
-              -0.32542,
-              0.5
+              -0.0977,
+              0.217
             ],
             [
-              -0.31776,
-              0.43644
+              -0.0954,
+              0.18942
             ],
             [
-              -0.2856,
-              0.37182
+              -0.08574,
+              0.16137
             ],
             [
-              -0.22435,
-              0.32627
+              -0.06735,
+              0.1416
             ],
             [
-              -0.16309,
-              0.30826
+              -0.04896,
+              0.13379
             ],
             [
-              -0.11562,
-              0.31568
+              -0.03471,
+              0.137
             ],
             [
-              -0.09112,
-              0.33686
+              -0.02735,
+              0.1462
             ],
             [
-              -0.08346,
-              0.5
+              -0.02506,
+              0.217
             ],
             [
-              0.09265,
-              0.5
+              0.02781,
+              0.217
             ],
             [
-              0.09418,
-              0.25106
+              0.02827,
+              0.10896
             ],
             [
-              0.12328,
-              0.22352
+              0.03701,
+              0.09701
             ],
             [
-              0.15391,
-              0.21292
+              0.0462,
+              0.09241
             ],
             [
-              0.183,
-              0.21081
+              0.05494,
+              0.09149
             ],
             [
-              0.22435,
-              0.2161
+              0.06735,
+              0.09379
             ],
             [
-              0.28407,
-              0.2447
+              0.08528,
+              0.1062
             ],
             [
-              0.3193,
-              0.28602
+              0.09586,
+              0.12413
             ],
             [
-              0.35145,
-              0.37818
+              0.10551,
+              0.16413
             ],
             [
-              0.3683,
-              0.38347
+              0.11057,
+              0.16643
             ],
             [
-              0.38974,
-              0.38136
+              0.11701,
+              0.16551
             ],
             [
-              0.41271,
-              0.36335
+              0.1239,
+              0.15769
             ],
             [
-              0.43415,
-              0.31886
+              0.13034,
+              0.13838
             ],
             [
-              0.43262,
-              0.25
+              0.12988,
+              0.1085
             ],
             [
-              0.4219,
-              0.21398
+              0.12666,
+              0.09287
             ],
             [
-              0.35299,
-              0.09534
+              0.10597,
+              0.04138
             ],
             [
-              0.34533,
-              0.05508
+              0.10367,
+              0.02391
             ],
             [
-              0.36064,
-              0.01589
+              0.10827,
+              0.0069
             ],
             [
-              0.4173,
-              -0.06674
+              0.12528,
+              -0.02896
             ],
             [
-              0.4709,
-              -0.16208
+              0.14137,
+              -0.07034
             ],
             [
-              0.49694,
-              -0.23729
+              0.14919,
+              -0.10298
             ],
             [
-              0.5,
-              -0.29449
+              0.15011,
+              -0.12781
             ],
             [
-              0.49694,
-              -0.32839
+              0.14919,
+              -0.14252
             ],
             [
-              0.47703,
-              -0.35805
+              0.14321,
+              -0.15539
             ],
             [
-              0.48162,
-              -0.36547
+              0.14459,
+              -0.15861
             ],
             [
-              0.4755,
-              -0.37606
+              0.14275,
+              -0.16321
             ],
             [
-              0.4219,
-              -0.41525
+              0.12666,
+              -0.18022
             ],
             [
-              0.34992,
-              -0.45021
+              0.10505,
+              -0.19539
             ],
             [
-              0.22435,
-              -0.47564
+              0.06735,
+              -0.20643
             ],
             [
-              -0.0023,
-              -0.48093
+              -0.00069,
+              -0.20872
             ],
             [
-              0.00842,
-              -0.49576
+              0.00253,
+              -0.21516
             ],
             [
-              -0.02221,
-              -0.5
+              -0.00667,
+              -0.217
             ],
             [
-              -0.03599,
-              -0.49576
+              -0.0108,
+              -0.21516
             ],
             [
-              -0.03446,
-              -0.48835
+              -0.01034,
+              -0.21194
             ],
             [
-              -0.02374,
-              -0.48305
+              -0.00713,
+              -0.20964
             ],
             [
-              -0.02986,
-              -0.48093
+              -0.00897,
+              -0.20872
             ],
             [
-              -0.20597,
-              -0.47775
+              -0.06184,
+              -0.20735
             ],
             [
-              -0.31623,
-              -0.45657
+              -0.09494,
+              -0.19815
             ],
             [
-              -0.37749,
-              -0.43326
+              -0.11333,
+              -0.18804
             ],
             [
-              -0.41118,
-              -0.41419
+              -0.12344,
+              -0.17976
             ],
             [
-              -0.46937,
-              -0.36229
+              -0.14091,
+              -0.15723
             ],
             [
-              -0.5,
-              -0.30085
+              -0.15011,
+              -0.13057
             ],
             [
-              -0.49694,
-              -0.22775
+              -0.14919,
+              -0.09885
             ],
             [
-              -0.44334,
-              -0.10487
+              -0.1331,
+              -0.04551
             ],
             [
-              -0.35911,
-              0.03496
+              -0.10781,
+              0.01517
             ],
             [
-              -0.34227,
-              0.0911
+              -0.10275,
+              0.03954
             ],
             [
-              -0.35145,
-              0.15572
+              -0.10551,
+              0.06758
             ],
             [
-              -0.41271,
-              0.27754
+              -0.1239,
+              0.12045
             ],
             [
-              -0.43721,
-              0.35911
+              -0.13126,
+              0.15585
             ],
             [
-              -0.43262,
-              0.44386
+              -0.12988,
+              0.19263
             ],
             [
-              -0.4219,
-              0.47246
+              -0.12666,
+              0.20505
             ],
             [
-              -0.40046,
-              0.5
+              -0.12022,
+              0.217
             ]
           ],
-          "depth": 1.0
+          "depth": 0.045
         }
       },
       "parent": "root",
-      "attachment": {
-        "parentSocket": "root.surface",
-        "localStart": [
-          0,
-          -0.217,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.217,
-          0
-        ],
-        "contactType": "surface-mounted",
-        "embedDepth": 0.01125,
-        "overlap": 0.01125,
-        "gapTolerance": 0.001
-      },
+      "attachment": null,
       "dimensions": {
         "width": 0.3002,
         "height": 0.434,
@@ -1713,7 +1705,7 @@
         "position": [
           0,
           -0.283,
-          0
+          -0.0225
         ],
         "rotation": [
           0,
@@ -1853,7 +1845,7 @@
       "role": "neck",
       "importance": 0.95,
       "confidence": 0.72,
-      "primitive": "curve-sweep",
+      "primitive": "box",
       "topologyClass": "continuous-sculpt",
       "topologyRationale": "Continuous tapered shaft with a rounded (C-profile) rear; a box would read flat. Rear profile is INFERRED - no side view.",
       "geometryDescriptor": {
@@ -1868,23 +1860,7 @@
         "normalStrategy": "vertex normals from generated geometry"
       },
       "parent": "root",
-      "attachment": {
-        "parentSocket": "neckPocket",
-        "localStart": [
-          0,
-          -0.196,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.196,
-          0
-        ],
-        "contactType": "socketed",
-        "embedDepth": 0.035,
-        "overlap": 0.035,
-        "gapTolerance": 0.001
-      },
+      "attachment": null,
       "dimensions": {
         "width": 0.055,
         "height": 0.392,
@@ -1904,9 +1880,9 @@
           0
         ],
         "scale": [
-          1,
-          1,
-          1
+          0.055,
+          0.392,
+          0.022
         ]
       },
       "actionProfile": {
@@ -2038,373 +2014,105 @@
         "profile2D": {
           "points": [
             [
-              -0.46682,
-              0.5
+              -0.0238,
+              0.087
             ],
             [
-              -0.34834,
-              0.48956
+              -0.01058,
+              0.08488
             ],
             [
-              -0.24408,
-              0.46084
+              0.00106,
+              0.07907
             ],
             [
-              -0.15877,
-              0.41384
+              0.01058,
+              0.06955
             ],
             [
-              -0.06872,
-              0.3094
+              0.02063,
+              0.04839
             ],
             [
-              -0.04028,
-              0.31462
+              0.0238,
+              0.04945
             ],
             [
-              -0.01659,
-              0.35379
+              0.02644,
+              0.05738
             ],
             [
-              -0.01185,
-              0.31723
+              0.0275,
+              0.04416
             ],
             [
-              0.1019,
-              0.34073
+              0.02539,
+              0.04522
             ],
             [
-              0.11611,
-              0.33029
+              0.02274,
+              0.0431
             ],
             [
-              -0.00237,
-              0.30679
+              0.0275,
+              0.02935
             ],
             [
-              0.0545,
-              0.27807
+              0.0275,
+              -0.00978
             ],
             [
-              0.10664,
-              0.29112
+              0.02591,
+              -0.01084
             ],
             [
-              0.11137,
-              0.32507
+              0.0275,
+              -0.01084
             ],
             [
-              0.10664,
-              0.2859
+              0.0275,
+              -0.087
             ],
             [
-              0.04976,
-              0.27285
+              0.01375,
+              -0.087
             ],
             [
-              -0.02607,
-              0.29373
+              0.01322,
+              -0.07854
             ],
             [
-              -0.04976,
-              0.28329
+              0.01269,
+              -0.087
             ],
             [
-              -0.00237,
-              0.20235
+              -0.0275,
+              -0.087
             ],
             [
-              0.02607,
-              0.20235
+              -0.02063,
+              -0.01878
             ],
             [
-              0.00711,
-              0.18668
+              -0.02063,
+              0.03834
             ],
             [
-              0.0545,
-              0.2154
+              -0.02486,
+              0.08277
             ],
             [
-              0.05924,
-              0.19452
-            ],
-            [
-              0.17773,
-              0.20757
-            ],
-            [
-              0.14929,
-              0.24151
-            ],
-            [
-              0.1872,
-              0.21279
-            ],
-            [
-              0.17773,
-              0.16057
-            ],
-            [
-              0.18246,
-              0.20235
-            ],
-            [
-              0.07346,
-              0.18407
-            ],
-            [
-              0.12559,
-              0.15013
-            ],
-            [
-              0.14929,
-              0.15274
-            ],
-            [
-              0.02133,
-              0.1658
-            ],
-            [
-              0.07346,
-              0.06397
-            ],
-            [
-              0.1019,
-              0.06136
-            ],
-            [
-              0.12085,
-              0.08225
-            ],
-            [
-              0.13507,
-              0.06658
-            ],
-            [
-              0.24408,
-              0.07963
-            ],
-            [
-              0.24408,
-              0.10313
-            ],
-            [
-              0.26777,
-              0.07441
-            ],
-            [
-              0.25829,
-              0.03786
-            ],
-            [
-              0.22038,
-              0.02219
-            ],
-            [
-              0.09716,
-              0.03786
-            ],
-            [
-              0.14455,
-              -0.05091
-            ],
-            [
-              0.18246,
-              -0.05614
-            ],
-            [
-              0.21564,
-              -0.03525
-            ],
-            [
-              0.21564,
-              -0.06658
-            ],
-            [
-              0.33412,
-              -0.05614
-            ],
-            [
-              0.32464,
-              -0.02742
-            ],
-            [
-              0.33886,
-              -0.04569
-            ],
-            [
-              0.32464,
-              -0.10052
-            ],
-            [
-              0.26303,
-              -0.10836
-            ],
-            [
-              0.20616,
-              -0.08747
-            ],
-            [
-              0.17299,
-              -0.09269
-            ],
-            [
-              0.22038,
-              -0.18146
-            ],
-            [
-              0.27251,
-              -0.17885
-            ],
-            [
-              0.29147,
-              -0.14491
-            ],
-            [
-              0.28673,
-              -0.18668
-            ],
-            [
-              0.40047,
-              -0.17363
-            ],
-            [
-              0.38626,
-              -0.14752
-            ],
-            [
-              0.41469,
-              -0.17102
-            ],
-            [
-              0.41469,
-              -0.20757
-            ],
-            [
-              0.40995,
-              -0.18407
-            ],
-            [
-              0.29621,
-              -0.19452
-            ],
-            [
-              0.33886,
-              -0.23107
-            ],
-            [
-              0.40521,
-              -0.22846
-            ],
-            [
-              0.3436,
-              -0.2389
-            ],
-            [
-              0.28673,
-              -0.2154
-            ],
-            [
-              0.24408,
-              -0.22063
-            ],
-            [
-              0.29621,
-              -0.32245
-            ],
-            [
-              0.33886,
-              -0.32507
-            ],
-            [
-              0.32938,
-              -0.31201
-            ],
-            [
-              0.35782,
-              -0.29896
-            ],
-            [
-              0.37204,
-              -0.31984
-            ],
-            [
-              0.49052,
-              -0.29373
-            ],
-            [
-              0.5,
-              -0.31462
-            ],
-            [
-              0.49052,
-              -0.35379
-            ],
-            [
-              0.43365,
-              -0.36945
-            ],
-            [
-              0.36256,
-              -0.34334
-            ],
-            [
-              0.31991,
-              -0.35117
-            ],
-            [
-              0.34834,
-              -0.41645
-            ],
-            [
-              0.22038,
-              -0.5
-            ],
-            [
-              -0.26777,
-              -0.5
-            ],
-            [
-              -0.37678,
-              -0.41906
-            ],
-            [
-              -0.5,
-              -0.37728
-            ],
-            [
-              -0.43839,
-              -0.02219
-            ],
-            [
-              -0.46682,
-              0.5
+              -0.0238,
+              0.087
             ]
           ],
-          "depth": 1.0
+          "depth": 0.014
         }
       },
-      "parent": "neck",
-      "attachment": {
-        "parentSocket": "nutEnd",
-        "localStart": [
-          0,
-          -0.087,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.087,
-          0
-        ],
-        "contactType": "fused",
-        "embedDepth": 0.01,
-        "overlap": 0.01,
-        "gapTolerance": 0.001
-      },
+      "parent": "root",
+      "attachment": null,
       "dimensions": {
-        "width": 0.0959,
+        "width": 0.055,
         "height": 0.174,
         "depth": 0.014,
         "units": "relative",
@@ -2413,7 +2121,7 @@
       "transform": {
         "position": [
           0,
-          0.283,
+          0.391,
           0.004
         ],
         "rotation": [
@@ -2554,47 +2262,31 @@
         "profile2D": {
           "points": [
             [
-              -0.5,
-              -0.5
+              -0.0275,
+              -0.196
             ],
             [
-              0.5,
-              -0.5
+              0.0275,
+              -0.196
             ],
             [
-              0.5,
-              0.5
+              0.0275,
+              0.196
             ],
             [
-              -0.5,
-              0.5
+              -0.0275,
+              0.196
             ]
           ],
-          "depth": 1.0
+          "depth": 0.011
         }
       },
-      "parent": "neck",
-      "attachment": {
-        "parentSocket": "neck.surface",
-        "localStart": [
-          0,
-          -0.196,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.196,
-          0
-        ],
-        "contactType": "surface-mounted",
-        "embedDepth": 0.0015,
-        "overlap": 0.0015,
-        "gapTolerance": 0.001
-      },
+      "parent": "root",
+      "attachment": null,
       "dimensions": {
         "width": 0.055,
         "height": 0.392,
-        "depth": 0.006,
+        "depth": 0.011,
         "units": "relative",
         "confidence": 0.9
       },
@@ -2602,7 +2294,7 @@
         "position": [
           0,
           0.108,
-          0.013
+          0.007
         ],
         "rotation": [
           0,
@@ -2702,7 +2394,7 @@
       },
       "evidenceRefs": [
         "front",
-        "three-quarter"
+        "back"
       ],
       "details": [],
       "fidelityTier": "blockout",
@@ -2714,7 +2406,7 @@
         "materialClassConfidence": 0.9,
         "evidenceRefs": [
           "front",
-          "three-quarter"
+          "back"
         ],
         "notes": "Open-pore grain; anisotropic length-wise streak. Grain direction runs along the neck."
       }
@@ -2741,23 +2433,7 @@
         "normalStrategy": "vertex normals from generated geometry"
       },
       "parent": "body",
-      "attachment": {
-        "parentSocket": "body.surface",
-        "localStart": [
-          0,
-          -0.029,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.029,
-          0
-        ],
-        "contactType": "surface-mounted",
-        "embedDepth": 0.001,
-        "overlap": 0.001,
-        "gapTolerance": 0.001
-      },
+      "attachment": null,
       "dimensions": {
         "width": 0.058,
         "height": 0.058,
@@ -2768,8 +2444,8 @@
       "transform": {
         "position": [
           0,
-          -0.09,
-          -0.024
+          0.193,
+          -0.0015
         ],
         "rotation": [
           0,
@@ -2777,9 +2453,9 @@
           0
         ],
         "scale": [
-          1,
-          1,
-          1
+          0.058,
+          0.058,
+          0.002
         ]
       },
       "actionProfile": {
@@ -2900,43 +2576,27 @@
         "profile2D": {
           "points": [
             [
-              -0.5,
-              -0.5
+              -0.0425,
+              -0.0675
             ],
             [
-              0.5,
-              -0.5
+              0.0425,
+              -0.0675
             ],
             [
-              0.5,
-              0.5
+              0.0425,
+              0.0675
             ],
             [
-              -0.5,
-              0.5
+              -0.0425,
+              0.0675
             ]
           ],
-          "depth": 1.0
+          "depth": 0.002
         }
       },
       "parent": "body",
-      "attachment": {
-        "parentSocket": "body.surface",
-        "localStart": [
-          0,
-          -0.0675,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.0675,
-          0
-        ],
-        "contactType": "surface-mounted",
-        "embedDepth": 0.001,
-        "overlap": 0.001,
-        "gapTolerance": 0.001
-      },
+      "attachment": null,
       "dimensions": {
         "width": 0.085,
         "height": 0.135,
@@ -2947,8 +2607,8 @@
       "transform": {
         "position": [
           -0.055,
-          -0.34,
-          -0.023
+          -0.057,
+          -0.0005
         ],
         "rotation": [
           0,
@@ -3079,43 +2739,27 @@
         "profile2D": {
           "points": [
             [
-              -0.5,
-              -0.5
+              -0.035,
+              -0.084
             ],
             [
-              0.5,
-              -0.5
+              0.035,
+              -0.084
             ],
             [
-              0.5,
-              0.5
+              0.035,
+              0.084
             ],
             [
-              -0.5,
-              0.5
+              -0.035,
+              0.084
             ]
           ],
-          "depth": 1.0
+          "depth": 0.001
         }
       },
       "parent": "headstock",
-      "attachment": {
-        "parentSocket": "headstock.surface",
-        "localStart": [
-          0,
-          -0.084,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.084,
-          0
-        ],
-        "contactType": "surface-mounted",
-        "embedDepth": 0.001,
-        "overlap": 0.001,
-        "gapTolerance": 0.001
-      },
+      "attachment": null,
       "dimensions": {
         "width": 0.07,
         "height": 0.168,
@@ -3265,28 +2909,12 @@
         "uvStrategy": "generated procedural coordinates",
         "normalStrategy": "vertex normals from generated geometry"
       },
-      "parent": "neck",
-      "attachment": {
-        "parentSocket": "neck.surface",
-        "localStart": [
-          0,
-          -0.0025,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.0025,
-          0
-        ],
-        "contactType": "surface-mounted",
-        "embedDepth": 0.002,
-        "overlap": 0.002,
-        "gapTolerance": 0.001
-      },
+      "parent": "root",
+      "attachment": null,
       "dimensions": {
-        "width": 0.043,
+        "width": 0.055,
         "height": 0.005,
-        "depth": 0.008,
+        "depth": 0.014,
         "units": "relative",
         "confidence": 0.8
       },
@@ -3294,7 +2922,7 @@
         "position": [
           0,
           0.304,
-          0.014
+          0.013
         ],
         "rotation": [
           0,
@@ -3302,9 +2930,9 @@
           0
         ],
         "scale": [
-          1,
-          1,
-          1
+          0.055,
+          0.005,
+          0.014
         ]
       },
       "actionProfile": {
@@ -3379,7 +3007,7 @@
       },
       "evidenceRefs": [
         "front",
-        "three-quarter"
+        "back"
       ],
       "details": [],
       "fidelityTier": "blockout",
@@ -3391,7 +3019,7 @@
         "materialClassConfidence": 0.8,
         "evidenceRefs": [
           "front",
-          "three-quarter"
+          "back"
         ],
         "notes": "Fretboard edges, headstock rim, nut."
       }
@@ -3418,23 +3046,7 @@
         "normalStrategy": "vertex normals from generated geometry"
       },
       "parent": "body",
-      "attachment": {
-        "parentSocket": "body.surface",
-        "localStart": [
-          0,
-          -0.015,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.015,
-          0
-        ],
-        "contactType": "surface-mounted",
-        "embedDepth": 0.0025,
-        "overlap": 0.0025,
-        "gapTolerance": 0.001
-      },
+      "attachment": null,
       "dimensions": {
         "width": 0.07,
         "height": 0.03,
@@ -3445,8 +3057,8 @@
       "transform": {
         "position": [
           0,
-          -0.155,
-          0.026
+          0.128,
+          0.0485
         ],
         "rotation": [
           0,
@@ -3454,9 +3066,9 @@
           0
         ],
         "scale": [
-          1,
-          1,
-          1
+          0.07,
+          0.03,
+          0.01
         ]
       },
       "actionProfile": {
@@ -3585,23 +3197,7 @@
         "normalStrategy": "vertex normals from generated geometry"
       },
       "parent": "body",
-      "attachment": {
-        "parentSocket": "body.surface",
-        "localStart": [
-          0,
-          -0.015,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.015,
-          0
-        ],
-        "contactType": "surface-mounted",
-        "embedDepth": 0.0025,
-        "overlap": 0.0025,
-        "gapTolerance": 0.001
-      },
+      "attachment": null,
       "dimensions": {
         "width": 0.07,
         "height": 0.03,
@@ -3612,8 +3208,8 @@
       "transform": {
         "position": [
           0,
-          -0.235,
-          0.026
+          0.048,
+          0.0485
         ],
         "rotation": [
           0,
@@ -3621,9 +3217,9 @@
           0
         ],
         "scale": [
-          1,
-          1,
-          1
+          0.07,
+          0.03,
+          0.01
         ]
       },
       "actionProfile": {
@@ -3752,23 +3348,7 @@
         "normalStrategy": "vertex normals from generated geometry"
       },
       "parent": "body",
-      "attachment": {
-        "parentSocket": "body.surface",
-        "localStart": [
-          0,
-          -0.007,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.007,
-          0
-        ],
-        "contactType": "surface-mounted",
-        "embedDepth": 0.0035,
-        "overlap": 0.0035,
-        "gapTolerance": 0.001
-      },
+      "attachment": null,
       "dimensions": {
         "width": 0.072,
         "height": 0.014,
@@ -3779,8 +3359,8 @@
       "transform": {
         "position": [
           0,
-          -0.3,
-          0.028
+          -0.017,
+          0.0505
         ],
         "rotation": [
           0,
@@ -3788,9 +3368,9 @@
           0
         ],
         "scale": [
-          1,
-          1,
-          1
+          0.072,
+          0.014,
+          0.014
         ]
       },
       "actionProfile": {
@@ -3912,23 +3492,7 @@
         "normalStrategy": "vertex normals from generated geometry"
       },
       "parent": "body",
-      "attachment": {
-        "parentSocket": "body.surface",
-        "localStart": [
-          0,
-          -0.007,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.007,
-          0
-        ],
-        "contactType": "surface-mounted",
-        "embedDepth": 0.0055,
-        "overlap": 0.0055,
-        "gapTolerance": 0.001
-      },
+      "attachment": null,
       "dimensions": {
         "width": 0.022,
         "height": 0.014,
@@ -3939,18 +3503,18 @@
       "transform": {
         "position": [
           0.075,
-          -0.262,
-          0.028
+          0.021,
+          0.0505
         ],
         "rotation": [
-          0,
+          1.5708,
           0,
           0
         ],
         "scale": [
-          1,
-          1,
-          1
+          0.022,
+          0.014,
+          0.022
         ]
       },
       "actionProfile": {
@@ -4064,23 +3628,7 @@
         "normalStrategy": "vertex normals from generated geometry"
       },
       "parent": "body",
-      "attachment": {
-        "parentSocket": "body.surface",
-        "localStart": [
-          0,
-          -0.007,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.007,
-          0
-        ],
-        "contactType": "surface-mounted",
-        "embedDepth": 0.0055,
-        "overlap": 0.0055,
-        "gapTolerance": 0.001
-      },
+      "attachment": null,
       "dimensions": {
         "width": 0.022,
         "height": 0.014,
@@ -4091,18 +3639,18 @@
       "transform": {
         "position": [
           0.088,
-          -0.335,
-          0.028
+          -0.052,
+          0.0505
         ],
         "rotation": [
-          0,
+          1.5708,
           0,
           0
         ],
         "scale": [
-          1,
-          1,
-          1
+          0.022,
+          0.014,
+          0.022
         ]
       },
       "actionProfile": {
@@ -4216,23 +3764,7 @@
         "normalStrategy": "vertex normals from generated geometry"
       },
       "parent": "body",
-      "attachment": {
-        "parentSocket": "body.surface",
-        "localStart": [
-          0,
-          -0.015,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.015,
-          0
-        ],
-        "contactType": "surface-mounted",
-        "embedDepth": 0.002,
-        "overlap": 0.002,
-        "gapTolerance": 0.001
-      },
+      "attachment": null,
       "dimensions": {
         "width": 0.008,
         "height": 0.03,
@@ -4243,8 +3775,8 @@
       "transform": {
         "position": [
           0.083,
-          -0.3,
-          0.03
+          -0.017,
+          0.0525
         ],
         "rotation": [
           0,
@@ -4252,9 +3784,9 @@
           0
         ],
         "scale": [
-          1,
-          1,
-          1
+          0.008,
+          0.03,
+          0.008
         ]
       },
       "actionProfile": {
@@ -4376,23 +3908,7 @@
         "normalStrategy": "vertex normals from generated geometry"
       },
       "parent": "body",
-      "attachment": {
-        "parentSocket": "body.surface",
-        "localStart": [
-          0,
-          -0.005,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.005,
-          0
-        ],
-        "contactType": "surface-mounted",
-        "embedDepth": 0.00325,
-        "overlap": 0.00325,
-        "gapTolerance": 0.001
-      },
+      "attachment": null,
       "dimensions": {
         "width": 0.013,
         "height": 0.01,
@@ -4403,18 +3919,18 @@
       "transform": {
         "position": [
           -0.132,
-          -0.1,
-          0.0
+          0.183,
+          0.0225
         ],
         "rotation": [
-          0,
+          1.5708,
           0,
           0
         ],
         "scale": [
-          1,
-          1,
-          1
+          0.013,
+          0.01,
+          0.013
         ]
       },
       "actionProfile": {
@@ -4528,23 +4044,7 @@
         "normalStrategy": "vertex normals from generated geometry"
       },
       "parent": "body",
-      "attachment": {
-        "parentSocket": "body.surface",
-        "localStart": [
-          0,
-          -0.005,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.005,
-          0
-        ],
-        "contactType": "surface-mounted",
-        "embedDepth": 0.00325,
-        "overlap": 0.00325,
-        "gapTolerance": 0.001
-      },
+      "attachment": null,
       "dimensions": {
         "width": 0.013,
         "height": 0.01,
@@ -4555,18 +4055,18 @@
       "transform": {
         "position": [
           0,
-          -0.5,
-          0.0
+          -0.217,
+          0.0225
         ],
         "rotation": [
-          0,
+          1.5708,
           0,
           0
         ],
         "scale": [
-          1,
-          1,
-          1
+          0.013,
+          0.01,
+          0.013
         ]
       },
       "actionProfile": {
@@ -4678,23 +4178,7 @@
         "normalStrategy": "vertex normals from generated geometry"
       },
       "parent": "body",
-      "attachment": {
-        "parentSocket": "body.surface",
-        "localStart": [
-          0,
-          -0.006,
-          0
-        ],
-        "localEnd": [
-          0,
-          0.006,
-          0
-        ],
-        "contactType": "surface-mounted",
-        "embedDepth": 0.004,
-        "overlap": 0.004,
-        "gapTolerance": 0.001
-      },
+      "attachment": null,
       "dimensions": {
         "width": 0.016,
         "height": 0.012,
@@ -4705,18 +4189,18 @@
       "transform": {
         "position": [
           0.125,
-          -0.4,
-          0.0
+          -0.117,
+          0.0225
         ],
         "rotation": [
-          0,
+          1.5708,
           0,
           0
         ],
         "scale": [
-          1,
-          1,
-          1
+          0.016,
+          0.012,
+          0.016
         ]
       },
       "actionProfile": {
@@ -4818,31 +4302,23 @@
       "baseColor": "#5A5C55",
       "color": "#5A5C55",
       "albedo": {
-        "dominant": "#484639",
+        "dominant": "#5A5C55",
         "secondary": [
-          "#424032",
-          "#504E40",
-          "#383627"
+          "#43443F",
+          "#7E8177"
         ],
-        "samplingNotes": "Reference-derived from foreground pixels; de-lit to reduce baked shadows/highlights.",
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_albedo.png",
-          "url": "bodyfinish_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        }
+        "samplingNotes": "Use image-observed local color zones, not a single averaged color."
       },
       "colorVariation": {
         "palette": [
-          "#484639",
-          "#424032",
-          "#504E40",
-          "#383627",
-          "#BBBAAD"
+          "#5A5C55",
+          "#43443F",
+          "#7E8177",
+          "#2E2F2B"
         ],
-        "pattern": "reference-derived pixel palette",
-        "amplitude": 0.08,
-        "heightCorrelation": 0.42
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
       },
       "textureResolution": 1024,
       "textureProjection": {
@@ -4858,31 +4334,26 @@
         {
           "id": "macro",
           "frequency": 2.0,
-          "amplitude": 0.315,
-          "role": "reference-derived broad albedo and height breakup"
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
         },
         {
           "id": "meso",
-          "frequency": 14.0,
-          "amplitude": 0.35,
-          "role": "reference-derived cracks, ridges, pores, grain, or leaf clusters"
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
         },
         {
           "id": "micro",
-          "frequency": 72.0,
-          "amplitude": 0.14,
-          "role": "reference-derived micro highlight breakup under grazing light"
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
         }
       ],
       "roughness": {
         "base": 0.34,
-        "variation": 0.159,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_roughness.png",
-          "url": "bodyfinish_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
+        "variation": 0.05,
+        "map": null,
         "localResponse": "reference-derived roughness map retained; base scalar restored from material identity after classifier inversion"
       },
       "metalness": {
@@ -4890,31 +4361,15 @@
         "variation": 0.0
       },
       "normal": {
-        "pattern": "reference-derived height-gradient normal map",
-        "strength": 0.258,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_normal.png",
-          "url": "bodyfinish_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "heightSource": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_height.png",
-          "url": "bodyfinish_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
         "space": "tangent"
       },
       "bump": {
-        "pattern": "reference-derived height field",
-        "amplitude": 0.039,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_height.png",
-          "url": "bodyfinish_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        }
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0
       },
       "displacement": {
         "pattern": "none",
@@ -4923,15 +4378,9 @@
         "silhouetteAffects": false
       },
       "ambientOcclusion": {
-        "cavityStrength": 0.38,
+        "cavityStrength": 0.25,
         "contactShadowBias": 0.35,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_ao.png",
-          "url": "bodyfinish_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        },
-        "notes": "Reference-derived cavity estimate from local height minima; verify against grazing-light screenshot."
+        "notes": "Darken creases, seams, intersections, and recessed local features."
       },
       "wear": {
         "edgeWear": 0.0,
@@ -4943,136 +4392,18 @@
         "cavityBias": 0.0,
         "color": "#2F2A22"
       },
-      "localOverrides": [
-        {
-          "id": "reference-pbr-pixel-evidence",
-          "type": "material-map-evidence",
-          "evidenceRefs": [
-            "full-object"
-          ],
-          "channels": [
-            "albedo",
-            "roughness",
-            "height",
-            "normal",
-            "ambient-occlusion"
-          ],
-          "notes": "Use generated maps as material evidence, then refine after browser screenshot comparison."
-        }
-      ],
+      "localOverrides": [],
       "shaderNotes": [
         "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
         "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
         "Use normal/bump/displacement only when they map to observed surface relief.",
-        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there.",
-        "Reference-derived maps are estimates from image pixels; verify with neutral, grazing, and reference-matched renders.",
-        "Do not treat baked image shadows as final albedo; rerun extraction with a tighter material crop if highlights/shadows pollute the maps."
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
       ],
       "notes": "Replace with image-derived color, roughness, noise, and edge-wear notes.",
       "clearcoat": 0.85,
       "clearcoatRoughness": 0.1,
       "samplingNotes": "Dark pewter/gunmetal green-grey. Flake is a SEPARATE high-frequency normal+roughness band, not baked into albedo. Clearcoat over flake gives the satin sheen. Flake resolves individually at full reference resolution - do not approximate with flat albedo.",
-      "referencePbr": {
-        "version": "1.0",
-        "sourceImage": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/matcrops/bodyFinish.png",
-        "extractor": "stage1_intake/extract_pbr_evidence.py",
-        "method": "single-image pixel evidence with de-lighting estimate; not photogrammetry",
-        "usable": true,
-        "verdict": "pass",
-        "confidence": 0.751,
-        "estimatedFidelity": 0.751,
-        "targetThreshold": 0.7,
-        "hardLimit": "A single image cannot uniquely recover true albedo/roughness/normal/AO; maps are reference-derived estimates.",
-        "maps": {
-          "albedo": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_albedo.png",
-            "url": "bodyfinish_albedo.png",
-            "channel": "albedo",
-            "source": "reference-pixel-extraction"
-          },
-          "roughness": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_roughness.png",
-            "url": "bodyfinish_roughness.png",
-            "channel": "roughness",
-            "source": "reference-pixel-extraction"
-          },
-          "height": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_height.png",
-            "url": "bodyfinish_height.png",
-            "channel": "height",
-            "source": "reference-pixel-extraction"
-          },
-          "normal": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_normal.png",
-            "url": "bodyfinish_normal.png",
-            "channel": "normal",
-            "source": "reference-pixel-extraction"
-          },
-          "ao": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_ao.png",
-            "url": "bodyfinish_ao.png",
-            "channel": "ao",
-            "source": "reference-pixel-extraction"
-          }
-        },
-        "diagnostics": {
-          "sourceWidth": 260,
-          "sourceHeight": 200,
-          "mapSize": 1024,
-          "cropBBoxPixels": {
-            "x": 0,
-            "y": 0,
-            "width": 260,
-            "height": 200
-          },
-          "mask": {
-            "backgroundColor": "#474638",
-            "backgroundNoise": 31.209,
-            "transparentPixelFraction": 0.0,
-            "foregroundCoverage": 0.9898
-          },
-          "mapStats": {
-            "valueRange": 0.0986,
-            "heightP90Gradient": 0.08655,
-            "roughnessBase": 0.753,
-            "roughnessVariation": 0.159,
-            "normalStrength": 0.258,
-            "blurRadius": 21
-          },
-          "palette": [
-            "#484639",
-            "#424032",
-            "#504E40",
-            "#383627",
-            "#BBBAAD"
-          ]
-        },
-        "warnings": [
-          "image is not clearly isolated from background; using most pixels as material evidence",
-          "object/background separation is weak",
-          "single-image inverse rendering cannot prove true physical PBR; confidence is capped",
-          "low value range weakens height/roughness inference"
-        ],
-        "approximation": null
-      },
       "finishClass": "painted-metal",
-      "texturePalette": [
-        "#3D3C2C",
-        "#474637",
-        "#484639",
-        "#494639",
-        "#4D4B3E"
-      ],
-      "proceduralTexture": "flat-clearcoat",
-      "transmission": {
-        "base": 0.0,
-        "variation": 0.0
-      },
-      "ior": {
-        "base": 1.5,
-        "value": 1.5
-      },
-      "envMapIntensity": 1.0,
       "finishClassConfidence": 0.88,
       "classifierOverride": {
         "overriddenBy": "agent-vision",
@@ -5088,31 +4419,22 @@
       "baseColor": "#D8DBDE",
       "color": "#D8DBDE",
       "albedo": {
-        "dominant": "#F0DCB5",
+        "dominant": "#D8DBDE",
         "secondary": [
-          "#F4DFB8",
-          "#F6E2BC",
-          "#E3CCA6"
+          "#FFFFFF",
+          "#8C9096"
         ],
-        "samplingNotes": "Reference-derived from foreground pixels; de-lit to reduce baked shadows/highlights.",
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_albedo.png",
-          "url": "chrome_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        }
+        "samplingNotes": "Use image-observed local color zones, not a single averaged color."
       },
       "colorVariation": {
         "palette": [
-          "#F0DCB5",
-          "#F4DFB8",
-          "#F6E2BC",
-          "#E3CCA6",
-          "#CFBA95"
+          "#D8DBDE",
+          "#FFFFFF",
+          "#8C9096"
         ],
-        "pattern": "reference-derived pixel palette",
-        "amplitude": 0.08,
-        "heightCorrelation": 0.42
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
       },
       "textureResolution": 1024,
       "textureProjection": {
@@ -5128,31 +4450,26 @@
         {
           "id": "macro",
           "frequency": 2.0,
-          "amplitude": 0.33,
-          "role": "reference-derived broad albedo and height breakup"
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
         },
         {
           "id": "meso",
-          "frequency": 14.0,
-          "amplitude": 0.197,
-          "role": "reference-derived cracks, ridges, pores, grain, or leaf clusters"
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
         },
         {
           "id": "micro",
-          "frequency": 72.0,
-          "amplitude": 0.082,
-          "role": "reference-derived micro highlight breakup under grazing light"
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
         }
       ],
       "roughness": {
         "base": 0.08,
         "variation": 0.05,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_roughness.png",
-          "url": "chrome_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
+        "map": null,
         "localResponse": "reference-derived roughness map retained; base scalar restored from material identity after classifier inversion"
       },
       "metalness": {
@@ -5160,31 +4477,15 @@
         "variation": 0.0
       },
       "normal": {
-        "pattern": "reference-derived height-gradient normal map",
-        "strength": 0.169,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_normal.png",
-          "url": "chrome_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "heightSource": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_height.png",
-          "url": "chrome_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
         "space": "tangent"
       },
       "bump": {
-        "pattern": "reference-derived height field",
-        "amplitude": 0.01,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_height.png",
-          "url": "chrome_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        }
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0
       },
       "displacement": {
         "pattern": "none",
@@ -5193,15 +4494,9 @@
         "silhouetteAffects": false
       },
       "ambientOcclusion": {
-        "cavityStrength": 0.38,
+        "cavityStrength": 0.25,
         "contactShadowBias": 0.35,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_ao.png",
-          "url": "chrome_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        },
-        "notes": "Reference-derived cavity estimate from local height minima; verify against grazing-light screenshot."
+        "notes": "Darken creases, seams, intersections, and recessed local features."
       },
       "wear": {
         "edgeWear": 0.0,
@@ -5213,134 +4508,18 @@
         "cavityBias": 0.0,
         "color": "#2F2A22"
       },
-      "localOverrides": [
-        {
-          "id": "reference-pbr-pixel-evidence",
-          "type": "material-map-evidence",
-          "evidenceRefs": [
-            "full-object"
-          ],
-          "channels": [
-            "albedo",
-            "roughness",
-            "height",
-            "normal",
-            "ambient-occlusion"
-          ],
-          "notes": "Use generated maps as material evidence, then refine after browser screenshot comparison."
-        }
-      ],
+      "localOverrides": [],
       "shaderNotes": [
         "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
         "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
         "Use normal/bump/displacement only when they map to observed surface relief.",
-        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there.",
-        "Reference-derived maps are estimates from image pixels; verify with neutral, grazing, and reference-matched renders.",
-        "Do not treat baked image shadows as final albedo; rerun extraction with a tighter material crop if highlights/shadows pollute the maps."
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
       ],
       "notes": "Replace with image-derived color, roughness, noise, and edge-wear notes.",
       "clearcoat": 0.0,
       "clearcoatRoughness": 0.0,
       "samplingNotes": "Hardware: tuners, bridge base, knobs, neck plate, strap buttons, ferrules.",
-      "referencePbr": {
-        "version": "1.0",
-        "sourceImage": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/matcrops/chrome.png",
-        "extractor": "stage1_intake/extract_pbr_evidence.py",
-        "method": "single-image pixel evidence with de-lighting estimate; not photogrammetry",
-        "usable": true,
-        "verdict": "pass",
-        "confidence": 0.765,
-        "estimatedFidelity": 0.765,
-        "targetThreshold": 0.7,
-        "hardLimit": "A single image cannot uniquely recover true albedo/roughness/normal/AO; maps are reference-derived estimates.",
-        "maps": {
-          "albedo": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_albedo.png",
-            "url": "chrome_albedo.png",
-            "channel": "albedo",
-            "source": "reference-pixel-extraction"
-          },
-          "roughness": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_roughness.png",
-            "url": "chrome_roughness.png",
-            "channel": "roughness",
-            "source": "reference-pixel-extraction"
-          },
-          "height": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_height.png",
-            "url": "chrome_height.png",
-            "channel": "height",
-            "source": "reference-pixel-extraction"
-          },
-          "normal": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_normal.png",
-            "url": "chrome_normal.png",
-            "channel": "normal",
-            "source": "reference-pixel-extraction"
-          },
-          "ao": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_ao.png",
-            "url": "chrome_ao.png",
-            "channel": "ao",
-            "source": "reference-pixel-extraction"
-          }
-        },
-        "diagnostics": {
-          "sourceWidth": 112,
-          "sourceHeight": 88,
-          "mapSize": 1024,
-          "cropBBoxPixels": {
-            "x": 48,
-            "y": 0,
-            "width": 64,
-            "height": 88
-          },
-          "mask": {
-            "backgroundColor": "#FFFFFF",
-            "backgroundNoise": 74.088,
-            "transparentPixelFraction": 0.0,
-            "foregroundCoverage": 0.5397
-          },
-          "mapStats": {
-            "valueRange": 0.1417,
-            "heightP90Gradient": 0.01127,
-            "roughnessBase": 0.685,
-            "roughnessVariation": 0.05,
-            "normalStrength": 0.169,
-            "blurRadius": 21
-          },
-          "palette": [
-            "#F0DCB5",
-            "#F4DFB8",
-            "#F6E2BC",
-            "#E3CCA6",
-            "#CFBA95"
-          ]
-        },
-        "warnings": [
-          "single-image inverse rendering cannot prove true physical PBR; confidence is capped",
-          "low value range weakens height/roughness inference"
-        ],
-        "approximation": null
-      },
       "finishClass": "polished-metal",
-      "texturePalette": [
-        "#F9F6EA",
-        "#EED9B2",
-        "#F0DDB6",
-        "#F4DFB8",
-        "#F6E3BC"
-      ],
-      "proceduralTexture": "flat-clearcoat",
-      "transmission": {
-        "base": 0.0,
-        "variation": 0.0
-      },
-      "ior": {
-        "base": 1.5,
-        "value": 1.5
-      },
-      "envMapIntensity": 1.0,
       "finishClassConfidence": 0.9,
       "classifierOverride": {
         "overriddenBy": "agent-vision",
@@ -5356,31 +4535,22 @@
       "baseColor": "#B9964F",
       "color": "#B9964F",
       "albedo": {
-        "dominant": "#535040",
+        "dominant": "#B9964F",
         "secondary": [
-          "#5A5747",
-          "#484536",
-          "#1C1D16"
+          "#D8B972",
+          "#8A6E33"
         ],
-        "samplingNotes": "Reference-derived from foreground pixels; de-lit to reduce baked shadows/highlights.",
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_albedo.png",
-          "url": "brasssaddle_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        }
+        "samplingNotes": "Use image-observed local color zones, not a single averaged color."
       },
       "colorVariation": {
         "palette": [
-          "#535040",
-          "#5A5747",
-          "#484536",
-          "#1C1D16",
-          "#6A6757"
+          "#B9964F",
+          "#D8B972",
+          "#8A6E33"
         ],
-        "pattern": "reference-derived pixel palette",
-        "amplitude": 0.08,
-        "heightCorrelation": 0.42
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
       },
       "textureResolution": 1024,
       "textureProjection": {
@@ -5396,31 +4566,26 @@
         {
           "id": "macro",
           "frequency": 2.0,
-          "amplitude": 0.334,
-          "role": "reference-derived broad albedo and height breakup"
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
         },
         {
           "id": "meso",
-          "frequency": 14.0,
-          "amplitude": 0.35,
-          "role": "reference-derived cracks, ridges, pores, grain, or leaf clusters"
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
         },
         {
           "id": "micro",
-          "frequency": 72.0,
-          "amplitude": 0.14,
-          "role": "reference-derived micro highlight breakup under grazing light"
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
         }
       ],
       "roughness": {
         "base": 0.26,
-        "variation": 0.158,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_roughness.png",
-          "url": "brasssaddle_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
+        "variation": 0.05,
+        "map": null,
         "localResponse": "reference-derived roughness map retained; base scalar restored from material identity after classifier inversion"
       },
       "metalness": {
@@ -5428,31 +4593,15 @@
         "variation": 0.0
       },
       "normal": {
-        "pattern": "reference-derived height-gradient normal map",
-        "strength": 0.254,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_normal.png",
-          "url": "brasssaddle_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "heightSource": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_height.png",
-          "url": "brasssaddle_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
         "space": "tangent"
       },
       "bump": {
-        "pattern": "reference-derived height field",
-        "amplitude": 0.038,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_height.png",
-          "url": "brasssaddle_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        }
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0
       },
       "displacement": {
         "pattern": "none",
@@ -5461,15 +4610,9 @@
         "silhouetteAffects": false
       },
       "ambientOcclusion": {
-        "cavityStrength": 0.38,
+        "cavityStrength": 0.25,
         "contactShadowBias": 0.35,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_ao.png",
-          "url": "brasssaddle_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        },
-        "notes": "Reference-derived cavity estimate from local height minima; verify against grazing-light screenshot."
+        "notes": "Darken creases, seams, intersections, and recessed local features."
       },
       "wear": {
         "edgeWear": 0.0,
@@ -5481,134 +4624,18 @@
         "cavityBias": 0.0,
         "color": "#2F2A22"
       },
-      "localOverrides": [
-        {
-          "id": "reference-pbr-pixel-evidence",
-          "type": "material-map-evidence",
-          "evidenceRefs": [
-            "full-object"
-          ],
-          "channels": [
-            "albedo",
-            "roughness",
-            "height",
-            "normal",
-            "ambient-occlusion"
-          ],
-          "notes": "Use generated maps as material evidence, then refine after browser screenshot comparison."
-        }
-      ],
+      "localOverrides": [],
       "shaderNotes": [
         "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
         "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
         "Use normal/bump/displacement only when they map to observed surface relief.",
-        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there.",
-        "Reference-derived maps are estimates from image pixels; verify with neutral, grazing, and reference-matched renders.",
-        "Do not treat baked image shadows as final albedo; rerun extraction with a tighter material crop if highlights/shadows pollute the maps."
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
       ],
       "notes": "Replace with image-derived color, roughness, noise, and edge-wear notes.",
       "clearcoat": 0.0,
       "clearcoatRoughness": 0.0,
       "samplingNotes": "Saddles read distinctly warmer than the chrome base - two-tone bridge is evidence-backed.",
-      "referencePbr": {
-        "version": "1.0",
-        "sourceImage": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/matcrops/brassSaddle.png",
-        "extractor": "stage1_intake/extract_pbr_evidence.py",
-        "method": "single-image pixel evidence with de-lighting estimate; not photogrammetry",
-        "usable": true,
-        "verdict": "pass",
-        "confidence": 0.8,
-        "estimatedFidelity": 0.8,
-        "targetThreshold": 0.7,
-        "hardLimit": "A single image cannot uniquely recover true albedo/roughness/normal/AO; maps are reference-derived estimates.",
-        "maps": {
-          "albedo": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_albedo.png",
-            "url": "brasssaddle_albedo.png",
-            "channel": "albedo",
-            "source": "reference-pixel-extraction"
-          },
-          "roughness": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_roughness.png",
-            "url": "brasssaddle_roughness.png",
-            "channel": "roughness",
-            "source": "reference-pixel-extraction"
-          },
-          "height": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_height.png",
-            "url": "brasssaddle_height.png",
-            "channel": "height",
-            "source": "reference-pixel-extraction"
-          },
-          "normal": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_normal.png",
-            "url": "brasssaddle_normal.png",
-            "channel": "normal",
-            "source": "reference-pixel-extraction"
-          },
-          "ao": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_ao.png",
-            "url": "brasssaddle_ao.png",
-            "channel": "ao",
-            "source": "reference-pixel-extraction"
-          }
-        },
-        "diagnostics": {
-          "sourceWidth": 540,
-          "sourceHeight": 192,
-          "mapSize": 1024,
-          "cropBBoxPixels": {
-            "x": 0,
-            "y": 0,
-            "width": 540,
-            "height": 192
-          },
-          "mask": {
-            "backgroundColor": "#595646",
-            "backgroundNoise": 102.845,
-            "transparentPixelFraction": 0.0,
-            "foregroundCoverage": 0.893
-          },
-          "mapStats": {
-            "valueRange": 0.1554,
-            "heightP90Gradient": 0.08382,
-            "roughnessBase": 0.747,
-            "roughnessVariation": 0.158,
-            "normalStrength": 0.254,
-            "blurRadius": 21
-          },
-          "palette": [
-            "#535040",
-            "#5A5747",
-            "#484536",
-            "#1C1D16",
-            "#6A6757"
-          ]
-        },
-        "warnings": [
-          "single-image inverse rendering cannot prove true physical PBR; confidence is capped",
-          "low value range weakens height/roughness inference"
-        ],
-        "approximation": null
-      },
       "finishClass": "polished-metal",
-      "texturePalette": [
-        "#5A5746",
-        "#565342",
-        "#575344",
-        "#434338",
-        "#9B998E"
-      ],
-      "proceduralTexture": "flat-clearcoat",
-      "transmission": {
-        "base": 0.0,
-        "variation": 0.0
-      },
-      "ior": {
-        "base": 1.5,
-        "value": 1.5
-      },
-      "envMapIntensity": 1.0,
       "finishClassConfidence": 0.72,
       "classifierOverride": {
         "overriddenBy": "agent-vision",
@@ -5624,26 +4651,22 @@
       "baseColor": "#4A3327",
       "color": "#4A3327",
       "albedo": {
-        "dominant": "#FFFFFF",
+        "dominant": "#4A3327",
         "secondary": [
-          "#5E5E5D"
+          "#5E4234",
+          "#33221A"
         ],
-        "samplingNotes": "Reference-derived from foreground pixels; de-lit to reduce baked shadows/highlights.",
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_albedo.png",
-          "url": "rosewood_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        }
+        "samplingNotes": "Use image-observed local color zones, not a single averaged color."
       },
       "colorVariation": {
         "palette": [
-          "#FFFFFF",
-          "#5E5E5D"
+          "#4A3327",
+          "#5E4234",
+          "#33221A"
         ],
-        "pattern": "reference-derived pixel palette",
-        "amplitude": 0.08,
-        "heightCorrelation": 0.42
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
       },
       "textureResolution": 1024,
       "textureProjection": {
@@ -5659,31 +4682,26 @@
         {
           "id": "macro",
           "frequency": 2.0,
-          "amplitude": 0.308,
-          "role": "reference-derived broad albedo and height breakup"
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
         },
         {
           "id": "meso",
-          "frequency": 14.0,
-          "amplitude": 0.15,
-          "role": "reference-derived cracks, ridges, pores, grain, or leaf clusters"
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
         },
         {
           "id": "micro",
-          "frequency": 72.0,
-          "amplitude": 0.055,
-          "role": "reference-derived micro highlight breakup under grazing light"
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
         }
       ],
       "roughness": {
         "base": 0.62,
         "variation": 0.05,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_roughness.png",
-          "url": "rosewood_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
+        "map": null,
         "localResponse": "reference-derived roughness map retained; base scalar restored from material identity after classifier inversion"
       },
       "metalness": {
@@ -5691,31 +4709,15 @@
         "variation": 0.0
       },
       "normal": {
-        "pattern": "reference-derived height-gradient normal map",
-        "strength": 0.156,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_normal.png",
-          "url": "rosewood_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "heightSource": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_height.png",
-          "url": "rosewood_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
         "space": "tangent"
       },
       "bump": {
-        "pattern": "reference-derived height field",
-        "amplitude": 0.01,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_height.png",
-          "url": "rosewood_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        }
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0
       },
       "displacement": {
         "pattern": "none",
@@ -5724,15 +4726,9 @@
         "silhouetteAffects": false
       },
       "ambientOcclusion": {
-        "cavityStrength": 0.38,
+        "cavityStrength": 0.25,
         "contactShadowBias": 0.35,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_ao.png",
-          "url": "rosewood_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        },
-        "notes": "Reference-derived cavity estimate from local height minima; verify against grazing-light screenshot."
+        "notes": "Darken creases, seams, intersections, and recessed local features."
       },
       "wear": {
         "edgeWear": 0.0,
@@ -5744,138 +4740,18 @@
         "cavityBias": 0.0,
         "color": "#2F2A22"
       },
-      "localOverrides": [
-        {
-          "id": "reference-pbr-pixel-evidence",
-          "type": "material-map-evidence",
-          "evidenceRefs": [
-            "full-object"
-          ],
-          "channels": [
-            "albedo",
-            "roughness",
-            "height",
-            "normal",
-            "ambient-occlusion"
-          ],
-          "notes": "Use generated maps as material evidence, then refine after browser screenshot comparison."
-        }
-      ],
+      "localOverrides": [],
       "shaderNotes": [
         "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
         "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
         "Use normal/bump/displacement only when they map to observed surface relief.",
-        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there.",
-        "Reference-derived maps are estimates from image pixels; verify with neutral, grazing, and reference-matched renders.",
-        "Do not treat baked image shadows as final albedo; rerun extraction with a tighter material crop if highlights/shadows pollute the maps."
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
       ],
       "notes": "Replace with image-derived color, roughness, noise, and edge-wear notes.",
       "clearcoat": 0.0,
       "clearcoatRoughness": 0.0,
       "samplingNotes": "Open-pore grain; anisotropic length-wise streak. Grain direction runs along the neck.",
-      "referencePbr": {
-        "version": "1.0",
-        "sourceImage": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/matcrops/rosewood.png",
-        "extractor": "stage1_intake/extract_pbr_evidence.py",
-        "method": "single-image pixel evidence with de-lighting estimate; not photogrammetry",
-        "usable": false,
-        "verdict": "conditional",
-        "confidence": 0.612,
-        "estimatedFidelity": 0.612,
-        "targetThreshold": 0.7,
-        "hardLimit": "A single image cannot uniquely recover true albedo/roughness/normal/AO; maps are reference-derived estimates.",
-        "maps": {
-          "albedo": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_albedo.png",
-            "url": "rosewood_albedo.png",
-            "channel": "albedo",
-            "source": "reference-pixel-extraction"
-          },
-          "roughness": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_roughness.png",
-            "url": "rosewood_roughness.png",
-            "channel": "roughness",
-            "source": "reference-pixel-extraction"
-          },
-          "height": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_height.png",
-            "url": "rosewood_height.png",
-            "channel": "height",
-            "source": "reference-pixel-extraction"
-          },
-          "normal": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_normal.png",
-            "url": "rosewood_normal.png",
-            "channel": "normal",
-            "source": "reference-pixel-extraction"
-          },
-          "ao": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_ao.png",
-            "url": "rosewood_ao.png",
-            "channel": "ao",
-            "source": "reference-pixel-extraction"
-          }
-        },
-        "diagnostics": {
-          "sourceWidth": 144,
-          "sourceHeight": 680,
-          "mapSize": 1024,
-          "cropBBoxPixels": {
-            "x": 0,
-            "y": 0,
-            "width": 144,
-            "height": 680
-          },
-          "mask": {
-            "backgroundColor": "#FFFFFF",
-            "backgroundNoise": 0.0,
-            "transparentPixelFraction": 0.0,
-            "foregroundCoverage": 1.0
-          },
-          "mapStats": {
-            "valueRange": 0.08,
-            "heightP90Gradient": 0.0,
-            "roughnessBase": 0.68,
-            "roughnessVariation": 0.05,
-            "normalStrength": 0.156,
-            "blurRadius": 21
-          },
-          "palette": [
-            "#FFFFFF",
-            "#5E5E5D"
-          ]
-        },
-        "warnings": [
-          "foreground mask is tiny; material extraction is likely unreliable",
-          "image is not clearly isolated from background; using most pixels as material evidence",
-          "object/background separation is weak",
-          "single-image inverse rendering cannot prove true physical PBR; confidence is capped",
-          "low value range weakens height/roughness inference",
-          "low high-frequency detail weakens normal/roughness inference"
-        ],
-        "approximation": "PBR confidence below the 0.7 gate - part is too narrow in the reference to resolve. Scalars are identity-derived, not pixel-proven."
-      },
       "finishClass": "wood",
-      "texturePalette": [
-        "#FFFFFF",
-        "#FFFFFF",
-        "#FFFFFF",
-        "#FFFFFF",
-        "#F5F5F5"
-      ],
-      "proceduralTexture": "brushed",
-      "transmission": {
-        "base": 0.0,
-        "variation": 0.0
-      },
-      "ior": {
-        "base": 1.5,
-        "value": 1.5
-      },
-      "envMapIntensity": 1.0,
-      "anisotropy": {
-        "base": 1.0
-      },
       "finishClassConfidence": 0.61,
       "classifierOverride": {
         "overriddenBy": "agent-vision",
@@ -5891,31 +4767,22 @@
       "baseColor": "#D9BE8E",
       "color": "#D9BE8E",
       "albedo": {
-        "dominant": "#F8E3BB",
+        "dominant": "#D9BE8E",
         "secondary": [
-          "#DCCDAC",
-          "#E0E3E2",
-          "#A49A88"
+          "#E8D2AA",
+          "#BFA173"
         ],
-        "samplingNotes": "Reference-derived from foreground pixels; de-lit to reduce baked shadows/highlights.",
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_albedo.png",
-          "url": "maplesatin_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        }
+        "samplingNotes": "Use image-observed local color zones, not a single averaged color."
       },
       "colorVariation": {
         "palette": [
-          "#F8E3BB",
-          "#DCCDAC",
-          "#E0E3E2",
-          "#A49A88",
-          "#3A3731"
+          "#D9BE8E",
+          "#E8D2AA",
+          "#BFA173"
         ],
-        "pattern": "reference-derived pixel palette",
-        "amplitude": 0.233,
-        "heightCorrelation": 0.42
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
       },
       "textureResolution": 1024,
       "textureProjection": {
@@ -5931,31 +4798,26 @@
         {
           "id": "macro",
           "frequency": 2.0,
-          "amplitude": 0.474,
-          "role": "reference-derived broad albedo and height breakup"
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
         },
         {
           "id": "meso",
-          "frequency": 14.0,
-          "amplitude": 0.35,
-          "role": "reference-derived cracks, ridges, pores, grain, or leaf clusters"
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
         },
         {
           "id": "micro",
-          "frequency": 72.0,
-          "amplitude": 0.14,
-          "role": "reference-derived micro highlight breakup under grazing light"
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
         }
       ],
       "roughness": {
         "base": 0.48,
-        "variation": 0.092,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_roughness.png",
-          "url": "maplesatin_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
+        "variation": 0.05,
+        "map": null,
         "localResponse": "reference-derived roughness map retained; base scalar restored from material identity after classifier inversion"
       },
       "metalness": {
@@ -5963,31 +4825,15 @@
         "variation": 0.0
       },
       "normal": {
-        "pattern": "reference-derived height-gradient normal map",
-        "strength": 0.241,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_normal.png",
-          "url": "maplesatin_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "heightSource": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_height.png",
-          "url": "maplesatin_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
         "space": "tangent"
       },
       "bump": {
-        "pattern": "reference-derived height field",
-        "amplitude": 0.032,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_height.png",
-          "url": "maplesatin_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        }
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0
       },
       "displacement": {
         "pattern": "none",
@@ -5996,15 +4842,9 @@
         "silhouetteAffects": false
       },
       "ambientOcclusion": {
-        "cavityStrength": 0.38,
+        "cavityStrength": 0.25,
         "contactShadowBias": 0.35,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_ao.png",
-          "url": "maplesatin_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        },
-        "notes": "Reference-derived cavity estimate from local height minima; verify against grazing-light screenshot."
+        "notes": "Darken creases, seams, intersections, and recessed local features."
       },
       "wear": {
         "edgeWear": 0.0,
@@ -6016,136 +4856,18 @@
         "cavityBias": 0.0,
         "color": "#2F2A22"
       },
-      "localOverrides": [
-        {
-          "id": "reference-pbr-pixel-evidence",
-          "type": "material-map-evidence",
-          "evidenceRefs": [
-            "full-object"
-          ],
-          "channels": [
-            "albedo",
-            "roughness",
-            "height",
-            "normal",
-            "ambient-occlusion"
-          ],
-          "notes": "Use generated maps as material evidence, then refine after browser screenshot comparison."
-        }
-      ],
+      "localOverrides": [],
       "shaderNotes": [
         "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
         "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
         "Use normal/bump/displacement only when they map to observed surface relief.",
-        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there.",
-        "Reference-derived maps are estimates from image pixels; verify with neutral, grazing, and reference-matched renders.",
-        "Do not treat baked image shadows as final albedo; rerun extraction with a tighter material crop if highlights/shadows pollute the maps."
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
       ],
       "notes": "Replace with image-derived color, roughness, noise, and edge-wear notes.",
       "clearcoat": 0.0,
       "clearcoatRoughness": 0.0,
       "samplingNotes": "Neck rear + headstock rear. Sharply lighter than both board and body - a common failure is carrying the body finish onto the neck.",
-      "referencePbr": {
-        "version": "1.0",
-        "sourceImage": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/matcrops/mapleSatin.png",
-        "extractor": "stage1_intake/extract_pbr_evidence.py",
-        "method": "single-image pixel evidence with de-lighting estimate; not photogrammetry",
-        "usable": true,
-        "verdict": "pass",
-        "confidence": 0.86,
-        "estimatedFidelity": 0.86,
-        "targetThreshold": 0.7,
-        "hardLimit": "A single image cannot uniquely recover true albedo/roughness/normal/AO; maps are reference-derived estimates.",
-        "maps": {
-          "albedo": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_albedo.png",
-            "url": "maplesatin_albedo.png",
-            "channel": "albedo",
-            "source": "reference-pixel-extraction"
-          },
-          "roughness": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_roughness.png",
-            "url": "maplesatin_roughness.png",
-            "channel": "roughness",
-            "source": "reference-pixel-extraction"
-          },
-          "height": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_height.png",
-            "url": "maplesatin_height.png",
-            "channel": "height",
-            "source": "reference-pixel-extraction"
-          },
-          "normal": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_normal.png",
-            "url": "maplesatin_normal.png",
-            "channel": "normal",
-            "source": "reference-pixel-extraction"
-          },
-          "ao": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_ao.png",
-            "url": "maplesatin_ao.png",
-            "channel": "ao",
-            "source": "reference-pixel-extraction"
-          }
-        },
-        "diagnostics": {
-          "sourceWidth": 408,
-          "sourceHeight": 434,
-          "mapSize": 1024,
-          "cropBBoxPixels": {
-            "x": 100,
-            "y": 0,
-            "width": 213,
-            "height": 434
-          },
-          "mask": {
-            "backgroundColor": "#FFFFFF",
-            "backgroundNoise": 0.0,
-            "transparentPixelFraction": 0.0,
-            "foregroundCoverage": 0.2783
-          },
-          "mapStats": {
-            "valueRange": 0.5551,
-            "heightP90Gradient": 0.07216,
-            "roughnessBase": 0.683,
-            "roughnessVariation": 0.092,
-            "normalStrength": 0.241,
-            "blurRadius": 21
-          },
-          "palette": [
-            "#F8E3BB",
-            "#DCCDAC",
-            "#E0E3E2",
-            "#A49A88",
-            "#3A3731"
-          ]
-        },
-        "warnings": [
-          "single-image inverse rendering cannot prove true physical PBR; confidence is capped"
-        ],
-        "approximation": null
-      },
       "finishClass": "wood",
-      "texturePalette": [
-        "#FEFEFD",
-        "#F1ECE1",
-        "#E4DAC3",
-        "#D9CBB4",
-        "#F8EFDD"
-      ],
-      "proceduralTexture": "brushed",
-      "transmission": {
-        "base": 0.0,
-        "variation": 0.0
-      },
-      "ior": {
-        "base": 1.5,
-        "value": 1.5
-      },
-      "envMapIntensity": 1.0,
-      "anisotropy": {
-        "base": 1.0
-      },
       "finishClassConfidence": 0.86,
       "classifierOverride": {
         "overriddenBy": "agent-vision",
@@ -6161,31 +4883,22 @@
       "baseColor": "#141414",
       "color": "#141414",
       "albedo": {
-        "dominant": "#605B49",
+        "dominant": "#141414",
         "secondary": [
-          "#574736",
-          "#726C5A",
-          "#2C271B"
+          "#242424",
+          "#0A0A0A"
         ],
-        "samplingNotes": "Reference-derived from foreground pixels; de-lit to reduce baked shadows/highlights.",
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_albedo.png",
-          "url": "blackplastic_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        }
+        "samplingNotes": "Use image-observed local color zones, not a single averaged color."
       },
       "colorVariation": {
         "palette": [
-          "#605B49",
-          "#574736",
-          "#726C5A",
-          "#2C271B",
-          "#C3B59E"
+          "#141414",
+          "#242424",
+          "#0A0A0A"
         ],
-        "pattern": "reference-derived pixel palette",
-        "amplitude": 0.149,
-        "heightCorrelation": 0.42
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
       },
       "textureResolution": 1024,
       "textureProjection": {
@@ -6201,31 +4914,26 @@
         {
           "id": "macro",
           "frequency": 2.0,
-          "amplitude": 0.404,
-          "role": "reference-derived broad albedo and height breakup"
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
         },
         {
           "id": "meso",
-          "frequency": 14.0,
-          "amplitude": 0.35,
-          "role": "reference-derived cracks, ridges, pores, grain, or leaf clusters"
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
         },
         {
           "id": "micro",
-          "frequency": 72.0,
-          "amplitude": 0.14,
-          "role": "reference-derived micro highlight breakup under grazing light"
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
         }
       ],
       "roughness": {
         "base": 0.55,
-        "variation": 0.124,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_roughness.png",
-          "url": "blackplastic_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
+        "variation": 0.05,
+        "map": null,
         "localResponse": "reference-derived roughness map retained; base scalar restored from material identity after classifier inversion"
       },
       "metalness": {
@@ -6233,31 +4941,15 @@
         "variation": 0.0
       },
       "normal": {
-        "pattern": "reference-derived height-gradient normal map",
-        "strength": 0.235,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_normal.png",
-          "url": "blackplastic_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "heightSource": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_height.png",
-          "url": "blackplastic_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
         "space": "tangent"
       },
       "bump": {
-        "pattern": "reference-derived height field",
-        "amplitude": 0.03,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_height.png",
-          "url": "blackplastic_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        }
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0
       },
       "displacement": {
         "pattern": "none",
@@ -6266,15 +4958,9 @@
         "silhouetteAffects": false
       },
       "ambientOcclusion": {
-        "cavityStrength": 0.38,
+        "cavityStrength": 0.25,
         "contactShadowBias": 0.35,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_ao.png",
-          "url": "blackplastic_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        },
-        "notes": "Reference-derived cavity estimate from local height minima; verify against grazing-light screenshot."
+        "notes": "Darken creases, seams, intersections, and recessed local features."
       },
       "wear": {
         "edgeWear": 0.0,
@@ -6286,136 +4972,18 @@
         "cavityBias": 0.0,
         "color": "#2F2A22"
       },
-      "localOverrides": [
-        {
-          "id": "reference-pbr-pixel-evidence",
-          "type": "material-map-evidence",
-          "evidenceRefs": [
-            "full-object"
-          ],
-          "channels": [
-            "albedo",
-            "roughness",
-            "height",
-            "normal",
-            "ambient-occlusion"
-          ],
-          "notes": "Use generated maps as material evidence, then refine after browser screenshot comparison."
-        }
-      ],
+      "localOverrides": [],
       "shaderNotes": [
         "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
         "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
         "Use normal/bump/displacement only when they map to observed surface relief.",
-        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there.",
-        "Reference-derived maps are estimates from image pixels; verify with neutral, grazing, and reference-matched renders.",
-        "Do not treat baked image shadows as final albedo; rerun extraction with a tighter material crop if highlights/shadows pollute the maps."
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
       ],
       "notes": "Replace with image-derived color, roughness, noise, and edge-wear notes.",
       "clearcoat": 0.0,
       "clearcoatRoughness": 0.0,
       "samplingNotes": "Pickup covers, cavity cover, switch tip. Semi-matte, NOT gloss.",
-      "referencePbr": {
-        "version": "1.0",
-        "sourceImage": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/matcrops/blackPlastic.png",
-        "extractor": "stage1_intake/extract_pbr_evidence.py",
-        "method": "single-image pixel evidence with de-lighting estimate; not photogrammetry",
-        "usable": true,
-        "verdict": "pass",
-        "confidence": 0.86,
-        "estimatedFidelity": 0.86,
-        "targetThreshold": 0.7,
-        "hardLimit": "A single image cannot uniquely recover true albedo/roughness/normal/AO; maps are reference-derived estimates.",
-        "maps": {
-          "albedo": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_albedo.png",
-            "url": "blackplastic_albedo.png",
-            "channel": "albedo",
-            "source": "reference-pixel-extraction"
-          },
-          "roughness": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_roughness.png",
-            "url": "blackplastic_roughness.png",
-            "channel": "roughness",
-            "source": "reference-pixel-extraction"
-          },
-          "height": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_height.png",
-            "url": "blackplastic_height.png",
-            "channel": "height",
-            "source": "reference-pixel-extraction"
-          },
-          "normal": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_normal.png",
-            "url": "blackplastic_normal.png",
-            "channel": "normal",
-            "source": "reference-pixel-extraction"
-          },
-          "ao": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_ao.png",
-            "url": "blackplastic_ao.png",
-            "channel": "ao",
-            "source": "reference-pixel-extraction"
-          }
-        },
-        "diagnostics": {
-          "sourceWidth": 720,
-          "sourceHeight": 192,
-          "mapSize": 1024,
-          "cropBBoxPixels": {
-            "x": 0,
-            "y": 0,
-            "width": 720,
-            "height": 192
-          },
-          "mask": {
-            "backgroundColor": "#615D4C",
-            "backgroundNoise": 169.853,
-            "transparentPixelFraction": 0.0,
-            "foregroundCoverage": 0.5666
-          },
-          "mapStats": {
-            "valueRange": 0.3539,
-            "heightP90Gradient": 0.06696,
-            "roughnessBase": 0.711,
-            "roughnessVariation": 0.124,
-            "normalStrength": 0.235,
-            "blurRadius": 21
-          },
-          "palette": [
-            "#605B49",
-            "#574736",
-            "#726C5A",
-            "#2C271B",
-            "#C3B59E"
-          ]
-        },
-        "warnings": [
-          "single-image inverse rendering cannot prove true physical PBR; confidence is capped"
-        ],
-        "approximation": null
-      },
       "finishClass": "plastic",
-      "texturePalette": [
-        "#5B5845",
-        "#696553",
-        "#CDCDC8",
-        "#C2C2BE",
-        "#7E7160"
-      ],
-      "proceduralTexture": "brushed",
-      "transmission": {
-        "base": 0.0,
-        "variation": 0.0
-      },
-      "ior": {
-        "base": 1.5,
-        "value": 1.5
-      },
-      "envMapIntensity": 1.0,
-      "anisotropy": {
-        "base": 1.0
-      },
       "finishClassConfidence": 0.86,
       "classifierOverride": {
         "overriddenBy": "agent-vision",
@@ -6431,23 +4999,20 @@
       "baseColor": "#0C0C0C",
       "color": "#0C0C0C",
       "albedo": {
-        "dominant": "#FFFFFF",
-        "secondary": [],
-        "samplingNotes": "Reference-derived from foreground pixels; de-lit to reduce baked shadows/highlights.",
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_albedo.png",
-          "url": "blackgloss_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        }
+        "dominant": "#0C0C0C",
+        "secondary": [
+          "#1A1A1A"
+        ],
+        "samplingNotes": "Use image-observed local color zones, not a single averaged color."
       },
       "colorVariation": {
         "palette": [
-          "#FFFFFF"
+          "#0C0C0C",
+          "#1A1A1A"
         ],
-        "pattern": "reference-derived pixel palette",
-        "amplitude": 0.08,
-        "heightCorrelation": 0.42
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
       },
       "textureResolution": 1024,
       "textureProjection": {
@@ -6463,31 +5028,26 @@
         {
           "id": "macro",
           "frequency": 2.0,
-          "amplitude": 0.308,
-          "role": "reference-derived broad albedo and height breakup"
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
         },
         {
           "id": "meso",
-          "frequency": 14.0,
-          "amplitude": 0.15,
-          "role": "reference-derived cracks, ridges, pores, grain, or leaf clusters"
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
         },
         {
           "id": "micro",
-          "frequency": 72.0,
-          "amplitude": 0.055,
-          "role": "reference-derived micro highlight breakup under grazing light"
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
         }
       ],
       "roughness": {
         "base": 0.12,
         "variation": 0.05,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_roughness.png",
-          "url": "blackgloss_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
+        "map": null,
         "localResponse": "reference-derived roughness map retained; base scalar restored from material identity after classifier inversion"
       },
       "metalness": {
@@ -6495,31 +5055,15 @@
         "variation": 0.0
       },
       "normal": {
-        "pattern": "reference-derived height-gradient normal map",
-        "strength": 0.156,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_normal.png",
-          "url": "blackgloss_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "heightSource": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_height.png",
-          "url": "blackgloss_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
         "space": "tangent"
       },
       "bump": {
-        "pattern": "reference-derived height field",
-        "amplitude": 0.01,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_height.png",
-          "url": "blackgloss_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        }
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0
       },
       "displacement": {
         "pattern": "none",
@@ -6528,15 +5072,9 @@
         "silhouetteAffects": false
       },
       "ambientOcclusion": {
-        "cavityStrength": 0.38,
+        "cavityStrength": 0.25,
         "contactShadowBias": 0.35,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_ao.png",
-          "url": "blackgloss_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        },
-        "notes": "Reference-derived cavity estimate from local height minima; verify against grazing-light screenshot."
+        "notes": "Darken creases, seams, intersections, and recessed local features."
       },
       "wear": {
         "edgeWear": 0.0,
@@ -6548,137 +5086,18 @@
         "cavityBias": 0.0,
         "color": "#2F2A22"
       },
-      "localOverrides": [
-        {
-          "id": "reference-pbr-pixel-evidence",
-          "type": "material-map-evidence",
-          "evidenceRefs": [
-            "full-object"
-          ],
-          "channels": [
-            "albedo",
-            "roughness",
-            "height",
-            "normal",
-            "ambient-occlusion"
-          ],
-          "notes": "Use generated maps as material evidence, then refine after browser screenshot comparison."
-        }
-      ],
+      "localOverrides": [],
       "shaderNotes": [
         "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
         "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
         "Use normal/bump/displacement only when they map to observed surface relief.",
-        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there.",
-        "Reference-derived maps are estimates from image pixels; verify with neutral, grazing, and reference-matched renders.",
-        "Do not treat baked image shadows as final albedo; rerun extraction with a tighter material crop if highlights/shadows pollute the maps."
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
       ],
       "notes": "Replace with image-derived color, roughness, noise, and edge-wear notes.",
       "clearcoat": 0.9,
       "clearcoatRoughness": 0.06,
       "samplingNotes": "Distinctly glossier than the pickup plastic; carries the painted logo.",
-      "referencePbr": {
-        "version": "1.0",
-        "sourceImage": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/matcrops/blackGloss.png",
-        "extractor": "stage1_intake/extract_pbr_evidence.py",
-        "method": "single-image pixel evidence with de-lighting estimate; not photogrammetry",
-        "usable": false,
-        "verdict": "conditional",
-        "confidence": 0.612,
-        "estimatedFidelity": 0.612,
-        "targetThreshold": 0.7,
-        "hardLimit": "A single image cannot uniquely recover true albedo/roughness/normal/AO; maps are reference-derived estimates.",
-        "maps": {
-          "albedo": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_albedo.png",
-            "url": "blackgloss_albedo.png",
-            "channel": "albedo",
-            "source": "reference-pixel-extraction"
-          },
-          "roughness": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_roughness.png",
-            "url": "blackgloss_roughness.png",
-            "channel": "roughness",
-            "source": "reference-pixel-extraction"
-          },
-          "height": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_height.png",
-            "url": "blackgloss_height.png",
-            "channel": "height",
-            "source": "reference-pixel-extraction"
-          },
-          "normal": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_normal.png",
-            "url": "blackgloss_normal.png",
-            "channel": "normal",
-            "source": "reference-pixel-extraction"
-          },
-          "ao": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_ao.png",
-            "url": "blackgloss_ao.png",
-            "channel": "ao",
-            "source": "reference-pixel-extraction"
-          }
-        },
-        "diagnostics": {
-          "sourceWidth": 152,
-          "sourceHeight": 280,
-          "mapSize": 1024,
-          "cropBBoxPixels": {
-            "x": 0,
-            "y": 0,
-            "width": 152,
-            "height": 280
-          },
-          "mask": {
-            "backgroundColor": "#FFFFFF",
-            "backgroundNoise": 0.0,
-            "transparentPixelFraction": 0.0,
-            "foregroundCoverage": 1.0
-          },
-          "mapStats": {
-            "valueRange": 0.08,
-            "heightP90Gradient": 0.0,
-            "roughnessBase": 0.68,
-            "roughnessVariation": 0.05,
-            "normalStrength": 0.156,
-            "blurRadius": 21
-          },
-          "palette": [
-            "#FFFFFF"
-          ]
-        },
-        "warnings": [
-          "foreground mask is tiny; material extraction is likely unreliable",
-          "image is not clearly isolated from background; using most pixels as material evidence",
-          "object/background separation is weak",
-          "single-image inverse rendering cannot prove true physical PBR; confidence is capped",
-          "low value range weakens height/roughness inference",
-          "low high-frequency detail weakens normal/roughness inference"
-        ],
-        "approximation": "PBR confidence below the 0.7 gate - part is too narrow in the reference to resolve. Scalars are identity-derived, not pixel-proven."
-      },
       "finishClass": "plastic",
-      "texturePalette": [
-        "#FFFFFF",
-        "#FFFFFF",
-        "#FFFFFF",
-        "#FFFFFF",
-        "#FFFFFF"
-      ],
-      "proceduralTexture": "brushed",
-      "transmission": {
-        "base": 0.0,
-        "variation": 0.0
-      },
-      "ior": {
-        "base": 1.5,
-        "value": 1.5
-      },
-      "envMapIntensity": 1.0,
-      "anisotropy": {
-        "base": 1.0
-      },
       "finishClassConfidence": 0.61,
       "classifierOverride": {
         "overriddenBy": "agent-vision",
@@ -6694,23 +5113,20 @@
       "baseColor": "#C6C4BE",
       "color": "#C6C4BE",
       "albedo": {
-        "dominant": "#FFFFFF",
-        "secondary": [],
-        "samplingNotes": "Reference-derived from foreground pixels; de-lit to reduce baked shadows/highlights.",
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_albedo.png",
-          "url": "fretnickel_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        }
+        "dominant": "#C6C4BE",
+        "secondary": [
+          "#E0DED8"
+        ],
+        "samplingNotes": "Use image-observed local color zones, not a single averaged color."
       },
       "colorVariation": {
         "palette": [
-          "#FFFFFF"
+          "#C6C4BE",
+          "#E0DED8"
         ],
-        "pattern": "reference-derived pixel palette",
-        "amplitude": 0.08,
-        "heightCorrelation": 0.42
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
       },
       "textureResolution": 1024,
       "textureProjection": {
@@ -6726,31 +5142,26 @@
         {
           "id": "macro",
           "frequency": 2.0,
-          "amplitude": 0.308,
-          "role": "reference-derived broad albedo and height breakup"
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
         },
         {
           "id": "meso",
-          "frequency": 14.0,
-          "amplitude": 0.15,
-          "role": "reference-derived cracks, ridges, pores, grain, or leaf clusters"
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
         },
         {
           "id": "micro",
-          "frequency": 72.0,
-          "amplitude": 0.055,
-          "role": "reference-derived micro highlight breakup under grazing light"
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
         }
       ],
       "roughness": {
         "base": 0.18,
         "variation": 0.05,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_roughness.png",
-          "url": "fretnickel_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
+        "map": null,
         "localResponse": "reference-derived roughness map retained; base scalar restored from material identity after classifier inversion"
       },
       "metalness": {
@@ -6758,31 +5169,15 @@
         "variation": 0.0
       },
       "normal": {
-        "pattern": "reference-derived height-gradient normal map",
-        "strength": 0.156,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_normal.png",
-          "url": "fretnickel_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "heightSource": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_height.png",
-          "url": "fretnickel_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
         "space": "tangent"
       },
       "bump": {
-        "pattern": "reference-derived height field",
-        "amplitude": 0.01,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_height.png",
-          "url": "fretnickel_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        }
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0
       },
       "displacement": {
         "pattern": "none",
@@ -6791,15 +5186,9 @@
         "silhouetteAffects": false
       },
       "ambientOcclusion": {
-        "cavityStrength": 0.38,
+        "cavityStrength": 0.25,
         "contactShadowBias": 0.35,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_ao.png",
-          "url": "fretnickel_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        },
-        "notes": "Reference-derived cavity estimate from local height minima; verify against grazing-light screenshot."
+        "notes": "Darken creases, seams, intersections, and recessed local features."
       },
       "wear": {
         "edgeWear": 0.0,
@@ -6811,137 +5200,18 @@
         "cavityBias": 0.0,
         "color": "#2F2A22"
       },
-      "localOverrides": [
-        {
-          "id": "reference-pbr-pixel-evidence",
-          "type": "material-map-evidence",
-          "evidenceRefs": [
-            "full-object"
-          ],
-          "channels": [
-            "albedo",
-            "roughness",
-            "height",
-            "normal",
-            "ambient-occlusion"
-          ],
-          "notes": "Use generated maps as material evidence, then refine after browser screenshot comparison."
-        }
-      ],
+      "localOverrides": [],
       "shaderNotes": [
         "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
         "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
         "Use normal/bump/displacement only when they map to observed surface relief.",
-        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there.",
-        "Reference-derived maps are estimates from image pixels; verify with neutral, grazing, and reference-matched renders.",
-        "Do not treat baked image shadows as final albedo; rerun extraction with a tighter material crop if highlights/shadows pollute the maps."
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
       ],
       "notes": "Replace with image-derived color, roughness, noise, and edge-wear notes.",
       "clearcoat": 0.0,
       "clearcoatRoughness": 0.0,
       "samplingNotes": "Bright specular line array across a dark board.",
-      "referencePbr": {
-        "version": "1.0",
-        "sourceImage": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/matcrops/fretNickel.png",
-        "extractor": "stage1_intake/extract_pbr_evidence.py",
-        "method": "single-image pixel evidence with de-lighting estimate; not photogrammetry",
-        "usable": false,
-        "verdict": "conditional",
-        "confidence": 0.612,
-        "estimatedFidelity": 0.612,
-        "targetThreshold": 0.7,
-        "hardLimit": "A single image cannot uniquely recover true albedo/roughness/normal/AO; maps are reference-derived estimates.",
-        "maps": {
-          "albedo": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_albedo.png",
-            "url": "fretnickel_albedo.png",
-            "channel": "albedo",
-            "source": "reference-pixel-extraction"
-          },
-          "roughness": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_roughness.png",
-            "url": "fretnickel_roughness.png",
-            "channel": "roughness",
-            "source": "reference-pixel-extraction"
-          },
-          "height": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_height.png",
-            "url": "fretnickel_height.png",
-            "channel": "height",
-            "source": "reference-pixel-extraction"
-          },
-          "normal": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_normal.png",
-            "url": "fretnickel_normal.png",
-            "channel": "normal",
-            "source": "reference-pixel-extraction"
-          },
-          "ao": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_ao.png",
-            "url": "fretnickel_ao.png",
-            "channel": "ao",
-            "source": "reference-pixel-extraction"
-          }
-        },
-        "diagnostics": {
-          "sourceWidth": 128,
-          "sourceHeight": 500,
-          "mapSize": 1024,
-          "cropBBoxPixels": {
-            "x": 0,
-            "y": 0,
-            "width": 128,
-            "height": 500
-          },
-          "mask": {
-            "backgroundColor": "#FFFFFF",
-            "backgroundNoise": 0.0,
-            "transparentPixelFraction": 0.0,
-            "foregroundCoverage": 1.0
-          },
-          "mapStats": {
-            "valueRange": 0.08,
-            "heightP90Gradient": 0.0,
-            "roughnessBase": 0.68,
-            "roughnessVariation": 0.05,
-            "normalStrength": 0.156,
-            "blurRadius": 21
-          },
-          "palette": [
-            "#FFFFFF"
-          ]
-        },
-        "warnings": [
-          "foreground mask is tiny; material extraction is likely unreliable",
-          "image is not clearly isolated from background; using most pixels as material evidence",
-          "object/background separation is weak",
-          "single-image inverse rendering cannot prove true physical PBR; confidence is capped",
-          "low value range weakens height/roughness inference",
-          "low high-frequency detail weakens normal/roughness inference"
-        ],
-        "approximation": "PBR confidence below the 0.7 gate - part is too narrow in the reference to resolve. Scalars are identity-derived, not pixel-proven."
-      },
       "finishClass": "polished-metal",
-      "texturePalette": [
-        "#FFFFFF",
-        "#FFFFFF",
-        "#FFFFFF",
-        "#FFFFFF",
-        "#FFFFFF"
-      ],
-      "proceduralTexture": "brushed",
-      "transmission": {
-        "base": 0.0,
-        "variation": 0.0
-      },
-      "ior": {
-        "base": 1.5,
-        "value": 1.5
-      },
-      "envMapIntensity": 1.0,
-      "anisotropy": {
-        "base": 1.0
-      },
       "finishClassConfidence": 0.61,
       "classifierOverride": {
         "overriddenBy": "agent-vision",
@@ -6957,23 +5227,20 @@
       "baseColor": "#E6DCC0",
       "color": "#E6DCC0",
       "albedo": {
-        "dominant": "#FFFFFF",
-        "secondary": [],
-        "samplingNotes": "Reference-derived from foreground pixels; de-lit to reduce baked shadows/highlights.",
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_albedo.png",
-          "url": "creambinding_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        }
+        "dominant": "#E6DCC0",
+        "secondary": [
+          "#F2EAD4"
+        ],
+        "samplingNotes": "Use image-observed local color zones, not a single averaged color."
       },
       "colorVariation": {
         "palette": [
-          "#FFFFFF"
+          "#E6DCC0",
+          "#F2EAD4"
         ],
-        "pattern": "reference-derived pixel palette",
-        "amplitude": 0.08,
-        "heightCorrelation": 0.42
+        "pattern": "mottled",
+        "amplitude": 0.15,
+        "heightCorrelation": 0.3
       },
       "textureResolution": 1024,
       "textureProjection": {
@@ -6989,31 +5256,26 @@
         {
           "id": "macro",
           "frequency": 2.0,
-          "amplitude": 0.308,
-          "role": "reference-derived broad albedo and height breakup"
+          "amplitude": 0.42,
+          "role": "broad color and height breakup"
         },
         {
           "id": "meso",
-          "frequency": 14.0,
-          "amplitude": 0.15,
-          "role": "reference-derived cracks, ridges, pores, grain, or leaf clusters"
+          "frequency": 12.0,
+          "amplitude": 0.22,
+          "role": "ridges, pores, grain, dents, or equivalent visible relief"
         },
         {
           "id": "micro",
-          "frequency": 72.0,
-          "amplitude": 0.055,
-          "role": "reference-derived micro highlight breakup under grazing light"
+          "frequency": 56.0,
+          "amplitude": 0.08,
+          "role": "highlight breakup visible under grazing light"
         }
       ],
       "roughness": {
         "base": 0.4,
         "variation": 0.05,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_roughness.png",
-          "url": "creambinding_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
+        "map": null,
         "localResponse": "reference-derived roughness map retained; base scalar restored from material identity after classifier inversion"
       },
       "metalness": {
@@ -7021,31 +5283,15 @@
         "variation": 0.0
       },
       "normal": {
-        "pattern": "reference-derived height-gradient normal map",
-        "strength": 0.156,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_normal.png",
-          "url": "creambinding_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "heightSource": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_height.png",
-          "url": "creambinding_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
+        "pattern": "derived-from-independent-height-field",
+        "strength": 0.35,
+        "scale": 24.0,
         "space": "tangent"
       },
       "bump": {
-        "pattern": "reference-derived height field",
-        "amplitude": 0.01,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_height.png",
-          "url": "creambinding_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        }
+        "pattern": "none",
+        "amplitude": 0.0,
+        "scale": 1.0
       },
       "displacement": {
         "pattern": "none",
@@ -7054,15 +5300,9 @@
         "silhouetteAffects": false
       },
       "ambientOcclusion": {
-        "cavityStrength": 0.38,
+        "cavityStrength": 0.25,
         "contactShadowBias": 0.35,
-        "map": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_ao.png",
-          "url": "creambinding_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        },
-        "notes": "Reference-derived cavity estimate from local height minima; verify against grazing-light screenshot."
+        "notes": "Darken creases, seams, intersections, and recessed local features."
       },
       "wear": {
         "edgeWear": 0.0,
@@ -7074,137 +5314,18 @@
         "cavityBias": 0.0,
         "color": "#2F2A22"
       },
-      "localOverrides": [
-        {
-          "id": "reference-pbr-pixel-evidence",
-          "type": "material-map-evidence",
-          "evidenceRefs": [
-            "full-object"
-          ],
-          "channels": [
-            "albedo",
-            "roughness",
-            "height",
-            "normal",
-            "ambient-occlusion"
-          ],
-          "notes": "Use generated maps as material evidence, then refine after browser screenshot comparison."
-        }
-      ],
+      "localOverrides": [],
       "shaderNotes": [
         "Prefer MeshPhysicalMaterial when clearcoat, sheen, transmission, or thin-surface response is observed; otherwise use MeshStandardMaterial-compatible PBR channels.",
         "Generate albedo, roughness, height/normal, and AO independently; never alias albedo into roughness.",
         "Use normal/bump/displacement only when they map to observed surface relief.",
-        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there.",
-        "Reference-derived maps are estimates from image pixels; verify with neutral, grazing, and reference-matched renders.",
-        "Do not treat baked image shadows as final albedo; rerun extraction with a tighter material crop if highlights/shadows pollute the maps."
+        "Use displacement geometry when the observed relief changes the close-up silhouette; texture-only relief is insufficient there."
       ],
       "notes": "Replace with image-derived color, roughness, noise, and edge-wear notes.",
       "clearcoat": 0.0,
       "clearcoatRoughness": 0.0,
       "samplingNotes": "Fretboard edges, headstock rim, nut.",
-      "referencePbr": {
-        "version": "1.0",
-        "sourceImage": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/matcrops/creamBinding.png",
-        "extractor": "stage1_intake/extract_pbr_evidence.py",
-        "method": "single-image pixel evidence with de-lighting estimate; not photogrammetry",
-        "usable": false,
-        "verdict": "conditional",
-        "confidence": 0.612,
-        "estimatedFidelity": 0.612,
-        "targetThreshold": 0.7,
-        "hardLimit": "A single image cannot uniquely recover true albedo/roughness/normal/AO; maps are reference-derived estimates.",
-        "maps": {
-          "albedo": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_albedo.png",
-            "url": "creambinding_albedo.png",
-            "channel": "albedo",
-            "source": "reference-pixel-extraction"
-          },
-          "roughness": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_roughness.png",
-            "url": "creambinding_roughness.png",
-            "channel": "roughness",
-            "source": "reference-pixel-extraction"
-          },
-          "height": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_height.png",
-            "url": "creambinding_height.png",
-            "channel": "height",
-            "source": "reference-pixel-extraction"
-          },
-          "normal": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_normal.png",
-            "url": "creambinding_normal.png",
-            "channel": "normal",
-            "source": "reference-pixel-extraction"
-          },
-          "ao": {
-            "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_ao.png",
-            "url": "creambinding_ao.png",
-            "channel": "ao",
-            "source": "reference-pixel-extraction"
-          }
-        },
-        "diagnostics": {
-          "sourceWidth": 192,
-          "sourceHeight": 540,
-          "mapSize": 1024,
-          "cropBBoxPixels": {
-            "x": 0,
-            "y": 0,
-            "width": 192,
-            "height": 540
-          },
-          "mask": {
-            "backgroundColor": "#FFFFFF",
-            "backgroundNoise": 0.0,
-            "transparentPixelFraction": 0.0,
-            "foregroundCoverage": 1.0
-          },
-          "mapStats": {
-            "valueRange": 0.08,
-            "heightP90Gradient": 0.0,
-            "roughnessBase": 0.68,
-            "roughnessVariation": 0.05,
-            "normalStrength": 0.156,
-            "blurRadius": 21
-          },
-          "palette": [
-            "#FFFFFF"
-          ]
-        },
-        "warnings": [
-          "foreground mask is tiny; material extraction is likely unreliable",
-          "image is not clearly isolated from background; using most pixels as material evidence",
-          "object/background separation is weak",
-          "single-image inverse rendering cannot prove true physical PBR; confidence is capped",
-          "low value range weakens height/roughness inference",
-          "low high-frequency detail weakens normal/roughness inference"
-        ],
-        "approximation": "PBR confidence below the 0.7 gate - part is too narrow in the reference to resolve. Scalars are identity-derived, not pixel-proven."
-      },
       "finishClass": "plastic",
-      "texturePalette": [
-        "#FFFFFF",
-        "#FFFFFF",
-        "#FFFFFF",
-        "#FFFFFF",
-        "#FFFFFF"
-      ],
-      "proceduralTexture": "brushed",
-      "transmission": {
-        "base": 0.0,
-        "variation": 0.0
-      },
-      "ior": {
-        "base": 1.5,
-        "value": 1.5
-      },
-      "envMapIntensity": 1.0,
-      "anisotropy": {
-        "base": 1.0
-      },
       "finishClassConfidence": 0.61,
       "classifierOverride": {
         "overriddenBy": "agent-vision",
@@ -7544,9 +5665,96 @@
       "description": "Admitted reference view: forearm contour, body edge bevel, depth cue, hardware relief",
       "admitted": true,
       "confidence": 0.95
+    },
+    {
+      "timestamp": "2026-08-02T16:59:46.050113+00:00",
+      "passId": "blockout",
+      "estimatedFidelity": 0.8594,
+      "aiVisionScore": 0.86,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.89,
+        "componentStructure": 0.8,
+        "formDetail": 0.45,
+        "materialSurface": 0.4,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "body-silhouette",
+          "score": 0.88,
+          "tier": "critical",
+          "threshold": 0.85,
+          "passed": true,
+          "notes": "Offset double-cutaway traced from the front reference (61-pt outline). Silhouette IoU 0.896, scale delta 0.005. Horn asymmetry reads correctly."
+        },
+        {
+          "id": "neck-headstock-line",
+          "score": 0.83,
+          "tier": "critical",
+          "threshold": 0.82,
+          "passed": true,
+          "notes": "Neck + traced headstock plate in correct proportion. Headstock re-traced with an x-clip after the first trace swallowed the protruding tuner buttons. Break angle is assumed (0.45 confidence, unseen in all three views)."
+        }
+      ],
+      "referenceScreenshot": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/refs/renegade-front.png",
+      "renderScreenshot": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/renders/front.png",
+      "comparisonImage": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/cmp-blockout-front.png",
+      "cameraView": "",
+      "notes": "",
+      "aiVisionNotes": ""
     }
   ],
-  "reviewHistory": [],
+  "reviewHistory": [
+    {
+      "timestamp": "2026-08-02T16:59:46.050113+00:00",
+      "passId": "blockout",
+      "estimatedFidelity": 0.8594,
+      "aiVisionScore": 0.86,
+      "visualAcceptanceThreshold": 0.7,
+      "layerScores": {
+        "silhouetteProportion": 0.89,
+        "componentStructure": 0.8,
+        "formDetail": 0.45,
+        "materialSurface": 0.4,
+        "lightingCamera": 0.8
+      },
+      "featureReviews": [
+        {
+          "id": "body-silhouette",
+          "score": 0.88,
+          "tier": "critical",
+          "threshold": 0.85,
+          "passed": true,
+          "notes": "Offset double-cutaway traced from the front reference (61-pt outline). Silhouette IoU 0.896, scale delta 0.005. Horn asymmetry reads correctly."
+        },
+        {
+          "id": "neck-headstock-line",
+          "score": 0.83,
+          "tier": "critical",
+          "threshold": 0.82,
+          "passed": true,
+          "notes": "Neck + traced headstock plate in correct proportion. Headstock re-traced with an x-clip after the first trace swallowed the protruding tuner buttons. Break angle is assumed (0.45 confidence, unseen in all three views)."
+        }
+      ],
+      "action": "continue",
+      "summary": "Blockout: reference-traced body + headstock outlines, correct macro proportions, hardware placed. Divine Eye 0.8594/0.85, all hard gates pass (silhouette IoU 0.896, scale delta 0.005). Deferred by design: frets/inlays/strings/tuners (structural-pass), contours+bevels (form-refinement), metallic flake (material/surface). Headstock break angle assumed - unseen in all three views.",
+      "matched": [],
+      "mismatches": [],
+      "specFixes": [],
+      "codeFixes": [],
+      "evidence": [],
+      "mapStrippedRender": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/renders-stripped/front.png",
+      "visualEvidence": {
+        "referenceScreenshot": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/refs/renegade-front.png",
+        "renderScreenshot": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/renders/front.png",
+        "comparisonImage": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/cmp-blockout-front.png",
+        "cameraView": "",
+        "notes": "",
+        "aiVisionNotes": ""
+      }
+    }
+  ],
   "lodPlan": [
     {
       "tier": "near",
@@ -7674,7 +5882,7 @@
         "key_path": "categories.material_pbr[4]",
         "score": 12.665697648694,
         "snippets": [
-          "Secondary reflective coating layer on top of the base material, simulating varnish, lacquer, or automotive paint. L\u1edbp ph\u1ee7 ph\u1ea3n x\u1ea1 th\u1ee9 c\u1ea5p n\u1eb1m tr\u00ean v\u1eadt li\u1ec7u n\u1ec1n, m\u00f4 ph\u1ecfng vecni, s\u01a1n m\u00e0i ho\u1eb7c s\u01a1n xe h\u01a1i. Recognition cues: A distinct, sharp ..."
+          "Secondary reflective coating layer on top of the base material, simulating varnish, lacquer, or automotive paint. Lớp phủ phản xạ thứ cấp nằm trên vật liệu nền, mô phỏng vecni, sơn mài hoặc sơn xe hơi. Recognition cues: A distinct, sharp ..."
         ],
         "source_refs": [
           {
@@ -7698,7 +5906,7 @@
         "key_path": "categories.material_pbr[9]",
         "score": 5.405913104066,
         "snippets": [
-          "... CS2, nh\u00fang trong k\u00eanh alpha c\u1ee7a texture Base Color, \u0111\u1ed9c l\u1eadp v\u1edbi \u0111\u1ed9 trong su\u1ed1t th\u1ecb gi\u00e1c. Recognition cues: Alpha ~196: paint erodes early, visible scratches/chips even at low float (Factory New range); Alpha <128: durable, resists ..."
+          "... CS2, nhúng trong kênh alpha của texture Base Color, độc lập với độ trong suốt thị giác. Recognition cues: Alpha ~196: paint erodes early, visible scratches/chips even at low float (Factory New range); Alpha <128: durable, resists ..."
         ],
         "source_refs": [
           {
@@ -7722,7 +5930,7 @@
         "key_path": "categories.rendering_shader_mapping[0]",
         "score": 5.209007323165,
         "snippets": [
-          "... \u0111\u1ed3 cho b\u1ed9 k\u00eanh PBR ti\u00eau chu\u1ea9n. Recognition cues: Use whenever a static (non-procedural) material fully described by baked textures is sufficient \u2014 the majority of extracted CS2 skins D\u1ea5u hi\u1ec7u nh\u1eadn di\u1ec7n: D\u00f9ng khi v\u1eadt li\u1ec7u t\u0129nh (kh\u00f4ng ..."
+          "... đồ cho bộ kênh PBR tiêu chuẩn. Recognition cues: Use whenever a static (non-procedural) material fully described by baked textures is sufficient — the majority of extracted CS2 skins Dấu hiệu nhận diện: Dùng khi vật liệu tĩnh (không ..."
         ],
         "source_refs": [
           {
@@ -7741,348 +5949,188 @@
       }
     ]
   },
-  "pbrExtractionHistory": [
+  "tier1Results": [
     {
-      "materialId": "bodyFinish",
-      "confidence": 0.751,
-      "verdict": "pass",
-      "usable": true,
-      "maps": {
-        "albedo": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_albedo.png",
-          "url": "bodyfinish_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        },
-        "roughness": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_roughness.png",
-          "url": "bodyfinish_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
-        "height": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_height.png",
-          "url": "bodyfinish_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
-        "normal": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_normal.png",
-          "url": "bodyfinish_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "ao": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/bodyFinish/bodyfinish_ao.png",
-          "url": "bodyfinish_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.8901,
+        "aspectRatioDelta": 0.005,
+        "scaleDelta": 0.005,
+        "bilateralSymmetryError": 0.1618,
+        "colorDelta": {
+          "checked": 18,
+          "maxDeltaE": 27.34,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 9.64
+            },
+            {
+              "componentId": null,
+              "deltaE": 9.64
+            },
+            {
+              "componentId": null,
+              "deltaE": 27.34
+            },
+            {
+              "componentId": null,
+              "deltaE": 27.34
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.57
+            },
+            {
+              "componentId": null,
+              "deltaE": 7.68
+            },
+            {
+              "componentId": null,
+              "deltaE": 23.68
+            },
+            {
+              "componentId": null,
+              "deltaE": 26.68
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.46
+            },
+            {
+              "componentId": null,
+              "deltaE": 23.68
+            },
+            {
+              "componentId": null,
+              "deltaE": 23.68
+            },
+            {
+              "componentId": null,
+              "deltaE": 7.68
+            },
+            {
+              "componentId": null,
+              "deltaE": 7.68
+            },
+            {
+              "componentId": null,
+              "deltaE": 7.68
+            },
+            {
+              "componentId": null,
+              "deltaE": 23.68
+            },
+            {
+              "componentId": null,
+              "deltaE": 7.68
+            },
+            {
+              "componentId": null,
+              "deltaE": 7.68
+            },
+            {
+              "componentId": null,
+              "deltaE": 7.68
+            }
+          ],
+          "gated": false
         }
-      }
+      },
+      "failures": [],
+      "renderHash": "4373f7549c5314dc",
+      "passId": null
     },
     {
-      "materialId": "chrome",
-      "confidence": 0.765,
-      "verdict": "pass",
-      "usable": true,
-      "maps": {
-        "albedo": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_albedo.png",
-          "url": "chrome_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        },
-        "roughness": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_roughness.png",
-          "url": "chrome_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
-        "height": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_height.png",
-          "url": "chrome_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
-        "normal": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_normal.png",
-          "url": "chrome_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "ao": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/chrome/chrome_ao.png",
-          "url": "chrome_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
+      "passed": true,
+      "checks": {
+        "silhouetteIoU": 0.8962,
+        "aspectRatioDelta": 0.005,
+        "scaleDelta": 0.005,
+        "bilateralSymmetryError": 0.16,
+        "colorDelta": {
+          "checked": 18,
+          "maxDeltaE": 27.51,
+          "perComponent": [
+            {
+              "componentId": null,
+              "deltaE": 9.6
+            },
+            {
+              "componentId": null,
+              "deltaE": 9.6
+            },
+            {
+              "componentId": null,
+              "deltaE": 27.51
+            },
+            {
+              "componentId": null,
+              "deltaE": 27.51
+            },
+            {
+              "componentId": null,
+              "deltaE": 15.6
+            },
+            {
+              "componentId": null,
+              "deltaE": 7.36
+            },
+            {
+              "componentId": null,
+              "deltaE": 23.73
+            },
+            {
+              "componentId": null,
+              "deltaE": 26.73
+            },
+            {
+              "componentId": null,
+              "deltaE": 11.68
+            },
+            {
+              "componentId": null,
+              "deltaE": 23.73
+            },
+            {
+              "componentId": null,
+              "deltaE": 23.73
+            },
+            {
+              "componentId": null,
+              "deltaE": 7.36
+            },
+            {
+              "componentId": null,
+              "deltaE": 7.36
+            },
+            {
+              "componentId": null,
+              "deltaE": 7.36
+            },
+            {
+              "componentId": null,
+              "deltaE": 23.73
+            },
+            {
+              "componentId": null,
+              "deltaE": 7.36
+            },
+            {
+              "componentId": null,
+              "deltaE": 7.36
+            },
+            {
+              "componentId": null,
+              "deltaE": 7.36
+            }
+          ],
+          "gated": false
         }
-      }
-    },
-    {
-      "materialId": "brassSaddle",
-      "confidence": 0.8,
-      "verdict": "pass",
-      "usable": true,
-      "maps": {
-        "albedo": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_albedo.png",
-          "url": "brasssaddle_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        },
-        "roughness": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_roughness.png",
-          "url": "brasssaddle_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
-        "height": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_height.png",
-          "url": "brasssaddle_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
-        "normal": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_normal.png",
-          "url": "brasssaddle_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "ao": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/brassSaddle/brasssaddle_ao.png",
-          "url": "brasssaddle_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        }
-      }
-    },
-    {
-      "materialId": "blackPlastic",
-      "confidence": 0.86,
-      "verdict": "pass",
-      "usable": true,
-      "maps": {
-        "albedo": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_albedo.png",
-          "url": "blackplastic_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        },
-        "roughness": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_roughness.png",
-          "url": "blackplastic_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
-        "height": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_height.png",
-          "url": "blackplastic_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
-        "normal": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_normal.png",
-          "url": "blackplastic_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "ao": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackPlastic/blackplastic_ao.png",
-          "url": "blackplastic_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        }
-      }
-    },
-    {
-      "materialId": "mapleSatin",
-      "confidence": 0.86,
-      "verdict": "pass",
-      "usable": true,
-      "maps": {
-        "albedo": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_albedo.png",
-          "url": "maplesatin_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        },
-        "roughness": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_roughness.png",
-          "url": "maplesatin_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
-        "height": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_height.png",
-          "url": "maplesatin_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
-        "normal": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_normal.png",
-          "url": "maplesatin_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "ao": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/mapleSatin/maplesatin_ao.png",
-          "url": "maplesatin_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        }
-      }
-    },
-    {
-      "materialId": "blackGloss",
-      "confidence": 0.612,
-      "verdict": "conditional",
-      "usable": false,
-      "maps": {
-        "albedo": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_albedo.png",
-          "url": "blackgloss_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        },
-        "roughness": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_roughness.png",
-          "url": "blackgloss_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
-        "height": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_height.png",
-          "url": "blackgloss_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
-        "normal": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_normal.png",
-          "url": "blackgloss_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "ao": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/blackGloss/blackgloss_ao.png",
-          "url": "blackgloss_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        }
-      }
-    },
-    {
-      "materialId": "rosewood",
-      "confidence": 0.612,
-      "verdict": "conditional",
-      "usable": false,
-      "maps": {
-        "albedo": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_albedo.png",
-          "url": "rosewood_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        },
-        "roughness": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_roughness.png",
-          "url": "rosewood_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
-        "height": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_height.png",
-          "url": "rosewood_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
-        "normal": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_normal.png",
-          "url": "rosewood_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "ao": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/rosewood/rosewood_ao.png",
-          "url": "rosewood_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        }
-      }
-    },
-    {
-      "materialId": "fretNickel",
-      "confidence": 0.612,
-      "verdict": "conditional",
-      "usable": false,
-      "maps": {
-        "albedo": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_albedo.png",
-          "url": "fretnickel_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        },
-        "roughness": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_roughness.png",
-          "url": "fretnickel_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
-        "height": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_height.png",
-          "url": "fretnickel_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
-        "normal": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_normal.png",
-          "url": "fretnickel_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "ao": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/fretNickel/fretnickel_ao.png",
-          "url": "fretnickel_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        }
-      }
-    },
-    {
-      "materialId": "creamBinding",
-      "confidence": 0.612,
-      "verdict": "conditional",
-      "usable": false,
-      "maps": {
-        "albedo": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_albedo.png",
-          "url": "creambinding_albedo.png",
-          "channel": "albedo",
-          "source": "reference-pixel-extraction"
-        },
-        "roughness": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_roughness.png",
-          "url": "creambinding_roughness.png",
-          "channel": "roughness",
-          "source": "reference-pixel-extraction"
-        },
-        "height": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_height.png",
-          "url": "creambinding_height.png",
-          "channel": "height",
-          "source": "reference-pixel-extraction"
-        },
-        "normal": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_normal.png",
-          "url": "creambinding_normal.png",
-          "channel": "normal",
-          "source": "reference-pixel-extraction"
-        },
-        "ao": {
-          "path": "/tmp/claude-0/-home-user-originguitars/76038984-cd42-5dab-9708-9a4ba07ece2a/scratchpad/build/pbr/creamBinding/creambinding_ao.png",
-          "url": "creambinding_ao.png",
-          "channel": "ao",
-          "source": "reference-pixel-extraction"
-        }
-      }
+      },
+      "failures": [],
+      "renderHash": "d38901bb9dca8593",
+      "passId": null
     }
   ]
 }

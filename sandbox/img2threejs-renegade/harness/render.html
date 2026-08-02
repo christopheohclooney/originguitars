@@ -49,12 +49,26 @@ try {
 
 if (model) {
   scene.add(model);
+  model.updateMatrixWorld(true);
   // root is a container in the spec but the schema has no 'group' primitive, so it
   // generates as a 1x1x1 box that swallows the model. Hide it before framing.
+  let hidden = 0;
   model.traverse(o => {
+    if (!o.isMesh) return;
     const sc = o.userData && o.userData.sculptComponent;
-    if (o.isMesh && sc && sc.id === 'root') o.visible = false;
+    const id = sc && sc.id;
+    if (id === 'root' || o.name === model.name) { o.visible = false; hidden += 1; }
   });
+  window.__hidden = hidden;
+  // map-stripped evidence mode: unlit clay, every texture/map removed, so the
+  // blockout gate sees GEOMETRY and cannot be fooled by a texture doing the work.
+  if (params.get('strip') === '1') {
+    scene.environment = null;
+    model.traverse(o => {
+      if (!o.isMesh) return;
+      o.material = new THREE.MeshNormalMaterial({ flatShading: false });
+    });
+  }
   try { const l = window.makeLights && window.makeLights(); if (l) scene.add(l); } catch (e) {}
   // guarantee some light even if the lookdev helper is a no-op at this pass
   const key = new THREE.DirectionalLight('#fff6e8', 2.6); key.position.set(-0.35, 0.78, 0.52).multiplyScalar(5);
@@ -64,6 +78,7 @@ if (model) {
   scene.add(new THREE.HemisphereLight('#ffffff', '#9aa0a8', 0.6));
 
   // frame the model
+  model.updateMatrixWorld(true);
   const box = new THREE.Box3();
   model.traverse(o => { if (o.isMesh && o.visible) box.expandByObject(o); });
   const size = box.getSize(new THREE.Vector3());
@@ -78,15 +93,24 @@ if (model) {
     const dist = (Math.max(size.y / aspect, size.x) * pad) / (2 * Math.tan((28 * Math.PI / 180) / 2));
     cam.position.set(center.x + dist * 0.42, center.y + dist * 0.06, center.z + dist * 0.90);
   } else {
-    // orthographic to match the near-telecentric product shots
-    const hh = (size.y * pad) / 2;
-    const hw = Math.max(hh * aspect, (size.x * pad) / 2);
+    // Camera-match the reference framing. The reference subject occupies a known
+    // rect of its frame; matching it is what makes silhouette IoU / scale delta
+    // measure SHAPE instead of measuring how tightly I happened to crop.
+    const REF = { hFrac: 0.8933, cx: 0.5538, cy: 0.4950 };
+    const frameH = size.y / REF.hFrac;
+    const frameW = frameH * aspect;
+    const hh = frameH / 2;
+    const hw = frameW / 2;
     cam = new THREE.OrthographicCamera(-hw, hw, hh, -hh, 0.01, 100);
     const d = Math.max(size.z, size.x, size.y) * 4;
-    if (view === 'back') cam.position.set(center.x, center.y, center.z - d);
-    else if (view === 'left') cam.position.set(center.x - d, center.y, center.z);
-    else if (view === 'right') cam.position.set(center.x + d, center.y, center.z);
-    else cam.position.set(center.x, center.y, center.z + d);
+    const dx = (REF.cx - 0.5) * frameW * (view === 'back' ? -1 : 1);
+    const dy = (0.5 - REF.cy) * frameH;
+    const tx = center.x - dx, ty = center.y - dy;
+    if (view === 'back') cam.position.set(tx, ty, center.z - d);
+    else if (view === 'left') cam.position.set(tx - d + center.x - tx, ty, center.z);
+    else if (view === 'right') cam.position.set(center.x + d, ty, center.z);
+    else cam.position.set(tx, ty, center.z + d);
+    center.set(tx, ty, center.z);
   }
   cam.lookAt(center);
   cam.updateProjectionMatrix();

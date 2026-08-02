@@ -60,8 +60,8 @@ def rdp(pts, eps):
         return rdp(pts[:idx+1], eps)[:-1] + rdp(pts[idx:], eps)
     return [pts[0], pts[-1]]
 
-def profile(y0, y1, target_h, eps=3.0, max_pts=90):
-    m = mask(y0, y1)
+def profile(y0, y1, target_h, eps=3.0, max_pts=90, x0=0, x1=None):
+    m = mask(y0, y1, x0, x1 if x1 is not None else W)
     c = trace(m, y0, y1)
     if not c: return None, None
     c = rdp(c, eps)
@@ -70,10 +70,11 @@ def profile(y0, y1, target_h, eps=3.0, max_pts=90):
     xs = [p[0] for p in c]; ys = [p[1] for p in c]
     cx = (min(xs) + max(xs)) / 2.0; cy = (min(ys) + max(ys)) / 2.0
     pw = max(xs) - min(xs); ph = max(ys) - min(ys)
-    # generator emits UNIT primitives and scales them by dimensions{}, so the profile
-    # must span 1.0 on both axes or it gets scaled twice.
-    pts = [[round((x - cx) / pw, 5), round((cy - y) / ph, 5)] for x, y in c]
-    return pts, (pw / ph) * target_h
+    # the generator applies NO dimensions{} scaling to emitted geometry - it uses the
+    # profile literally - so these points must already be in world units.
+    sc = target_h / ph
+    pts = [[round((x - cx) * sc, 5), round((cy - y) * sc, 5)] for x, y in c]
+    return pts, pw * sc
 
 spec = json.load(open(P))
 byid = {c["id"]: c for c in spec["componentTree"]}
@@ -81,14 +82,16 @@ byid = {c["id"]: c for c in spec["componentTree"]}
 # body: rows below the horn tips through the tail (measured off the front bbox)
 body_pts, body_w = profile(1318, 2266, target_h=0.434)
 # headstock: top of image through the nut
-head_pts, head_w = profile(112, 500, target_h=0.174, eps=2.0)
+# clip x to the headstock PLATE - the six tuner buttons protrude past its right
+# edge and were being traced as part of the silhouette.
+head_pts, head_w = profile(114, 446, target_h=0.174, eps=2.0, x0=780, x1=902)
 
 for cid, pts, depth, w in (("body", body_pts, 0.045, body_w),
                            ("headstock", head_pts, 0.014, head_w)):
     if not pts:
         print(f"{cid}: TRACE FAILED"); continue
     c = byid[cid]
-    c["geometryDescriptor"]["profile2D"] = {"points": pts, "depth": 1.0}
+    c["geometryDescriptor"]["profile2D"] = {"points": pts, "depth": depth}
     c["geometryDescriptor"]["topologyIntent"] = (
         "reference-traced closed outline, extruded with a perimeter bevel")
     c["dimensions"]["width"] = round(w, 4)
@@ -96,7 +99,7 @@ for cid, pts, depth, w in (("body", body_pts, 0.045, body_w),
 
 # fretboard + thin panels: simple rectangles are correct, but give them real ones
 def rect(w, h, depth):
-    return {"points": [[-0.5, -0.5], [0.5, -0.5], [0.5, 0.5], [-0.5, 0.5]], "depth": 1.0}
+    return {"points": [[-w/2, -h/2], [w/2, -h/2], [w/2, h/2], [-w/2, h/2]], "depth": depth}
 for cid in ("fretboard", "cavityCover", "headstockFace"):
     c = byid[cid]; d = c["dimensions"]
     c["geometryDescriptor"]["profile2D"] = rect(d["width"], d["height"], d["depth"])

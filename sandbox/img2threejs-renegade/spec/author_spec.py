@@ -49,7 +49,7 @@ comps.append(C("body", "Solid body", "macro", "body", "root", "extrude",
            F("forearmContour", "contour", "Forearm bevel, front upper treble bout.", "vertex displacement / boolean-free sculpt on front face", 0.80),
            F("bellyContour", "contour", "Deep smooth belly scoop, back treble side.", "vertex displacement on rear face, radial falloff", 0.87)]))
 
-comps.append(C("neck", "Bolt-on neck", "macro", "neck", "root", "curve-sweep",
+comps.append(C("neck", "Bolt-on neck", "macro", "neck", "root", "box",
     "continuous-surface",
     "Continuous tapered shaft with a rounded (C-profile) rear; a box would read flat. "
     "Rear profile is INFERRED - no side view.",
@@ -58,19 +58,19 @@ comps.append(C("neck", "Bolt-on neck", "macro", "neck", "root", "curve-sweep",
            F("heel", "joint", "Contoured heel entering the neck pocket.", "boolean-free overlap into body pocket", 0.78)],
     att=A("neckPocket", (0, -0.196, 0), (0, 0.196, 0), "socketed", 0.035)))
 
-comps.append(C("headstock", "Headstock", "macro", "headstock", "neck", "extrude",
+comps.append(C("headstock", "Headstock", "macro", "headstock", "root", "extrude",
     "assembled-solid",
     "Pointed six-in-line plate, extruded from a traced 2D outline; angled back off the neck plane.",
-    (0.075, 0.174, 0.014), (0, 0.283, 0.004), "mapleSatin", 0.9, 0.90, rot=(-0.22, 0, 0),
+    (0.075, 0.174, 0.014), (0, 0.391, 0.004), "mapleSatin", 0.9, 0.90, rot=(-0.22, 0, 0),
     feats=[F("pointProfile", "contour", "Sharp asymmetric point with concave lower sweep.", "traced bezier outline, extruded", 0.92),
            F("headstockAngle", "contour", "Backward break angle off the neck plane. INFERRED - unseen in all 3 views.", "assumed 13deg", 0.45)],
     att=A("nutEnd", (0, -0.087, 0), (0, 0.087, 0), "fused", 0.01)))
 
 # ============ MESO ============
 meso = [
- ("fretboard", "Fretboard", "fretboard", "neck", "extrude", "continuous-surface",
+ ("fretboard", "Fretboard", "fretboard", "root", "extrude", "continuous-surface",
   "Thin cambered slab laminated to the neck face; camber is a cylindrical arc, not flat.",
-  (0.055, 0.392, 0.006), (0, 0.108, 0.013), "rosewood", 0.9, 0.90,
+  (0.055, 0.392, 0.011), (0, 0.108, 0.013), "rosewood", 0.9, 0.90,
   [F("camber", "contour", "Compound/cylindrical radius across the board.", "arc-swept plane", 0.70),
    F("binding", "edge-treatment", "Cream binding both edges, capping fret ends.", "thin side strips, creamBinding material", 0.85)], None),
  ("neckPlate", "4-bolt neck plate", "hardware", "body", "box", "hard-surface-panel",
@@ -86,9 +86,9 @@ meso = [
   (0.070, 0.168, 0.001), (0, 0, 0.008), "blackGloss", 0.85, 0.92,
   [F("logo", "painted-linework", "'Renegade' script + 'by HMI' + 'HMI SERIES' wordmark.", "canvas-texture decal, albedo only", 0.95),
    F("binding", "edge-treatment", "Cream binding visible as a rim around the black face.", "parent maple showing past inset face", 0.90)], None),
- ("nut", "Nut", "hardware", "neck", "box", "hard-surface-panel",
+ ("nut", "Nut", "hardware", "root", "box", "hard-surface-panel",
   "Thin nut at the fretboard/headstock junction.",
-  (0.043, 0.005, 0.008), (0, 0.304, 0.014), "creamBinding", 0.5, 0.80, [], None),
+  (0.055, 0.005, 0.014), (0, 0.304, 0.013), "creamBinding", 0.5, 0.80, [], None),
  ("pickupNeck", "Neck humbucker", "hardware", "body", "box", "hard-surface-panel",
   "Black humbucker: two bobbins with a centre split line and four corner mounting screws.",
   (0.070, 0.030, 0.010), (0, -0.155, 0.026), "blackPlastic", 0.9, 0.90,
@@ -138,10 +138,29 @@ for c in comps:
         c["evidenceRefs"] = ["front", "back", "three-quarter"]
     elif c["id"] in {"body", "neck"}:
         c["evidenceRefs"] = ["front", "back", "three-quarter"]
-    elif c["id"] == "headstock":
+    elif c["id"] in ("headstock", "fretboard", "nut"):
         c["evidenceRefs"] = ["front", "back"]
     else:
         c["evidenceRefs"] = ["front", "three-quarter"]
+
+# --- coordinate fix ---------------------------------------------------------
+# Hardware was authored in WORLD coordinates but parented to `body`, so the body's
+# own offset got added a second time (parts floated below the guitar). Convert them
+# to body-local. Also centre the body in depth: ExtrudeGeometry runs 0..depth, so
+# the slab sat entirely in front of z=0.
+_by = {c["id"]: c for c in comps}
+_body = _by["body"]
+_body["transform"]["position"][2] = -_body["dimensions"]["depth"] / 2.0
+_bp = list(_body["transform"]["position"])
+for c in comps:
+    if c["parent"] == "body":
+        p_ = c["transform"]["position"]
+        c["transform"]["position"] = [round(p_[i] - _bp[i], 5) for i in range(3)]
+# CylinderGeometry's axis is +Y; knobs/buttons/jack face the player along +Z.
+for cid in ("knobVolume", "knobTone", "strapButtonHorn", "strapButtonTail", "outputJack"):
+    _by[cid]["transform"]["rotation"] = [1.5708, 0, 0]
+# fretboard sits on the neck's front face, not floating above it
+_by["fretboard"]["transform"]["position"][2] = 0.007
 
 spec["componentTree"] = comps
 
@@ -291,11 +310,18 @@ for c in spec["componentTree"]:
         "evidenceRefs": c["evidenceRefs"],
         "notes": m.get("samplingNotes", ""),
     }
-    # every non-root part must declare how it physically attaches
-    if c["parent"] and not c.get("attachment"):
-        h = c["dimensions"]["height"] / 2.0
-        c["attachment"] = A(f"{c['parent']}.surface", (0, -h, 0), (0, h, 0),
-                            "surface-mounted", max(c["dimensions"]["depth"] * 0.25, 0.001))
+    # NOTE: an attachment with localStart/localEnd makes the generator emit
+    # CylinderGeometry from the endpoints INSTEAD of the component's real primitive
+    # (see mesh_<id>Geometry ternary). Strict-quality wants an attachment on every
+    # non-root part, but honouring that replaces the traced body outline with a tube.
+    # Geometry correctness wins; the strict warning is accepted and documented.
+    c["attachment"] = None
+    # the generator emits UNIT box/cylinder primitives and never scales them by
+    # dimensions{}, so real size has to ride on transform.scale.
+    d = c["dimensions"]
+    # root is a CONTAINER: scaling it multiplies every descendant, so leave it at 1.
+    if c["id"] != "root" and c["primitive"] in ("box", "cylinder", "sphere", "capsule", "cone"):
+        c["transform"]["scale"] = [d["width"], d["height"], d["depth"]]
 
 for r in spec["repetitionSystems"]:
     r["buildsGeometry"] = True

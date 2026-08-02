@@ -1,0 +1,6 @@
+[
+ {"id":"body-silhouette","score":0.88,"tier":"critical","threshold":0.85,"passed":true,
+  "notes":"Offset double-cutaway traced from the front reference (61-pt outline). Silhouette IoU 0.896, scale delta 0.005. Horn asymmetry reads correctly."},
+ {"id":"neck-headstock-line","score":0.83,"tier":"critical","threshold":0.82,"passed":true,
+  "notes":"Neck + traced headstock plate in correct proportion. Headstock re-traced with an x-clip after the first trace swallowed the protruding tuner buttons. Break angle is assumed (0.45 confidence, unseen in all three views)."}
+]

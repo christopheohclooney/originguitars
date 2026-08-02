@@ -31,15 +31,15 @@ page.on('pageerror', e => errors.push(String(e)));
 page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
 
 for (const view of views) {
-  await page.goto(`http://127.0.0.1:${port}/render.html?view=${view}&w=800&h=1200`, { waitUntil: 'load' });
+  await page.goto(`http://127.0.0.1:${port}/render.html?view=${view}&w=800&h=1200${process.env.STRIP==='1'?'&strip=1':''}`, { waitUntil: 'load' });
   await page.waitForFunction('window.__ready === true', { timeout: 30000 }).catch(() => {});
   const err = await page.evaluate('window.__error || null');
-  const bbox = await page.evaluate('window.__bbox || null');
+  const bbox = await page.evaluate('window.__bbox || null'); const hid = await page.evaluate('window.__hidden');
   if (err) { console.log(`${view}: MODEL_ERROR ${err.split('\n')[0]}`); continue; }
   const canvas = await page.$('canvas');
   if (!canvas) { console.log(`${view}: NO CANVAS`); continue; }
   await canvas.screenshot({ path: path.join(outDir, `${view}.png`) });
-  console.log(`${view}: ok  bbox size=${bbox ? bbox.size.map(n => n.toFixed(3)).join(',') : '?'}`);
+  console.log(`${view}: ok  bbox size=${bbox ? bbox.size.map(n => n.toFixed(3)).join(',') : '?'} hiddenRootMeshes=${hid}`);
 }
 if (errors.length) console.log('JS errors:', [...new Set(errors)].slice(0, 5).join(' | '));
 await browser.close();
