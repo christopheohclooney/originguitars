@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "gradient-text",
+        "value": "*",
+        "files": [
+          "app/globals.css"
+        ],
+        "createdAt": "2026-08-05T15:20:28.774Z",
+        "reason": "Metallic display type is an explicit brand treatment specified by the client for hero headings: bright through the middle of the line falling to dim grey at both ends, clipped to the letterforms. Domain-appropriate for a guitar maker (chrome hardware), not decorative default. Has a forced-colours fallback so the heading never renders invisible."
+      }
+    ]
+  }
+}

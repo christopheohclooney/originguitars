@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 import { buttonClasses } from "@/components/ui/button";
+import { PageHero } from "@/components/ui/page-hero";
 import { shell } from "@/lib/style";
 
 export const metadata: Metadata = {
@@ -77,16 +78,10 @@ const faqs: Faq[] = [
 export default function FaqPage() {
   return (
     <main>
-      <section className={`${shell} pt-16 pb-16 md:pt-24 md:pb-20`}>
-        <p className="font-mono text-[0.8125rem] text-ink-muted">FAQ</p>
-        <h1 className="mt-6 max-w-[18ch] text-[clamp(2.75rem,6vw,4rem)] font-bold leading-[1.02] tracking-[-0.03em]">
-          Answered before you spend anything
-        </h1>
-        <p className="mt-8 max-w-[62ch] text-[1.125rem] leading-[1.55] text-ink-muted">
-          The questions worth having settled before you start a build. If yours
-          is not here, the UK team is one email away.
-        </p>
-      </section>
+      <PageHero
+        title="Answered before you spend anything"
+        intro="The questions worth having settled before you start a build. If yours is not here, the UK team is one email away."
+      />
 
       <section className="border-t border-line py-12 md:py-16">
         <div className={shell}>

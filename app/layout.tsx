@@ -1,7 +1,30 @@
 import type { Metadata } from "next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
+import localFont from "next/font/local";
 import "./globals.css";
+
+/*
+ * Archivo — the primary face, for headings and display type.
+ *
+ * The variable woff2 is vendored into app/fonts rather than pulled from
+ * next/font/google, for the same reason Geist is: a build-time fetch to
+ * Google Fonts fails on any network that filters it, and next parses the
+ * resulting HTML error page as CSS. The file is the latin subset of the
+ * wght axis from @fontsource-variable/archivo, OFL-1.1, licence alongside
+ * it.
+ *
+ * Declared as one variable font rather than per-weight faces, so any weight
+ * in 100-900 is available without shipping a file for each.
+ */
+const archivo = localFont({
+  src: "./fonts/archivo-variable-latin.woff2",
+  weight: "100 900",
+  style: "normal",
+  display: "swap",
+  variable: "--font-archivo",
+  fallback: ["system-ui", "sans-serif"],
+});
 
 /*
  * Fonts are self-hosted via the `geist` package rather than fetched through
@@ -31,7 +54,7 @@ export default function RootLayout({
   return (
     <html
       lang="en-GB"
-      className={`${GeistSans.variable} ${GeistMono.variable} h-full antialiased`}
+      className={`${archivo.variable} ${GeistSans.variable} ${GeistMono.variable} h-full antialiased`}
     >
       {/* `relative` is the containing block for the light leak in (site)/layout. */}
       <body className="relative min-h-full flex flex-col bg-canvas text-ink">

@@ -40,6 +40,14 @@
   /* Functional — validation only, never decorative */
   --color-danger: #f97066;
 
+  /*
+    Type. Archivo is the primary — headings and display. Geist is the
+    secondary, and stays the body face, which is why it keeps --font-sans
+    and the default: prose is the majority of the type on the site, so the
+    token that everything inherits is the one it should already be set in.
+    Geist Mono carries all numerals.
+  */
+  --font-display: var(--font-archivo);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
@@ -156,6 +164,39 @@ details[open] [data-accordion-bar] {
 [data-canvas] {
   background-image: var(--canvas-glow);
 }
+
+/*
+  Metallic display type: bright through the middle of the line, falling to a
+  dim grey at both ends. The gradient is clipped to the glyphs, so it is the
+  letterforms that are lit rather than a panel behind them.
+*/
+[data-metal] {
+  background-image: linear-gradient(
+    to right,
+    #5a5a5a 0%,
+    #9a9a9a 18%,
+    #ffffff 50%,
+    #9a9a9a 82%,
+    #5a5a5a 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/*
+  Forced-colours modes drop background images, which would leave the heading
+  as transparent text on a solid ground — invisible. Putting the colour back
+  costs nothing and is the difference between a styled heading and no
+  heading at all.
+*/
+@media (forced-colors: active) {
+  [data-metal] {
+    background-image: none;
+    color: CanvasText;
+  }
+}
+
 
 /*
   Light leak — soft streaks raking in from the top right of the page.
