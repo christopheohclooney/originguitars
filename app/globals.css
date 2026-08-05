@@ -46,6 +46,22 @@
     The wordmark's letterforms are an asset, not a typeface.
   */
   --slant: 12deg;
+
+  /*
+    Total height the header occupies in flow: the pill itself plus the gutter
+    above and below it that makes it read as floating.
+
+    The builder measures a full screen against this, and the mobile panel
+    hangs off it, so it lives here rather than being repeated as a literal in
+    three components.
+  */
+  --header-h: 96px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --header-h: 104px;
+  }
 }
 
 body {

@@ -32,12 +32,19 @@ const tertiarySizes = {
   sm: "h-10 text-[0.875rem]",
 } as const;
 
+/*
+ * `inverse` is primary flipped, for use on dark chrome — the header pill is
+ * the first of these. On a dark ground the black CTA disappears, so white
+ * becomes the colour that reads as the action.
+ */
 export const buttonVariants = {
   primary: "bg-black text-white hover:bg-cta-hover active:bg-black",
   secondary:
     "border border-line-strong bg-white text-ink hover:border-ink active:bg-surface",
   tertiary:
     "text-ink underline underline-offset-[6px] decoration-line-strong hover:decoration-ink",
+  inverse:
+    "bg-white text-ink hover:bg-white/90 active:bg-white/80 focus-visible:outline-white",
 } as const;
 
 export type ButtonVariant = keyof typeof buttonVariants;

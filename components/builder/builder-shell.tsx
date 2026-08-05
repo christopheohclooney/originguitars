@@ -189,7 +189,7 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
    * flows and scrolls normally.
    */
   return (
-    <main className="flex min-h-[calc(100svh-72px)] flex-col lg:h-[calc(100svh-72px)] lg:min-h-0">
+    <main className="flex min-h-[calc(100svh-var(--header-h))] flex-col lg:h-[calc(100svh-var(--header-h))] lg:min-h-0">
       <div className="flex min-h-0 flex-1 items-center justify-center bg-canvas px-4 py-6 md:px-10 md:py-8">
         {/*
           The supplied photo is a portrait shot on a white ground, rotated and
