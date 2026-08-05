@@ -78,18 +78,20 @@ export function SiteFooter() {
       </div>
 
       {/*
-        Oversized wordmark, clipped by the footer's own bounds rather than
-        scaled to fit — it should read as a mark bleeding off the section, not
-        a resized logo. aria-hidden since "Origin Guitars" is already the
-        accessible name of the logo above.
+        Oversized wordmark. The asset's own fill is already a near-black
+        ghost gradient and its viewBox is already cropped to the intended
+        height — this is the finished full-bleed treatment, not raw brand
+        art, so it's placed at full opacity with no further fade or crop.
+        aria-hidden since "Origin Guitars" is already the accessible name of
+        the logo above.
       */}
-      <p
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src="/origin-wordmark-footer.svg"
+        alt=""
         aria-hidden
-        className="pointer-events-none relative z-0 -mt-4 select-none whitespace-nowrap text-center font-sans leading-none font-black tracking-tighter text-white/[0.06] sm:-mt-6 md:-mt-8"
-        style={{ fontSize: "clamp(5rem, 18vw, 15rem)" }}
-      >
-        ORIGIN
-      </p>
+        className="pointer-events-none relative z-0 -mt-4 w-full select-none sm:-mt-6 md:-mt-8"
+      />
     </footer>
   );
 }
