@@ -5,14 +5,14 @@ import { footerNav, primaryNav } from "@/lib/nav";
 import { shell } from "@/lib/style";
 
 /*
- * The footer sits on the canvas ground, not the deeper chrome ground — it
- * reads as a continuation of the page rather than a bar attached to the
- * bottom of it, so on the builder it runs straight on from the canvas with
- * no seam.
+ * The footer sits on the page ground, so it reads as a continuation of the
+ * page rather than a bar attached to the bottom of it. On the builder that
+ * puts it on the same tone as the option tray and price bar it follows, and
+ * on a content page it means the page is one shade from the header down.
  */
 export function SiteFooter() {
   return (
-    <footer className="relative overflow-hidden border-t border-line bg-canvas">
+    <footer className="relative overflow-hidden border-t border-line bg-surface">
       <div className={`${shell} relative z-10 py-16 md:py-20`}>
         <div className="flex flex-col gap-12 md:flex-row md:justify-between">
           <div>

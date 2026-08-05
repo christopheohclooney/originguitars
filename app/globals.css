@@ -26,12 +26,24 @@
   --color-cta-hover: #dedede;
 
   /*
-    Two grounds, and the deeper one is the chrome. The canvas carries the
-    instrument and is lifted by --canvas-glow below; the tray and price bar
-    sit *under* it so the controls recede and the guitar stays forward.
+    Two grounds, and the deeper one is the page.
+
+    --color-surface is what the site is set on: every content page, the
+    chrome of the builder, and the footer. --color-canvas is narrower than
+    its name suggests — it is the builder's stage only, the one place lifted
+    off the page ground so a near-black instrument has something to sit
+    against.
   */
-  --color-canvas: #0f0f0f;
   --color-surface: #0a0a0a;
+  --color-canvas: #0f0f0f;
+
+  /*
+    What lifts the page ground to the stage. White at 2% over --color-surface
+    lands on --color-canvas exactly, but as light rather than paint, so the
+    builder canvas can be raised without painting a lid over the light leak
+    behind it.
+  */
+  --canvas-lift: rgba(255, 255, 255, 0.0204);
 
   /* Lines */
   --color-line: #1f1f1f;
@@ -106,7 +118,7 @@
 }
 
 body {
-  background: var(--color-canvas);
+  background: var(--color-surface);
   color: var(--color-ink);
   font-family: var(--font-sans), system-ui, sans-serif;
 }
@@ -141,12 +153,15 @@ body {
 /*
   The builder canvas.
 
-  Deliberately paints no ground of its own — it takes --color-canvas from the
-  body and adds only light. An opaque ground here would sit on top of the
-  light leak and hide it over the whole canvas, which is most of the page.
+  Two layers of light, no paint: --canvas-lift raises the page ground to the
+  stage tone, and --canvas-glow pools in the middle of it. Both are white
+  alpha, so the light leak behind still reads through. An opaque ground here
+  would sit on top of it and hide it across the whole canvas, which is most
+  of the page.
 */
 [data-canvas] {
-  background-image: var(--canvas-glow);
+  background-image: var(--canvas-glow),
+    linear-gradient(var(--canvas-lift), var(--canvas-lift));
 }
 
 /*
@@ -205,6 +220,25 @@ body {
   height: min(72vh, 780px);
   overflow: hidden;
   pointer-events: none;
+  /*
+    The falloff lives on the container so it applies to the streaks and the
+    dither alike. It was on the streaks alone, which left the dither running
+    to the box's bottom edge and stopping dead — a step from a dithered
+    ground to a clean one, right across the page, reading as two different
+    blacks. Anything added to this layer now fades out with it.
+  */
+  -webkit-mask-image: radial-gradient(
+    ellipse 88% 92% at 74% -8%,
+    #000 8%,
+    rgba(0, 0, 0, 0.5) 46%,
+    transparent 78%
+  );
+  mask-image: radial-gradient(
+    ellipse 88% 92% at 74% -8%,
+    #000 8%,
+    rgba(0, 0, 0, 0.5) 46%,
+    transparent 78%
+  );
 }
 
 [data-light-leak]::before {
@@ -237,23 +271,7 @@ body {
       rgba(255, 255, 255, 0.055) 28%,
       transparent 41%
     );
-  /*
-    The bands run edge to edge on their own. This is what makes them a leak:
-    it holds them near the top right and dissolves them before they reach the
-    left or the bottom, so nothing ever terminates on a straight line.
-  */
-  -webkit-mask-image: radial-gradient(
-    ellipse 88% 92% at 74% -8%,
-    #000 8%,
-    rgba(0, 0, 0, 0.5) 46%,
-    transparent 78%
-  );
-  mask-image: radial-gradient(
-    ellipse 88% 92% at 74% -8%,
-    #000 8%,
-    rgba(0, 0, 0, 0.5) 46%,
-    transparent 78%
-  );
+  /* Falloff is on the container — see the note there. */
 }
 
 /*
