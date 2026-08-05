@@ -27,44 +27,44 @@ type Faq = {
 
 const faqs: Faq[] = [
   {
-    q: "What does made to order actually mean?",
-    a: [
-      "Nothing is built until you order it. There is no warehouse of finished guitars waiting for somebody to pick one — your instrument is started after your order is placed, to the exact specification you set in the builder.",
-      "That is why the option list is as long as it is, and why the lead time is what it is.",
-    ],
-  },
-  {
-    q: "How long will my guitar take?",
+    q: "How long will my guitar take to arrive?",
     a: [
       "Up to six months, depending on how complex the build is. A straightforward spec moves faster than one with binding, an inlay and a custom finish.",
       "If yours is going to run longer than that, we tell you directly rather than letting the date slide. More often it comes in sooner than the estimate.",
     ],
   },
   {
-    q: "Can I change my spec after I have ordered?",
+    q: "Can I make changes after I've ordered?",
     a: [
       "Yes, at any point before your order is submitted to the build queue. That is a separate step from payment, so there is a genuine window after you have paid.",
       "Once it has been submitted to the queue the specification is fixed, because the timbers have been selected and the work has started.",
     ],
   },
   {
-    q: "What is the refund policy?",
+    q: "What if I need to cancel?",
     a: [
       "A full refund is available any time before your order goes into the build queue.",
       "After that point a refund is capped at 50% of the order value. The instrument is built to your specification and cannot simply be sold to the next person.",
     ],
   },
   {
-    q: "Do I pay a deposit or the full amount?",
+    q: "Where are Origin guitars made?",
+    a: [
+      "In the United Kingdom, by hand. Every instrument is inspected by the same team that built it before it is allowed to ship.",
+    ],
+  },
+  {
+    q: "Do I need to pay a deposit, or the full amount upfront?",
     a: [
       "The full amount, at the point of ordering. There is no deposit option and no balance to settle before shipping, so there is nothing to chase later.",
       "Payment is handled by Stripe. Card details never touch our own systems.",
     ],
   },
   {
-    q: "Where are the guitars built?",
+    q: "What does made to order actually mean?",
     a: [
-      "In the United Kingdom, by hand. Every instrument is inspected by the same team that built it before it is allowed to ship.",
+      "Nothing is built until you order it. There is no warehouse of finished guitars waiting for somebody to pick one — your instrument is started after your order is placed, to the exact specification you set in the builder.",
+      "That is why the option list is as long as it is, and why the lead time is what it is.",
     ],
   },
   {
@@ -79,7 +79,7 @@ export default function FaqPage() {
   return (
     <main>
       <PageHero
-        title="Answered before you spend anything"
+        title="Common questions"
         intro="The questions worth having settled before you start a build. If yours is not here, the UK team is one email away."
       />
 
