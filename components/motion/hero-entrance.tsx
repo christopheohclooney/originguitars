@@ -35,7 +35,7 @@ export function HeroRule() {
     <div aria-hidden style={slant} className="h-2 w-44">
       <m.div
         data-reveal
-        className="h-full w-full origin-left bg-black"
+        className="h-full w-full origin-left bg-ink"
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         transition={

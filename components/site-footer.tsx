@@ -5,14 +5,14 @@ import { footerNav, primaryNav } from "@/lib/nav";
 import { shell } from "@/lib/style";
 
 /*
- * Dark full-bleed treatment, scoped to this component rather than added to
- * the site's colour tokens — globals.css is deliberately light-only (see the
- * note at the top of that file), and this footer is the one fixed-dark
- * surface on an otherwise unstyled-elsewhere site.
+ * The footer sits on the canvas ground, not the deeper chrome ground — it
+ * reads as a continuation of the page rather than a bar attached to the
+ * bottom of it, so on the builder it runs straight on from the canvas with
+ * no seam.
  */
 export function SiteFooter() {
   return (
-    <footer className="relative overflow-hidden bg-[#0a0a0a]">
+    <footer className="relative overflow-hidden bg-canvas">
       <div className={`${shell} relative z-10 py-16 md:py-20`}>
         <div className="flex flex-col gap-12 md:flex-row md:justify-between">
           <div>

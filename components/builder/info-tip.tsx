@@ -50,7 +50,7 @@ export function InfoTip({ text, label }: { text: string; label: string }) {
         }}
         className={`inline-flex h-5 w-5 items-center justify-center rounded-full border text-[0.6875rem] font-medium leading-none transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${
           open
-            ? "border-ink bg-ink text-white"
+            ? "border-ink bg-ink text-ink-inverse"
             : "border-line-strong text-ink-muted hover:border-ink hover:text-ink"
         }`}
       >
@@ -61,7 +61,7 @@ export function InfoTip({ text, label }: { text: string; label: string }) {
         <span
           id={id}
           role="tooltip"
-          className="absolute bottom-[calc(100%+10px)] left-1/2 z-50 w-[min(19rem,70vw)] -translate-x-1/2 border border-line bg-white p-4 text-left text-[0.8125rem] font-normal leading-[1.55] text-ink shadow-[0_8px_24px_rgba(0,0,0,0.10)]"
+          className="absolute bottom-[calc(100%+10px)] left-1/2 z-50 w-[min(19rem,70vw)] -translate-x-1/2 border border-line-strong bg-canvas p-4 text-left text-[0.8125rem] font-normal leading-[1.55] text-ink shadow-[0_8px_24px_rgba(0,0,0,0.6)]"
         >
           {text}
         </span>

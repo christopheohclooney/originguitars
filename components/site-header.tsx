@@ -12,14 +12,13 @@ import { primaryNav } from "@/lib/nav";
  *
  * The <header> stays in flow (sticky, not fixed) but is itself transparent —
  * only the pill inside it paints. That keeps the page's own top spacing
- * intact, so pages that have not been restyled yet are never slid underneath
- * the chrome, while content still passes behind the glass on scroll.
+ * intact, so content is never slid underneath the chrome, while it still
+ * passes behind the glass on scroll.
  *
- * The pill is 85% opaque rather than properly translucent. Fully glassy looks
- * right on a dark page and illegible on a light one, and this is a shared
- * component landing on pages that are still white — at 85% the white type
- * clears 9:1 against a white background and the pill still reads as glass
- * over dark.
+ * The pill is a true glass tint — white at 6% over whatever is behind it —
+ * rather than a near-opaque slab. It carried 85% opacity while the site was
+ * still light in places, purely so white type could not land on white; with
+ * the ground uniformly dark that compromise is gone.
  */
 
 function Wordmark({ className = "" }: { className?: string }) {
@@ -64,7 +63,7 @@ export function SiteHeader() {
         pill's rounded edge, which is what stops it reading as a stray blob
         floating under the bar.
       */}
-      <div className="pointer-events-auto mx-auto flex h-16 w-full max-w-[1180px] items-center justify-between gap-8 overflow-hidden rounded-full border border-white/10 bg-[#141414]/85 px-5 shadow-[0_8px_32px_rgba(0,0,0,0.28)] backdrop-blur-xl md:px-6">
+      <div className="pointer-events-auto mx-auto flex h-16 w-full max-w-[1180px] items-center justify-between gap-8 overflow-hidden rounded-full border border-white/10 bg-white/[0.06] px-5 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl md:px-6">
         <Link
           href="/"
           className="shrink-0 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
@@ -115,7 +114,7 @@ export function SiteHeader() {
         <div className="hidden md:block">
           <Link
             href="/builder"
-            className={buttonClasses({ variant: "inverse", size: "sm" })}
+            className={buttonClasses({ size: "sm" })}
           >
             Build yours
           </Link>
@@ -179,7 +178,7 @@ export function SiteHeader() {
             <Link
               href="/builder"
               onClick={() => setOpen(false)}
-              className={`${buttonClasses({ variant: "inverse", size: "lg" })} my-6 w-full`}
+              className={`${buttonClasses({ size: "lg" })} my-6 w-full`}
             >
               Build yours
             </Link>

@@ -62,7 +62,7 @@ export default function ModelsPage() {
                 <div className="flex flex-col justify-center">
                   <div
                     aria-hidden
-                    className="h-[5px] w-11 bg-black"
+                    className="h-[5px] w-11 bg-ink"
                     style={slant}
                   />
                   <h2 className="mt-6 text-[clamp(2rem,4.5vw,2.75rem)] font-bold leading-[1.06] tracking-[-0.025em]">
@@ -111,7 +111,7 @@ export default function ModelsPage() {
           <Reveal>
             <div
               aria-hidden
-              className="mb-6 h-[5px] w-11 bg-black"
+              className="mb-6 h-[5px] w-11 bg-ink"
               style={slant}
             />
             <h2 className="text-[2rem] font-bold leading-[1.1] tracking-[-0.02em]">

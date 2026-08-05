@@ -1,10 +1,10 @@
 import type { ReactNode } from "react";
 
 /*
- * Button — locked to the Stage 0 style guide.
+ * Button — locked to the style guide.
  *
  * Pills, following the Mod Shop benchmark. Primary is the only element in the
- * system allowed pure black, which is what makes an action read as the action
+ * system allowed pure white, which is what makes an action read as the action
  * without needing a colour.
  *
  * Exported as classes as well as a component so `next/link` can wear the same
@@ -33,18 +33,16 @@ const tertiarySizes = {
 } as const;
 
 /*
- * `inverse` is primary flipped, for use on dark chrome — the header pill is
- * the first of these. On a dark ground the black CTA disappears, so white
- * becomes the colour that reads as the action.
+ * Primary is white on the dark ground. The `inverse` variant that existed
+ * while the site was light is gone — it was primary-flipped-for-dark-chrome,
+ * and now that the whole site is dark it and primary are the same button.
  */
 export const buttonVariants = {
-  primary: "bg-black text-white hover:bg-cta-hover active:bg-black",
+  primary: "bg-cta text-ink-inverse hover:bg-cta-hover active:bg-cta",
   secondary:
-    "border border-line-strong bg-white text-ink hover:border-ink active:bg-surface",
+    "border border-line-strong bg-transparent text-ink hover:border-ink active:bg-surface",
   tertiary:
     "text-ink underline underline-offset-[6px] decoration-line-strong hover:decoration-ink",
-  inverse:
-    "bg-white text-ink hover:bg-white/90 active:bg-white/80 focus-visible:outline-white",
 } as const;
 
 export type ButtonVariant = keyof typeof buttonVariants;

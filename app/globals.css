@@ -1,36 +1,44 @@
 @import "tailwindcss";
 
 /*
-  Origin Guitars — design tokens (Stage 0)
+  Origin Guitars — design tokens
 
-  Light only. There is deliberately no dark theme: the guitars supply every
-  colour on the site, so the UI stays out of their way.
+  Dark only. There is deliberately no light theme: the instrument is the only
+  thing on screen that should carry colour, and a near-black ground is what
+  lets a black guitar read as an object rather than a hole.
 
-  The one rule that drives the whole palette: --color-black is reserved for
-  primary CTAs. Everything else that reads as "black" is --color-ink, a touch
-  lighter, so a button is always the darkest element on any given screen.
+  The rule that drives the palette is the light one inverted. --color-cta is
+  reserved for primary CTAs and is the only pure white on the page; every
+  other "white" is --color-ink, a touch darker, so a button is always the
+  brightest element on any given screen.
 */
 
 @theme {
-  /* Ink — text, logo, headings */
-  --color-ink: #141414;
-  --color-ink-muted: #737373;
-  --color-ink-disabled: #a3a3a3;
+  /* Ink — text, brand rules, headings */
+  --color-ink: #f2f2f2;
+  --color-ink-muted: #8c8c8c;
+  --color-ink-disabled: #545454;
+  /* Type sat on a light surface: the primary CTA, and swatch borders. */
+  --color-ink-inverse: #0f0f0f;
 
   /* CTA — primary buttons only, never body text */
-  --color-black: #000000;
-  --color-cta-hover: #262626;
+  --color-cta: #ffffff;
+  --color-cta-hover: #dedede;
 
-  /* Surfaces */
-  --color-surface: #fafafa;
-  --color-canvas: #f4f4f4;
+  /*
+    Two grounds, and the deeper one is the chrome. The canvas carries the
+    instrument and is lifted by --canvas-glow below; the tray and price bar
+    sit *under* it so the controls recede and the guitar stays forward.
+  */
+  --color-canvas: #0f0f0f;
+  --color-surface: #0a0a0a;
 
   /* Lines */
-  --color-line: #e8e8e8;
-  --color-line-strong: #d4d4d4;
+  --color-line: #1f1f1f;
+  --color-line-strong: #333333;
 
   /* Functional — validation only, never decorative */
-  --color-danger: #b42318;
+  --color-danger: #f97066;
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -56,6 +64,20 @@
     three components.
   */
   --header-h: 96px;
+
+  /*
+    The pool of light behind the instrument on the builder canvas.
+
+    Functional, not decorative: the Element is a near-black cut-out, so
+    without something lifting the ground behind it the silhouette closes up.
+    #2a2a2a at the centre falling to fully transparent, so it composites over
+    --color-canvas rather than restating it and the two can never drift.
+  */
+  --canvas-glow: radial-gradient(
+    ellipse 72% 72% at 50% 50%,
+    #2a2a2a 0%,
+    rgba(42, 42, 42, 0) 70%
+  );
 }
 
 @media (min-width: 768px) {
@@ -65,7 +87,7 @@
 }
 
 body {
-  background: #ffffff;
+  background: var(--color-canvas);
   color: var(--color-ink);
   font-family: var(--font-sans), system-ui, sans-serif;
 }
@@ -111,4 +133,14 @@ details[open] [data-accordion-bar] {
 [data-option-tile]:has(input:focus-visible) {
   outline: 2px solid var(--color-ink);
   outline-offset: 2px;
+}
+
+/*
+  The builder canvas: the glow composited over the canvas ground. Written as
+  a rule rather than inline so the gradient and the colour it falls off to
+  are set in the same place and cannot drift apart.
+*/
+[data-canvas] {
+  background-color: var(--color-canvas);
+  background-image: var(--canvas-glow);
 }

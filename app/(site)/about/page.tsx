@@ -56,7 +56,7 @@ export default function AboutPage() {
               <div>
                 <div
                   aria-hidden
-                  className="mb-6 h-[5px] w-11 bg-black"
+                  className="mb-6 h-[5px] w-11 bg-ink"
                   style={slant}
                 />
                 <h2 className="text-[1.375rem] font-semibold leading-[1.2] tracking-[-0.015em]">
@@ -124,7 +124,7 @@ export default function AboutPage() {
               <footer className="mt-8 flex items-center gap-4">
                 <div
                   aria-hidden
-                  className="h-[5px] w-11 bg-black"
+                  className="h-[5px] w-11 bg-ink"
                   style={slant}
                 />
                 <span className="text-[0.9375rem] text-ink-muted">
@@ -144,7 +144,7 @@ export default function AboutPage() {
               <div>
                 <div
                   aria-hidden
-                  className="mb-6 h-[5px] w-11 bg-black"
+                  className="mb-6 h-[5px] w-11 bg-ink"
                   style={slant}
                 />
                 <h2 className="text-[1.375rem] font-semibold leading-[1.2] tracking-[-0.015em]">

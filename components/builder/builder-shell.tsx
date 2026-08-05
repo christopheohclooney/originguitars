@@ -102,8 +102,8 @@ function OptionControl({
           isAvailable ? "cursor-pointer" : "cursor-not-allowed opacity-40"
         } ${
           isSelected
-            ? "ring-1 ring-ink ring-offset-4 ring-offset-white"
-            : "hover:ring-1 hover:ring-line-strong hover:ring-offset-4 hover:ring-offset-white"
+            ? "ring-1 ring-ink ring-offset-4 ring-offset-surface"
+            : "hover:ring-1 hover:ring-line-strong hover:ring-offset-4 hover:ring-offset-surface"
         }`}
       >
         {input}
@@ -190,7 +190,10 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
    */
   return (
     <main className="flex min-h-[calc(100svh-var(--header-h))] flex-col lg:h-[calc(100svh-var(--header-h))] lg:min-h-0">
-      <div className="flex min-h-0 flex-1 items-center justify-center bg-canvas px-4 py-6 md:px-10 md:py-8">
+      <div
+        data-canvas
+        className="flex min-h-0 flex-1 items-center justify-center px-4 py-6 md:px-10 md:py-8"
+      >
         {/*
           The supplied photo is a cut-out with a real alpha channel, rotated
           and trimmed to a wide band at build time — no blend mode needed to
@@ -209,7 +212,7 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
       </div>
 
       {/* Option tray */}
-      <div className="border-t border-line bg-white">
+      <div className="border-t border-line bg-surface">
         <div className={`${shell} py-6 md:py-8`}>
           <div className="flex items-center justify-center gap-2 sm:gap-4">
             <StepArrow
