@@ -128,47 +128,6 @@ body {
 }
 
 /*
-  FAQ accordion indicator: the vertical stroke of the plus collapses when the
-  question is open, turning it into a minus.
-
-  Written here rather than as a Tailwind variant because neither `group-open:`
-  nor an arbitrary `[[open]_&]:` variant produced a rule — both compiled to
-  nothing and the indicator silently stayed a plus.
-*/
-[data-accordion-bar] {
-  transition: transform 200ms ease;
-}
-
-details[open] [data-accordion-bar] {
-  transform: translateX(-50%) scaleY(0);
-}
-
-/*
-  The closed rows are deliberately airy, but that same padding under an open
-  question leaves its answer floating a long way below it, reading as
-  unattached. Opening tightens the gap so the answer belongs to the question
-  it came from; the space between rows is unchanged.
-
-  Not transitioned. Padding is a layout property, so animating it reflows the
-  summary and every row beneath it on each frame — and there would be nothing
-  to synchronise with anyway, since native <details> reveals its content
-  instantly. Snapping the padding keeps the row's parts moving together; the
-  only thing that animates is the indicator, on transform.
-
-  Written here for the same reason as the rule above — `group-open:` does not
-  produce a rule in this setup.
-*/
-details[open] > [data-accordion-summary] {
-  padding-bottom: 1.25rem;
-}
-
-@media (min-width: 768px) {
-  details[open] > [data-accordion-summary] {
-    padding-bottom: 2rem;
-  }
-}
-
-/*
   Builder option tiles wrap a visually-hidden radio, so keyboard focus lands on
   an invisible input. This lifts the focus ring onto the tile the user can
   actually see. Written here for the same reason as the rule above — the
