@@ -33,7 +33,8 @@ export default function RootLayout({
       lang="en-GB"
       className={`${GeistSans.variable} ${GeistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-canvas text-ink">
+      {/* `relative` is the containing block for the light leak in (site)/layout. */}
+      <body className="relative min-h-full flex flex-col bg-canvas text-ink">
         {children}
       </body>
     </html>

@@ -70,14 +70,25 @@
 
     Functional, not decorative: the Element is a near-black cut-out, so
     without something lifting the ground behind it the silhouette closes up.
-    #2a2a2a at the centre falling to fully transparent, so it composites over
-    --color-canvas rather than restating it and the two can never drift.
+
+    White at 11.25% rather than a literal #2a2a2a: over --color-canvas that
+    composites to exactly #2a2a2a, the specified value, but as light instead
+    of paint. An opaque centre would have blocked the light leak wherever the
+    two overlap, and would have had to be re-derived by hand every time the
+    ground moved.
   */
   --canvas-glow: radial-gradient(
     ellipse 72% 72% at 50% 50%,
-    #2a2a2a 0%,
-    rgba(42, 42, 42, 0) 70%
+    rgba(255, 255, 255, 0.1125) 0%,
+    rgba(255, 255, 255, 0) 70%
   );
+
+  /*
+    The light leak's rake, as a gradient direction. Kept as a variable
+    because it is the one value worth tuning by eye — the other two bands are
+    derived from it, so they stay in relation when it moves.
+  */
+  --leak-angle: 130deg;
 }
 
 @media (min-width: 768px) {
@@ -136,11 +147,100 @@ details[open] [data-accordion-bar] {
 }
 
 /*
-  The builder canvas: the glow composited over the canvas ground. Written as
-  a rule rather than inline so the gradient and the colour it falls off to
-  are set in the same place and cannot drift apart.
+  The builder canvas.
+
+  Deliberately paints no ground of its own — it takes --color-canvas from the
+  body and adds only light. An opaque ground here would sit on top of the
+  light leak and hide it over the whole canvas, which is most of the page.
 */
 [data-canvas] {
-  background-color: var(--color-canvas);
   background-image: var(--canvas-glow);
+}
+
+/*
+  Light leak — soft streaks raking in from the top right of the page.
+
+  Built from gradients rather than an image or a shader on purpose. It sits
+  directly under the header pill, and the pill is a backdrop-filter: anything
+  animating or repainting here forces that blur to recompute over its whole
+  radius, every frame. Static gradients cost nothing after first paint and
+  still get sampled into the glass, so the leak diffuses through the pill for
+  free.
+
+  The streaks are horizontal ellipses on a box that is rotated as a whole —
+  CSS cannot rotate a radial-gradient on its own, and stepping ellipses along
+  a diagonal reads as lumps rather than a rake. Whites are alpha, not opaque
+  greys, so the leak composites over whatever ground it lands on instead of
+  restating --color-canvas.
+*/
+[data-light-leak] {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: min(72vh, 780px);
+  overflow: hidden;
+  pointer-events: none;
+}
+
+[data-light-leak]::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  /*
+    Three bands at slightly different rakes and widths, so the group reads as
+    light through a gap rather than a repeating pattern. The angle is the
+    gradient's direction of travel; the bands themselves fall perpendicular
+    to it, which is why --leak-angle is a little over 90deg off the rake you
+    actually see.
+  */
+  background-image:
+    linear-gradient(
+      var(--leak-angle),
+      transparent 33%,
+      rgba(255, 255, 255, 0.13) 43%,
+      transparent 55%
+    ),
+    linear-gradient(
+      calc(var(--leak-angle) - 6deg),
+      transparent 51%,
+      rgba(255, 255, 255, 0.085) 59%,
+      transparent 68%
+    ),
+    linear-gradient(
+      calc(var(--leak-angle) + 7deg),
+      transparent 18%,
+      rgba(255, 255, 255, 0.055) 28%,
+      transparent 41%
+    );
+  /*
+    The bands run edge to edge on their own. This is what makes them a leak:
+    it holds them near the top right and dissolves them before they reach the
+    left or the bottom, so nothing ever terminates on a straight line.
+  */
+  -webkit-mask-image: radial-gradient(
+    ellipse 88% 92% at 74% -8%,
+    #000 8%,
+    rgba(0, 0, 0, 0.5) 46%,
+    transparent 78%
+  );
+  mask-image: radial-gradient(
+    ellipse 88% 92% at 74% -8%,
+    #000 8%,
+    rgba(0, 0, 0, 0.5) 46%,
+    transparent 78%
+  );
+}
+
+/*
+  Dither. Eight-bit colour cannot express the steps between #0f0f0f and the
+  top of the leak, so without this the falloff banks into visible bands. The
+  noise is generated in a data URI rather than fetched — same reason the
+  fonts are self-hosted, no build-time network dependency.
+*/
+[data-light-leak]::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
