@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { FooterWordmark } from "@/components/motion/footer-wordmark";
 import { footerNav, primaryNav } from "@/lib/nav";
 import { shell } from "@/lib/style";
 
@@ -75,23 +76,19 @@ export function SiteFooter() {
             Built to order in the United Kingdom.
           </p>
         </div>
-      </div>
 
-      {/*
-        Oversized wordmark. The asset's own fill is already a near-black
-        ghost gradient and its viewBox is already cropped to the intended
-        height — this is the finished full-bleed treatment, not raw brand
-        art, so it's placed at full opacity with no further fade or crop.
-        aria-hidden since "Origin Guitars" is already the accessible name of
-        the logo above.
-      */}
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src="/origin-wordmark-footer.svg"
-        alt=""
-        aria-hidden
-        className="pointer-events-none relative z-0 -mt-4 w-full select-none sm:-mt-6 md:-mt-8"
-      />
+        {/*
+          Oversized wordmark. Set to the same content column as the rest of
+          the footer rather than the viewport — the reference has it bleeding
+          off the bottom edge but stopping at the column's left and right
+          edges, not the page's. The negative bottom margin cancels the
+          shell's own bottom padding so it still bleeds to the footer's edge;
+          the asset's own fill is already a near-black ghost gradient and its
+          viewBox is already cropped to the intended height, so no further
+          fade or crop is added on top.
+        */}
+        <FooterWordmark className="pointer-events-none relative z-0 mt-10 -mb-16 w-full select-none md:mt-14 md:-mb-20" />
+      </div>
     </footer>
   );
 }
