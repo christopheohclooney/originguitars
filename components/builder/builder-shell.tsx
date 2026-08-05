@@ -192,23 +192,31 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
     <main className="flex min-h-[calc(100svh-var(--header-h))] flex-col lg:h-[calc(100svh-var(--header-h))] lg:min-h-0">
       <div
         data-canvas
-        className="flex min-h-0 flex-1 items-center justify-center px-4 py-6 md:px-10 md:py-8"
+        className="flex min-h-0 flex-1 items-center justify-center py-6 md:py-8"
       >
         {/*
+          The instrument measures to the same column as everything else on the
+          page — the option tray below it and the footer's wordmark — rather
+          than to the viewport. The glow behind it stays full-bleed, so the
+          light is the thing that runs edge to edge and the object sits on the
+          grid.
+
           The supplied photo is a cut-out with a real alpha channel, rotated
           and trimmed to a wide band at build time — no blend mode needed to
           drop a background, because there isn't one. It shows the
           manufacturer's reference instrument, not the current specification
           — per-option imagery arrives with the real photography.
         */}
-        <Image
-          src={image}
-          alt="The Origin Element"
-          priority
-          placeholder="blur"
-          sizes="100vw"
-          className="max-h-full w-auto max-w-[1500px] object-contain"
-        />
+        <div className={`${shell} flex h-full min-h-0 items-center justify-center`}>
+          <Image
+            src={image}
+            alt="The Origin Element"
+            priority
+            placeholder="blur"
+            sizes="(min-width: 1180px) 1100px, 100vw"
+            className="max-h-full w-auto max-w-full object-contain"
+          />
+        </div>
       </div>
 
       {/* Option tray */}
