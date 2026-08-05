@@ -85,31 +85,46 @@ export default function FaqPage() {
 
       <section className="border-t border-line py-12 md:py-16">
         <div className={shell}>
-          <div className="max-w-[76ch]">
+          {/*
+            The list measures to the full column rather than a reading
+            width — at this size the questions are headings to scan, and the
+            dividing rules want to run the width of the page's grid. The
+            answers keep their own measure below.
+          */}
+          <div>
             {faqs.map((faq) => (
               <details
                 key={faq.q}
                 className="group border-b border-line first:border-t"
               >
-                <summary className="flex cursor-pointer list-none items-start justify-between gap-8 py-6 text-[1.0625rem] font-medium leading-[1.5] transition-colors hover:text-ink-muted focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink [&::-webkit-details-marker]:hidden">
+                {/*
+                  `items-center` rather than `items-start`: the plus is
+                  centred against the whole question, which is what keeps it
+                  looking placed when a long question wraps to two lines on
+                  narrow screens.
+                */}
+                <summary
+                  data-accordion-summary
+                  className="flex cursor-pointer list-none items-center justify-between gap-8 py-9 text-[clamp(1.125rem,2.1vw,2.25rem)] font-medium leading-[1.3] tracking-[-0.015em] md:py-16 lg:py-25 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink [&::-webkit-details-marker]:hidden"
+                >
                   {faq.q}
                   <span
                     aria-hidden
-                    className="relative mt-2 h-3 w-3 shrink-0"
+                    className="relative h-5 w-5 shrink-0 opacity-70 transition-opacity group-hover:opacity-100 md:h-6 md:w-6 lg:h-7 lg:w-7"
                   >
-                    <span className="absolute left-0 top-1/2 h-px w-3 -translate-y-1/2 bg-ink" />
+                    <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-ink" />
                     {/* Collapse rule lives in globals.css — see note there. */}
                     <span
                       data-accordion-bar
-                      className="absolute left-1/2 top-0 h-3 w-px -translate-x-1/2 bg-ink"
+                      className="absolute left-1/2 top-0 h-full w-px -translate-x-1/2 bg-ink"
                     />
                   </span>
                 </summary>
-                <div className="pb-7 pr-8">
+                <div className="pb-10 md:pb-12">
                   {faq.a.map((para, i) => (
                     <p
                       key={i}
-                      className={`max-w-[66ch] text-[1rem] leading-[1.7] text-ink-muted ${i > 0 ? "mt-4" : ""}`}
+                      className={`max-w-[68ch] text-[1.0625rem] leading-[1.7] text-ink-muted ${i > 0 ? "mt-4" : ""}`}
                     >
                       {para}
                     </p>

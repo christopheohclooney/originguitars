@@ -144,6 +144,29 @@ details[open] [data-accordion-bar] {
 }
 
 /*
+  The closed rows are deliberately airy, but that same padding under an open
+  question leaves its answer floating a long way below it, reading as
+  unattached. Opening tightens the gap so the answer belongs to the question
+  it came from; the space between rows is unchanged.
+
+  Written here for the same reason as the rule above — `group-open:` does not
+  produce a rule in this setup.
+*/
+[data-accordion-summary] {
+  transition: padding-bottom 200ms ease;
+}
+
+details[open] > [data-accordion-summary] {
+  padding-bottom: 1.25rem;
+}
+
+@media (min-width: 768px) {
+  details[open] > [data-accordion-summary] {
+    padding-bottom: 2rem;
+  }
+}
+
+/*
   Builder option tiles wrap a visually-hidden radio, so keyboard focus lands on
   an invisible input. This lifts the focus ring onto the tile the user can
   actually see. Written here for the same reason as the rule above — the
