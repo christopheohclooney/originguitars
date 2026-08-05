@@ -149,13 +149,15 @@ details[open] [data-accordion-bar] {
   unattached. Opening tightens the gap so the answer belongs to the question
   it came from; the space between rows is unchanged.
 
+  Not transitioned. Padding is a layout property, so animating it reflows the
+  summary and every row beneath it on each frame — and there would be nothing
+  to synchronise with anyway, since native <details> reveals its content
+  instantly. Snapping the padding keeps the row's parts moving together; the
+  only thing that animates is the indicator, on transform.
+
   Written here for the same reason as the rule above — `group-open:` does not
   produce a rule in this setup.
 */
-[data-accordion-summary] {
-  transition: padding-bottom 200ms ease;
-}
-
 details[open] > [data-accordion-summary] {
   padding-bottom: 1.25rem;
 }
