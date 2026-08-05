@@ -12,7 +12,7 @@ import { shell } from "@/lib/style";
  */
 export function SiteFooter() {
   return (
-    <footer className="relative overflow-hidden bg-canvas">
+    <footer className="relative overflow-hidden border-t border-line bg-canvas">
       <div className={`${shell} relative z-10 py-16 md:py-20`}>
         <div className="flex flex-col gap-12 md:flex-row md:justify-between">
           <div>
@@ -68,7 +68,7 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-16 flex flex-col gap-3 border-t border-white/10 pt-8 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-24 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-[0.875rem] text-white/40">
             © {new Date().getFullYear()} Origin Guitars. All rights reserved.
           </p>
