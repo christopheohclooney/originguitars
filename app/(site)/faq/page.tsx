@@ -74,7 +74,13 @@ export default function FaqPage() {
         intro="The questions worth having settled before you start a build. If yours is not here, the UK team is one email away."
       />
 
-      <section className="border-t border-line py-12 md:py-16">
+      {/*
+        No rule under the hero. The hairline is the builder canvas's device
+        for dividing its chrome from its stage; on a content page it just
+        interrupts the vertical run. The list's own first rule is enough to
+        start it.
+      */}
+      <section className="py-12 md:py-16">
         <div className={shell}>
           {/*
             The list sits inside the content column rather than filling it —
@@ -89,7 +95,7 @@ export default function FaqPage() {
         </div>
       </section>
 
-      <section className="border-t border-line py-20 md:py-28">
+      <section className="py-20 md:py-28">
         <div className={shell}>
           {/*
             The Lance in outline, measured to the content column like every
