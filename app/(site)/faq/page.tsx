@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Link from "next/link";
 
 import { buttonClasses } from "@/components/ui/button";
 import { FaqAccordion, type FaqEntry } from "@/components/ui/faq-accordion";
@@ -92,26 +91,55 @@ export default function FaqPage() {
 
       <section className="border-t border-line py-20 md:py-28">
         <div className={shell}>
-          <h2 className="max-w-[22ch] text-[2rem] font-bold leading-[1.1] tracking-[-0.02em]">
-            Still deciding?
-          </h2>
-          <p className="mt-4 max-w-[60ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
-            You can work all the way through the builder and see the final price
-            without committing to anything.
-          </p>
-          <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-            <Link
-              href="/builder"
-              className={`${buttonClasses({ size: "lg" })} w-full sm:w-auto`}
+          {/*
+            The Lance in outline, measured to the content column like every
+            other element on the page. Decorative — the section's heading
+            already says what this is, so it carries no alt text and stays out
+            of the accessibility tree.
+
+            Held back below md. The drawing is 15.5:1, so on a phone it
+            resolves to about 22px tall and its detail — bridge, tuners,
+            frets — stops being legible and starts being noise. Better absent
+            than illegible, and nothing is lost since it carries no meaning.
+
+            Its strokes are 0.27 units against a 1133-unit viewBox, so at this
+            width they land near a single device pixel. That thinness is the
+            drawing; scaling it up would thicken them.
+          */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/lance-skeleton-side.svg"
+            alt=""
+            aria-hidden
+            width={1133}
+            height={73}
+            className="hidden h-auto w-full md:block"
+          />
+
+          {/*
+            Copy left, the way out right — the two sit on one baseline from md
+            up and stack on narrow screens. The address is the button rather
+            than a label on one, so what you read is what you get when you tap
+            it.
+          */}
+          <div className="flex flex-col gap-10 md:mt-20 md:flex-row md:items-end md:justify-between md:gap-16">
+            <div>
+              <h2 className="max-w-[22ch] text-[2rem] font-bold leading-[1.1] tracking-[-0.02em]">
+                Got another question?
+              </h2>
+              <p className="mt-5 max-w-[52ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
+                Every build&apos;s a bit different, so not every question will
+                be here. Send it over and the UK team will get back to you
+                directly.
+              </p>
+            </div>
+
+            <a
+              href="mailto:hello@originguitars.com"
+              className={`${buttonClasses({ size: "lg" })} w-full shrink-0 md:w-auto`}
             >
-              Start your build
-            </Link>
-            <Link
-              href="/models"
-              className={`${buttonClasses({ variant: "secondary", size: "lg" })} w-full sm:w-auto`}
-            >
-              See the models
-            </Link>
+              hello@originguitars.com
+            </a>
           </div>
         </div>
       </section>
