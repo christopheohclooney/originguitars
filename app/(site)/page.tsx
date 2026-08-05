@@ -4,7 +4,7 @@ import { HeroGuitar, HeroRule } from "@/components/motion/hero-entrance";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
 import { shell, slant } from "@/lib/style";
-import elementSide from "@/public/models/element/element-side.jpg";
+import elementSide from "@/public/models/element/element-side.png";
 
 const steps = [
   {

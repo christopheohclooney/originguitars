@@ -63,7 +63,7 @@ export function HeroGuitar({ image }: { image: StaticImageData }) {
         priority
         placeholder="blur"
         sizes="100vw"
-        className="h-auto w-full object-contain mix-blend-multiply"
+        className="h-auto w-full object-contain"
       />
     </m.div>
   );

@@ -192,11 +192,11 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
     <main className="flex min-h-[calc(100svh-var(--header-h))] flex-col lg:h-[calc(100svh-var(--header-h))] lg:min-h-0">
       <div className="flex min-h-0 flex-1 items-center justify-center bg-canvas px-4 py-6 md:px-10 md:py-8">
         {/*
-          The supplied photo is a portrait shot on a white ground, rotated and
-          trimmed to a wide band at build time. Multiply drops the remaining
-          white out against the near-white canvas. It shows the manufacturer's
-          reference instrument, not the current specification — per-option
-          imagery arrives with the real photography.
+          The supplied photo is a cut-out with a real alpha channel, rotated
+          and trimmed to a wide band at build time — no blend mode needed to
+          drop a background, because there isn't one. It shows the
+          manufacturer's reference instrument, not the current specification
+          — per-option imagery arrives with the real photography.
         */}
         <Image
           src={image}
@@ -204,7 +204,7 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
           priority
           placeholder="blur"
           sizes="100vw"
-          className="max-h-full w-auto max-w-[1500px] object-contain mix-blend-multiply"
+          className="max-h-full w-auto max-w-[1500px] object-contain"
         />
       </div>
 
