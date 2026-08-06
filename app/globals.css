@@ -38,14 +38,6 @@
   --color-surface: #0a0a0a;
   --color-canvas: #0f0f0f;
 
-  /*
-    What lifts the page ground to the stage. White at 2% over --color-surface
-    lands on --color-canvas exactly, but as light rather than paint, so the
-    builder canvas can be raised without painting a lid over the light leak
-    behind it.
-  */
-  --canvas-lift: rgba(255, 255, 255, 0.0204);
-
   /* Lines */
   --color-line: #1f1f1f;
   --color-line-strong: #333333;
@@ -125,6 +117,24 @@ body {
 }
 
 /*
+  The builder is set on the stage tone rather than the page ground.
+
+  The header is transparent and sits in flow, so the band it occupies shows
+  whatever the page is set on. With the builder that band was the only part
+  of the screen still on --color-surface while everything under it was the
+  canvas — a hard step straight across, right where the pill floats, which
+  is exactly where it should read as one continuous field.
+
+  Keyed off the canvas itself: a page with a builder canvas in it is set on
+  the canvas tone. This is also why the canvas paints no ground of its own —
+  it inherits this one and adds only light, so the leak behind it still
+  reads through.
+*/
+body:has([data-canvas]) {
+  background: var(--color-canvas);
+}
+
+/*
   Safety net for scroll reveals.
 
   Reveals render their hidden state server-side, so anything that stops the
@@ -154,15 +164,13 @@ body {
 /*
   The builder canvas.
 
-  Two layers of light, no paint: --canvas-lift raises the page ground to the
-  stage tone, and --canvas-glow pools in the middle of it. Both are white
-  alpha, so the light leak behind still reads through. An opaque ground here
-  would sit on top of it and hide it across the whole canvas, which is most
-  of the page.
+  Light, no paint: the ground comes from the body rule above and this adds
+  only --canvas-glow, pooling in the middle of it. White alpha, so the light
+  leak behind still reads through — an opaque ground here would sit on top
+  of it and hide it across the whole canvas, which is most of the page.
 */
 [data-canvas] {
-  background-image: var(--canvas-glow),
-    linear-gradient(var(--canvas-lift), var(--canvas-lift));
+  background-image: var(--canvas-glow);
 }
 
 /*
