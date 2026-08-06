@@ -38,40 +38,49 @@ export default function AboutPage() {
         imageAlt="A guitar neck held at the bench, being worked by hand"
       />
 
-      {/* Editorial section — heading in the margin */}
-      <section className="border-t border-line py-20 md:py-28">
+      {/*
+        Editorial section — heading held in the margin against a single
+        column of prose. No rule above it: the full-bleed hairline is the
+        builder's device for dividing chrome from stage, and on a content
+        page it cuts the vertical run.
+      */}
+      <section className="py-20 md:py-28">
         <div className={shell}>
           <Reveal>
-            <div className="grid gap-10 md:grid-cols-[16rem_1fr] md:gap-16">
+            <div className="grid gap-10 md:grid-cols-[24rem_1fr] md:gap-20">
               <div>
-                <div
-                  aria-hidden
-                  className="mb-6 h-[5px] w-11 bg-ink"
-                  style={slant}
-                />
-                <h2 className="text-[1.375rem] font-semibold leading-[1.2] tracking-[-0.015em]">
-                  Why we started
+                <h2 className="font-display text-[clamp(1.875rem,2.6vw,2.375rem)] font-normal leading-[1.1] tracking-[-0.02em]">
+                  Why it all started
                 </h2>
               </div>
-              <div className="max-w-[64ch]">
-                <p className="text-[1.0625rem] leading-[1.7]">
-                  Placeholder. There is a gap between an off-the-shelf
-                  instrument and a boutique commission, and almost nothing sits
-                  in it. On one side, a shortlist of finishes somebody else
-                  chose. On the other, a two-year waiting list and a price that
-                  reflects the name rather than the work.
+              {/*
+                Measure caps the line length rather than the column doing it,
+                so the prose stays readable if the grid ever widens.
+              */}
+              <div className="max-w-[58ch]">
+                <p className="text-[1.0625rem] leading-[1.75] md:text-[1.125rem]">
+                  Larry had already seen how the guitar industry worked from
+                  the inside, factories in India and China turning out
+                  excellent instruments for brands charging a serious premium
+                  once a logo got attached. What was missing was something in
+                  between: not a mass-produced stock model, not a five-figure
+                  custom build with a two-year wait, just a guitar built
+                  properly, to your spec, at a price that made sense for
+                  someone starting out.
                 </p>
-                <p className="mt-6 text-[1.0625rem] leading-[1.7]">
-                  Placeholder. Origin was set up to build in that gap — properly
-                  specified instruments, made to order, at a price that reflects
-                  the hours and the materials. Nothing about that requires a
-                  waiting list measured in years.
+                <p className="mt-7 text-[1.0625rem] leading-[1.75] md:text-[1.125rem]">
+                  That&apos;s the gap Origin fills. Semi-custom, not fully
+                  custom, you choose the parts that matter (shape, colour,
+                  hardware, pickups) from a considered set of options, not an
+                  infinite one, which keeps the build honest and the price
+                  fair. Made to order, so nothing sits unsold in a warehouse.
+                  Assembled and inspected in the UK, so the last hands on your
+                  guitar before it reaches you are ones you can actually reach
+                  back out to.
                 </p>
-                <p className="mt-6 text-[1.0625rem] leading-[1.7]">
-                  Placeholder. Copy for this section still to be written with
-                  Larry. The paragraph lengths here are set to roughly what the
-                  final text should run to, so the column and the rhythm can be
-                  judged now.
+                <p className="mt-7 text-[1.0625rem] leading-[1.75] md:text-[1.125rem]">
+                  It&apos;s not trying to be everything. It&apos;s trying to be
+                  the guitar that wasn&apos;t there before.
                 </p>
               </div>
             </div>
