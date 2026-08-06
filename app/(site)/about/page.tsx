@@ -115,21 +115,34 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Two-image grid */}
-      <section className="border-t border-line py-20 md:py-28">
+      {/*
+        Two-photo grid. The second is dropped against the first rather than
+        set beside it — the reference offsets them, which is what stops a
+        pair of portraits reading as a contact sheet. The offset is margin
+        rather than a transform, so the section's height accounts for it and
+        nothing below has to be nudged to compensate.
+
+        No rule above it, and no technical drawing in it: the Side View sits
+        one section up, where it answers the prose. A second one here would
+        turn a device into a motif, and these two frames are the whole point
+        of the section.
+      */}
+      <section className="py-20 md:py-28">
         <div className={shell}>
-          <Reveal>
-            <div className="grid gap-6 md:grid-cols-2 md:gap-8">
+          <Stagger className="grid gap-6 md:grid-cols-2 md:gap-8">
+            <StaggerItem>
               <ImagePlaceholder
                 className="aspect-[4/5] w-full"
                 label="Detail shot"
               />
+            </StaggerItem>
+            <StaggerItem className="md:mt-40">
               <ImagePlaceholder
                 className="aspect-[4/5] w-full"
                 label="Detail shot"
               />
-            </div>
-          </Reveal>
+            </StaggerItem>
+          </Stagger>
         </div>
       </section>
 
