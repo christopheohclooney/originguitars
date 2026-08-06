@@ -5,14 +5,14 @@ import { footerNav, primaryNav } from "@/lib/nav";
 import { shell } from "@/lib/style";
 
 /*
- * The footer sits on the page ground, so it reads as a continuation of the
- * page rather than a bar attached to the bottom of it. On the builder that
- * puts it on the same tone as the option tray and price bar it follows, and
- * on a content page it means the page is one shade from the header down.
+ * The footer is drawn on the lifted tone, not the page ground — a shade up
+ * from the page it closes, matching the builder's canvas. Specified that
+ * way in the designs, so it is deliberate rather than inherited: on a
+ * content page the footer is meant to read as its own band.
  */
 export function SiteFooter() {
   return (
-    <footer className="relative overflow-hidden border-t border-line bg-surface">
+    <footer className="relative overflow-hidden border-t border-line bg-canvas">
       <div className={`${shell} relative z-10 py-16 md:py-20`}>
         <div className="flex flex-col gap-12 md:flex-row md:justify-between">
           <div>

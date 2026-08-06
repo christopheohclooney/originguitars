@@ -28,11 +28,12 @@
   /*
     Two grounds, and the deeper one is the page.
 
-    --color-surface is what the site is set on: every content page, the
-    chrome of the builder, and the footer. --color-canvas is narrower than
-    its name suggests — it is the builder's stage only, the one place lifted
-    off the page ground so a near-black instrument has something to sit
-    against.
+    --color-surface is what the site is set on: every content page and the
+    builder's chrome. --color-canvas is the lifted tone, a shade up from it,
+    used by the two things the designs call for on it — the builder's stage,
+    where a near-black instrument needs something to sit against, and the
+    footer, which reads as its own band at the foot of a page rather than a
+    continuation of it.
   */
   --color-surface: #0a0a0a;
   --color-canvas: #0f0f0f;
