@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import aboutHero from "@/public/about-hero-image.png";
 import { ImagePlaceholder } from "@/components/image-placeholder";
-import { Reveal } from "@/components/motion/reveal";
+import { Reveal, Stagger, StaggerItem, WordReveal } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
 import { PageHero } from "@/components/ui/page-hero";
 import { shell, slant } from "@/lib/style";
@@ -46,18 +46,41 @@ export default function AboutPage() {
       */}
       <section className="py-20 md:py-28">
         <div className={shell}>
-          <Reveal>
-            <div className="grid gap-10 md:grid-cols-[24rem_1fr] md:gap-20">
-              <div>
-                <h2 className="font-display text-[clamp(1.875rem,2.6vw,2.375rem)] font-normal leading-[1.1] tracking-[-0.02em]">
-                  Why it all started
-                </h2>
-              </div>
-              {/*
-                Measure caps the line length rather than the column doing it,
-                so the prose stays readable if the grid ever widens.
-              */}
-              <div className="max-w-[58ch]">
+          <div className="grid gap-12 md:grid-cols-[24rem_1fr] md:gap-20">
+            {/*
+              `justify-between` is what pins the drawing to the foot of the
+              column: the row's height comes from the prose beside it, so the
+              heading holds the top and the diagram drops to the bottom
+              without either being given a height.
+            */}
+            <div className="flex flex-col justify-between gap-12">
+              <h2 className="font-display text-[clamp(1.875rem,2.6vw,2.375rem)] font-normal leading-[1.1] tracking-[-0.02em]">
+                <WordReveal text="Why it all started" />
+              </h2>
+
+              <Reveal delay={0.15}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/neck-side-view.svg"
+                  alt=""
+                  aria-hidden
+                  width={245}
+                  height={141}
+                  className="h-auto w-[15.3rem] max-w-full"
+                />
+              </Reveal>
+            </div>
+
+            {/*
+              Measure caps the line length rather than the column doing it,
+              so the prose stays readable if the grid ever widens.
+
+              Staggered by paragraph rather than by word — at this length a
+              word-by-word reveal is something to sit through rather than
+              read.
+            */}
+            <Stagger className="max-w-[58ch]">
+              <StaggerItem as="div">
                 <p className="text-[1.0625rem] leading-[1.75] md:text-[1.125rem]">
                   Larry had already seen how the guitar industry worked from
                   the inside, factories in India and China turning out
@@ -68,6 +91,8 @@ export default function AboutPage() {
                   properly, to your spec, at a price that made sense for
                   someone starting out.
                 </p>
+              </StaggerItem>
+              <StaggerItem as="div">
                 <p className="mt-7 text-[1.0625rem] leading-[1.75] md:text-[1.125rem]">
                   That&apos;s the gap Origin fills. Semi-custom, not fully
                   custom, you choose the parts that matter (shape, colour,
@@ -78,13 +103,15 @@ export default function AboutPage() {
                   guitar before it reaches you are ones you can actually reach
                   back out to.
                 </p>
+              </StaggerItem>
+              <StaggerItem as="div">
                 <p className="mt-7 text-[1.0625rem] leading-[1.75] md:text-[1.125rem]">
                   It&apos;s not trying to be everything. It&apos;s trying to be
                   the guitar that wasn&apos;t there before.
                 </p>
-              </div>
-            </div>
-          </Reveal>
+              </StaggerItem>
+            </Stagger>
+          </div>
         </div>
       </section>
 
