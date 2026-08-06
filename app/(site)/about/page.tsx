@@ -241,8 +241,8 @@ export default function AboutPage() {
                     colour would have flattened the thing worth having.
 
                     Inlined rather than served from /public because at 16px an
-                    <img> costs a request for less markup than this, and an
-                    <img> could not carry the gradient without it being baked
+                    image element costs a request for less markup than this,
+                    and could not carry the gradient without it being baked
                     into the file anyway.
 
                     The gradient id is document-global, so it is named rather
