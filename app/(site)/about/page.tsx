@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
+import aboutHero from "@/public/about-hero-image.png";
 import { ImagePlaceholder } from "@/components/image-placeholder";
 import { Reveal } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
+import { PageHero } from "@/components/ui/page-hero";
 import { shell, slant } from "@/lib/style";
 
 export const metadata: Metadata = {
@@ -24,29 +26,17 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main>
-      {/* Opening */}
-      <section className={`${shell} pt-16 pb-16 md:pt-24 md:pb-20`}>
-        <p className="font-mono text-[0.8125rem] text-ink-muted">About</p>
-        <h1 className="mt-6 max-w-[18ch] text-[clamp(2.75rem,6vw,4rem)] font-bold leading-[1.02] tracking-[-0.03em]">
-          A guitar should be worth the wait
-        </h1>
-        <p className="mt-8 max-w-[62ch] text-[1.25rem] leading-[1.5] text-ink-muted md:text-[1.5rem]">
-          Origin builds made-to-order electric guitars in the United Kingdom.
-          One bench, one instrument at a time, to whatever specification the
-          player actually wants rather than whatever a distributor decided to
-          stock.
-        </p>
-      </section>
-
-      {/* Opening image, full measure */}
-      <section className={`${shell} pb-20 md:pb-28`}>
-        <Reveal>
-          <ImagePlaceholder
-            className="aspect-[16/10] w-full md:aspect-[16/7]"
-            label="Workshop photography to follow"
-          />
-        </Reveal>
-      </section>
+      {/*
+        The opening photograph is the hero's, not a section of its own — the
+        reference runs it straight on from the subheading, so the placeholder
+        that used to sit below in its own measured band is gone.
+      */}
+      <PageHero
+        title="The origin story"
+        intro="Origin didn't start in a boardroom. It started with self-taught players wanting something no one else had."
+        image={aboutHero}
+        imageAlt="A guitar neck held at the bench, being worked by hand"
+      />
 
       {/* Editorial section — heading in the margin */}
       <section className="border-t border-line py-20 md:py-28">
