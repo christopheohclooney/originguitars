@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import aboutBodyOne from "@/public/about-bodyimage-one.jpg";
 import aboutBodyTwo from "@/public/about-bodyimage-two.jpg";
-import aboutHero from "@/public/about-hero-image.png";
+import aboutHero from "@/public/about-hero-image.jpg";
 import aboutForged from "@/public/about-bodyimage-one.jpg";
 import artistHellbound from "@/public/artist-hellbound.jpg";
 import { Parallax } from "@/components/motion/parallax";
