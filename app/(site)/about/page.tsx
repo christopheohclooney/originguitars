@@ -5,6 +5,7 @@ import Link from "next/link";
 import aboutBodyOne from "@/public/about-bodyimage-one.jpg";
 import aboutBodyTwo from "@/public/about-bodyimage-two.jpg";
 import aboutHero from "@/public/about-hero-image.png";
+import { Parallax } from "@/components/motion/parallax";
 import { Reveal, Stagger, StaggerItem, WordReveal } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
 import { PageHero } from "@/components/ui/page-hero";
@@ -132,31 +133,45 @@ export default function AboutPage() {
       <section className="py-20 md:py-28">
         <div className={shell}>
           {/*
-            No aspect forced on the frames. Both photographs are 554x669, the
+            No aspect forced on the frames. Both photographs carry the
             reference's proportions rather than the 4:5 the placeholders were
-            sitting in, so letting them size themselves is the difference
-            between showing them and cropping 3.5% off each.
+            sitting in, so letting them size themselves shows them instead of
+            cropping off the difference.
+
+            Two layers of motion, on two elements. The outer one drifts with
+            the scroll and the inner one handles the entrance; both write to
+            `transform`, so on a single node they would overwrite each other.
+
+            The distances differ deliberately — 40 against 90. Matching them
+            would slide the pair as one block, which reads as a rendering
+            quirk rather than movement. Unmatched, the gap between the frames
+            opens and closes as they pass.
           */}
-          <Stagger className="grid gap-6 md:grid-cols-2 md:gap-8">
-            <StaggerItem>
-              <Image
-                src={aboutBodyOne}
-                alt="A guitarist on stage, lit from behind in blue"
-                placeholder="blur"
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="h-auto w-full"
-              />
-            </StaggerItem>
-            <StaggerItem className="md:mt-40">
-              <Image
-                src={aboutBodyTwo}
-                alt="A guitarist mid-performance, caught in motion blur"
-                placeholder="blur"
-                sizes="(min-width: 768px) 50vw, 100vw"
-                className="h-auto w-full"
-              />
-            </StaggerItem>
-          </Stagger>
+          <div className="grid gap-6 md:grid-cols-2 md:gap-8">
+            <Parallax distance={40}>
+              <Reveal>
+                <Image
+                  src={aboutBodyOne}
+                  alt="A guitarist on stage, lit from behind in blue"
+                  placeholder="blur"
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="h-auto w-full"
+                />
+              </Reveal>
+            </Parallax>
+
+            <Parallax distance={90} className="md:mt-40">
+              <Reveal delay={0.12}>
+                <Image
+                  src={aboutBodyTwo}
+                  alt="A guitarist mid-performance, caught in motion blur"
+                  placeholder="blur"
+                  sizes="(min-width: 768px) 50vw, 100vw"
+                  className="h-auto w-full"
+                />
+              </Reveal>
+            </Parallax>
+          </div>
         </div>
       </section>
 
