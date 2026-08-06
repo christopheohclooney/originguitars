@@ -294,33 +294,81 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Closing */}
-      <section className="border-t border-line py-20 md:py-28">
+      {/*
+        Closing CTA, following the FAQ's closing section: the drawing across
+        the top of the column, then copy left and the way out right on one
+        baseline.
+
+        No rule above it. The full-bleed hairline is the builder's device for
+        dividing chrome from stage; on a content page it cuts the vertical
+        run, which is why it is absent from every other section here.
+      */}
+      <section className="py-20 md:py-28">
         <div className={shell}>
+          {/*
+            The Lance face-on, measured to the content column like the side
+            view on the FAQ. Decorative — the heading below already says what
+            this is — so no alt text and out of the accessibility tree.
+
+            Held back below md for the same reason as the FAQ's: the detail
+            that makes it worth having (bridge, tuners, frets) stops being
+            legible at phone width and turns into noise.
+
+            TEMPORARY: pointing at the side view until the front elevation is
+            exported to /lance-skeleton-front.svg. Swapping it is this src
+            and the two dimensions — nothing else in the section is tied to
+            the drawing's proportions.
+          */}
           <Reveal>
-            <h2 className="max-w-[20ch] text-[2rem] font-bold leading-[1.1] tracking-[-0.02em]">
-              Start with the Element
-            </h2>
-            <p className="mt-4 max-w-[60ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
-              One shape available today, two more in development. Work through
-              the options and watch the price as you go — nothing is committed
-              until you are ready.
-            </p>
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <Link
-                href="/builder"
-                className={`${buttonClasses({ size: "lg" })} w-full sm:w-auto`}
-              >
-                Build your own
-              </Link>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/lance-skeleton-side.svg"
+              alt=""
+              aria-hidden
+              width={1133}
+              height={73}
+              className="hidden h-auto w-full md:block"
+            />
+          </Reveal>
+
+          {/*
+            Copy left, the two ways forward right, sat on one baseline from
+            md up and stacked below it. `items-end` is what aligns the
+            buttons to the foot of the paragraph rather than its top.
+
+            Primary sits last in the source, which puts it at the right-hand
+            end of the row — the far end of the reading direction, and the
+            position the designs give it.
+          */}
+          <div className="flex flex-col gap-10 md:mt-16 md:flex-row md:items-end md:justify-between md:gap-16">
+            <Reveal>
+              <h2 className="max-w-[18ch] text-[clamp(2rem,3.4vw,2.75rem)] font-bold leading-[1.05] tracking-[-0.025em]">
+                Ready to build yours?
+              </h2>
+              <p className="mt-5 max-w-[48ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
+                No signature deal, no waiting list, no compromise on what it
+                looks and sounds like. Just your spec, built properly.
+              </p>
+            </Reveal>
+
+            <Reveal
+              delay={0.12}
+              className="flex shrink-0 flex-col gap-4 sm:flex-row"
+            >
               <Link
                 href="/models"
                 className={`${buttonClasses({ variant: "secondary", size: "lg" })} w-full sm:w-auto`}
               >
                 See the models
               </Link>
-            </div>
-          </Reveal>
+              <Link
+                href="/builder"
+                className={`${buttonClasses({ size: "lg" })} w-full sm:w-auto`}
+              >
+                Build your own
+              </Link>
+            </Reveal>
+          </div>
         </div>
       </section>
     </main>
