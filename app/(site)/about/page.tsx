@@ -5,8 +5,7 @@ import Link from "next/link";
 import aboutBodyOne from "@/public/about-bodyimage-one.jpg";
 import aboutBodyTwo from "@/public/about-bodyimage-two.jpg";
 import aboutHero from "@/public/about-hero-image.png";
-/* Stand-in until the band photograph lands — swap this import only. */
-import artistHellbound from "@/public/about-bodyimage-one.jpg";
+import artistHellbound from "@/public/artist-hellbound.jpg";
 import { Parallax } from "@/components/motion/parallax";
 import { Reveal, Stagger, StaggerItem, WordReveal } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";

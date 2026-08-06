@@ -55,7 +55,7 @@ export function ArtistCarousel({
       aria-label={heading}
       className="py-20 md:py-28"
     >
-      <div className="relative aspect-[3/4] w-full overflow-hidden sm:aspect-[16/10] lg:aspect-[2/1]">
+      <div className="relative aspect-[3/4] w-full overflow-hidden sm:aspect-[16/10] lg:aspect-[15/8]">
         {artists.map((artist, i) => (
           <m.div
             key={artist.name + i}
