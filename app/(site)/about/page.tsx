@@ -5,9 +5,12 @@ import Link from "next/link";
 import aboutBodyOne from "@/public/about-bodyimage-one.jpg";
 import aboutBodyTwo from "@/public/about-bodyimage-two.jpg";
 import aboutHero from "@/public/about-hero-image.png";
+/* Stand-in until the band photograph lands — swap this import only. */
+import artistHellbound from "@/public/about-bodyimage-one.jpg";
 import { Parallax } from "@/components/motion/parallax";
 import { Reveal, Stagger, StaggerItem, WordReveal } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
+import { ArtistCarousel, type Artist } from "@/components/ui/artist-carousel";
 import { PageHero } from "@/components/ui/page-hero";
 import { shell, slant } from "@/lib/style";
 
@@ -26,6 +29,38 @@ export const metadata: Metadata = {
  * heading held in the margin, a full-measure lede, a pull quote, and the
  * two-image grid the build spec flagged as worth exploring.
  */
+/*
+ * Only Hellbound is real. The other two carry the same photograph and are
+ * marked as unwritten rather than repeating Hellbound's copy — three
+ * identical slides would leave no way to tell whether the paging works, and
+ * a name invented to fill the gap is worse than an obvious blank.
+ *
+ * Swapping in a real artist is one entry: photograph, name, blurb, alt.
+ */
+const artists: Artist[] = [
+  {
+    name: "Hellbound, Scotland",
+    blurb:
+      "Aggressive Glasgow-based hardcore/metal band associated with the Northern Unrest scene. A raw blend of '90s-style Clevocore, thrash, and metallic hardcore.",
+    image: artistHellbound,
+    imageAlt: "Hellbound, photographed at night in a graveyard",
+  },
+  {
+    name: "Second artist — to follow",
+    blurb:
+      "Placeholder. Artist name, location and description still to come, along with their photograph.",
+    image: artistHellbound,
+    imageAlt: "",
+  },
+  {
+    name: "Third artist — to follow",
+    blurb:
+      "Placeholder. Artist name, location and description still to come, along with their photograph.",
+    image: artistHellbound,
+    imageAlt: "",
+  },
+];
+
 export default function AboutPage() {
   return (
     <main>
@@ -235,6 +270,12 @@ export default function AboutPage() {
           </Reveal>
         </div>
       </section>
+
+      <ArtistCarousel
+        heading="Origin artist family"
+        intro="Underground players who trust Origin with the sonic demands of their music and performances."
+        artists={artists}
+      />
 
       {/* Closing */}
       <section className="border-t border-line py-20 md:py-28">
