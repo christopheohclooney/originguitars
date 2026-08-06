@@ -222,6 +222,38 @@ body:has([data-canvas]) {
 }
 
 /*
+  The fisheye frame. It arrives as a rectangle with the lens circle inside
+  it, so left alone its edges cut off hard against the ground — the crop
+  reads before the photograph does. This dissolves them, radially rather
+  than per-axis, because what is being followed here is the shape of the
+  lens rather than the shape of the box.
+
+  `closest-side` rather than a percentage pair: it sets each radius to half
+  the box on that axis, which puts the edge midpoints at exactly the end of
+  the gradient and the corners well past it. A percentage sized to the whole
+  box leaves the edges partway down the ramp, still opaque enough to draw
+  the rectangle — which is what the first pass here did.
+
+  Held at full strength out to 68% before it starts falling, so the player
+  and the neck are untouched and it is only the smeared barrel edge that
+  goes.
+*/
+[data-lens-media] {
+  -webkit-mask-image: radial-gradient(
+    ellipse closest-side at 50% 50%,
+    #000 68%,
+    rgba(0, 0, 0, 0.7) 86%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse closest-side at 50% 50%,
+    #000 68%,
+    rgba(0, 0, 0, 0.7) 86%,
+    transparent 100%
+  );
+}
+
+/*
   Metallic display type: bright through the middle of the line, falling to a
   dim grey at both ends. The gradient is clipped to the glyphs, so it is the
   letterforms that are lit rather than a panel behind them.
