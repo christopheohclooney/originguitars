@@ -130,7 +130,7 @@ export default function FaqPage() {
           */}
           <div className="flex flex-col gap-10 md:mt-20 md:flex-row md:items-end md:justify-between md:gap-16">
             <div>
-              <h2 className="max-w-[22ch] text-[2rem] font-bold leading-[1.1] tracking-[-0.02em]">
+              <h2 className="max-w-[22ch] font-display text-[2rem] font-medium leading-[1.1] tracking-[-0.02em]">
                 Got another question?
               </h2>
               <p className="mt-5 max-w-[52ch] text-[1.0625rem] leading-[1.6] text-ink-muted">

@@ -14,10 +14,11 @@ import { shell } from "@/lib/style";
  * centred pool for lighting an object's silhouette, and a hero has no object
  * in it.
  *
- * The heading carries the metallic fill and is set in the display face at a
- * light weight: at this size the gradient does the work that weight would
- * otherwise do, and bold would close the counters the light has to pass
- * through.
+ * The heading carries the metallic fill and is set in the display face at
+ * regular. That is the rule from the designs: metallic hero type is regular,
+ * section headings are medium. It also happens to be what the treatment
+ * needs — at this size the gradient does the work weight would otherwise do,
+ * and going heavier closes the counters the light has to pass through.
  */
 
 /*
@@ -44,7 +45,7 @@ export function PageHero(props: PageHeroProps) {
       <div className={shell}>
         <h1
           data-metal
-          className="mx-auto max-w-[16ch] text-center font-display text-[clamp(2.75rem,7vw,4.75rem)] font-light leading-[1.04] tracking-[-0.02em]"
+          className="mx-auto max-w-[16ch] text-center font-display text-[clamp(2.75rem,7vw,4.75rem)] font-normal leading-[1.04] tracking-[-0.02em]"
         >
           {title}
         </h1>

@@ -92,7 +92,7 @@ export default function AboutPage() {
               without either being given a height.
             */}
             <div className="flex flex-col justify-between gap-12">
-              <h2 className="font-display text-[clamp(1.875rem,2.6vw,2.375rem)] font-normal leading-[1.1] tracking-[-0.02em]">
+              <h2 className="font-display text-[clamp(1.875rem,2.6vw,2.375rem)] font-medium leading-[1.1] tracking-[-0.02em]">
                 <WordReveal text="Why it all started" />
               </h2>
 
@@ -282,7 +282,7 @@ export default function AboutPage() {
               </StaggerItem>
 
               <StaggerItem as="div">
-                <h2 className="mt-7 font-display text-[clamp(1.875rem,2.6vw,2.375rem)] font-normal leading-[1.15] tracking-[-0.02em]">
+                <h2 className="mt-7 font-display text-[clamp(1.875rem,2.6vw,2.375rem)] font-medium leading-[1.15] tracking-[-0.02em]">
                   Forged in the underground scene
                 </h2>
               </StaggerItem>

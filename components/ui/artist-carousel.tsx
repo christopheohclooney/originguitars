@@ -107,7 +107,7 @@ export function ArtistCarousel({
 
         {/* Section heading — fixed, it belongs to the section not the slide. */}
         <div className={`${shell} absolute inset-x-0 top-0 pt-8 md:pt-12`}>
-          <h2 className="mx-auto max-w-[20ch] text-center font-display text-[clamp(1.75rem,3.4vw,3rem)] font-normal leading-[1.1] tracking-[-0.02em]">
+          <h2 className="mx-auto max-w-[20ch] text-center font-display text-[clamp(1.75rem,3.4vw,3rem)] font-medium leading-[1.1] tracking-[-0.02em]">
             {heading}
           </h2>
           <p className="mx-auto mt-4 max-w-[44ch] text-center text-[0.9375rem] leading-[1.55] text-white/85 md:text-[1.0625rem]">
