@@ -233,14 +233,49 @@ export default function AboutPage() {
             <Stagger>
               <StaggerItem as="div">
                 <p className="flex items-center gap-3 font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-ink-muted">
+                  {/*
+                    The supplied mark, inlined with its gradient rather than
+                    recoloured to currentColor. It is not a monochrome icon —
+                    the fill runs grey to white and back, the same lit-metal
+                    treatment the display headings carry — so taking the text
+                    colour would have flattened the thing worth having.
+
+                    Inlined rather than served from /public because at 16px an
+                    <img> costs a request for less markup than this, and an
+                    <img> could not carry the gradient without it being baked
+                    into the file anyway.
+
+                    The gradient id is document-global, so it is named rather
+                    than left as Figma's export hash. One instance on the page
+                    today; a second would need the id made unique per render.
+
+                    Width is set explicitly because the artwork is 35x32, not
+                    square — h-4 w-4 would squash it by 9%.
+                  */}
                   <svg
                     aria-hidden
-                    viewBox="0 0 24 24"
-                    className="h-4 w-4 shrink-0"
-                    fill="currentColor"
+                    viewBox="0 0 35 32"
+                    className="h-4 w-[1.094rem] shrink-0"
+                    fill="none"
                   >
-                    {/* Four-point sparkle: the brand's mark for a section label. */}
-                    <path d="M12 0c.6 5.9 5.5 10.8 11.4 11.4v1.2C17.5 13.2 12.6 18.1 12 24c-.6-5.9-5.5-10.8-11.4-11.4v-1.2C6.5 10.8 11.4 5.9 12 0Z" />
+                    <path
+                      d="M34.4731 29.6146L21.3024 20.7601C20.6346 20.3114 20.0655 19.7485 19.61 19.1106L28.0358 13.4458L18.8945 17.8429C18.6133 17.1821 18.4357 16.474 18.3814 15.743L17.2367 0L16.092 15.743C16.0393 16.4756 15.86 17.1821 15.5788 17.8445L6.43758 13.4474L14.8634 19.1122C14.4062 19.7485 13.8387 20.3114 13.171 20.7601L0.000197299 29.6146L14.3157 22.7278C15.0163 22.3917 15.7597 22.1828 16.5163 22.1029L17.2367 32L17.9571 22.1029C18.712 22.1845 19.457 22.3917 20.1577 22.7278L34.4731 29.6146Z"
+                      fill="url(#overline-mark)"
+                    />
+                    <defs>
+                      <linearGradient
+                        id="overline-mark"
+                        x1="36.5875"
+                        y1="32"
+                        x2="-6.97281"
+                        y2="29.2378"
+                        gradientUnits="userSpaceOnUse"
+                      >
+                        <stop stopColor="#8F8F8F" />
+                        <stop offset="0.405" stopColor="#FFFFFF" />
+                        <stop offset="1" stopColor="#999999" />
+                      </linearGradient>
+                    </defs>
                   </svg>
                   Origin story
                 </p>
