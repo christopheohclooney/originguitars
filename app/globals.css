@@ -166,6 +166,54 @@ body {
 }
 
 /*
+  The hero photograph's edges, dissolved into the page ground so it ends by
+  fading out rather than on a rectangle.
+
+  Done here rather than baked into the asset because the crop changes with
+  the viewport — a vignette exported into the file would be cropped along
+  with it and stop meeting the edges. This tracks whatever shape the image
+  ends up.
+
+  Two masks on two elements rather than one element with `mask-composite`.
+  The composite route needs the standard property and a -webkit- fallback
+  that takes different keywords; splitting the axes across the wrapper and
+  the image costs nothing and works everywhere.
+*/
+[data-hero-media] {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 15%,
+    #000 85%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 15%,
+    #000 85%,
+    transparent 100%
+  );
+}
+
+[data-hero-media] img {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 22%,
+    #000 76%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 22%,
+    #000 76%,
+    transparent 100%
+  );
+}
+
+/*
   Metallic display type: bright through the middle of the line, falling to a
   dim grey at both ends. The gradient is clipped to the glyphs, so it is the
   letterforms that are lit rather than a panel behind them.
