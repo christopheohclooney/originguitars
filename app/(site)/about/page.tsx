@@ -314,19 +314,19 @@ export default function AboutPage() {
             that makes it worth having (bridge, tuners, frets) stops being
             legible at phone width and turns into noise.
 
-            TEMPORARY: pointing at the side view until the front elevation is
-            exported to /lance-skeleton-front.svg. Swapping it is this src
-            and the two dimensions — nothing else in the section is tied to
-            the drawing's proportions.
+            The fade down into the copy is a mask rather than part of the
+            export, so it stays a single flat drawing that can be reused at
+            any size — and so the falloff is tunable without a re-export.
           */}
           <Reveal>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/lance-skeleton-side.svg"
+              data-blueprint
+              src="/lance-skeleton-front.svg"
               alt=""
               aria-hidden
               width={1133}
-              height={73}
+              height={396}
               className="hidden h-auto w-full md:block"
             />
           </Reveal>
@@ -340,12 +340,12 @@ export default function AboutPage() {
             end of the row — the far end of the reading direction, and the
             position the designs give it.
           */}
-          <div className="flex flex-col gap-10 md:mt-16 md:flex-row md:items-end md:justify-between md:gap-16">
+          <div className="flex flex-col gap-10 md:mt-2 md:flex-row md:items-end md:justify-between md:gap-16">
             <Reveal>
               <h2 className="max-w-[18ch] text-[clamp(2rem,3.4vw,2.75rem)] font-bold leading-[1.05] tracking-[-0.025em]">
                 Ready to build yours?
               </h2>
-              <p className="mt-5 max-w-[48ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
+              <p className="mt-5 max-w-[40ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
                 No signature deal, no waiting list, no compromise on what it
                 looks and sounds like. Just your spec, built properly.
               </p>
@@ -357,13 +357,13 @@ export default function AboutPage() {
             >
               <Link
                 href="/models"
-                className={`${buttonClasses({ variant: "secondary", size: "lg" })} w-full sm:w-auto`}
+                className={`${buttonClasses({ variant: "secondary" })} w-full sm:w-auto`}
               >
                 See the models
               </Link>
               <Link
                 href="/builder"
-                className={`${buttonClasses({ size: "lg" })} w-full sm:w-auto`}
+                className={`${buttonClasses()} w-full sm:w-auto`}
               >
                 Build your own
               </Link>

@@ -254,6 +254,40 @@ body:has([data-canvas]) {
 }
 
 /*
+  The Lance front elevation, dissolved into the copy below it.
+
+  Anchored to the bottom-left rather than sweeping straight up from the foot,
+  because it has one job: concealing the bottom spike of the V before it
+  reaches its point. A full-width bottom fade takes the bridge, the pickups
+  and the neck down with it — everything sits at a similar height, so a fade
+  that catches the spike catches all of them too.
+
+  Radial rather than a diagonal linear, which was tried first: the shallow
+  box makes a corner-to-corner gradient a wide wedge, so it either left the
+  spike still tipped or reached the bridge on its way there. A pool centred
+  past the bottom-left corner falls off with distance instead, which keeps
+  it on the spike.
+
+  A mask rather than baked into the export: the SVG is flat line art with no
+  gradients in it, which keeps it reusable at any size and leaves the falloff
+  tunable here instead of in Figma.
+*/
+[data-blueprint] {
+  -webkit-mask-image: radial-gradient(
+    ellipse 46% 78% at 14% 108%,
+    transparent 22%,
+    rgba(0, 0, 0, 0.5) 55%,
+    #000 82%
+  );
+  mask-image: radial-gradient(
+    ellipse 46% 78% at 14% 108%,
+    transparent 22%,
+    rgba(0, 0, 0, 0.5) 55%,
+    #000 82%
+  );
+}
+
+/*
   Metallic display type: bright through the middle of the line, falling to a
   dim grey at both ends. The gradient is clipped to the glyphs, so it is the
   letterforms that are lit rather than a panel behind them.
