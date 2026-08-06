@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import Link from "next/link";
 
+import aboutBodyOne from "@/public/about-bodyimage-one.jpg";
+import aboutBodyTwo from "@/public/about-bodyimage-two.jpg";
 import aboutHero from "@/public/about-hero-image.png";
-import { ImagePlaceholder } from "@/components/image-placeholder";
 import { Reveal, Stagger, StaggerItem, WordReveal } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
 import { PageHero } from "@/components/ui/page-hero";
@@ -129,17 +131,29 @@ export default function AboutPage() {
       */}
       <section className="py-20 md:py-28">
         <div className={shell}>
+          {/*
+            No aspect forced on the frames. Both photographs are 554x669, the
+            reference's proportions rather than the 4:5 the placeholders were
+            sitting in, so letting them size themselves is the difference
+            between showing them and cropping 3.5% off each.
+          */}
           <Stagger className="grid gap-6 md:grid-cols-2 md:gap-8">
             <StaggerItem>
-              <ImagePlaceholder
-                className="aspect-[4/5] w-full"
-                label="Detail shot"
+              <Image
+                src={aboutBodyOne}
+                alt="A guitarist on stage, lit from behind in blue"
+                placeholder="blur"
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="h-auto w-full"
               />
             </StaggerItem>
             <StaggerItem className="md:mt-40">
-              <ImagePlaceholder
-                className="aspect-[4/5] w-full"
-                label="Detail shot"
+              <Image
+                src={aboutBodyTwo}
+                alt="A guitarist mid-performance, caught in motion blur"
+                placeholder="blur"
+                sizes="(min-width: 768px) 50vw, 100vw"
+                className="h-auto w-full"
               />
             </StaggerItem>
           </Stagger>
