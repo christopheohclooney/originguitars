@@ -342,7 +342,21 @@ export default function AboutPage() {
           */}
           <div className="flex flex-col gap-10 md:mt-2 md:flex-row md:items-end md:justify-between md:gap-16">
             <Reveal>
-              <h2 className="max-w-[18ch] text-[clamp(2rem,3.4vw,2.75rem)] font-bold leading-[1.05] tracking-[-0.025em]">
+              {/*
+                Archivo at medium, like every other heading on the page. This
+                was the one still carrying the pre-redesign treatment — Geist
+                at bold — which is why it read heavier than everything above
+                it rather than merely larger.
+
+                Medium rather than the normal the section headings use: this
+                is the page's last word, so it holds a little more weight than
+                the ones it follows without going back to bold.
+
+                Tracking eased off with it. Archivo needs less negative than
+                Geist at this size; keeping -0.025em closed the counters that
+                the lighter weight is there to open.
+              */}
+              <h2 className="max-w-[18ch] font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.05] tracking-[-0.02em]">
                 Ready to build yours?
               </h2>
               <p className="mt-5 max-w-[40ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
