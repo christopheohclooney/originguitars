@@ -11,7 +11,7 @@ import { Reveal, Stagger, StaggerItem, WordReveal } from "@/components/motion/re
 import { buttonClasses } from "@/components/ui/button";
 import { ArtistCarousel, type Artist } from "@/components/ui/artist-carousel";
 import { PageHero } from "@/components/ui/page-hero";
-import { shell, slant } from "@/lib/style";
+import { shell } from "@/lib/style";
 
 export const metadata: Metadata = {
   title: "About — Origin Guitars",
@@ -206,67 +206,6 @@ export default function AboutPage() {
               </Reveal>
             </Parallax>
           </div>
-        </div>
-      </section>
-
-      {/* Pull quote */}
-      <section className="border-t border-line py-20 md:py-28">
-        <div className={shell}>
-          <Reveal>
-            {/*
-              The measure lives on the <p>, not the <blockquote>: `ch` resolves
-              against the element's own font-size, so on the wrapper it would
-              be computed at 16px body text and collapse the quote to a sliver.
-            */}
-            <blockquote>
-              <p className="max-w-[20ch] text-[clamp(1.75rem,4vw,2.75rem)] font-bold leading-[1.12] tracking-[-0.025em]">
-                &ldquo;Placeholder pull quote — the one line that should stop
-                somebody scrolling.&rdquo;
-              </p>
-              <footer className="mt-8 flex items-center gap-4">
-                <div
-                  aria-hidden
-                  className="h-[5px] w-11 bg-ink"
-                  style={slant}
-                />
-                <span className="text-[0.9375rem] text-ink-muted">
-                  Attribution to follow
-                </span>
-              </footer>
-            </blockquote>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* Second editorial section */}
-      <section className="border-t border-line py-20 md:py-28">
-        <div className={shell}>
-          <Reveal>
-            <div className="grid gap-10 md:grid-cols-[16rem_1fr] md:gap-16">
-              <div>
-                <div
-                  aria-hidden
-                  className="mb-6 h-[5px] w-11 bg-ink"
-                  style={slant}
-                />
-                <h2 className="text-[1.375rem] font-semibold leading-[1.2] tracking-[-0.015em]">
-                  How they are built
-                </h2>
-              </div>
-              <div className="max-w-[64ch]">
-                <p className="text-[1.0625rem] leading-[1.7]">
-                  Placeholder. Every instrument is built to the specification
-                  set in the builder, by hand, and inspected by the same team
-                  before it is allowed to leave.
-                </p>
-                <p className="mt-6 text-[1.0625rem] leading-[1.7]">
-                  Placeholder. This section should carry the detail that earns
-                  trust — timbers, hardware, the parts of the process worth
-                  being specific about. Length here is indicative.
-                </p>
-              </div>
-            </div>
-          </Reveal>
         </div>
       </section>
 

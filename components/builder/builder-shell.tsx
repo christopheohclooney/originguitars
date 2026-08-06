@@ -211,7 +211,7 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
           <Image
             src={image}
             alt="The Origin Element"
-            priority
+            preload
             placeholder="blur"
             sizes="(min-width: 1180px) 1100px, 100vw"
             className="max-h-full w-auto max-w-full object-contain"

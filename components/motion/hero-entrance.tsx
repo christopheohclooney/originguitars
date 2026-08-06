@@ -60,7 +60,7 @@ export function HeroGuitar({ image }: { image: StaticImageData }) {
       <Image
         src={image}
         alt="The Origin Element"
-        priority
+        preload
         placeholder="blur"
         sizes="100vw"
         className="h-auto w-full object-contain"

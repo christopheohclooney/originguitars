@@ -64,15 +64,16 @@ export function PageHero(props: PageHeroProps) {
 
         Statically imported by the page, so Next has the real dimensions at
         build time and reserves the space before the file arrives — nothing
-        below it shifts as it loads. `priority` because a hero this high on
-        the page is the likely LCP element.
+        below it shifts as it loads. Preloaded because a hero this high on
+        the page is the likely LCP element — `preload` rather than
+        `priority`, which Next 16 deprecated in favour of it.
       */}
       {props.image && (
         <div data-hero-media className="mt-14 md:mt-16">
           <Image
             src={props.image}
             alt={props.imageAlt}
-            priority
+            preload
             placeholder="blur"
             sizes="100vw"
             className="h-auto w-full"

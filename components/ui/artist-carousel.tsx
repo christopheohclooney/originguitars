@@ -68,11 +68,18 @@ export function ArtistCarousel({
             transition={fade}
             className="absolute inset-0"
           >
+            {/*
+              Above the default 75. This frame is full-bleed grainy black and
+              white, which is the worst case for a lossy encoder — at 75 the
+              grain is quantised into blocks rather than preserved, and the
+              photograph reads as compression rather than film.
+            */}
             <Image
               src={artist.image}
               alt={artist.imageAlt}
               fill
               sizes="100vw"
+              quality={90}
               placeholder="blur"
               className="object-cover"
             />
@@ -135,10 +142,15 @@ export function ArtistCarousel({
       {/*
         Buttons, not dots with click handlers — they are the only way to move
         the carousel, so they have to be reachable and operable from the
-        keyboard. The hit area is 44px square while the mark itself stays
-        small, which is the minimum worth tapping on a phone.
+        keyboard.
+
+        The hit area is taller than it is wide, 40x24, which is what lets the
+        marks sit close together the way the reference has them while each
+        button still clears the 24px minimum worth tapping. A square 44px
+        target would space them at 48px apart — twice the reference — for no
+        gain, since the height is doing the work on a phone anyway.
       */}
-      <div className="mt-8 flex items-center justify-center gap-1">
+      <div className="mt-8 flex items-center justify-center">
         {artists.map((artist, i) => (
           <button
             key={artist.name + i}
@@ -147,7 +159,7 @@ export function ArtistCarousel({
             aria-label={`Show ${artist.name}`}
             aria-current={i === index}
             aria-controls={id}
-            className="group inline-flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
+            className="group inline-flex h-10 w-6 items-center justify-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
           >
             <span
               aria-hidden
