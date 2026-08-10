@@ -38,8 +38,30 @@ export default function HomePage() {
         version boxed a grey placeholder inside the gutter while the builder,
         one route away, already did this properly — the page was opting out of
         its own strongest move.
+
+        The band is light rather than paint, and it starts above the header
+        rather than below it. Both follow the builder, and both are what the
+        floating pill needs to read the same here as it does everywhere else.
+
+        Light, not paint: white at 2% over --color-surface composites to
+        exactly #0f0f0f, the canvas value, but as alpha. `bg-canvas` was
+        opaque, and this section sits in the z-10 content layer — above
+        [data-light-leak] — so it painted the leak out across the whole top of
+        the page. The pill's backdrop-filter then had a flat field to sample
+        while About, FAQ and the builder all gave it the rake. Same reasoning
+        as --canvas-glow in globals.css, which is white alpha for this exact
+        reason rather than a literal #2a2a2a.
+
+        Starting above the header: the negative margin pulls the band's box up
+        through the header's strip and the matching padding puts the content
+        back where it was, so nothing moves and no copy slides under the
+        chrome. Without it the band's top edge landed exactly at the pill's
+        bottom — a hard tonal step straight across the page, right where it
+        should read as one continuous field. globals.css already calls that
+        out as the bug and fixes it for the builder; Home had the same one
+        untreated.
       */}
-      <section className="relative overflow-hidden bg-canvas">
+      <section className="relative mt-[calc(var(--header-h)*-1)] overflow-hidden bg-white/[0.02] pt-[var(--header-h)]">
         <div className={`${shell} pt-16 md:pt-24`}>
           <HeroRule />
           <h1 className="mt-8 max-w-[13ch] text-[clamp(3rem,8vw,5.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
