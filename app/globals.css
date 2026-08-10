@@ -222,6 +222,76 @@ body:has([data-canvas]) {
 }
 
 /*
+  The Home hero's scrim.
+
+  A full-bleed photograph puts copy on whatever tone that frame happens to
+  carry, which is not something the type can be tuned against — the shot is
+  still being chosen. This lays the ground back in underneath it, weighted to
+  the bottom-left where the copy sits, so the heading keeps its contrast
+  whatever lands here.
+
+  Two gradients rather than one. The vertical pass is the one doing the work
+  for the copy; the diagonal lifts the bottom-left corner further without
+  darkening the top-right, which is where the photograph is meant to be
+  brightest and where the header pill samples it.
+
+  Colour-stopped on --color-surface rather than black, so the foot of the
+  hero meets the section below it exactly rather than going a shade darker
+  and drawing a line across the page.
+
+  Written mobile-first, and the two are genuinely different jobs rather than
+  one value scaled. On a phone the frame is portrait, so object-fit crops the
+  photograph's sides away and enlarges what is left — the subject stops being
+  a bright corner and becomes the whole field, directly behind the copy.
+  Measured on the supplied shot, the ground behind the heading peaked at 144
+  where desktop peaked at 44, against a heading whose dimmest gradient stop
+  sits near 90: the glyph was darker than its own background. Hence the far
+  heavier ramp here, reaching most of the way up the frame.
+*/
+[data-hero-scrim] {
+  background-image:
+    linear-gradient(
+      to top,
+      var(--color-surface) 0%,
+      color-mix(in srgb, var(--color-surface) 94%, transparent) 34%,
+      color-mix(in srgb, var(--color-surface) 72%, transparent) 58%,
+      color-mix(in srgb, var(--color-surface) 34%, transparent) 78%,
+      transparent 96%
+    ),
+    linear-gradient(
+      to top right,
+      color-mix(in srgb, var(--color-surface) 72%, transparent) 0%,
+      color-mix(in srgb, var(--color-surface) 24%, transparent) 45%,
+      transparent 72%
+    );
+}
+
+/*
+  From md the frame is landscape, the photograph sits at its intended crop
+  with the subject up and to the right, and the copy has a corner of its own.
+  The scrim can back off to what it was built for: protecting the copy
+  without flattening the shot.
+*/
+@media (min-width: 768px) {
+  [data-hero-scrim] {
+    background-image:
+      linear-gradient(
+        to top,
+        var(--color-surface) 0%,
+        color-mix(in srgb, var(--color-surface) 82%, transparent) 22%,
+        color-mix(in srgb, var(--color-surface) 30%, transparent) 52%,
+        transparent 78%
+      ),
+      linear-gradient(
+        to top right,
+        color-mix(in srgb, var(--color-surface) 78%, transparent) 0%,
+        color-mix(in srgb, var(--color-surface) 20%, transparent) 45%,
+        transparent 70%
+      );
+  }
+}
+
+/*
   The fisheye frame. It arrives as a rectangle with the lens circle inside
   it, so left alone its edges cut off hard against the ground — the crop
   reads before the photograph does. This dissolves them, radially rather

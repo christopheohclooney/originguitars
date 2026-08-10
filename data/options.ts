@@ -55,6 +55,21 @@ export type BuilderStep = {
 
 export const BASE_PRICE_PENCE = 189_900; // £1,899.00 — PLACEHOLDER
 
+/*
+ * The "from" price the marketing pages quote.
+ *
+ * ⚠️  This and BASE_PRICE_PENCE disagree, and deliberately so rather than by
+ * oversight. £799.00 is the figure on the supplied Home design; £1,899.00 is
+ * invented, like everything else in this file. Whichever turns out to be real,
+ * the two need reconciling before launch — a visitor who reads "from £799" on
+ * the doormat and then watches the builder open at £1,899 has been misled.
+ *
+ * Kept as its own constant rather than typed into the hero so the conflict is
+ * visible here, next to the number it contradicts, instead of buried in a
+ * page.
+ */
+export const FROM_PRICE_PENCE = 79_900; // £799.00 — from the Home design
+
 /* --------------------------------------------------------------- colours */
 
 const COLOUR_FAMILIES = {

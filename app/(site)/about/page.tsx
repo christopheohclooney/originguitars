@@ -11,6 +11,7 @@ import { Parallax } from "@/components/motion/parallax";
 import { Reveal, Stagger, StaggerItem, WordReveal } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
 import { ArtistCarousel, type Artist } from "@/components/ui/artist-carousel";
+import { Overline } from "@/components/ui/overline";
 import { PageHero } from "@/components/ui/page-hero";
 import { shell } from "@/lib/style";
 
@@ -232,53 +233,8 @@ export default function AboutPage() {
           <div className="grid items-center gap-12 md:grid-cols-[minmax(0,26rem)_1fr] md:gap-16">
             <Stagger>
               <StaggerItem as="div">
-                <p className="flex items-center gap-3 font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-ink-muted">
-                  {/*
-                    The supplied mark, inlined with its gradient rather than
-                    recoloured to currentColor. It is not a monochrome icon —
-                    the fill runs grey to white and back, the same lit-metal
-                    treatment the display headings carry — so taking the text
-                    colour would have flattened the thing worth having.
-
-                    Inlined rather than served from /public because at 16px an
-                    image element costs a request for less markup than this,
-                    and could not carry the gradient without it being baked
-                    into the file anyway.
-
-                    The gradient id is document-global, so it is named rather
-                    than left as Figma's export hash. One instance on the page
-                    today; a second would need the id made unique per render.
-
-                    Width is set explicitly because the artwork is 35x32, not
-                    square — h-4 w-4 would squash it by 9%.
-                  */}
-                  <svg
-                    aria-hidden
-                    viewBox="0 0 35 32"
-                    className="h-4 w-[1.094rem] shrink-0"
-                    fill="none"
-                  >
-                    <path
-                      d="M34.4731 29.6146L21.3024 20.7601C20.6346 20.3114 20.0655 19.7485 19.61 19.1106L28.0358 13.4458L18.8945 17.8429C18.6133 17.1821 18.4357 16.474 18.3814 15.743L17.2367 0L16.092 15.743C16.0393 16.4756 15.86 17.1821 15.5788 17.8445L6.43758 13.4474L14.8634 19.1122C14.4062 19.7485 13.8387 20.3114 13.171 20.7601L0.000197299 29.6146L14.3157 22.7278C15.0163 22.3917 15.7597 22.1828 16.5163 22.1029L17.2367 32L17.9571 22.1029C18.712 22.1845 19.457 22.3917 20.1577 22.7278L34.4731 29.6146Z"
-                      fill="url(#overline-mark)"
-                    />
-                    <defs>
-                      <linearGradient
-                        id="overline-mark"
-                        x1="36.5875"
-                        y1="32"
-                        x2="-6.97281"
-                        y2="29.2378"
-                        gradientUnits="userSpaceOnUse"
-                      >
-                        <stop stopColor="#8F8F8F" />
-                        <stop offset="0.405" stopColor="#FFFFFF" />
-                        <stop offset="1" stopColor="#999999" />
-                      </linearGradient>
-                    </defs>
-                  </svg>
-                  Origin story
-                </p>
+                {/* Shared with Home's hero — see components/ui/overline.tsx. */}
+                <Overline>Origin story</Overline>
               </StaggerItem>
 
               <StaggerItem as="div">

@@ -1,9 +1,7 @@
 "use client";
 
-import Image, { type StaticImageData } from "next/image";
+import Image from "next/image";
 import { m, useReducedMotion } from "motion/react";
-
-import { slant } from "@/lib/style";
 
 /*
  * The page's one authored moment.
@@ -12,9 +10,9 @@ import { slant } from "@/lib/style";
  * animate at all — an identical entrance on every section reads as a template,
  * not a decision.
  *
- * Both parts animate from an already-visible default: opacity stays at 1
- * throughout, so nothing is held behind hydration and the hero can still be the
- * LCP element. Only scale and scaleX move, both GPU-composited.
+ * It animates from an already-visible default: opacity stays at 1 throughout,
+ * so nothing is held behind hydration and the photograph can still be the LCP
+ * element. Only scale moves, which is GPU-composited.
  *
  * `useReducedMotion` returns null on the server and a boolean after mount, so
  * it must never decide which elements exist — that renders different markup on
@@ -25,45 +23,39 @@ import { slant } from "@/lib/style";
 const EASE = [0.16, 1, 0.3, 1] as const;
 const INSTANT = { duration: 0 } as const;
 
-/** The brand angle, drawn on. Scaled up from the 44px tick used elsewhere. */
-export function HeroRule() {
-  const reduced = useReducedMotion();
-
-  /* The skew lives on the wrapper — Motion writes scaleX to `transform`, which
-     would otherwise overwrite it. */
-  return (
-    <div aria-hidden style={slant} className="h-2 w-44">
-      <m.div
-        data-reveal
-        className="h-full w-full origin-left bg-ink"
-        initial={{ scaleX: 0 }}
-        animate={{ scaleX: 1 }}
-        transition={
-          reduced ? INSTANT : { duration: 0.9, ease: EASE, delay: 0.15 }
-        }
-      />
-    </div>
-  );
-}
-
-/** The instrument, settling rather than appearing. */
-export function HeroGuitar({ image }: { image: StaticImageData }) {
+/**
+ * The hero photograph, settling rather than appearing.
+ *
+ * `fill` rather than a static import: the file is dropped in by hand at
+ * public/home-hero.jpg, and a static import of a file that is not there yet
+ * fails the build. Referenced by path, a missing file simply leaves the
+ * section on its own ground until the photograph lands — which is what we
+ * want while the shot is still being chosen.
+ *
+ * The trade that comes with it: no build-time dimensions and no blur
+ * placeholder. Neither matters for a full-bleed cover image, which has no
+ * intrinsic space to reserve, and `preload` still puts it in the document
+ * head as the likely LCP element.
+ */
+export function HeroPhoto({ src, alt = "" }: { src: string; alt?: string }) {
   const reduced = useReducedMotion();
 
   return (
     <m.div
       data-reveal
-      initial={{ scale: 1.05 }}
+      aria-hidden={alt === "" ? true : undefined}
+      className="absolute inset-0"
+      initial={{ scale: 1.06 }}
       animate={{ scale: 1 }}
-      transition={reduced ? INSTANT : { duration: 1.6, ease: EASE }}
+      transition={reduced ? INSTANT : { duration: 1.8, ease: EASE }}
     >
       <Image
-        src={image}
-        alt="The Origin Element"
+        src={src}
+        alt={alt}
+        fill
         preload
-        placeholder="blur"
         sizes="100vw"
-        className="h-auto w-full object-contain"
+        className="object-cover object-center"
       />
     </m.div>
   );
