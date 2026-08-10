@@ -336,22 +336,66 @@ body:has([data-canvas]) {
   bottom edges meet the sections either side exactly instead of going a
   shade darker and drawing a line across the page.
 */
+/*
+  Mobile first, and the two are different problems rather than one value
+  scaled.
+
+  On a phone the four steps stack, so copy runs the whole height of the band
+  — there is no clear middle to protect. The portrait crop also enlarges the
+  instrument until the pale body fills the frame: measured behind the text,
+  the ground peaked at 255 against numerals at #f2f2f2 and titles the same,
+  which is 1.6:1 and 1.9:1. Not low contrast, effectively none.
+
+  So the phone gets a near-solid ground with the photograph left as texture
+  under it, easing off only through the gap between the heading and the first
+  step where nothing sits. 88% is not a round number — it is what it takes to
+  bring a 255 highlight under the ~38 that body copy at --color-ink-muted
+  needs for 4.5:1.
+*/
 [data-steps-scrim] {
-  background-image:
-    linear-gradient(
-      to bottom,
-      var(--color-surface) 0%,
-      color-mix(in srgb, var(--color-surface) 72%, transparent) 16%,
-      color-mix(in srgb, var(--color-surface) 20%, transparent) 34%,
-      transparent 46%
-    ),
-    linear-gradient(
-      to top,
-      var(--color-surface) 0%,
-      color-mix(in srgb, var(--color-surface) 88%, transparent) 20%,
-      color-mix(in srgb, var(--color-surface) 42%, transparent) 38%,
-      transparent 54%
-    );
+  background-image: linear-gradient(
+    to bottom,
+    var(--color-surface) 0%,
+    color-mix(in srgb, var(--color-surface) 90%, transparent) 12%,
+    color-mix(in srgb, var(--color-surface) 71%, transparent) 26%,
+    color-mix(in srgb, var(--color-surface) 88%, transparent) 42%,
+    color-mix(in srgb, var(--color-surface) 92%, transparent) 100%
+  );
+}
+
+/*
+  From md the steps sit in one row along the foot and the picture has a band
+  of its own between the two blocks of copy, so the scrim can go back to
+  protecting both ends and leaving the middle clear. That middle is the only
+  part of the shot with nothing over it, which makes it the only part doing
+  the job the photograph is there for.
+
+  The two ends are weighted to what sits on them rather than matched: the
+  overline is 13px at --color-ink-muted and needs the most help, the steps
+  are a mix of near-white numerals and muted body copy.
+
+  Colour-stopped on --color-surface rather than black, so the band's edges
+  meet the sections either side exactly instead of going a shade darker and
+  drawing a line across the page.
+*/
+@media (min-width: 768px) {
+  [data-steps-scrim] {
+    background-image:
+      linear-gradient(
+        to bottom,
+        var(--color-surface) 0%,
+        color-mix(in srgb, var(--color-surface) 88%, transparent) 18%,
+        color-mix(in srgb, var(--color-surface) 24%, transparent) 36%,
+        transparent 48%
+      ),
+      linear-gradient(
+        to top,
+        var(--color-surface) 0%,
+        color-mix(in srgb, var(--color-surface) 92%, transparent) 22%,
+        color-mix(in srgb, var(--color-surface) 48%, transparent) 40%,
+        transparent 56%
+      );
+  }
 }
 
 /*
