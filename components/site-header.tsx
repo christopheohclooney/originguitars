@@ -63,7 +63,7 @@ export function SiteHeader() {
         pill's rounded edge, which is what stops it reading as a stray blob
         floating under the bar.
       */}
-      <div className="pointer-events-auto mx-auto flex h-16 w-full max-w-[1180px] items-center justify-between gap-8 overflow-hidden rounded-full border border-white/10 bg-white/[0.06] px-5 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl md:px-6">
+      <div className="pointer-events-auto mx-auto flex h-16 w-full max-w-[var(--shell)] items-center justify-between gap-8 overflow-hidden rounded-full border border-white/10 bg-white/[0.06] px-5 shadow-[0_8px_32px_rgba(0,0,0,0.4)] backdrop-blur-xl md:px-6">
         <Link
           href="/"
           className="shrink-0 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"

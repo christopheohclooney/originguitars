@@ -119,10 +119,18 @@ export default function HomePage() {
             peak and its heading is left-aligned against a photograph rather
             than centred in a column, so it carries the extra size without
             crowding its own measure.
+
+            The second ramp picks up where the first stops. clamp() tops out
+            at 5rem from 1081px wide, so on a 1920 display the heading was the
+            same 80px it is on a laptop while the column around it had grown —
+            which reads as a smaller heading, not a wider one. 5.56vw passes
+            through exactly 5rem at 1440, so the two ramps meet rather than
+            step, and it then tracks the viewport like --shell does. The cap
+            is where the line stops being a heading and starts being a poster.
           */}
           <h1
             data-metal
-            className="mt-7 max-w-[16ch] font-display text-[clamp(2.75rem,7.4vw,5rem)] font-normal leading-[1.04] tracking-[-0.02em]"
+            className="mt-7 max-w-[16ch] font-display text-[clamp(2.75rem,7.4vw,5rem)] font-normal leading-[1.04] tracking-[-0.02em] min-[1440px]:text-[min(5.56vw,6.75rem)]"
           >
             Time to play by your own rules.
           </h1>
@@ -198,7 +206,7 @@ export default function HomePage() {
             {/*
               Pushed past the content column to the viewport's edge, so it
               lands there at any width rather than at one guessed breakpoint.
-              The calculation runs off the shell's *outer* width (73.75rem)
+              The calculation runs off the shell's *outer* width (--shell)
               plus its padding, not the inner measure — the inner is already
               one padding short. The max() floor covers viewports narrower
               than the shell, where the first term goes negative.
@@ -220,7 +228,7 @@ export default function HomePage() {
               glow with it. The placeholder panel keeps 4:5 only because it
               has no picture to measure.
             */}
-            <Reveal className="md:-ml-[max(1.5rem,calc((100vw-73.75rem)/2+2.5rem))]">
+            <Reveal className="md:-ml-[max(1.5rem,calc((100vw-var(--shell))/2+2.5rem))]">
               {precisionPhoto?.width && precisionPhoto.height ? (
                 <Image
                   data-lens-media

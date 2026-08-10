@@ -265,13 +265,13 @@ export default function AboutPage() {
               Pushed past the content column to the viewport's edge, so it
               lands there at any width rather than at one guessed breakpoint.
 
-              The calculation runs off the shell's *outer* width (73.75rem)
+              The calculation runs off the shell's *outer* width (--shell)
               plus its padding, not the inner measure — the inner is already
               one padding short, and using it overshot the edge by exactly
               that much. The max() floor covers viewports narrower than the
               shell, where the first term goes negative.
             */}
-            <Reveal className="md:-mr-[max(2.5rem,calc((100vw-73.75rem)/2+2.5rem))]">
+            <Reveal className="md:-mr-[max(2.5rem,calc((100vw-var(--shell))/2+2.5rem))]">
               <Image
                 data-lens-media
                 src={aboutForged}

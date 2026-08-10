@@ -1,7 +1,11 @@
 import type { CSSProperties } from "react";
 
-/* The page gutter. Every section measures from this, so it stays in one place. */
-export const shell = "mx-auto w-full max-w-[1180px] px-6 md:px-10";
+/*
+ * The page gutter. Every section measures from this, so it stays in one place.
+ * The width itself is --shell in globals.css, where the header pill and the
+ * full-bleed frames can read the same number.
+ */
+export const shell = "mx-auto w-full max-w-[var(--shell)] px-6 md:px-10";
 
 /*
  * The logo's 12° lean, for brand devices only — accent rules, badge cuts,

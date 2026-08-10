@@ -69,6 +69,29 @@
   --slant: 12deg;
 
   /*
+    The content column's outer width.
+
+    A variable rather than a literal because three things have to agree on it:
+    the shell in lib/style.ts, the header pill, and the full-bleed frames that
+    push themselves past the column to the viewport's edge by measuring
+    (100vw - shell) / 2. A literal repeated in four files is one of them being
+    forgotten the first time this moves.
+
+    Fixed at 73.75rem up to 1440px, which is the width the designs were drawn
+    at — at 1440 this lands the copy at 11.8% and the far edge at 88.2%,
+    against the references' 11.5% and 88.5%.
+
+    Above 1440 it tracks the viewport instead of stopping. Held at a literal
+    it took the layout to 61% of a 1920 screen with 370px of dead ground
+    either side, which is not the same design larger, it is a different one.
+    82vw is the proportion the references are drawn to, and it passes through
+    73.75rem at exactly 1440 — so the switch is continuous rather than a step
+    at the breakpoint. The cap stops it running away on a very wide display,
+    where measure rather than proportion becomes the limit.
+  */
+  --shell: 73.75rem;
+
+  /*
     Total height the header occupies in flow: the pill itself plus the gutter
     above and below it that makes it read as floating.
 
@@ -107,6 +130,12 @@
 @media (min-width: 768px) {
   :root {
     --header-h: 104px;
+  }
+}
+
+@media (min-width: 1440px) {
+  :root {
+    --shell: min(82vw, 1600px);
   }
 }
 
