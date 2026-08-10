@@ -14,10 +14,9 @@ import { shell, slant } from "@/lib/style";
 /*
  * The hero photograph.
  *
- * Drop the shot in at public/home-hero.jpg and it appears — no code change.
- * Referenced by path rather than statically imported because a static import
- * of a file that is not there yet fails the build, and the shot is still
- * being chosen. See HeroPhoto for what that trades away.
+ * Referenced by path rather than statically imported: the shot is dropped in
+ * by hand, and a static import of a file that is not there yet fails the
+ * build. See HeroPhoto for what that trades away.
  *
  * Checked on disk rather than rendered blind. An <Image> pointed at a missing
  * file puts a broken-image glyph in the corner of the page, which is worse
@@ -25,7 +24,7 @@ import { shell, slant } from "@/lib/style";
  * ground, which is a composition that stands up on its own. This is a server
  * component, so the check runs once at build and costs nothing per request.
  */
-const HERO_PHOTO = "/home-hero.jpg";
+const HERO_PHOTO = "/home-hero.png";
 const heroPhotoReady = existsSync(join(process.cwd(), "public", HERO_PHOTO));
 
 const steps = [
@@ -78,7 +77,13 @@ export default function HomePage() {
         giving anything a fixed height, so the hero can grow with its own
         content on a narrow screen and still bottom-align on a wide one.
       */}
-      <section className="relative mt-[calc(var(--header-h)*-1)] flex min-h-[38rem] flex-col justify-end overflow-hidden bg-white/[0.02] pt-[var(--header-h)] md:min-h-[min(100svh,54rem)]">
+      {/*
+        Taller on a phone than the copy strictly needs. The portrait crop puts
+        the subject directly behind the text, and the extra height is what
+        gives the photograph a band of its own above it — without it the shot
+        is only ever seen through the scrim.
+      */}
+      <section className="relative mt-[calc(var(--header-h)*-1)] flex min-h-[44rem] flex-col justify-end overflow-hidden bg-white/[0.02] pt-[var(--header-h)] md:min-h-[min(100svh,54rem)]">
         {heroPhotoReady && <HeroPhoto src={HERO_PHOTO} />}
 
         {/* Lays the ground back in under the copy — see globals.css. */}
