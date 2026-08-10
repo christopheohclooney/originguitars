@@ -69,12 +69,22 @@ export default function HomePage() {
         content on a narrow screen and still bottom-align on a wide one.
       */}
       {/*
-        Taller on a phone than the copy strictly needs. The portrait crop puts
-        the subject directly behind the text, and the extra height is what
-        gives the photograph a band of its own above it — without it the shot
-        is only ever seen through the scrim.
+        A full viewport, and only a floor — `min-h`, so a narrow screen whose
+        copy needs more than that still grows rather than clipping.
+
+        It was capped at 54rem on desktop, which is where it went wrong: on
+        any display taller than 864px the hero stopped short of the fold and
+        read as a shallow band rather than a screen. The cap was there to stop
+        the copy stranding at the foot of a very tall window, but `justify-end`
+        already handles that — the block sits against the bottom padding
+        wherever the bottom is.
+
+        svh rather than vh: on a phone, vh is the height with the browser
+        chrome *collapsed*, so a 100vh hero is taller than what you can
+        actually see until you scroll. svh is the visible height, which is
+        what "one screen" is supposed to mean.
       */}
-      <section className="relative mt-[calc(var(--header-h)*-1)] flex min-h-[44rem] flex-col justify-end overflow-hidden bg-white/[0.02] pt-[var(--header-h)] md:min-h-[min(100svh,54rem)]">
+      <section className="relative mt-[calc(var(--header-h)*-1)] flex min-h-[100svh] flex-col justify-end overflow-hidden bg-white/[0.02] pt-[var(--header-h)]">
         {heroPhoto && <HeroPhoto src={heroPhoto.src} />}
 
         {/* Lays the ground back in under the copy — see globals.css. */}

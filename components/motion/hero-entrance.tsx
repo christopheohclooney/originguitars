@@ -49,13 +49,24 @@ export function HeroPhoto({ src, alt = "" }: { src: string; alt?: string }) {
       animate={{ scale: 1 }}
       transition={reduced ? INSTANT : { duration: 1.8, ease: EASE }}
     >
+      {/*
+        The crop sits high of centre on desktop.
+        `object-position` picks which slice of an over-tall image survives the
+        cover crop, and moving it *up* the source shows more of what is above
+        the subject — which pushes the subject itself down the frame. Centred
+        left the fretboard riding the top edge with dead space beneath it.
+
+        Only from md. A portrait frame crops the sides rather than the top and
+        bottom, so there is little vertical slack to redistribute, and the
+        centre is already where the contrast work landed.
+      */}
       <Image
         src={src}
         alt={alt}
         fill
         preload
         sizes="100vw"
-        className="object-cover object-center"
+        className="object-cover object-center md:object-[50%_28%]"
       />
     </m.div>
   );
