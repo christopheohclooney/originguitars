@@ -75,7 +75,7 @@ export default function HomePage() {
         is only ever seen through the scrim.
       */}
       <section className="relative mt-[calc(var(--header-h)*-1)] flex min-h-[44rem] flex-col justify-end overflow-hidden bg-white/[0.02] pt-[var(--header-h)] md:min-h-[min(100svh,54rem)]">
-        {heroPhoto && <HeroPhoto src={heroPhoto} />}
+        {heroPhoto && <HeroPhoto src={heroPhoto.src} />}
 
         {/* Lays the ground back in under the copy — see globals.css. */}
         <div aria-hidden data-hero-scrim className="absolute inset-0" />
@@ -200,28 +200,30 @@ export default function HomePage() {
               About's equivalent frame does carry is [data-lens-media], a
               radial dissolve of the rectangle's edges, and that is a mask
               rather than a grade: it follows the shape of the lens instead of
-              ending the picture on a corner. Kept here for the same reason.
+              ending the picture on a corner. Kept here for the same reason,
+              and it is what the reference's soft round edge is.
 
-              The aspect is set on the frame rather than read off the file,
-              because the file is resolved by path and has no build-time
-              dimensions. Roughly the reference's proportion; once the shot is
-              settled it can move to a static import and size itself.
+              Laid out at the photograph's own proportion, read off the file
+              by publicPhoto. No aspect is forced on it: the first pass framed
+              it at 11:12 against a 4:5 shot and cropped 12.7% off the height,
+              which took the top of the player's head and the bottom of the
+              glow with it. The placeholder panel keeps 4:5 only because it
+              has no picture to measure.
             */}
             <Reveal className="md:-ml-[max(1.5rem,calc((100vw-73.75rem)/2+2.5rem))]">
-              <div className="relative aspect-[11/12] w-full">
-                {precisionPhoto ? (
-                  <Image
-                    data-lens-media
-                    src={precisionPhoto}
-                    alt="A bass player mid-performance, shot from below"
-                    fill
-                    sizes="(min-width: 768px) 60vw, 100vw"
-                    className="object-cover object-center"
-                  />
-                ) : (
-                  <ImagePlaceholder className="absolute inset-0" />
-                )}
-              </div>
+              {precisionPhoto?.width && precisionPhoto.height ? (
+                <Image
+                  data-lens-media
+                  src={precisionPhoto.src}
+                  width={precisionPhoto.width}
+                  height={precisionPhoto.height}
+                  alt="A bass player mid-performance, shot from below"
+                  sizes="(min-width: 768px) 60vw, 100vw"
+                  className="h-auto w-full"
+                />
+              ) : (
+                <ImagePlaceholder className="aspect-[4/5] w-full" />
+              )}
             </Reveal>
 
             <Stagger>
