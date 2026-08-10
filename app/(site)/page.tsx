@@ -7,7 +7,7 @@ import { HeroPhoto } from "@/components/motion/hero-entrance";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
 import { Overline } from "@/components/ui/overline";
-import { BASE_PRICE_PENCE } from "@/data/options";
+import { FROM_PRICE_PENCE } from "@/data/options";
 import { formatPrice } from "@/lib/pricing";
 import { shell, slant } from "@/lib/style";
 
@@ -108,9 +108,9 @@ export default function HomePage() {
           */}
           <h1
             data-metal
-            className="mt-7 max-w-[15ch] font-display text-[clamp(2.75rem,7.4vw,5rem)] font-normal leading-[1.04] tracking-[-0.02em]"
+            className="mt-7 max-w-[16ch] font-display text-[clamp(2.75rem,7.4vw,5rem)] font-normal leading-[1.04] tracking-[-0.02em]"
           >
-            No one else will have this one
+            Time to play by your own rules.
           </h1>
 
           {/*
@@ -119,20 +119,42 @@ export default function HomePage() {
             is where it came from.
           */}
           <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-16">
-            <p className="max-w-[52ch] text-[1.0625rem] leading-[1.6] text-ink-muted md:text-[1.125rem]">
-              Made-to-order electric guitars, built by hand in the UK. You set
-              the spec — shape, timber, hardware, finish — and we build that
-              guitar and no other.
+            {/*
+              One sentence per line, as the reference sets it. Left to wrap on
+              its own the pair broke mid-clause — "No waiting list or" rode up
+              onto the first line — which loses the deliberate pairing of the
+              two statements.
+
+              Block spans rather than a break element or two paragraphs: it
+              stays one paragraph, so what a screen reader announces and what
+              you copy out are both still the whole sentence pair, and each
+              line still wraps normally on a narrow screen instead of forcing
+              a measure nothing fits.
+
+              The measure holds the longer of the two sentences at 74
+              characters. Wide for body copy, but this is two lines under a
+              hero rather than a passage to read.
+            */}
+            <p className="max-w-[76ch] text-[1.0625rem] leading-[1.6] text-ink-muted md:text-[1.125rem]">
+              <span className="block">
+                We make custom builds for self-driven players in any music
+                scene.
+              </span>
+              <span className="block">
+                No waiting list or signature-artist price tag, to get what you
+                really want.
+              </span>
             </p>
 
             <div className="flex shrink-0 flex-col gap-5 sm:flex-row sm:items-center sm:gap-8">
               {/*
-                Read off the builder's own constant rather than typed in, so
-                the number on the doormat cannot drift from the one the
-                builder opens at. Mono, like every other numeral on the site.
+                Read off a constant rather than typed in — see the warning
+                beside it in data/options.ts, where it contradicts the
+                builder's own base price. Mono, like every other numeral on
+                the site.
               */}
               <p className="font-mono text-[0.9375rem] tabular-nums text-ink-muted">
-                From {formatPrice(BASE_PRICE_PENCE)}
+                From {formatPrice(FROM_PRICE_PENCE)}
               </p>
               <Link
                 href="/builder"
