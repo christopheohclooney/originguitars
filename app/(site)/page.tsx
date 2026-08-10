@@ -1,10 +1,32 @@
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
 import Link from "next/link";
 
-import { HeroGuitar, HeroRule } from "@/components/motion/hero-entrance";
+import { HeroPhoto } from "@/components/motion/hero-entrance";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
+import { Overline } from "@/components/ui/overline";
+import { BASE_PRICE_PENCE } from "@/data/options";
+import { formatPrice } from "@/lib/pricing";
 import { shell, slant } from "@/lib/style";
-import elementSide from "@/public/models/element/element-side.png";
+
+/*
+ * The hero photograph.
+ *
+ * Drop the shot in at public/home-hero.jpg and it appears — no code change.
+ * Referenced by path rather than statically imported because a static import
+ * of a file that is not there yet fails the build, and the shot is still
+ * being chosen. See HeroPhoto for what that trades away.
+ *
+ * Checked on disk rather than rendered blind. An <Image> pointed at a missing
+ * file puts a broken-image glyph in the corner of the page, which is worse
+ * than no photograph at all — without one the hero simply sits on its own
+ * ground, which is a composition that stands up on its own. This is a server
+ * component, so the check runs once at build and costs nothing per request.
+ */
+const HERO_PHOTO = "/home-hero.jpg";
+const heroPhotoReady = existsSync(join(process.cwd(), "public", HERO_PHOTO));
 
 const steps = [
   {
@@ -33,66 +55,93 @@ export default function HomePage() {
   return (
     <main>
       {/*
-        The hero is the page's peak, and it borrows the builder's own device:
-        a full-bleed canvas band with the instrument at scale. The previous
-        version boxed a grey placeholder inside the gutter while the builder,
-        one route away, already did this properly — the page was opting out of
-        its own strongest move.
+        The hero: a full-bleed photograph with the copy sat in the bottom-left
+        corner of it, per the design reference.
 
-        The band is light rather than paint, and it starts above the header
-        rather than below it. Both follow the builder, and both are what the
-        floating pill needs to read the same here as it does everywhere else.
+        The band starts above the header rather than below it. The negative
+        margin pulls its box up through the header's strip and the matching
+        padding puts the content back, so nothing moves and no copy slides
+        under the chrome. Two things depend on it: the photograph runs behind
+        the floating pill, which is what gives the glass something to sample;
+        and the band's top edge is no longer a hard tonal step landing exactly
+        at the pill's bottom, across the one place that should read as a
+        continuous field. globals.css documents that bug and fixes it for the
+        builder — Home had the same one untreated.
 
-        Light, not paint: white at 2% over --color-surface composites to
-        exactly #0f0f0f, the canvas value, but as alpha. `bg-canvas` was
-        opaque, and this section sits in the z-10 content layer — above
-        [data-light-leak] — so it painted the leak out across the whole top of
-        the page. The pill's backdrop-filter then had a flat field to sample
-        while About, FAQ and the builder all gave it the rake. Same reasoning
-        as --canvas-glow in globals.css, which is white alpha for this exact
-        reason rather than a literal #2a2a2a.
+        The 2% white is the ground under the photograph, not decoration. Over
+        --color-surface it composites to exactly #0f0f0f, the canvas value the
+        section used to paint opaquely, but as alpha — so [data-light-leak],
+        which sits below this z-10 content layer, still rakes through while
+        the photograph is missing. Same reasoning as --canvas-glow.
 
-        Starting above the header: the negative margin pulls the band's box up
-        through the header's strip and the matching padding puts the content
-        back where it was, so nothing moves and no copy slides under the
-        chrome. Without it the band's top edge landed exactly at the pill's
-        bottom — a hard tonal step straight across the page, right where it
-        should read as one continuous field. globals.css already calls that
-        out as the bug and fixes it for the builder; Home had the same one
-        untreated.
+        `justify-end` is what puts the copy at the foot of the frame without
+        giving anything a fixed height, so the hero can grow with its own
+        content on a narrow screen and still bottom-align on a wide one.
       */}
-      <section className="relative mt-[calc(var(--header-h)*-1)] overflow-hidden bg-white/[0.02] pt-[var(--header-h)]">
-        <div className={`${shell} pt-16 md:pt-24`}>
-          <HeroRule />
-          <h1 className="mt-8 max-w-[13ch] text-[clamp(3rem,8vw,5.5rem)] font-bold leading-[0.95] tracking-[-0.04em]">
+      <section className="relative mt-[calc(var(--header-h)*-1)] flex min-h-[38rem] flex-col justify-end overflow-hidden bg-white/[0.02] pt-[var(--header-h)] md:min-h-[min(100svh,54rem)]">
+        {heroPhotoReady && <HeroPhoto src={HERO_PHOTO} />}
+
+        {/* Lays the ground back in under the copy — see globals.css. */}
+        <div aria-hidden data-hero-scrim className="absolute inset-0" />
+
+        <div className={`${shell} relative pb-16 md:pb-24`}>
+          <Overline>Semi-custom guitars</Overline>
+
+          {/*
+            The display treatment the redesign settled on, and the rule the
+            last commit on this branch applied everywhere else: metallic hero
+            type is Archivo at regular. It was Geist at bold here — the one
+            hero on the site still carrying the pre-redesign face, which is
+            why it read as a different site's heading to About's and FAQ's.
+
+            Regular is not merely lighter, it is what the treatment needs: at
+            this size the gradient does the work weight would otherwise do,
+            and going heavier closes the counters the light has to pass
+            through. Tracking eases off with it for the same reason — Archivo
+            needs less negative than Geist, and -0.04em closed what the
+            lighter weight is there to open.
+
+            One step above PageHero's ramp at the top end. Home is the site's
+            peak and its heading is left-aligned against a photograph rather
+            than centred in a column, so it carries the extra size without
+            crowding its own measure.
+          */}
+          <h1
+            data-metal
+            className="mt-7 max-w-[15ch] font-display text-[clamp(2.75rem,7.4vw,5rem)] font-normal leading-[1.04] tracking-[-0.02em]"
+          >
             No one else will have this one
           </h1>
+
+          {/*
+            Copy left, the price and the way out right, sat on one baseline
+            from md up — the same closing pattern About and the FAQ use, which
+            is where it came from.
+          */}
           <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-16">
-            <p className="max-w-[52ch] text-[1.125rem] leading-[1.55] text-ink-muted">
+            <p className="max-w-[52ch] text-[1.0625rem] leading-[1.6] text-ink-muted md:text-[1.125rem]">
               Made-to-order electric guitars, built by hand in the UK. You set
               the spec — shape, timber, hardware, finish — and we build that
               guitar and no other.
             </p>
-            <div className="flex shrink-0 flex-col gap-3 sm:flex-row">
+
+            <div className="flex shrink-0 flex-col gap-5 sm:flex-row sm:items-center sm:gap-8">
+              {/*
+                Read off the builder's own constant rather than typed in, so
+                the number on the doormat cannot drift from the one the
+                builder opens at. Mono, like every other numeral on the site.
+              */}
+              <p className="font-mono text-[0.9375rem] tabular-nums text-ink-muted">
+                From {formatPrice(BASE_PRICE_PENCE)}
+              </p>
               <Link
                 href="/builder"
                 className={`${buttonClasses({ size: "lg" })} w-full sm:w-auto`}
               >
-                Build your own
-              </Link>
-              <Link
-                href="/models"
-                className={`${buttonClasses({ variant: "secondary", size: "lg" })} w-full sm:w-auto`}
-              >
-                See the models
+                Build yours
               </Link>
             </div>
           </div>
-        </div>
-
-        {/* Bleeds past the gutter deliberately. */}
-        <div className="mt-10 md:mt-14">
-          <HeroGuitar image={elementSide} />
         </div>
       </section>
 
