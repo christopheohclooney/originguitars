@@ -353,6 +353,38 @@ body:has([data-canvas]) {
 }
 
 /*
+  The same device, let go of earlier.
+
+  About's frame is a photograph that happens to have been shot through a
+  fisheye, so the dissolve only has to take the smeared barrel edge — it
+  holds full strength almost to the box. Home's is lit as a pool with the
+  player standing inside it, and the reference has that pool reading as a
+  soft-edged shape well inside its own frame rather than a picture with
+  tidied corners. Starting the falloff at 44% instead of 68% is what makes
+  the difference between the two.
+
+  It also does the work of making the picture look smaller without making it
+  smaller: the frame keeps its size in the grid, so the layout does not move,
+  but the lit area the eye reads as "the image" pulls in from the edges.
+*/
+[data-lens-media="soft"] {
+  -webkit-mask-image: radial-gradient(
+    ellipse closest-side at 50% 50%,
+    #000 44%,
+    rgba(0, 0, 0, 0.72) 68%,
+    rgba(0, 0, 0, 0.24) 86%,
+    transparent 98%
+  );
+  mask-image: radial-gradient(
+    ellipse closest-side at 50% 50%,
+    #000 44%,
+    rgba(0, 0, 0, 0.72) 68%,
+    rgba(0, 0, 0, 0.24) 86%,
+    transparent 98%
+  );
+}
+
+/*
   The Lance front elevation, dissolved into the copy below it.
 
   Anchored to the bottom-left rather than sweeping straight up from the foot,

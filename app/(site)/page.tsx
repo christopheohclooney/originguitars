@@ -202,7 +202,25 @@ export default function HomePage() {
       */}
       <section className="overflow-hidden py-20 md:py-28">
         <div className={shell}>
-          <div className="grid items-center gap-12 md:grid-cols-[1fr_minmax(0,26rem)] md:gap-16">
+          {/*
+            Column ratio read off the reference rather than picked. It puts
+            the frame's right edge at 54.5% of the viewport and the copy's
+            left edge at 57%, which is where the reference has them; the
+            previous 26rem copy column left the frame at 63.9% and pushed the
+            copy out to 67.2%, so the picture dominated and the text was
+            crowded into the last third.
+
+            Fractions rather than a fixed rem for the copy column, so the two
+            hold that ratio as the shell scales — a rem column keeps its width
+            while the frame takes every pixel the viewport gains, which is the
+            same mistake in slower motion. Checked at 1440 and 1920: 53.9/57.2
+            and 54.5/57.0.
+
+            minmax(0,…) on both because a grid track's default minimum is its
+            content, and a long unbroken word or a wide image will otherwise
+            push a column past its share.
+          */}
+          <div className="grid items-center gap-12 md:grid-cols-[minmax(0,1.36fr)_minmax(0,1fr)]">
             {/*
               Pushed past the content column to the viewport's edge, so it
               lands there at any width rather than at one guessed breakpoint.
@@ -231,7 +249,7 @@ export default function HomePage() {
             <Reveal className="md:-ml-[max(1.5rem,calc((100vw-var(--shell))/2+2.5rem))]">
               {precisionPhoto?.width && precisionPhoto.height ? (
                 <Image
-                  data-lens-media
+                  data-lens-media="soft"
                   src={precisionPhoto.src}
                   width={precisionPhoto.width}
                   height={precisionPhoto.height}
@@ -262,7 +280,15 @@ export default function HomePage() {
               </StaggerItem>
 
               <StaggerItem as="div">
-                <p className="mt-7 max-w-[46ch] text-[1.0625rem] leading-[1.7] text-ink-muted">
+                {/*
+                  Measured to hold the reference's four-line setting rather
+                  than to fill the column. Left to the column it ran to 70
+                  characters at 1920 and collapsed to three long lines — the
+                  same words, but not the same block. 40ch reproduces the
+                  reference's breaks exactly at 1440 and 1920 alike, and is a
+                  better measure for prose than the column is.
+                */}
+                <p className="mt-7 max-w-[40ch] text-[1.0625rem] leading-[1.7] text-ink-muted">
                   Every build starts with the same exacting process, mahogany
                   body, hard maple neck, assembled and inspected in the UK then
                   it&apos;s shaped entirely around the choices you make.
