@@ -1,31 +1,22 @@
-import { existsSync } from "node:fs";
-import { join } from "node:path";
-
+import Image from "next/image";
 import Link from "next/link";
 
 import { HeroPhoto } from "@/components/motion/hero-entrance";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
+import { ImagePlaceholder } from "@/components/image-placeholder";
 import { buttonClasses } from "@/components/ui/button";
 import { Overline } from "@/components/ui/overline";
 import { FROM_PRICE_PENCE } from "@/data/options";
+import { publicPhoto } from "@/lib/media";
 import { formatPrice } from "@/lib/pricing";
 import { shell, slant } from "@/lib/style";
 
 /*
- * The hero photograph.
- *
- * Referenced by path rather than statically imported: the shot is dropped in
- * by hand, and a static import of a file that is not there yet fails the
- * build. See HeroPhoto for what that trades away.
- *
- * Checked on disk rather than rendered blind. An <Image> pointed at a missing
- * file puts a broken-image glyph in the corner of the page, which is worse
- * than no photograph at all — without one the hero simply sits on its own
- * ground, which is a composition that stands up on its own. This is a server
- * component, so the check runs once at build and costs nothing per request.
+ * Photographs, resolved off disk at build. Drop a file in at these names and
+ * it appears — see lib/media.ts for why they are not statically imported.
  */
-const HERO_PHOTO = "/home-hero.png";
-const heroPhotoReady = existsSync(join(process.cwd(), "public", HERO_PHOTO));
+const heroPhoto = publicPhoto("home-hero");
+const precisionPhoto = publicPhoto("home-precision");
 
 const steps = [
   {
@@ -84,13 +75,21 @@ export default function HomePage() {
         is only ever seen through the scrim.
       */}
       <section className="relative mt-[calc(var(--header-h)*-1)] flex min-h-[44rem] flex-col justify-end overflow-hidden bg-white/[0.02] pt-[var(--header-h)] md:min-h-[min(100svh,54rem)]">
-        {heroPhotoReady && <HeroPhoto src={HERO_PHOTO} />}
+        {heroPhoto && <HeroPhoto src={heroPhoto} />}
 
         {/* Lays the ground back in under the copy — see globals.css. */}
         <div aria-hidden data-hero-scrim className="absolute inset-0" />
 
         <div className={`${shell} relative pb-16 md:pb-24`}>
-          <Overline>Semi-custom guitars</Overline>
+          {/*
+            Explicit gradient id. The mark's fill is a real gradient, and an
+            SVG gradient id is document-global — two marks on one page under
+            the default id is a duplicate id, where the second definition is
+            dropped and both paths quietly reference the first. It renders
+            identically today because the gradients are identical, which is
+            exactly why it would go unnoticed until one of them changed.
+          */}
+          <Overline gradientId="hero-mark">Semi-custom guitars</Overline>
 
           {/*
             The display treatment the redesign settled on, and the rule the
@@ -168,6 +167,97 @@ export default function HomePage() {
                 Build yours
               </Link>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/*
+        Photograph left, copy right, the photograph running off the left edge
+        of the page. `overflow-hidden` on the section is what allows that: the
+        frame is pushed past the content column to the viewport's edge and the
+        section clips it rather than the page growing a horizontal scrollbar.
+
+        The mirror of About's "Forged in the underground scene", down to the
+        calculation that finds the edge — see the note on the frame below.
+        Same device, opposite hand, which is the point: two sections that read
+        as one system rather than two solutions to the same problem.
+      */}
+      <section className="overflow-hidden py-20 md:py-28">
+        <div className={shell}>
+          <div className="grid items-center gap-12 md:grid-cols-[1fr_minmax(0,26rem)] md:gap-16">
+            {/*
+              Pushed past the content column to the viewport's edge, so it
+              lands there at any width rather than at one guessed breakpoint.
+              The calculation runs off the shell's *outer* width (73.75rem)
+              plus its padding, not the inner measure — the inner is already
+              one padding short. The max() floor covers viewports narrower
+              than the shell, where the first term goes negative.
+
+              No colour treatment on the frame. The photography is placeholder
+              until the real shoot lands, so a grade tuned to a stand-in would
+              be tuning to something that is about to be replaced — and none
+              of the photographs anywhere on the site carry a filter. What
+              About's equivalent frame does carry is [data-lens-media], a
+              radial dissolve of the rectangle's edges, and that is a mask
+              rather than a grade: it follows the shape of the lens instead of
+              ending the picture on a corner. Kept here for the same reason.
+
+              The aspect is set on the frame rather than read off the file,
+              because the file is resolved by path and has no build-time
+              dimensions. Roughly the reference's proportion; once the shot is
+              settled it can move to a static import and size itself.
+            */}
+            <Reveal className="md:-ml-[max(1.5rem,calc((100vw-73.75rem)/2+2.5rem))]">
+              <div className="relative aspect-[11/12] w-full">
+                {precisionPhoto ? (
+                  <Image
+                    data-lens-media
+                    src={precisionPhoto}
+                    alt="A bass player mid-performance, shot from below"
+                    fill
+                    sizes="(min-width: 768px) 60vw, 100vw"
+                    className="object-cover object-center"
+                  />
+                ) : (
+                  <ImagePlaceholder className="absolute inset-0" />
+                )}
+              </div>
+            </Reveal>
+
+            <Stagger>
+              <StaggerItem as="div">
+                <Overline gradientId="precision-mark">Build your own</Overline>
+              </StaggerItem>
+
+              <StaggerItem as="div">
+                {/*
+                  Section heading, so Archivo at medium and no metallic fill —
+                  the rule from the designs is that the treatment belongs to
+                  hero type and headings below it are set plain. Same ramp and
+                  tracking as About's section headings.
+                */}
+                <h2 className="mt-7 max-w-[16ch] font-display text-[clamp(1.875rem,2.6vw,2.375rem)] font-medium leading-[1.15] tracking-[-0.02em]">
+                  Where precision meets your spec
+                </h2>
+              </StaggerItem>
+
+              <StaggerItem as="div">
+                <p className="mt-7 max-w-[46ch] text-[1.0625rem] leading-[1.7] text-ink-muted">
+                  Every build starts with the same exacting process, mahogany
+                  body, hard maple neck, assembled and inspected in the UK then
+                  it&apos;s shaped entirely around the choices you make.
+                </p>
+              </StaggerItem>
+
+              <StaggerItem as="div">
+                <Link
+                  href="/builder"
+                  className={`${buttonClasses({ size: "md" })} mt-9`}
+                >
+                  Build yours
+                </Link>
+              </StaggerItem>
+            </Stagger>
           </div>
         </div>
       </section>
