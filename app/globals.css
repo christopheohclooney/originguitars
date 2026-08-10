@@ -321,6 +321,40 @@ body:has([data-canvas]) {
 }
 
 /*
+  The How-it-works band's scrim.
+
+  Weighted to both ends rather than one, because this section puts copy at
+  the top and the bottom of the same photograph with the picture showing
+  between them — the heading and its two buttons above, the four steps
+  below. A single vertical ramp can protect one or the other, not both.
+
+  The middle is left almost clear on purpose. That band is the only part of
+  the shot with nothing over it, so it is the only part doing the job the
+  photograph is there for.
+
+  Colour-stopped on --color-surface rather than black, so the band's top and
+  bottom edges meet the sections either side exactly instead of going a
+  shade darker and drawing a line across the page.
+*/
+[data-steps-scrim] {
+  background-image:
+    linear-gradient(
+      to bottom,
+      var(--color-surface) 0%,
+      color-mix(in srgb, var(--color-surface) 72%, transparent) 16%,
+      color-mix(in srgb, var(--color-surface) 20%, transparent) 34%,
+      transparent 46%
+    ),
+    linear-gradient(
+      to top,
+      var(--color-surface) 0%,
+      color-mix(in srgb, var(--color-surface) 88%, transparent) 20%,
+      color-mix(in srgb, var(--color-surface) 42%, transparent) 38%,
+      transparent 54%
+    );
+}
+
+/*
   The fisheye frame. It arrives as a rectangle with the lens circle inside
   it, so left alone its edges cut off hard against the ground — the crop
   reads before the photograph does. This dissolves them, radially rather

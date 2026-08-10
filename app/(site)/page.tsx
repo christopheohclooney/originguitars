@@ -9,7 +9,7 @@ import { Overline } from "@/components/ui/overline";
 import { FROM_PRICE_PENCE } from "@/data/options";
 import { publicPhoto } from "@/lib/media";
 import { formatPrice } from "@/lib/pricing";
-import { shell, slant } from "@/lib/style";
+import { shell } from "@/lib/style";
 
 /*
  * Photographs, resolved off disk at build. Drop a file in at these names and
@@ -17,17 +17,19 @@ import { shell, slant } from "@/lib/style";
  */
 const heroPhoto = publicPhoto("home-hero");
 const precisionPhoto = publicPhoto("home-precision");
+const stepsPhoto = publicPhoto("home-how-it-works");
 
+/* Titles and copy verbatim from the design reference. */
 const steps = [
   {
     n: "01",
-    title: "Build it",
+    title: "Design it",
     body: "Work through construction, timber, finish and hardware one step at a time, with the price updating as you go.",
   },
   {
     n: "02",
     title: "Place your order",
-    body: "Confirm the spec and pay in full. Your order number comes straight back by email.",
+    body: "Confirm the spec and pay in full. Your order number comes straight back by email and our team handles the rest.",
   },
   {
     n: "03",
@@ -36,7 +38,7 @@ const steps = [
   },
   {
     n: "04",
-    title: "We ship it",
+    title: "Fulfillment",
     body: "Up to six months depending on complexity. If yours runs longer we tell you directly.",
   },
 ];
@@ -333,64 +335,123 @@ export default function HomePage() {
       </section>
 
       {/*
-        Second peak, carried by a tonal shift rather than more type. The
-        numerals do the structural work; the slanted rules between them are the
-        brand angle used as architecture rather than as a 44px tick.
+        How it works — a full-bleed band with the workshop photograph running
+        under the whole of it, per the design reference.
+
+        The copy sits at both ends of the picture rather than on one side of
+        it: heading and the two ways out at the top, the four steps along the
+        bottom, and the shot showing between them. `justify-between` on the
+        column is what holds that without either block being given a height,
+        so the band keeps its shape as the copy reflows.
+
+        The slanted rules between the numerals are gone. They were the brand
+        angle used as architecture on a plain ground; over a photograph they
+        are a second system competing with it, and the reference does not
+        have them.
       */}
-      <section className="border-y border-line bg-surface py-24 md:py-32">
-        <div className={shell}>
+      <section
+        className={`relative flex flex-col overflow-hidden py-20 md:py-24 ${
+          stepsPhoto ? "min-h-[46rem] md:min-h-[52rem]" : ""
+        }`}
+      >
+        {stepsPhoto && (
+          <Image
+            src={stepsPhoto.src}
+            alt=""
+            aria-hidden
+            fill
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+        )}
+
+        {/* Protects both ends and leaves the middle clear — see globals.css. */}
+        <div aria-hidden data-steps-scrim className="absolute inset-0" />
+
+        <div className={`${shell} relative flex flex-1 flex-col`}>
           <Reveal>
-            <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-              <h2 className="max-w-[14ch] text-[clamp(2rem,4.5vw,3rem)] font-bold leading-[1.05] tracking-[-0.03em]">
-                Four steps, no surprises
+            <Overline gradientId="steps-mark">How it works</Overline>
+
+            {/*
+              Copy left, the two ways out right, on one baseline from md up.
+              `items-start` rather than `items-end`: the heading runs to two
+              lines and the buttons to one, and the reference hangs them from
+              the same top edge rather than the same baseline.
+            */}
+            <div className="mt-7 flex flex-col gap-8 md:flex-row md:items-start md:justify-between md:gap-16">
+              <h2 className="max-w-[16ch] font-display text-[clamp(1.875rem,2.6vw,2.375rem)] font-medium leading-[1.15] tracking-[-0.02em]">
+                How your Origin build comes together
               </h2>
-              <p className="max-w-[38ch] text-[1rem] leading-[1.6] text-ink-muted">
-                Nothing is renegotiated after you order. The price you see as
-                you build is the price you pay.
-              </p>
+
+              {/*
+                Secondary then primary, left to right, which is the order the
+                reference has them and the same order About's closing pair
+                uses — the primary sits at the far end of the reading
+                direction.
+              */}
+              <div className="flex shrink-0 flex-col gap-4 sm:flex-row">
+                <Link
+                  href="/models"
+                  className={`${buttonClasses({ variant: "secondary" })} w-full sm:w-auto`}
+                >
+                  See the models
+                </Link>
+                <Link
+                  href="/faq"
+                  className={`${buttonClasses()} w-full sm:w-auto`}
+                >
+                  Common Questions
+                </Link>
+              </div>
             </div>
           </Reveal>
 
+          {/*
+            `mt-auto` drops the steps to the foot of the band, and the padding
+            is the floor under that — on a short viewport, or once the copy
+            has reflowed into more lines, it is what stops them closing up
+            against the heading.
+
+            Both the band's height and that gap are conditional on the
+            photograph. The height exists to give the picture room between the
+            two blocks of copy; with no picture there it is just a hole, and
+            the section should close up to the spacing any other section on
+            the page would use.
+          */}
           <Stagger
             as="ol"
-            className="mt-16 grid gap-14 md:mt-20 md:grid-cols-4 md:gap-10"
+            className={`mt-auto grid gap-14 md:grid-cols-4 md:gap-10 ${
+              stepsPhoto ? "pt-24 md:pt-32" : "pt-16 md:pt-20"
+            }`}
           >
-            {steps.map((step, i) => (
-              <StaggerItem as="li" key={step.n} className="relative">
+            {steps.map((step) => (
+              <StaggerItem as="li" key={step.n}>
                 {/*
-                  Set to the numeral's height, not the column's. A 12° lean
-                  across a full-height rule travels ~42px horizontally, which
-                  cannot fit a 40px column gap — at full height it collided
-                  with the numeral beside it.
+                  The numeral carries the slash, and the slash is the only
+                  part of it that is decoration — the list is an <ol>, so the
+                  ordering is already in the markup. Marked aria-hidden so it
+                  is read as "01" rather than "01 slash", and split into its
+                  own element so it can be toned without touching the figure.
+
+                  Mono, like every numeral on the site, and at --color-ink
+                  rather than the line tone the plain-ground version used:
+                  over a photograph a #333 numeral disappears.
                 */}
-                {i > 0 && (
-                  <span
-                    aria-hidden
-                    style={slant}
-                    className="absolute -left-5 top-1 hidden h-14 w-px bg-line-strong md:block"
-                  />
-                )}
-                <p className="font-mono text-[3.25rem] font-medium leading-none tracking-[-0.04em] text-line-strong">
+                <p className="font-mono text-[3.5rem] font-normal leading-none tracking-[-0.03em] text-ink">
                   {step.n}
+                  <span aria-hidden className="text-ink-muted">
+                    /
+                  </span>
                 </p>
-                <h3 className="mt-6 text-[1.375rem] font-semibold leading-[1.2] tracking-[-0.015em]">
+                <h3 className="mt-6 text-[1.375rem] font-medium leading-[1.2] tracking-[-0.015em]">
                   {step.title}
                 </h3>
-                <p className="mt-3 text-[0.9375rem] leading-[1.6] text-ink-muted">
+                <p className="mt-3 max-w-[34ch] text-[0.9375rem] leading-[1.6] text-ink-muted">
                   {step.body}
                 </p>
               </StaggerItem>
             ))}
           </Stagger>
-
-          <Reveal>
-            <Link
-              href="/builder"
-              className={`${buttonClasses({ size: "lg" })} mt-16`}
-            >
-              Start your build
-            </Link>
-          </Reveal>
         </div>
       </section>
 
