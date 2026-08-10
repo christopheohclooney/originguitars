@@ -354,8 +354,15 @@ export default function HomePage() {
           stepsPhoto ? "min-h-[46rem] md:min-h-[52rem]" : ""
         }`}
       >
+        {/*
+          The same dissolve the precision frame carries, so the two sections
+          let go of their photographs the same way — the band's far left and
+          right fall off into the ground rather than ending on the viewport
+          edge.
+        */}
         {stepsPhoto && (
           <Image
+            data-lens-media="soft"
             src={stepsPhoto.src}
             alt=""
             aria-hidden
