@@ -2,11 +2,10 @@ import type { Metadata } from "next";
 
 import {
   LegalDocument,
-  legalLinkClasses,
   type LegalSection,
 } from "@/components/ui/legal-document";
 import { PageHero } from "@/components/ui/page-hero";
-import { shell } from "@/lib/style";
+import { proseLink, shell } from "@/lib/style";
 
 export const metadata: Metadata = {
   title: "Privacy policy — Origin Guitars",
@@ -51,7 +50,7 @@ const sections: LegalSection[] = [
         You can ask us what data we hold on you, ask us to correct it, or ask us
         to delete it, subject to our legal obligations to keep certain records.
         Contact us at{" "}
-        <a href="mailto:hello@originguitars.com" className={legalLinkClasses}>
+        <a href="mailto:hello@originguitars.com" className={proseLink}>
           hello@originguitars.com
         </a>
         .

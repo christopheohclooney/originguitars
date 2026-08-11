@@ -12,8 +12,12 @@ export const metadata: Metadata = {
 };
 
 /*
- * Answers below are drawn from the user flow doc's stated policy. Anything
- * marked placeholder still needs Larry's wording.
+ * Answers below are drawn from the user flow doc's stated policy.
+ *
+ * The last one was a marked placeholder until /contact existed. It now answers
+ * with the address this page already prints in its own closing CTA rather than
+ * with an apology, and defers the details that genuinely are unconfirmed — a
+ * phone number, a postal address — to the page that tracks them.
  */
 
 const faqs: FaqEntry[] = [
@@ -61,7 +65,8 @@ const faqs: FaqEntry[] = [
   {
     q: "What if I have a question part-way through a build?",
     a: [
-      "Placeholder — contact details to be confirmed. Reaching the UK team directly is meant to be easy at every stage, not something you have to hunt for, and the contact link sits in the footer of every page.",
+      "Email hello@originguitars.com with the address you ordered with, and it reaches the same UK team that is building it. Reaching them directly is meant to be easy at every stage, not something you have to hunt for.",
+      "The contact page has the rest — what to send so the first reply is an answer rather than a question, and which contact routes are still to be confirmed.",
     ],
   },
 ];

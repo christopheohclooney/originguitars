@@ -41,14 +41,6 @@ export type LegalSection = {
   todo?: ReactNode;
 };
 
-/*
- * Links inside prose. Not `buttonClasses({ variant: "tertiary" })` — that one
- * carries a button's height and `inline-flex`, which would knock a word out of
- * its line box. Same underline treatment, none of the box.
- */
-export const legalLinkClasses =
-  "text-ink underline underline-offset-[4px] decoration-line-strong transition-colors hover:decoration-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
-
 /* The mono, tracked label — the overline's treatment, without the mark. */
 const labelClasses =
   "font-mono text-[0.8125rem] uppercase tracking-[0.14em] text-ink-muted";
