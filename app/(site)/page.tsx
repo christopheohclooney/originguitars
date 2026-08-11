@@ -6,7 +6,7 @@ import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { ImagePlaceholder } from "@/components/image-placeholder";
 import { buttonClasses } from "@/components/ui/button";
 import { Overline } from "@/components/ui/overline";
-import { FROM_PRICE_PENCE } from "@/data/options";
+import { fromPricePence, models } from "@/data/models";
 import { publicPhoto } from "@/lib/media";
 import { formatPrice } from "@/lib/pricing";
 import { shell } from "@/lib/style";
@@ -178,7 +178,7 @@ export default function HomePage() {
                 the site.
               */}
               <p className="font-mono text-[0.9375rem] tabular-nums text-ink-muted">
-                From {formatPrice(FROM_PRICE_PENCE)}
+                From {formatPrice(fromPricePence)}
               </p>
               <Link
                 href="/builder"
@@ -307,30 +307,6 @@ export default function HomePage() {
               </StaggerItem>
             </Stagger>
           </div>
-        </div>
-      </section>
-
-      {/*
-        A trough. No entrance animation and no devices — after the hero, the
-        page should drop to a single held statement before it builds again.
-      */}
-      <section className="py-24 md:py-36">
-        <div className={shell}>
-          <p className="max-w-[24ch] text-[clamp(1.75rem,4vw,2.75rem)] font-bold leading-[1.1] tracking-[-0.03em]">
-            A guitar built to your spec should not mean signature-artist money
-            or a two-year wait.
-          </p>
-          <p className="mt-8 max-w-[62ch] text-[1.0625rem] leading-[1.7] text-ink-muted">
-            Origin builds semi-custom instruments to order, in the United
-            Kingdom, at a price that reflects the work rather than the name on
-            the headstock.
-          </p>
-          <Link
-            href="/about"
-            className={`${buttonClasses({ variant: "tertiary", size: "md" })} mt-8`}
-          >
-            Read our story
-          </Link>
         </div>
       </section>
 
@@ -476,6 +452,115 @@ export default function HomePage() {
           >
             Read the FAQ
           </Link>
+        </div>
+      </section>
+
+      {/*
+        The catalogue, and the page's last word before the footer.
+
+        Centred, unlike every other section on Home — this one is a grid of
+        equal things rather than a statement with a supporting column, so
+        there is no left edge for the copy to hang from.
+      */}
+      <section className="pb-24 pt-4 md:pb-32">
+        <div className={shell}>
+          <Reveal>
+            <h2 className="mx-auto max-w-[18ch] text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
+              Our latest models
+            </h2>
+            <p className="mx-auto mt-5 max-w-[52ch] text-center text-[1.0625rem] leading-[1.6] text-ink-muted md:text-[1.125rem]">
+              Made to order, one shape at a time. More on the way as we grow.
+            </p>
+          </Reveal>
+
+          {/*
+            Two columns from md, as the reference sets it, which leaves the
+            third card alone on its own row. Deliberate rather than a gap to
+            fill: the subheading says more are coming, and an empty cell beside
+            the newest shape says it better than a filler card would.
+          */}
+          <Stagger
+            as="ul"
+            className="mt-14 grid gap-6 md:mt-20 md:grid-cols-2 md:gap-8"
+          >
+            {models.map((model) => (
+              <StaggerItem as="li" key={model.slug}>
+                {/*
+                  Square, which is roughly the reference's proportion and
+                  holds it at any column width — a fixed height would go
+                  letterbox at 1920 and portrait at 1440. The drawing is sized
+                  off the card's width, so the two stay in step.
+                */}
+                <article className="relative flex aspect-square flex-col overflow-hidden rounded-2xl border border-line bg-canvas">
+                  {/*
+                    The drawing is the Lance front elevation already in the
+                    project, the same file the About page closes on — one
+                    asset, referenced three times, rather than three copies of
+                    a placeholder.
+
+                    Rotated rather than re-exported. It is drawn lying down at
+                    1133x396 because that is how About uses it; a quarter turn
+                    stands it up without a second file to keep in sync. The
+                    rotation happens about the element's centre, so the width
+                    set here becomes the drawing's *height* on screen and its
+                    width is that times 396/1133.
+
+                    Held at low opacity and cropped by the card. It is standing
+                    in for photography that has not been shot, so it should
+                    read as a watermark behind the name rather than as the
+                    product.
+                  */}
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 overflow-hidden"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src="/lance-skeleton-front.svg"
+                      alt=""
+                      width={1133}
+                      height={396}
+                      className="absolute left-1/2 top-[44%] w-[185%] max-w-none -translate-x-1/2 -translate-y-1/2 -rotate-90 opacity-50"
+                    />
+                  </div>
+
+                  {/*
+                    Badge treatment follows the system rather than the
+                    reference's colour. The palette reserves colour for the
+                    instrument, so the two states are told apart by weight
+                    instead: available is a solid light chip, still to come is
+                    a bordered dark one. Mono uppercase at the same size and
+                    tracking as every other label on the site.
+                  */}
+                  <div className="relative flex justify-end p-5 md:p-6">
+                    {model.status === "available" ? (
+                      <span className="rounded-full bg-ink px-4 py-1.5 font-mono text-[0.75rem] uppercase tracking-[0.08em] text-ink-inverse">
+                        New
+                      </span>
+                    ) : (
+                      <span className="rounded-full border border-line-strong bg-surface/70 px-4 py-1.5 font-mono text-[0.75rem] uppercase tracking-[0.08em] text-ink-muted backdrop-blur-sm">
+                        Coming soon
+                      </span>
+                    )}
+                  </div>
+
+                  {/*
+                    `mt-auto` sits the name and price on the card's floor, so
+                    the row keeps a common baseline however tall the drawing
+                    above it ends up.
+                  */}
+                  <div className="relative mt-auto p-5 md:p-6">
+                    <h3 className="text-[1.5rem] font-medium leading-[1.2] tracking-[-0.015em]">
+                      {model.name}
+                    </h3>
+                    <p className="mt-2 font-mono text-[0.9375rem] tabular-nums text-ink-muted">
+                      From {formatPrice(model.fromPricePence)}
+                    </p>
+                  </div>
+                </article>
+              </StaggerItem>
+            ))}
+          </Stagger>
         </div>
       </section>
     </main>

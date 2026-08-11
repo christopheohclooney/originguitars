@@ -24,6 +24,12 @@ export type Model = {
   name: string;
   subtitle: string;
   status: ModelStatus;
+  /*
+   * The "from" price — the base build with nothing added. Lives here rather
+   * than on the page that shows it, because Home's card grid and the hero's
+   * headline figure are the same number and must not be able to disagree.
+   */
+  fromPricePence: number;
   description: string;
   specs: ModelSpec[];
 };
@@ -34,6 +40,7 @@ export const models: Model[] = [
     name: "Element",
     subtitle: "Super strat",
     status: "available",
+    fromPricePence: 79_900,
     description:
       "The shape Origin started with. A contemporary double-cut built for players who want reach and comfort without the instrument announcing itself. Every option in the builder starts from this base spec — change what matters to you and leave the rest.",
     specs: [
@@ -50,15 +57,17 @@ export const models: Model[] = [
     name: "Lance",
     subtitle: "V shape",
     status: "coming-soon",
+    fromPricePence: 89_900,
     description:
       "A V built to the same brief as the Element: made to order, no signature-artist premium. In development now.",
     specs: [],
   },
   {
     slug: "element-bass",
-    name: "Element Bass",
+    name: "Element (Bass)",
     subtitle: "Four string",
     status: "coming-soon",
+    fromPricePence: 89_900,
     description:
       "The Element geometry carried across to a bass, with its own option set. In development now.",
     specs: [],
@@ -69,3 +78,10 @@ export const availableModels = models.filter((m) => m.status === "available");
 export const comingSoonModels = models.filter(
   (m) => m.status === "coming-soon",
 );
+
+/*
+ * The cheapest thing you can actually order, for the "from" figure on Home.
+ * Derived rather than typed in: a catalogue where the headline price is not
+ * the lowest one in the grid is a catalogue that has drifted.
+ */
+export const fromPricePence = Math.min(...models.map((m) => m.fromPricePence));
