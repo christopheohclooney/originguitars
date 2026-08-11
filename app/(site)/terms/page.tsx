@@ -71,8 +71,22 @@ const sections: LegalSection[] = [
 export default function TermsPage() {
   return (
     <main>
+      {/*
+        20ch rather than the default 16ch. The title measures 16.21ch set in
+        Archivo — it cleared the default by a fifth of a character, which is
+        what broke a two-word label across two lines and made it read as two
+        headings.
+
+        20ch rather than 17ch, which would also fit: the margin has to survive
+        the fallback face while Archivo is still loading, and a cap that only
+        just clears the text is one rendering difference away from wrapping
+        again. It is still a cap — a phone narrower than about 480px has less
+        room than the title needs and breaks it after "and", which is the
+        sensible break and the one it should have.
+      */}
       <PageHero
         title="Terms and Conditions"
+        titleMeasure="20ch"
         intro="How ordering works, what can still change once you've paid, and how long a build takes."
       />
 

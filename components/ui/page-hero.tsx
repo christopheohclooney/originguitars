@@ -30,6 +30,21 @@ import { shell } from "@/lib/style";
  */
 type PageHeroProps = {
   title: string;
+  /*
+   * The heading's measure. 16ch by default, which is what stops a long title
+   * running the full width of the column and gives it a sensible break.
+   *
+   * Widened per page rather than raised for everyone, because the default is
+   * doing real work: "The origin story" and "Common questions" both want the
+   * break 16ch gives them. "Terms and Conditions" is 20 characters that read
+   * as one phrase, and splitting it across two lines makes a two-word label
+   * look like two headings.
+   *
+   * A cap rather than `whitespace-nowrap`. If the title outgrows its measure
+   * — a longer one, a narrow screen, or the fallback face while Archivo is
+   * still loading — a cap wraps it, and nowrap would run it off the page.
+   */
+  titleMeasure?: string;
   /* Optional so a page can lead straight into its content. */
   intro?: ReactNode;
 } & (
@@ -38,14 +53,21 @@ type PageHeroProps = {
 );
 
 export function PageHero(props: PageHeroProps) {
-  const { title, intro } = props;
+  const { title, titleMeasure = "16ch", intro } = props;
 
   return (
     <section className="pt-16 pb-16 md:pt-24 md:pb-20">
       <div className={shell}>
+        {/*
+          The measure is an inline style rather than a Tailwind class because
+          it varies per page. Tailwind reads arbitrary values out of the source
+          text, so `max-w-[${titleMeasure}]` would compile to a class no
+          stylesheet ever generates — the cap would silently vanish.
+        */}
         <h1
           data-metal
-          className="mx-auto max-w-[16ch] text-center font-display text-[clamp(2.75rem,7vw,4.75rem)] font-normal leading-[1.04] tracking-[-0.02em]"
+          style={{ maxWidth: titleMeasure }}
+          className="mx-auto text-center font-display text-[clamp(2.75rem,7vw,4.75rem)] font-normal leading-[1.04] tracking-[-0.02em]"
         >
           {title}
         </h1>
