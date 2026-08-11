@@ -466,7 +466,7 @@ export default function HomePage() {
         <div className={shell}>
           <Reveal>
             <h2 className="mx-auto max-w-[18ch] text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
-              Our latest models
+              Latest models
             </h2>
             <p className="mx-auto mt-5 max-w-[52ch] text-center text-[1.0625rem] leading-[1.6] text-ink-muted md:text-[1.125rem]">
               Made to order, one shape at a time. More on the way as we grow.
@@ -491,7 +491,7 @@ export default function HomePage() {
                   letterbox at 1920 and portrait at 1440. The drawing is sized
                   off the card's width, so the two stay in step.
                 */}
-                <article className="relative flex aspect-square flex-col overflow-hidden rounded-2xl border border-line bg-canvas">
+                <article className="group relative flex aspect-square flex-col overflow-hidden rounded-2xl border border-line bg-canvas transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-line-strong">
                   {/*
                     The drawing is the Lance front elevation already in the
                     project, the same file the About page closes on — one
@@ -512,7 +512,7 @@ export default function HomePage() {
                   */}
                   <div
                     aria-hidden
-                    className="pointer-events-none absolute inset-0 overflow-hidden"
+                    className="pointer-events-none absolute inset-0 overflow-hidden transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.045] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
@@ -520,9 +520,32 @@ export default function HomePage() {
                       alt=""
                       width={1133}
                       height={396}
-                      className="absolute left-1/2 top-[44%] w-[185%] max-w-none -translate-x-1/2 -translate-y-1/2 -rotate-90 opacity-50"
+                      className="absolute left-1/2 top-[44%] w-[185%] max-w-none -translate-x-1/2 -translate-y-1/2 -rotate-90 opacity-50 transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-95 motion-reduce:transition-none"
                     />
                   </div>
+
+                  {/*
+                    The hover lift. White alpha rather than a second solid
+                    tone, so it raises whatever is underneath — card, drawing
+                    and all — instead of repainting a value that would have to
+                    be re-derived every time --color-canvas moves.
+
+                    Tailwind's hover variant is already wrapped in
+                    (hover: hover) in v4, so none of this fires on a
+                    touchscreen, where a hover state is either invisible or
+                    sticks after a tap.
+                  */}
+                  <div
+                    aria-hidden
+                    className="pointer-events-none absolute inset-0 bg-white/[0.035] opacity-0 transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-100 motion-reduce:transition-none"
+                  />
+
+                  {/* Lifts the head of the card, darkens under the type. */}
+                  <div
+                    aria-hidden
+                    data-model-scrim
+                    className="pointer-events-none absolute inset-0"
+                  />
 
                   {/*
                     Badge treatment follows the system rather than the
@@ -553,7 +576,7 @@ export default function HomePage() {
                     <h3 className="text-[1.5rem] font-medium leading-[1.2] tracking-[-0.015em]">
                       {model.name}
                     </h3>
-                    <p className="mt-2 font-mono text-[0.9375rem] tabular-nums text-ink-muted">
+                    <p className="mt-2 font-mono text-[0.9375rem] tabular-nums text-ink-muted transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:text-ink">
                       From {formatPrice(model.fromPricePence)}
                     </p>
                   </div>

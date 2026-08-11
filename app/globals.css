@@ -321,6 +321,31 @@ body:has([data-canvas]) {
 }
 
 /*
+  The model card's ground.
+
+  Two jobs in one layer. The top few per cent of white lifts the head of the
+  card, which is what stops a flat panel reading as a hole cut in the page —
+  the same trick the header pill uses, at a third of the strength. And the
+  foot darkens under the name and price, because the drawing behind them runs
+  right through where the type sits and the card's own tone is not enough
+  separation on its own.
+
+  Black rather than --color-surface at the foot. This sits over the card, not
+  over the page, so it is deepening a tone rather than laying the ground back
+  in — and the card is already --color-canvas, a shade above the page.
+*/
+[data-model-scrim] {
+  background-image: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.035) 0%,
+    rgba(255, 255, 255, 0) 34%,
+    rgba(0, 0, 0, 0.22) 62%,
+    rgba(0, 0, 0, 0.58) 88%,
+    rgba(0, 0, 0, 0.66) 100%
+  );
+}
+
+/*
   The How-it-works band's scrim.
 
   Weighted to both ends rather than one, because this section puts copy at
