@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 
+import { Reveal } from "@/components/motion/reveal";
+
 /*
  * The long-form legal document — Privacy policy first, Terms and conditions
  * next.
@@ -12,9 +14,15 @@ import type { ReactNode } from "react";
  * hairline between entries, the same heading-then-body rhythm. What changes is
  * that nothing is hidden. A policy you have to expand to read is a policy
  * nobody reads, and there is no reason to spend JavaScript on concealing text
- * people arrive here specifically to find. So there is no client boundary and
- * no motion here — the FAQ's accordion is the one thing from that page
- * deliberately not carried over.
+ * people arrive here specifically to find — the FAQ's accordion is the one
+ * thing from that page deliberately not carried over.
+ *
+ * Each section does now arrive on scroll, which is the only motion here and is
+ * the same primitive Home and About use. It is a reveal, not a disclosure: the
+ * text is in the document either way, and the two guards in globals.css and
+ * MotionProvider mean a reader with reduced motion or no JavaScript gets it
+ * outright rather than waiting on an animation that will never run. Nothing on
+ * a page like this may depend on script to become readable.
  *
  * Measure rather than column. The FAQ sets its list to 51.5rem and then caps
  * its answers at 62ch inside it, because there the question is a heading and
@@ -71,21 +79,34 @@ export function LegalDocument({
 }) {
   return (
     <div className="mx-auto max-w-[62ch]">
-      <p className={labelClasses}>
-        Last updated <time dateTime={updated.iso}>{updated.label}</time>
-      </p>
+      <Reveal>
+        <p className={labelClasses}>
+          Last updated <time dateTime={updated.iso}>{updated.label}</time>
+        </p>
+      </Reveal>
 
       {draftNotice && (
-        <div className="mt-8 border border-line-strong bg-canvas p-5 md:p-6">
+        <Reveal
+          delay={0.1}
+          className="mt-8 border border-line-strong bg-canvas p-5 md:p-6"
+        >
           <p className={labelClasses}>Draft</p>
           <p className="mt-3 text-[0.9375rem] leading-[1.6] text-ink">
             {draftNotice}
           </p>
-        </div>
+        </Reveal>
       )}
 
+      {/*
+        One reveal per section rather than one around the document. A single
+        container would enter the viewport with its first section and fire the
+        whole policy at once, including the four screens of it nobody has
+        scrolled to yet — which is a page-load animation wearing a scroll
+        animation's clothes. Per section, each arrives as you reach it.
+      */}
       {sections.map((section) => (
-        <section
+        <Reveal
+          as="section"
           key={section.heading}
           className="mt-10 border-t border-line pt-10 md:mt-14 md:pt-14"
         >
@@ -119,7 +140,7 @@ export function LegalDocument({
               </p>
             </div>
           )}
-        </section>
+        </Reveal>
       ))}
     </div>
   );

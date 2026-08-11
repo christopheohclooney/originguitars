@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import type { ReactNode } from "react";
 
+import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
 import { ContactForm } from "@/components/ui/contact-form";
 import { FaqAccordion } from "@/components/ui/faq-accordion";
@@ -154,7 +155,15 @@ export default function ContactPage() {
             one spine from here to the last button rather than a measure of its
             own invented for two cards.
           */}
-          <div className="mx-auto grid max-w-[51.5rem] gap-6 md:grid-cols-2 md:gap-8">
+          {/*
+            The pair arrives one after the other rather than together — see the
+            note on the page's motion at the top of this file. `h-full` on the
+            card is what the stagger costs: the grid stretches its own children,
+            and its children are now the StaggerItem wrappers, so the card has
+            to be told to fill one. Without it the two cards size to their own
+            copy and stop matching.
+          */}
+          <Stagger className="mx-auto grid max-w-[51.5rem] gap-6 md:grid-cols-2 md:gap-8">
             {methods.map((method) => (
               /*
                 Home's model card, at rest and on hover: the lifted tone inside
@@ -169,58 +178,60 @@ export default function ContactPage() {
                 read the heading, the body and the address out as a single
                 run-on link.
               */
-              <article
-                key={method.heading}
-                className="group relative flex flex-col items-center rounded-2xl border border-line bg-canvas px-8 py-10 text-center transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-line-strong md:px-10 md:py-12"
-              >
-                {/*
-                  The chip is white alpha rather than a third solid tone, the
-                  same device as the card's hover lift and the builder's canvas
-                  glow: it raises whatever is behind it instead of restating a
-                  value that would have to be re-derived every time --color-
-                  canvas moves.
-                */}
-                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-white/[0.045] text-ink transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-white/[0.08]">
-                  {method.icon}
-                </span>
+              <StaggerItem key={method.heading}>
+                <article className="group relative flex h-full flex-col items-center rounded-2xl border border-line bg-canvas px-8 py-10 text-center transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-line-strong md:px-10 md:py-12">
+                  {/*
+                    The chip is white alpha rather than a third solid tone, the
+                    same device as the card's hover lift and the builder's
+                    canvas glow: it raises whatever is behind it instead of
+                    restating a value that would have to be re-derived every
+                    time --color-canvas moves.
+                  */}
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-white/[0.045] text-ink transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-white/[0.08]">
+                    {method.icon}
+                  </span>
 
-                <h2 className="mt-7 font-display text-[1.5rem] font-medium leading-[1.2] tracking-[-0.015em]">
-                  {method.heading}
-                </h2>
+                  <h2 className="mt-7 font-display text-[1.5rem] font-medium leading-[1.2] tracking-[-0.015em]">
+                    {method.heading}
+                  </h2>
 
-                <p className="mt-4 max-w-[34ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
-                  {method.body}
-                </p>
+                  <p className="mt-4 max-w-[34ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
+                    {method.body}
+                  </p>
 
-                {/*
-                  `mt-auto` sits the address on the card's floor, so the pair
-                  keeps a common baseline however the body copy wraps — the
-                  same reason Home's cards float their name and price down.
+                  {/*
+                    `mt-auto` sits the address on the card's floor, so the pair
+                    keeps a common baseline however the body copy wraps — the
+                    same reason Home's cards float their name and price down.
 
-                  The focus ring is on the link and offset, not on the card:
-                  `after:` is what covers the card, and an outline on a
-                  zero-height ::after box would draw a line through the middle
-                  of it.
-                */}
-                <a
-                  href={method.href}
-                  className="mt-9 inline-flex items-center gap-2 rounded-sm text-[1.0625rem] font-medium text-ink after:absolute after:inset-0 after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
-                >
-                  {method.label}
-                  <svg
-                    aria-hidden
-                    viewBox="0 0 16 16"
-                    className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.5"
+                    The focus ring is on the link and offset, not on the card:
+                    `after:` is what covers the card, and an outline on a
+                    zero-height ::after box would draw a line through the
+                    middle of it.
+                  */}
+                  <a
+                    href={method.href}
+                    className="mt-9 inline-flex items-center gap-2 rounded-sm text-[1.0625rem] font-medium text-ink after:absolute after:inset-0 after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
                   >
-                    <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" strokeLinecap="square" />
-                  </svg>
-                </a>
-              </article>
+                    {method.label}
+                    <svg
+                      aria-hidden
+                      viewBox="0 0 16 16"
+                      className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.5"
+                    >
+                      <path
+                        d="M2.5 8h11M9 3.5 13.5 8 9 12.5"
+                        strokeLinecap="square"
+                      />
+                    </svg>
+                  </a>
+                </article>
+              </StaggerItem>
             ))}
-          </div>
+          </Stagger>
         </div>
       </section>
 
@@ -252,15 +263,17 @@ export default function ContactPage() {
       */}
       <section className="pb-24 md:pb-32">
         <div className={shell}>
-          <div className="mx-auto max-w-[51.5rem]">
-            <h2 className="text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
-              Send a message
-            </h2>
+          <Stagger className="mx-auto max-w-[51.5rem]">
+            <StaggerItem>
+              <h2 className="text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
+                Send a message
+              </h2>
+            </StaggerItem>
 
-            <div className="mt-10 md:mt-14">
+            <StaggerItem className="mt-10 md:mt-14">
               <ContactForm />
-            </div>
-          </div>
+            </StaggerItem>
+          </Stagger>
         </div>
       </section>
 
@@ -290,26 +303,28 @@ export default function ContactPage() {
       */}
       <section className="pb-24 md:pb-32">
         <div className={shell}>
-          <div className="mx-auto max-w-[51.5rem]">
-            <h2 className="text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
-              Have a question?
-            </h2>
+          <Stagger className="mx-auto max-w-[51.5rem]">
+            <StaggerItem>
+              <h2 className="text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
+                Have a question?
+              </h2>
+            </StaggerItem>
 
-            <div className="mt-12 md:mt-16">
+            <StaggerItem className="mt-12 md:mt-16">
               <FaqAccordion items={previewFaqs} />
-            </div>
+            </StaggerItem>
 
             {/*
               Centred under the list, which is the one place a button belongs
               on a page whose last section has no left edge to hang from — the
               same reasoning as Home's centred model grid.
             */}
-            <div className="mt-12 flex justify-center md:mt-14">
+            <StaggerItem className="mt-12 flex justify-center md:mt-14">
               <Link href="/faq" className={buttonClasses({ size: "lg" })}>
                 Read more FAQs
               </Link>
-            </div>
-          </div>
+            </StaggerItem>
+          </Stagger>
         </div>
       </section>
     </main>
