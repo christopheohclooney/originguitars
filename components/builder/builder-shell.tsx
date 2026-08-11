@@ -1,9 +1,10 @@
 "use client";
 
-import Image, { type StaticImageData } from "next/image";
+import { type StaticImageData } from "next/image";
 import { useCallback, useMemo, useState } from "react";
 
 import { InfoTip } from "@/components/builder/info-tip";
+import { LoadingImage } from "@/components/ui/loading-image";
 import { PriceBar } from "@/components/ui/price-bar";
 import {
   builderSteps,
@@ -208,11 +209,17 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
           — per-option imagery arrives with the real photography.
         */}
         <div className={`${shell} flex h-full min-h-0 items-center justify-center`}>
-          <Image
+          {/*
+            No blur placeholder on this one, deliberately — see
+            components/ui/loading-image.tsx. The cut-out's alpha does not
+            survive into Next's blurDataURL, so the placeholder drew an opaque
+            rectangle behind an instrument that is mostly transparent, and
+            then removed it in one frame.
+          */}
+          <LoadingImage
             src={image}
             alt="The Origin Element"
             preload
-            placeholder="blur"
             sizes="(min-width: 1180px) 1100px, 100vw"
             className="max-h-full w-auto max-w-full object-contain"
           />
