@@ -132,7 +132,19 @@ export default function ContactPage() {
         chrome from its stage, and on a content page it interrupts the vertical
         run. The cards' own edges are enough to start the section.
       */}
-      <section className="pb-16 md:pb-20">
+      {/*
+        Section rhythm on this page: every block owns the space beneath it, and
+        the numbers are the same one — pb-24 md:pb-32 — so the gaps between the
+        cards, the form and the FAQ are identical rather than each being
+        whatever the section above happened to leave.
+
+        The small top padding here is the exception, and it is doing the same
+        job: PageHero owns its own bottom space and is shared with four other
+        pages, so rather than change what every hero does, this makes up the
+        difference locally and brings the hero-to-cards gap in line with the
+        rest.
+      */}
+      <section className="pt-2 pb-24 md:pt-10 md:pb-32">
         <div className={shell}>
           {/*
             The FAQ's column, which is also the proportion the reference draws
@@ -238,7 +250,7 @@ export default function ContactPage() {
         With no key the send is still refused rather than swallowed — the
         visitor gets the address, and keeps what they typed. See actions.ts.
       */}
-      <section className="pb-4 md:pb-8">
+      <section className="pb-24 md:pb-32">
         <div className={shell}>
           <div className="mx-auto max-w-[51.5rem]">
             <h2 className="text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
@@ -271,7 +283,12 @@ export default function ContactPage() {
         pointed at the FAQ in prose. Three questions that open where they stand
         do that job better — the answer arrives without the page changing.
       */}
-      <section className="py-20 md:py-24">
+      {/*
+        No top padding: the form's own bottom space above is the gap, so the
+        two are not stacked and doubled. The bottom is the page's last measure
+        before the footer band.
+      */}
+      <section className="pb-24 md:pb-32">
         <div className={shell}>
           <div className="mx-auto max-w-[51.5rem]">
             <h2 className="text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
