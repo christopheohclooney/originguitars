@@ -9,7 +9,7 @@ import { PageHero } from "@/components/ui/page-hero";
 import { shell } from "@/lib/style";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy — Origin Guitars",
+  title: "Privacy policy — Origin Guitars",
   description:
     "What we collect when you order, what we do with it, how long we keep it, and how to have it corrected or removed.",
 };
@@ -74,7 +74,7 @@ export default function PrivacyPolicyPage() {
   return (
     <main>
       <PageHero
-        title="Privacy Policy"
+        title="Privacy policy"
         intro="What we collect when you order, what we do with it, and how to have it corrected or removed."
       />
 

@@ -5,7 +5,7 @@ import { PageHero } from "@/components/ui/page-hero";
 import { shell } from "@/lib/style";
 
 export const metadata: Metadata = {
-  title: "Terms and Conditions — Origin Guitars",
+  title: "Terms and conditions — Origin Guitars",
   description:
     "How ordering works, what can still change once you've paid, lead times, and the law these terms are governed by.",
 };
@@ -72,20 +72,24 @@ export default function TermsPage() {
   return (
     <main>
       {/*
-        20ch rather than the default 16ch. The title measures 16.21ch set in
-        Archivo — it cleared the default by a fifth of a character, which is
-        what broke a two-word label across two lines and made it read as two
-        headings.
+        20ch rather than the default 16ch.
 
-        20ch rather than 17ch, which would also fit: the margin has to survive
-        the fallback face while Archivo is still loading, and a cap that only
-        just clears the text is one rendering difference away from wrapping
-        again. It is still a cap — a phone narrower than about 480px has less
-        room than the title needs and breaks it after "and", which is the
+        In sentence case the title measures 15.84ch set in Archivo, so it now
+        clears the default on its own — but by 1%, and 1% is not a margin. It
+        was the title-case version, at 16.21ch, that overflowed and split the
+        label across two lines; dropping one capital moved it just inside.
+
+        A cap that clears its text by a rounding error is one rendering
+        difference away from wrapping again, and the fallback face shown while
+        Archivo is still loading is exactly that difference. So the measure
+        stays widened here rather than resting on the coincidence.
+
+        Still a cap and not `nowrap`: a phone narrower than about 480px has
+        less room than the title needs and breaks it after "and", which is the
         sensible break and the one it should have.
       */}
       <PageHero
-        title="Terms and Conditions"
+        title="Terms and conditions"
         titleMeasure="20ch"
         intro="How ordering works, what can still change once you've paid, and how long a build takes."
       />

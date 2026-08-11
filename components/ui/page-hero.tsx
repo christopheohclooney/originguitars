@@ -36,7 +36,7 @@ type PageHeroProps = {
    *
    * Widened per page rather than raised for everyone, because the default is
    * doing real work: "The origin story" and "Common questions" both want the
-   * break 16ch gives them. "Terms and Conditions" is 20 characters that read
+   * break 16ch gives them. "Terms and conditions" is 20 characters that read
    * as one phrase, and splitting it across two lines makes a two-word label
    * look like two headings.
    *

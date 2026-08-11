@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 /*
- * The long-form legal document — Privacy Policy first, Terms and Conditions
+ * The long-form legal document — Privacy policy first, Terms and conditions
  * next.
  *
  * Shared rather than written twice. The two pages are the same artefact with

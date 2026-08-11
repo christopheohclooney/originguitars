@@ -19,8 +19,14 @@ export const primaryNav: NavLink[] = [
   { href: "/faq", label: "FAQ" },
 ];
 
+/*
+ * Sentence case, like every other label and heading on the site — a capital on
+ * the first word only. These two were the last title-cased strings in the nav,
+ * and they sat directly under headings that read "Privacy policy" and "Terms
+ * and conditions", so the link and the page it opened disagreed.
+ */
 export const footerNav: NavLink[] = [
   { href: "/contact", label: "Contact" },
-  { href: "/privacy-policy", label: "Privacy Policy" },
-  { href: "/terms", label: "Terms and Conditions" },
+  { href: "/privacy-policy", label: "Privacy policy" },
+  { href: "/terms", label: "Terms and conditions" },
 ];
