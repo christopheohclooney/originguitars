@@ -26,10 +26,20 @@ The contact form at `/contact` sends through [Resend](https://resend.com).
 Copy `.env.example` to `.env.local` and set `RESEND_API_KEY`; the same key has
 to be set in the hosting provider's environment for a deployment.
 
-Without the key the form still renders, still validates and still refuses
-nonsense — it just cannot send, so it tells the visitor to email
-hello@originguitars.com directly and logs the missing key on the server. That
-is deliberate: a preview deploy without secrets should not look broken.
+**`RESEND_API_KEY` is also the switch for the form.** With no key the "Send a
+message" section is not rendered — `/contact` is the email and phone cards and
+nothing else, which is the state the site ships in until there is an account
+and a mailbox behind it. Add the key, redeploy, and the form appears and works.
+No code change either way.
+
+Two things are needed before it can actually deliver, and neither is code:
+
+1. A **mailbox that receives** at the address in `lib/contact.ts`. Resend sends
+   mail; it does not host inboxes.
+2. The **sending domain verified** in the Resend account (DKIM/SPF records in
+   DNS). Resend rejects any `From` on an unverified domain, so a valid key on
+   its own is not enough. `RESEND_FROM_EMAIL` can point at a sender that is
+   verified in the meantime.
 
 `lib/email.ts` is the whole mail layer. Anything else that needs to send — the
 order confirmation, once Stripe checkout exists — should call `sendEmail` there

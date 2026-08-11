@@ -6,6 +6,7 @@ import { buttonClasses } from "@/components/ui/button";
 import { ContactForm } from "@/components/ui/contact-form";
 import { PageHero } from "@/components/ui/page-hero";
 import { CONTACT_INBOX, PHONE_DISPLAY, PHONE_HREF } from "@/lib/contact";
+import { emailIsConfigured } from "@/lib/email";
 import { shell } from "@/lib/style";
 
 export const metadata: Metadata = {
@@ -103,6 +104,14 @@ const methods: ContactMethod[] = [
 ];
 
 export default function ContactPage() {
+  /*
+   * Whether the form is on this page at all — see lib/email.ts. Until there is
+   * a Resend key in the environment there is nowhere for a message to go, and
+   * the honest version of that is the two cards on their own rather than a
+   * form that takes five minutes of typing and then apologises.
+   */
+  const canSendMessages = emailIsConfigured();
+
   return (
     <main>
       <PageHero
@@ -210,19 +219,21 @@ export default function ContactPage() {
         than beside it — a form is a single object, so there is no margin
         column for a heading to hang in.
       */}
-      <section className="pb-4 md:pb-8">
-        <div className={shell}>
-          <div className="mx-auto max-w-[51.5rem]">
-            <h2 className="text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
-              Send a message
-            </h2>
+      {canSendMessages && (
+        <section className="pb-4 md:pb-8">
+          <div className={shell}>
+            <div className="mx-auto max-w-[51.5rem]">
+              <h2 className="text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
+                Send a message
+              </h2>
 
-            <div className="mt-10 md:mt-14">
-              <ContactForm />
+              <div className="mt-10 md:mt-14">
+                <ContactForm />
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/*
         The closing beat, following About's: copy left, the ways forward right,

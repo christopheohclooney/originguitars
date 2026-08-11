@@ -67,6 +67,27 @@ function client() {
   return key ? new Resend(key) : null;
 }
 
+/*
+ * Whether this deployment can send at all.
+ *
+ * The contact form is rendered only when this is true, so a deployment with no
+ * Resend account behind it shows the two contact cards and no form, rather
+ * than a form that takes somebody's message and then apologises. A dead form
+ * is worse than no form: it costs the visitor the five minutes of typing
+ * before it admits it cannot help.
+ *
+ * Read at build time, which is the right granularity — adding the key in the
+ * hosting provider triggers a redeploy anyway, and that is the deploy the form
+ * appears in. Nothing to change in the code when the account exists.
+ *
+ * The action checks the key again for itself. This decides what is rendered;
+ * that decides what is sent, and its endpoint exists whether or not anything
+ * renders.
+ */
+export function emailIsConfigured(): boolean {
+  return Boolean(process.env.RESEND_API_KEY);
+}
+
 export async function sendEmail({
   to,
   subject,
