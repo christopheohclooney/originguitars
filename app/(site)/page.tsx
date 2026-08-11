@@ -89,6 +89,31 @@ export default function HomePage() {
       <section className="relative mt-[calc(var(--header-h)*-1)] flex min-h-[100svh] flex-col justify-end overflow-hidden bg-white/[0.02] pt-[var(--header-h)]">
         {heroPhoto && <HeroPhoto src={heroPhoto.src} />}
 
+        {/*
+          The light leak, again, over the photograph.
+
+          The one in (site)/layout.tsx sits below the z-10 content layer, which
+          is right everywhere else — it is the page's ground catching light.
+          Here the ground is an opaque photograph in that same layer, so the
+          global leak is painted out across the whole of the hero and Home lost
+          the rake that About, FAQ and the builder all have.
+
+          Same rule, same stylesheet, applied where it now has to sit: above
+          the picture rather than under it. Absolute with no z-index, so it is
+          the section's own positioning context it anchors to and source order
+          that stacks it — after the photograph, before the scrim.
+
+          Before the scrim deliberately. The scrim is what the copy's contrast
+          was measured against, and putting light *over* it would undo that
+          silently. Any leak that reaches down to the copy gets damped by the
+          same layer as everything else.
+
+          Not duplication in the rendered page: the hero is a full viewport and
+          the leak is min(72vh, 780px) from the top, so the layout's copy is
+          wholly behind this section and never visible on Home.
+        */}
+        <div aria-hidden data-light-leak />
+
         {/* Lays the ground back in under the copy — see globals.css. */}
         <div aria-hidden data-hero-scrim className="absolute inset-0" />
 
