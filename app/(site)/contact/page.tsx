@@ -4,7 +4,9 @@ import type { ReactNode } from "react";
 
 import { buttonClasses } from "@/components/ui/button";
 import { ContactForm } from "@/components/ui/contact-form";
+import { FaqAccordion } from "@/components/ui/faq-accordion";
 import { PageHero } from "@/components/ui/page-hero";
+import { pickFaqs } from "@/data/faqs";
 import { CONTACT_INBOX, PHONE_DISPLAY, PHONE_HREF } from "@/lib/contact";
 import { emailIsConfigured } from "@/lib/email";
 import { shell } from "@/lib/style";
@@ -18,13 +20,14 @@ export const metadata: Metadata = {
 /*
  * Contact.
  *
- * The FAQ's page furniture — the same hero, the same measure, the same closing
- * beat — with the two contact routes given as cards rather than as a list. What
- * is deliberately not carried over is the disclosure: the FAQ hides its answers
- * because seven long ones would otherwise be a wall, and there is nothing here
- * worth making somebody click to read. That also means no client boundary and
- * no JavaScript on the route, the same trade legal-document.tsx made for the
- * same reason.
+ * The FAQ's page furniture — the same hero, the same measure — with the two
+ * contact routes given as cards rather than as a list, and the FAQ's own
+ * accordion reused at the foot for the three questions most likely to be the
+ * reason somebody is here.
+ *
+ * The page is still prerendered static. Two client islands sit in it — the
+ * form and the accordion — and neither is on the critical path: the address,
+ * the number and all three answers are in the HTML before any of it runs.
  *
  * There is no form, and not for want of markup. A form needs somewhere to post
  * to, and this site has no route handler, no mail transport and no spam
@@ -75,6 +78,18 @@ function PhoneIcon() {
     </svg>
   );
 }
+
+/*
+ * The three the page previews, by id — the lead time, the window for changing
+ * a specification, and what a cancellation costs. The three things somebody
+ * about to write in is most likely to be writing in about, which is the whole
+ * point of putting them above the form's own section rather than below it.
+ *
+ * By id rather than by position, so reordering the FAQ cannot silently
+ * reorder this, and by `pickFaqs` rather than by hand, so deleting one of them
+ * fails the build instead of shipping a section two questions long.
+ */
+const previewFaqs = pickFaqs("lead-time", "changes", "cancelling");
 
 type ContactMethod = {
   icon: ReactNode;
@@ -236,51 +251,43 @@ export default function ContactPage() {
       )}
 
       {/*
-        The closing beat, following About's: copy left, the ways forward right,
-        on one baseline from md up and stacked below it. Primary sits last in
-        the source, which puts it at the right-hand end of the row — the far end
-        of the reading direction, and the position the designs give it.
+        The FAQ, three questions deep, and the page's last word before the
+        footer.
 
-        No technical drawing across the top of it, which is the one part of the
-        FAQ's closing left behind. That page ends by handing you this one, and
-        this one ends by handing you back — running the same elevation across
-        both would make the two ends of a single loop look like the same page
-        twice. The drawings stay where they answer something: the side view on
-        the FAQ, the front elevation on About.
+        The three are pulled from data/faqs.ts by id rather than restated here
+        — same questions, same answers, one source. A visitor who opens
+        "What if I need to cancel?" on this page and again on the FAQ gets the
+        same refund terms, permanently, because there is only one copy of them
+        to maintain.
 
-        Which is also why this block holds the cards' measure rather than
-        opening out to the shell the way the FAQ's and About's closings do.
-        Their drawing spans the full column and resets the measure on its way
-        past; with nothing bridging it, the same widening would just start the
-        last heading on the page a hundred pixels to the left of everything
-        above it.
+        The same accordion as the FAQ page, not a lighter-weight cousin: a
+        preview that behaves differently from the thing it previews is a second
+        component to keep in step, and this one already handles the reveal, the
+        indicator and the reduced-motion case.
+
+        It replaces the "Already answered?" block that used to sit here, which
+        pointed at the FAQ in prose. Three questions that open where they stand
+        do that job better — the answer arrives without the page changing.
       */}
-      <section className="py-20 md:py-28">
+      <section className="py-20 md:py-24">
         <div className={shell}>
-          <div className="mx-auto flex max-w-[51.5rem] flex-col gap-10 md:flex-row md:items-end md:justify-between md:gap-16">
-            <div>
-              <h2 className="max-w-[18ch] font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.05] tracking-[-0.02em]">
-                Already answered?
-              </h2>
-              <p className="mt-5 max-w-[44ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
-                Lead times, payment, changes to a specification and refunds are
-                all written down. If yours is one of those, the answer is there
-                now rather than waiting on a reply.
-              </p>
+          <div className="mx-auto max-w-[51.5rem]">
+            <h2 className="text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
+              Have a question?
+            </h2>
+
+            <div className="mt-12 md:mt-16">
+              <FaqAccordion items={previewFaqs} />
             </div>
 
-            <div className="flex shrink-0 flex-col gap-4 sm:flex-row">
-              <Link
-                href="/faq"
-                className={`${buttonClasses({ variant: "secondary" })} w-full sm:w-auto`}
-              >
-                Read the FAQ
-              </Link>
-              <Link
-                href="/builder"
-                className={`${buttonClasses()} w-full sm:w-auto`}
-              >
-                Build your own
+            {/*
+              Centred under the list, which is the one place a button belongs
+              on a page whose last section has no left edge to hang from — the
+              same reasoning as Home's centred model grid.
+            */}
+            <div className="mt-12 flex justify-center md:mt-14">
+              <Link href="/faq" className={buttonClasses({ size: "lg" })}>
+                Read more FAQs
               </Link>
             </div>
           </div>
