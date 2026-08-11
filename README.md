@@ -26,11 +26,10 @@ The contact form at `/contact` sends through [Resend](https://resend.com).
 Copy `.env.example` to `.env.local` and set `RESEND_API_KEY`; the same key has
 to be set in the hosting provider's environment for a deployment.
 
-**`RESEND_API_KEY` is also the switch for the form.** With no key the "Send a
-message" section is not rendered — `/contact` is the email and phone cards and
-nothing else, which is the state the site ships in until there is an account
-and a mailbox behind it. Add the key, redeploy, and the form appears and works.
-No code change either way.
+The form is on the page whether or not a key is set. Without one it still
+renders and still validates — the send is refused, the visitor is given the
+address, they keep what they typed, and the server logs the missing key. Add
+the key, redeploy, and it sends. No code change either way.
 
 Two things are needed before it can actually deliver, and neither is code:
 

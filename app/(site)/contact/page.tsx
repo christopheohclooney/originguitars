@@ -8,7 +8,6 @@ import { FaqAccordion } from "@/components/ui/faq-accordion";
 import { PageHero } from "@/components/ui/page-hero";
 import { pickFaqs } from "@/data/faqs";
 import { CONTACT_INBOX, PHONE_DISPLAY, PHONE_HREF } from "@/lib/contact";
-import { emailIsConfigured } from "@/lib/email";
 import { shell } from "@/lib/style";
 
 export const metadata: Metadata = {
@@ -119,14 +118,6 @@ const methods: ContactMethod[] = [
 ];
 
 export default function ContactPage() {
-  /*
-   * Whether the form is on this page at all — see lib/email.ts. Until there is
-   * a Resend key in the environment there is nowhere for a message to go, and
-   * the honest version of that is the two cards on their own rather than a
-   * form that takes five minutes of typing and then apologises.
-   */
-  const canSendMessages = emailIsConfigured();
-
   return (
     <main>
       <PageHero
@@ -234,21 +225,32 @@ export default function ContactPage() {
         than beside it — a form is a single object, so there is no margin
         column for a heading to hang in.
       */}
-      {canSendMessages && (
-        <section className="pb-4 md:pb-8">
-          <div className={shell}>
-            <div className="mx-auto max-w-[51.5rem]">
-              <h2 className="text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
-                Send a message
-              </h2>
+      {/*
+        Rendered whether or not this deployment can send.
 
-              <div className="mt-10 md:mt-14">
-                <ContactForm />
-              </div>
+        It was briefly conditional on a Resend key being present, on the
+        reasoning that a form which cannot send should not be offered. That is
+        the right instinct for a launched site and the wrong one for this one:
+        the section is part of the design being reviewed, and having it appear
+        and disappear with an environment variable makes the page harder to
+        judge than a form that says plainly what happened.
+
+        With no key the send is still refused rather than swallowed — the
+        visitor gets the address, and keeps what they typed. See actions.ts.
+      */}
+      <section className="pb-4 md:pb-8">
+        <div className={shell}>
+          <div className="mx-auto max-w-[51.5rem]">
+            <h2 className="text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
+              Send a message
+            </h2>
+
+            <div className="mt-10 md:mt-14">
+              <ContactForm />
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
       {/*
         The FAQ, three questions deep, and the page's last word before the
