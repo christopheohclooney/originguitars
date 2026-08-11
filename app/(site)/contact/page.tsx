@@ -4,113 +4,112 @@ import type { ReactNode } from "react";
 
 import { buttonClasses } from "@/components/ui/button";
 import { PageHero } from "@/components/ui/page-hero";
-import { proseLink, shell } from "@/lib/style";
+import { shell } from "@/lib/style";
 
 export const metadata: Metadata = {
   title: "Contact — Origin Guitars",
   description:
-    "One address, read by the UK team that builds the instruments — plus what to send with the first message, and what is still to be confirmed.",
+    "Reach the UK team that builds the instruments — by email at hello@originguitars.com, or by phone on (+44) 7883 066880.",
 };
 
 /*
  * Contact.
  *
- * Built on the FAQ: the same hero, the same centred 51.5rem column, the same
- * hairline-separated list underneath it. What is deliberately not carried over
- * is the disclosure — the FAQ hides its answers because seven long ones would
- * otherwise be a wall, and there is nothing here worth making somebody click to
- * read. That also means no client boundary and no JavaScript on the route, the
- * same trade legal-document.tsx made for the same reason.
+ * The FAQ's page furniture — the same hero, the same measure, the same closing
+ * beat — with the two contact routes given as cards rather than as a list. What
+ * is deliberately not carried over is the disclosure: the FAQ hides its answers
+ * because seven long ones would otherwise be a wall, and there is nothing here
+ * worth making somebody click to read. That also means no client boundary and
+ * no JavaScript on the route, the same trade legal-document.tsx made for the
+ * same reason.
  *
  * There is no form, and not for want of markup. A form needs somewhere to post
  * to, and this site has no route handler, no mail transport and no spam
  * defence — a form that silently drops what people type is worse than no form,
  * and one wired to a `mailto:` action is a worse mail client than the one they
- * already have. The address is the interface until there is a backend behind
- * it.
+ * already have. Until there is a backend, the address and the number are the
+ * interface, and both are one tap on the device most people will read this on.
  */
 
 /*
- * hello@originguitars.com is the only contact detail on the site that has been
- * used in anger — it is already on the FAQ and in the privacy policy's "Your
- * rights" section, so it is carried here rather than invented. Everything else
- * a contact page would normally carry (a phone number, a postal address, the
- * social channels, a stated reply time) is genuinely unconfirmed, and is marked
- * as such at the foot of the list instead of being made up. Same habit as the
- * privacy policy's cookie section.
+ * Both routes in one place, in the two forms each of them needs: the one you
+ * read and the one the protocol takes.
+ *
+ * `tel:` wants E.164 — no spaces, no brackets, leading +. The printed form
+ * keeps the reference's spacing, because a number is easier to read back to
+ * somebody in groups than as eleven digits in a row. Deriving one from the
+ * other at runtime would be a regex standing where a constant does the job.
  */
 const EMAIL = "hello@originguitars.com";
+const PHONE_DISPLAY = "(+44) 7883 066880";
+const PHONE_HREF = "tel:+447883066880";
 
-type ContactEntry = {
+/*
+ * Two icons, drawn here rather than pulled from a set. The site has no icon
+ * dependency and these are the only two it needs — an envelope and a handset,
+ * both at the hairline weight the builder's chevrons already use, so they sit
+ * with the rest of the drawing on the site rather than arriving from somewhere
+ * else. `currentColor` throughout, so the card's hover carries them with it.
+ */
+function MailIcon() {
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 24 24"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <rect x="2.75" y="5" width="18.5" height="14" rx="1.75" />
+      <path d="m3.5 6.75 7.4 5.28a1.9 1.9 0 0 0 2.2 0l7.4-5.28" />
+    </svg>
+  );
+}
+
+function PhoneIcon() {
+  return (
+    <svg
+      aria-hidden
+      viewBox="0 0 24 24"
+      className="h-5 w-5"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M8.1 3.4H5.3a1.8 1.8 0 0 0-1.8 2 17.2 17.2 0 0 0 15.1 15.1 1.8 1.8 0 0 0 2-1.8v-2.6l-4-1.5-1.8 1.8a13.9 13.9 0 0 1-5.3-5.3l1.8-1.8z" />
+    </svg>
+  );
+}
+
+type ContactMethod = {
+  icon: ReactNode;
   heading: string;
-  /*
-   * One entry per paragraph, and ReactNode rather than string because two of
-   * these have to point somewhere — the builder and the FAQ are where half of
-   * the answers already live, and sending somebody to "the FAQ" without a link
-   * to it is the sort of thing that generates the email it was meant to save.
-   */
-  body: ReactNode[];
+  body: string;
+  /* What the link says. The address and the number are the labels — a control
+   * that reads "Email us" hides the one thing somebody came here to copy. */
+  label: string;
+  href: string;
 };
 
-const entries: ContactEntry[] = [
+const methods: ContactMethod[] = [
   {
-    heading: "What to send",
-    body: [
-      <>
-        For a build you have not ordered yet: the model you are looking at, and
-        anything you have already settled on — shape, finish, hardware, pickups.
-        The{" "}
-        <Link href="/builder" className={proseLink}>
-          builder
-        </Link>{" "}
-        prices a full specification as you go, so the quickest thing to send is
-        usually the options you landed on there.
-      </>,
-      <>
-        For an order already placed: the email address you ordered with. That is
-        what your build is filed under, and leading with it saves the first
-        reply being a request for it.
-      </>,
-    ],
+    icon: <MailIcon />,
+    heading: "Send an email",
+    body: "For detailed enquiries or support, email us and we will come back to you.",
+    label: EMAIL,
+    href: `mailto:${EMAIL}`,
   },
   {
-    heading: "Changing or cancelling",
-    body: [
-      <>
-        There is a real window. Nothing is fixed until your order is submitted
-        to the build queue, which is a separate step from payment — so say what
-        you would like changed and the team can confirm what is still open.
-      </>,
-      <>
-        The{" "}
-        <Link href="/faq" className={proseLink}>
-          FAQ
-        </Link>{" "}
-        carries the exact terms, including how a refund works once the timbers
-        have been selected and the work has started.
-      </>,
-    ],
-  },
-  {
-    heading: "Where we are",
-    body: [
-      <>
-        The United Kingdom. The people reading this address are the ones who
-        inspect and finish every instrument before it ships, which is why there
-        is no support desk in front of them and nobody to be passed along to.
-      </>,
-    ],
-  },
-  {
-    heading: "Still to be confirmed",
-    body: [
-      <>
-        A phone number, a postal address, the social channels and a stated reply
-        time are all still to be agreed. Rather than print a number nobody has
-        committed to, this page carries the one route that is real — and this
-        section goes as each of the others lands.
-      </>,
-    ],
+    icon: <PhoneIcon />,
+    heading: "Give us a call",
+    body: "Our UK team is available by phone during business hours.",
+    label: PHONE_DISPLAY,
+    href: PHONE_HREF,
   },
 ];
 
@@ -118,89 +117,92 @@ export default function ContactPage() {
   return (
     <main>
       <PageHero
-        title="Get in touch"
-        intro="One address, read by the people who build the guitars. Whether you are still choosing a specification or halfway through a build, it reaches the same UK team."
+        title="Contact us"
+        intro="We're eager to hear from you. Whether you have questions, feedback, or need support, our team is ready to provide assistance now."
+        introMeasure="66ch"
       />
 
       {/*
         No rule under the hero, following the FAQ and the legal pages: the
         full-bleed hairline is the builder canvas's device for dividing its
         chrome from its stage, and on a content page it interrupts the vertical
-        run. The list's own first rule is enough to start it.
-
-        The address leads rather than closing, which is the one structural
-        inversion of the FAQ. There the mailto is the last resort after seven
-        answers; here it is the entire point of the route, and burying the
-        thing somebody navigated here for beneath four paragraphs about how to
-        use it would be a strange way to answer them.
+        run. The cards' own edges are enough to start the section.
       */}
-      <section className="pb-12 md:pb-16">
-        <div className={shell}>
-          <div className="mx-auto max-w-[51.5rem]">
-            {/*
-              The address is the button rather than a label on one, so what you
-              read is what you get when you tap it — the FAQ's closing does the
-              same, and the two are the same control in two places.
-            */}
-            <a
-              href={`mailto:${EMAIL}`}
-              className={`${buttonClasses({ size: "lg" })} w-full sm:w-auto`}
-            >
-              {EMAIL}
-            </a>
-
-            <p className="mt-6 max-w-[62ch] text-[1.0625rem] leading-[1.7] text-ink-muted">
-              No form, no ticket number, no account to make first. A sentence
-              about what you are after is enough to start — everything below is
-              what saves a round trip, not what is required.
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="pb-4 md:pb-8">
+      <section className="pb-16 md:pb-20">
         <div className={shell}>
           {/*
-            The same column the FAQ sets its list in, for the same reason: wide
-            enough that the headings read as headings, narrow enough that the
-            eye is not tracking a full page width across a hairline.
-
-            Inside it the row splits from md — the heading held in a margin
-            column with the prose beside it, which is About's editorial device
-            rather than the FAQ's stacked one. The FAQ stacks because its
-            heading is a control the whole row width belongs to; these headings
-            are labels on a paragraph, and set full width they read as four
-            more questions nobody asked.
+            The FAQ's column, which is also the proportion the reference draws
+            the pair at — its cards run to roughly 70% of the content column,
+            and 51.5rem is what that comes to at the width the designs were
+            drawn at. Keeping the number the FAQ already uses means the page has
+            one spine from here to the last button rather than a measure of its
+            own invented for two cards.
           */}
-          <div className="mx-auto max-w-[51.5rem]">
-            {entries.map((entry) => (
-              <div
-                key={entry.heading}
-                className="border-b border-line py-9 first:border-t md:grid md:grid-cols-[15rem_1fr] md:gap-10 md:py-12"
+          <div className="mx-auto grid max-w-[51.5rem] gap-6 md:grid-cols-2 md:gap-8">
+            {methods.map((method) => (
+              /*
+                Home's model card, at rest and on hover: the lifted tone inside
+                a hairline, the border warming as you approach, everything on
+                the same 500ms curve the rest of the site eases with.
+
+                `group` and the stretched link together are what make the whole
+                card the target while there is still exactly one thing in the
+                tab order and one accessible name to announce. The <a> is a real
+                link around the address, and its ::after covers the card —
+                rather than wrapping the whole card in an anchor, which would
+                read the heading, the body and the address out as a single
+                run-on link.
+              */
+              <article
+                key={method.heading}
+                className="group relative flex flex-col items-center rounded-2xl border border-line bg-canvas px-8 py-10 text-center transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-line-strong md:px-10 md:py-12"
               >
                 {/*
-                  Medium, and a step below About's section headings — the same
-                  size the legal pages use, and for the same reason: there are
-                  four of these inside one column, so they mark structure
-                  rather than announce it.
+                  The chip is white alpha rather than a third solid tone, the
+                  same device as the card's hover lift and the builder's canvas
+                  glow: it raises whatever is behind it instead of restating a
+                  value that would have to be re-derived every time --color-
+                  canvas moves.
                 */}
-                <h2 className="font-display text-[clamp(1.375rem,1.9vw,1.625rem)] font-medium leading-[1.25] tracking-[-0.02em]">
-                  {entry.heading}
+                <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-line bg-white/[0.045] text-ink transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:bg-white/[0.08]">
+                  {method.icon}
+                </span>
+
+                <h2 className="mt-7 font-display text-[1.5rem] font-medium leading-[1.2] tracking-[-0.015em]">
+                  {method.heading}
                 </h2>
 
-                <div className="mt-4 md:mt-0">
-                  {entry.body.map((paragraph, i) => (
-                    <p
-                      key={i}
-                      className={`max-w-[62ch] text-[1.0625rem] leading-[1.75] text-ink-muted ${
-                        i > 0 ? "mt-4" : ""
-                      }`}
-                    >
-                      {paragraph}
-                    </p>
-                  ))}
-                </div>
-              </div>
+                <p className="mt-4 max-w-[34ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
+                  {method.body}
+                </p>
+
+                {/*
+                  `mt-auto` sits the address on the card's floor, so the pair
+                  keeps a common baseline however the body copy wraps — the
+                  same reason Home's cards float their name and price down.
+
+                  The focus ring is on the link and offset, not on the card:
+                  `after:` is what covers the card, and an outline on a
+                  zero-height ::after box would draw a line through the middle
+                  of it.
+                */}
+                <a
+                  href={method.href}
+                  className="mt-9 inline-flex items-center gap-2 rounded-sm text-[1.0625rem] font-medium text-ink after:absolute after:inset-0 after:content-[''] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ink"
+                >
+                  {method.label}
+                  <svg
+                    aria-hidden
+                    viewBox="0 0 16 16"
+                    className="h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                  >
+                    <path d="M2.5 8h11M9 3.5 13.5 8 9 12.5" strokeLinecap="square" />
+                  </svg>
+                </a>
+              </article>
             ))}
           </div>
         </div>
@@ -219,12 +221,12 @@ export default function ContactPage() {
         twice. The drawings stay where they answer something: the side view on
         the FAQ, the front elevation on About.
 
-        Which is why this block stays inside the 51.5rem column rather than
+        Which is also why this block holds the cards' measure rather than
         opening out to the shell the way the FAQ's and About's closings do.
         Their drawing spans the full column and resets the measure on its way
         past; with nothing bridging it, the same widening would just start the
         last heading on the page a hundred pixels to the left of everything
-        above it. One spine from the first hairline to the last button.
+        above it.
       */}
       <section className="py-20 md:py-28">
         <div className={shell}>

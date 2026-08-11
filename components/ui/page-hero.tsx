@@ -47,13 +47,24 @@ type PageHeroProps = {
   titleMeasure?: string;
   /* Optional so a page can lead straight into its content. */
   intro?: ReactNode;
+  /*
+   * The subheading's measure, widened per page for the same reason the title's
+   * is. 54ch is the default and stays the default — it is what holds the FAQ's
+   * and About's one-line-plus intros to a shape under the heading.
+   *
+   * Contact's runs longer and is drawn as two full lines in the reference, and
+   * at 54ch it breaks into three short ones that read as a paragraph rather
+   * than a standfirst. Widening it there is a page's decision, not a change to
+   * what every hero does.
+   */
+  introMeasure?: string;
 } & (
   | { image?: undefined; imageAlt?: never }
   | { image: StaticImageData; imageAlt: string }
 );
 
 export function PageHero(props: PageHeroProps) {
-  const { title, titleMeasure = "16ch", intro } = props;
+  const { title, titleMeasure = "16ch", intro, introMeasure = "54ch" } = props;
 
   return (
     <section className="pt-16 pb-16 md:pt-24 md:pb-20">
@@ -73,7 +84,11 @@ export function PageHero(props: PageHeroProps) {
         </h1>
 
         {intro && (
-          <p className="mx-auto mt-6 max-w-[54ch] text-center text-[1.0625rem] leading-[1.6] text-ink-muted md:text-[1.125rem]">
+          /* Inline for the same reason as the title's — see the note above. */
+          <p
+            style={{ maxWidth: introMeasure }}
+            className="mx-auto mt-6 text-center text-[1.0625rem] leading-[1.6] text-ink-muted md:text-[1.125rem]"
+          >
             {intro}
           </p>
         )}
