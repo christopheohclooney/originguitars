@@ -438,23 +438,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* A fast, quiet close. One line and a way out. */}
-      <section className="py-20 md:py-24">
-        <div
-          className={`${shell} flex flex-col gap-6 md:flex-row md:items-center md:justify-between`}
-        >
-          <p className="max-w-[34ch] text-[1.375rem] font-semibold leading-[1.25] tracking-[-0.02em]">
-            Questions before you start?
-          </p>
-          <Link
-            href="/faq"
-            className={`${buttonClasses({ variant: "secondary", size: "lg" })} shrink-0`}
-          >
-            Read the FAQ
-          </Link>
-        </div>
-      </section>
-
       {/*
         The catalogue, and the page's last word before the footer.
 
