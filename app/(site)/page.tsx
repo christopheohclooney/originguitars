@@ -155,11 +155,23 @@ export default function HomePage() {
             step, and it then tracks the viewport like --shell does. The cap
             is where the line stops being a heading and starts being a poster.
           */}
+          {/*
+            "your own" is bound with a non-breaking space so the line breaks
+            after "by" rather than after "your".
+
+            A bound pair rather than a narrower measure or a hard <br>. The
+            measure would have to be tuned to a width that happens to exclude
+            one word, which is a number that stops being right the moment the
+            type ramp or the copy moves; a <br> would need a breakpoint of its
+            own to avoid forcing the break on a phone. This says the thing
+            that is actually true — "your own" reads as one idea and should
+            not be split — and it holds at every width on its own.
+          */}
           <h1
             data-metal
             className="mt-7 max-w-[16ch] font-display text-[clamp(2.75rem,7.4vw,5rem)] font-normal leading-[1.04] tracking-[-0.02em] min-[1440px]:text-[min(5.56vw,6.75rem)]"
           >
-            Time to play by your own rules.
+            Time to play by your&nbsp;own rules.
           </h1>
 
           {/*
