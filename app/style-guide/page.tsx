@@ -657,8 +657,60 @@ export default function StyleGuidePage() {
               metallic gradient has to pass light through, and a section heading
               at 700 read as a different site&apos;s heading to the hero above
               it. Buttons, accordion questions and the builder&apos;s chrome are
-              Geist at 500. The one place 700 survives is /models, which has not
-              been rebuilt — see the flags at the foot of this page.
+              Geist at 500. The one place 700 survives is /models, until its
+              overhaul lands — see the flags at the foot of this page.
+            </p>
+          </Sub>
+
+          {/*
+            Given a subsection of its own rather than left as a line in the
+            ramp. It is the site's single loudest typographic decision and the
+            one most easily spread by accident — a section heading given the
+            fill costs nothing to write and quietly ends the hierarchy, because
+            once two things are lit neither is the brightest.
+          */}
+          <Sub title="The metallic h1">
+            <p className={`max-w-[62ch] ${proseClasses}`}>
+              One per page, and it is always the h1. The fill is bright through
+              the middle of the line and falls to a dim grey at both ends,
+              clipped to the letterforms so it is the glyphs that are lit rather
+              than a panel behind them — the same chrome the hardware on the
+              instrument carries.
+            </p>
+            <p className={`mt-5 max-w-[62ch] ${proseClasses}`}>
+              It never appears below the h1. Every heading under it is the
+              display face at medium with no fill, which is what keeps one
+              element on a page reading as the loudest. The rule is enforced by
+              where the attribute lives rather than by discipline: PageHero puts
+              it on its own heading, so About, FAQ, Contact and the legal pages
+              get it without opting in, and Home&apos;s hero is the only
+              hand-rolled instance on the site.
+            </p>
+            <div className="mt-10 rounded-2xl border border-line bg-surface px-6 py-14 md:px-10 md:py-20">
+              <p
+                data-metal
+                className="mx-auto max-w-[16ch] text-center font-display text-[clamp(2.75rem,7vw,4.75rem)] font-normal leading-[1.04] tracking-[-0.02em]"
+              >
+                Common questions
+              </p>
+              <p className="mx-auto mt-6 max-w-[54ch] text-center text-[1.0625rem] leading-[1.6] text-ink-muted md:text-[1.125rem]">
+                The centred form, from PageHero — heading, then a muted
+                standfirst at 54ch. Home takes the same fill left-aligned
+                against a photograph, one step up the ramp.
+              </p>
+            </div>
+            <Note>
+              [data-metal] · #5A5A5A → #9A9A9A at 18% → #FFFFFF at 50% → #5A5A5A
+              · background-clip: text · h1 only
+            </Note>
+            <p className={`mt-8 max-w-[62ch] ${proseClasses}`}>
+              Two things travel with it. The weight is regular, not bold — at
+              this size the gradient does the work weight would otherwise do,
+              and heavier closes the counters the light has to pass through. And
+              forced-colours modes drop background images, which would leave
+              transparent text on a solid ground: globals.css puts the colour
+              back as CanvasText, so the heading degrades to a plain one rather
+              than to nothing.
             </p>
           </Sub>
 
@@ -877,7 +929,10 @@ export default function StyleGuidePage() {
                     </span>
                   </span>
                 </div>
-                <Note>badge — box cut, text upright — /models only</Note>
+                <Note>
+                  badge — box cut, text upright — being retired with the
+                  /models overhaul; the rounded chip under Cards is the badge
+                </Note>
               </div>
 
               <div>
@@ -1701,12 +1756,12 @@ export default function StyleGuidePage() {
               {
                 name: "/models",
                 value: "pre-redesign",
-                note: "Still on the old system entirely: Geist at 700 for headings, slanted accent rules opening each section, the skewed Coming soon badge. Home links to it, so the jump is visible. Not in the rebuild list — flagging it rather than assuming.",
+                note: "Still on the old system entirely: a plain Geist 700 h1 rather than the metallic PageHero every other page opens on, slanted accent rules where the overline should be, and the skewed badge. Home links to it, so the jump is visible. Overhaul in progress.",
               },
               {
                 name: "badges",
-                value: "two treatments",
-                note: "Home's model cards use rounded mono chips (solid ink for New, bordered for Coming soon); /models uses the 12° skewed box. Same status, two devices.",
+                value: "settled",
+                note: "The rounded mono chip is the badge — solid ink for New, bordered for Coming soon, as Home's model cards have it. The 12° skewed box goes with the /models overhaul, which leaves the slant device on the price pill and the builder's step counter.",
               },
               {
                 name: "builder chrome",
