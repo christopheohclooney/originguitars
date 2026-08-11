@@ -9,7 +9,12 @@ import {
 } from "@/app/(site)/contact/form-state";
 import { buttonClasses, buttonDisabledClasses } from "@/components/ui/button";
 import { CONTACT_INBOX } from "@/lib/contact";
-import { proseLink } from "@/lib/style";
+import {
+  cardSurface,
+  fieldControl,
+  fieldLabel,
+  proseLink,
+} from "@/lib/style";
 
 /*
  * The contact form.
@@ -32,23 +37,11 @@ import { proseLink } from "@/lib/style";
  */
 
 /*
- * Shared by every control, so a field and its textarea cannot drift apart.
- *
- * The fill is white alpha rather than a token: the card is already the lifted
- * tone, so a field set on --color-surface reads as a hole cut through it, and
- * there is no third ground in the palette to reach for. 2.5% over the card is
- * the reference's relationship — the field sits just above the panel it is in.
- * Same device as the method cards' icon chips a section above.
- *
- * Placeholders are set in the mono face, which is the reference's one real
- * typographic decision here: it makes "000-000-000" read as a format rather
- * than as somebody's actual order number, and it tells an empty field from a
- * filled one at a glance, since anything typed comes back in the body face.
+ * The control's shell and its label live in lib/style.ts — see the note there
+ * for why the fill is white alpha and the placeholders are mono. They are
+ * shared so a field, its textarea and the reference sheet's specimen of both
+ * cannot drift apart.
  */
-const controlClasses =
-  "w-full rounded-xl border border-line bg-white/[0.025] px-4 text-[1.0625rem] text-ink transition-colors placeholder:font-mono placeholder:text-ink-muted hover:border-line-strong focus-visible:border-line-strong focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink aria-[invalid=true]:border-danger";
-
-const labelClasses = "block text-[0.9375rem] font-medium text-ink";
 
 type FieldSpec = {
   name: ContactField;
@@ -114,7 +107,7 @@ export function ContactForm() {
 
   if (state.status === "sent") {
     return (
-      <div className="rounded-2xl border border-line bg-canvas px-8 py-14 text-center md:px-12">
+      <div className={`${cardSurface} px-8 py-14 text-center md:px-12`}>
         {/*
           `role="status"` rather than an alert: the form it replaces was the
           thing being interacted with, so this is announced politely on the
@@ -136,7 +129,7 @@ export function ContactForm() {
   return (
     <form
       action={formAction}
-      className="rounded-2xl border border-line bg-canvas p-6 sm:p-8 md:p-12"
+      className={`${cardSurface} p-6 sm:p-8 md:p-12`}
     >
       {/*
         The honeypot. Off-screen rather than `display: none` — some bots skip
@@ -164,7 +157,7 @@ export function ContactForm() {
 
           return (
             <div key={field.name} className={field.wide ? "md:col-span-2" : undefined}>
-              <label htmlFor={id} className={labelClasses}>
+              <label htmlFor={id} className={fieldLabel}>
                 {field.label}
                 {field.required && (
                   /*
@@ -194,7 +187,7 @@ export function ContactForm() {
                     placeholder={field.placeholder}
                     aria-invalid={error ? true : undefined}
                     aria-describedby={error ? errorId : undefined}
-                    className={`${controlClasses} min-h-[10rem] resize-y py-3.5 leading-[1.6]`}
+                    className={`${fieldControl} min-h-[10rem] resize-y py-3.5 leading-[1.6]`}
                   />
                 ) : (
                   <input
@@ -207,7 +200,7 @@ export function ContactForm() {
                     placeholder={field.placeholder}
                     aria-invalid={error ? true : undefined}
                     aria-describedby={error ? errorId : undefined}
-                    className={`${controlClasses} h-14`}
+                    className={`${fieldControl} h-14`}
                   />
                 )}
               </div>

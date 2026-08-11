@@ -9,7 +9,7 @@ import { Overline } from "@/components/ui/overline";
 import { fromPricePence, models } from "@/data/models";
 import { publicPhoto } from "@/lib/media";
 import { formatPrice } from "@/lib/pricing";
-import { shell } from "@/lib/style";
+import { cardSurface, shell } from "@/lib/style";
 
 /*
  * Photographs, resolved off disk at build. Drop a file in at these names and
@@ -511,7 +511,9 @@ export default function HomePage() {
                   letterbox at 1920 and portrait at 1440. The drawing is sized
                   off the card's width, so the two stay in step.
                 */}
-                <article className="group relative flex aspect-square flex-col overflow-hidden rounded-2xl border border-line bg-canvas transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-line-strong">
+                <article
+                  className={`${cardSurface} group relative flex aspect-square flex-col overflow-hidden`}
+                >
                   {/*
                     The drawing is the Lance front elevation already in the
                     project, the same file the About page closes on — one

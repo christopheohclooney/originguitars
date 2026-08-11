@@ -4,8 +4,9 @@ import { SiteHeader } from "@/components/site-header";
 
 /*
  * Chrome for the real site pages. /style-guide sits outside this group on
- * purpose — it is a specimen sheet, and wrapping it in nav and footer would
- * change the artifact that was signed off in Stage 0.
+ * purpose: it documents the header and the footer, and a sheet carrying the
+ * real chrome above its own specimen of that chrome would be reading itself
+ * twice — its fixed price bar would also land on top of the footer.
  */
 export default function SiteLayout({
   children,

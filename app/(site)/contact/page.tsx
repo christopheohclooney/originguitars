@@ -9,7 +9,7 @@ import { FaqAccordion } from "@/components/ui/faq-accordion";
 import { PageHero } from "@/components/ui/page-hero";
 import { pickFaqs } from "@/data/faqs";
 import { CONTACT_INBOX, PHONE_DISPLAY, PHONE_HREF } from "@/lib/contact";
-import { shell } from "@/lib/style";
+import { cardSurface, shell } from "@/lib/style";
 
 export const metadata: Metadata = {
   title: "Contact — Origin Guitars",
@@ -179,7 +179,9 @@ export default function ContactPage() {
                 run-on link.
               */
               <StaggerItem key={method.heading}>
-                <article className="group relative flex h-full flex-col items-center rounded-2xl border border-line bg-canvas px-8 py-10 text-center transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-line-strong md:px-10 md:py-12">
+                <article
+                  className={`${cardSurface} group relative flex h-full flex-col items-center px-8 py-10 text-center md:px-10 md:py-12`}
+                >
                   {/*
                     The chip is white alpha rather than a third solid tone, the
                     same device as the card's hover lift and the builder's
