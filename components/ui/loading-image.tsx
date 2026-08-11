@@ -166,25 +166,32 @@ function Indicator({ reduced }: { reduced: boolean | null }) {
       data-image-indicator
       className="pointer-events-none absolute inset-0 flex items-center justify-center"
     >
-      <div className="relative h-px w-[min(18rem,45%)] overflow-hidden bg-line">
+      {/*
+        The rule is drawn on --color-line-strong rather than --color-line.
+        Measured against the canvas, --color-line is a 1px difference of about
+        16 levels — at this thickness it is invisible rather than subtle, and
+        an indicator nobody can see is not an indicator.
+
+        The travelling light runs to --color-ink and covers half the rule, so
+        there is always a lit section somewhere on it. The first pass used a
+        third of the width in --color-ink-muted with a pause between passes,
+        which left frames where the rule sat there dark and looked like a
+        stray divider.
+      */}
+      <div className="relative h-px w-[min(20rem,48%)] overflow-hidden bg-line-strong">
         {reduced ? (
           /*
             Reduced motion gets the rule at rest. Still visible, still says
             something is coming, without a light sweeping back and forth in
             the middle of the screen.
           */
-          <div className="absolute inset-0 bg-line-strong" />
+          <div className="absolute inset-0 bg-ink-muted" />
         ) : (
           <m.div
-            className="absolute inset-y-0 w-1/3 bg-gradient-to-r from-transparent via-ink-muted to-transparent"
+            className="absolute inset-y-0 w-1/2 bg-gradient-to-r from-transparent via-ink to-transparent"
             initial={{ x: "-100%" }}
-            animate={{ x: "300%" }}
-            transition={{
-              duration: 1.4,
-              ease: "easeInOut",
-              repeat: Infinity,
-              repeatDelay: 0.15,
-            }}
+            animate={{ x: "200%" }}
+            transition={{ duration: 1.5, ease: "easeInOut", repeat: Infinity }}
           />
         )}
       </div>
