@@ -3,7 +3,9 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { buttonClasses } from "@/components/ui/button";
+import { ContactForm } from "@/components/ui/contact-form";
 import { PageHero } from "@/components/ui/page-hero";
+import { CONTACT_INBOX, PHONE_DISPLAY, PHONE_HREF } from "@/lib/contact";
 import { shell } from "@/lib/style";
 
 export const metadata: Metadata = {
@@ -30,19 +32,6 @@ export const metadata: Metadata = {
  * already have. Until there is a backend, the address and the number are the
  * interface, and both are one tap on the device most people will read this on.
  */
-
-/*
- * Both routes in one place, in the two forms each of them needs: the one you
- * read and the one the protocol takes.
- *
- * `tel:` wants E.164 — no spaces, no brackets, leading +. The printed form
- * keeps the reference's spacing, because a number is easier to read back to
- * somebody in groups than as eleven digits in a row. Deriving one from the
- * other at runtime would be a regex standing where a constant does the job.
- */
-const EMAIL = "hello@originguitars.com";
-const PHONE_DISPLAY = "(+44) 7883 066880";
-const PHONE_HREF = "tel:+447883066880";
 
 /*
  * Two icons, drawn here rather than pulled from a set. The site has no icon
@@ -101,8 +90,8 @@ const methods: ContactMethod[] = [
     icon: <MailIcon />,
     heading: "Send an email",
     body: "For detailed enquiries or support, email us and we will come back to you.",
-    label: EMAIL,
-    href: `mailto:${EMAIL}`,
+    label: CONTACT_INBOX,
+    href: `mailto:${CONTACT_INBOX}`,
   },
   {
     icon: <PhoneIcon />,
@@ -204,6 +193,33 @@ export default function ContactPage() {
                 </a>
               </article>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/*
+        The form.
+
+        Third of three routes rather than the first: the cards above are two
+        taps for somebody who would rather use their own mail client or their
+        phone, and this is for everybody who would rather not leave the page.
+        It sits at the cards' measure so the two read as one column.
+
+        The heading is centred, as the reference draws it, and it is the one
+        place on this page where a section heading sits over its content rather
+        than beside it — a form is a single object, so there is no margin
+        column for a heading to hang in.
+      */}
+      <section className="pb-4 md:pb-8">
+        <div className={shell}>
+          <div className="mx-auto max-w-[51.5rem]">
+            <h2 className="text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
+              Send a message
+            </h2>
+
+            <div className="mt-10 md:mt-14">
+              <ContactForm />
+            </div>
           </div>
         </div>
       </section>

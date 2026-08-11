@@ -20,6 +20,21 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Email
+
+The contact form at `/contact` sends through [Resend](https://resend.com).
+Copy `.env.example` to `.env.local` and set `RESEND_API_KEY`; the same key has
+to be set in the hosting provider's environment for a deployment.
+
+Without the key the form still renders, still validates and still refuses
+nonsense — it just cannot send, so it tells the visitor to email
+hello@originguitars.com directly and logs the missing key on the server. That
+is deliberate: a preview deploy without secrets should not look broken.
+
+`lib/email.ts` is the whole mail layer. Anything else that needs to send — the
+order confirmation, once Stripe checkout exists — should call `sendEmail` there
+rather than construct its own client.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

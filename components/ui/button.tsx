@@ -61,7 +61,12 @@ export function buttonClasses({
   return `${buttonBase} ${sizes[size]} ${buttonVariants[variant]} ${className}`;
 }
 
-const disabledClasses =
+/*
+ * Exported alongside the classes for the same reason they are: a <button
+ * type="submit"> cannot use the component below — it renders type="button" —
+ * and the contact form's send button should not go dim in a way of its own.
+ */
+export const buttonDisabledClasses =
   "disabled:cursor-not-allowed disabled:border-transparent disabled:bg-canvas disabled:text-ink-disabled disabled:no-underline disabled:hover:bg-canvas";
 
 export function Button({
@@ -81,7 +86,7 @@ export function Button({
     <button
       type="button"
       disabled={disabled}
-      className={`${buttonClasses({ variant, size })} ${disabledClasses} ${className}`}
+      className={`${buttonClasses({ variant, size })} ${buttonDisabledClasses} ${className}`}
     >
       {children}
     </button>

@@ -32,6 +32,9 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...except the template, which holds no secrets and is how somebody setting
+# the project up finds out that the contact form needs a Resend key at all.
+!.env.example
 
 # vercel
 .vercel
