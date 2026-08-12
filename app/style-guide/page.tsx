@@ -1795,8 +1795,8 @@ export default function StyleGuidePage() {
               },
               {
                 name: "from price",
-                value: "£799 vs £1,899",
-                note: "The catalogue's from figure and the builder's base price disagree — flagged in data/options.ts as deliberate until the real numbers land, but it is visible to a visitor who reads From £799 on Home and opens the builder at £1,899.",
+                value: "resolved",
+                note: "The catalogue's from figure and the builder's base price used to disagree — £799 on Home against £1,899 in the builder. Reconciled on the catalogue's figure, and BASE_PRICE_PENCE now imports it rather than restating it, so the two cannot drift apart again. The figure itself is still placeholder.",
               },
             ]}
           />

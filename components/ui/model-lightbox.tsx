@@ -2,7 +2,7 @@
 
 import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import Image from "next/image";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 
 import { centeringPosition } from "@/lib/crop";
@@ -84,6 +84,11 @@ function cropStyles(
   };
 }
 
+/* Whether we are past the server render — see the note at its use below. */
+const subscribeNever = () => () => {};
+const onClient = () => true;
+const onServer = () => false;
+
 /* The hairline circle every control in the viewer sits in. */
 const controlClasses =
   "inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-line text-ink transition-colors hover:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
@@ -111,9 +116,16 @@ export function ModelLightbox({
    * no z-index inside it can paint above the header's own z-50 context, so
    * the pill showed through the overlay. The portal has to wait for mount
    * because document does not exist during the server render.
+   *
+   * useSyncExternalStore rather than a flag set in an effect. It is the hook
+   * built for exactly this question — it returns the server snapshot during
+   * SSR and the client snapshot from the first client render — so the answer
+   * arrives without a state write in an effect and without the extra render
+   * pass that costs. `subscribe` is a no-op at module scope because the
+   * answer never changes after mount; an inline one would be a new function
+   * every render and resubscribe on each.
    */
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const mounted = useSyncExternalStore(subscribeNever, onClient, onServer);
 
   const slides = slidesFor(media);
   const count = slides.length;

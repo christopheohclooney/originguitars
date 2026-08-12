@@ -11,6 +11,7 @@
  * that bites price calculators built on floating point.
  */
 
+import { ELEMENT_BASE_PENCE } from "@/data/models";
 import type { Selections } from "@/lib/pricing";
 
 export type BuilderOption = {
@@ -53,16 +54,24 @@ export type BuilderStep = {
   summaryGroupId?: string;
 };
 
-export const BASE_PRICE_PENCE = 189_900; // £1,899.00 — PLACEHOLDER
-
 /*
- * ⚠️  BASE_PRICE_PENCE and the catalogue disagree, and deliberately so rather
- * than by oversight. The Element's "from" figure lives in data/models.ts and
- * is £799.00, taken from the supplied designs; £1,899.00 above is invented,
- * like everything else in this file. Whichever turns out to be real, the two
- * need reconciling before launch — a visitor who reads "from £799" on the
- * doormat and then watches the builder open at £1,899 has been misled.
+ * The builder's starting total, read from the catalogue rather than restated.
+ *
+ * This used to be its own literal — £1,899.00 — against the Element's £799.00
+ * in data/models.ts, and the gap was visible to anyone who read "from £799" on
+ * Home and then watched the builder open at more than twice it. Reconciled on
+ * the catalogue's figure, which is the one taken from the supplied designs.
+ *
+ * Imported rather than copied, so the two can never drift apart again. The
+ * builder opens pre-set to the Element and never asks which model, so the
+ * Element's base build *is* the builder's base price; if a second model
+ * becomes buildable, this becomes a lookup rather than a constant.
+ *
+ * Every default option below is zero-delta, which is what makes the opening
+ * total exactly this figure rather than this figure plus whatever the
+ * defaults happen to cost.
  */
+export const BASE_PRICE_PENCE = ELEMENT_BASE_PENCE;
 
 /* --------------------------------------------------------------- colours */
 

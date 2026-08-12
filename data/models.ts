@@ -12,6 +12,19 @@
  * people delaying an Element order to wait for a shape that is far off.
  */
 
+/*
+ * The Element's base build — the price of the instrument with every default
+ * option taken and nothing added.
+ *
+ * Named and exported rather than written into the model entry below, because
+ * two things have to be this same number: the catalogue's "from £799" and the
+ * total the builder opens at. They used to be separate literals — £799 here
+ * and £1,899 in data/options.ts — so a visitor read one figure on Home and
+ * watched the builder open at another. Derived from one constant, they cannot
+ * disagree again, whatever the real number turns out to be.
+ */
+export const ELEMENT_BASE_PENCE = 79_900;
+
 export type ModelStatus = "available" | "coming-soon";
 
 export type ModelSpec = {
@@ -57,7 +70,7 @@ export const models: Model[] = [
     name: "Element",
     subtitle: "Super strat",
     status: "available",
-    fromPricePence: 79_900,
+    fromPricePence: ELEMENT_BASE_PENCE,
     description:
       "The shape Origin started with. A contemporary double-cut built for players who want reach and comfort without the instrument announcing itself. Every option in the builder starts from this base spec — change what matters to you and leave the rest.",
     tagline: "Super strat — the shape Origin started with",

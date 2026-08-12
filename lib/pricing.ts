@@ -13,7 +13,7 @@ const gbp = new Intl.NumberFormat("en-GB", {
   currency: "GBP",
 });
 
-/** Pence to a display string: 189900 → "£1,899.00". */
+/** Pence to a display string: 79900 → "£799.00". */
 export function formatPrice(pence: number): string {
   return gbp.format(pence / 100);
 }
