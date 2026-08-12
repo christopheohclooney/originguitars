@@ -199,7 +199,17 @@ export default async function ModelPage({ params }: { params: Params }) {
           <div className={shell}>
             <Reveal>
               <Overline gradientId="model-details">Details</Overline>
-              <h2 className="mt-7 max-w-[16ch] font-display text-[clamp(1.875rem,2.6vw,2.375rem)] font-medium leading-[1.15] tracking-[-0.02em]">
+              {/*
+                A wider cap than the 16ch section headings elsewhere carry,
+                for the reason PageHero's titleMeasure documents: 16ch is
+                right for a heading that wants a break, and this one does
+                not. "The Element, in detail" is 22 characters that read as
+                one phrase, and splitting them made a single line look like
+                two headings. The cap is kept rather than dropped so a longer
+                model name still wraps somewhere sensible instead of running
+                the width of the column.
+              */}
+              <h2 className="mt-7 max-w-[30ch] font-display text-[clamp(1.875rem,2.6vw,2.375rem)] font-medium leading-[1.15] tracking-[-0.02em]">
                 The {model.name}, in detail
               </h2>
             </Reveal>
