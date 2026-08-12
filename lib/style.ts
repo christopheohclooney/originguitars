@@ -49,6 +49,21 @@ export const cardSurface =
   "rounded-2xl border border-line bg-canvas transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-line-strong";
 
 /*
+ * The product photography's corner.
+ *
+ * Far tighter than the card's rounded-2xl, and deliberately a different
+ * decision rather than a smaller version of the same one. A card is a panel —
+ * a piece of interface, and the softer corner is what makes it read as one. A
+ * photograph of the instrument is the thing being sold, and a generous radius
+ * on it reads as a rounded sticker rather than as a print; the near-square
+ * corner is what makes the frame read as a window onto the guitar instead.
+ *
+ * Shared by the gallery's frames and the lightbox's slides and thumbnails,
+ * which show the same photographs and would be the obvious pair to drift.
+ */
+export const frameRadius = "rounded-sm";
+
+/*
  * The form control's shell, and the label above it.
  *
  * Lifted out of contact-form.tsx for the same reason `proseLink` came out of

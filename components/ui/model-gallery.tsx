@@ -14,6 +14,7 @@ import { ImagePlaceholder } from "@/components/image-placeholder";
 import { Reveal } from "@/components/motion/reveal";
 import { ModelLightbox } from "@/components/ui/model-lightbox";
 import { centeringPosition } from "@/lib/crop";
+import { frameRadius } from "@/lib/style";
 import type { ModelMedia } from "@/data/model-media";
 
 /*
@@ -53,16 +54,14 @@ const SIZES = "(min-width: 1024px) 60vw, 100vw";
  * instrument on a near-black card loses its silhouette. [data-frame-glow] is
  * that pool without [data-canvas]'s page-wide side effect.
  */
-const frameClasses =
-  "relative w-full overflow-hidden rounded-2xl border border-line bg-canvas transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-line-strong";
+const frameClasses = `relative w-full overflow-hidden ${frameRadius} border border-line bg-canvas transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-line-strong`;
 
 /*
  * The button each frame sits in. cursor-zoom-in is the affordance — the
  * frames carry no caption or icon, and the cursor is what says "this
  * opens" without decorating the photography.
  */
-const frameButtonClasses =
-  "group block w-full cursor-zoom-in rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
+const frameButtonClasses = `group block w-full cursor-zoom-in ${frameRadius} focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink`;
 
 const OpenLightboxContext = createContext<(index: number) => void>(() => {});
 
@@ -132,7 +131,7 @@ export function ModelLeadFrame({
   if (!media) {
     return (
       <ImagePlaceholder
-        className="aspect-[4/5] w-full rounded-2xl"
+        className={`aspect-[4/5] w-full ${frameRadius}`}
         label={`${modelName} photography to follow`}
       />
     );
@@ -173,8 +172,8 @@ export function ModelDetailFrames({ media }: { media: ModelMedia | null }) {
   if (!media) {
     return (
       <div className="grid gap-3 sm:grid-cols-2">
-        <ImagePlaceholder className="aspect-[4/3] w-full rounded-2xl" />
-        <ImagePlaceholder className="aspect-[4/3] w-full rounded-2xl" />
+        <ImagePlaceholder className={`aspect-[4/3] w-full ${frameRadius}`} />
+        <ImagePlaceholder className={`aspect-[4/3] w-full ${frameRadius}`} />
       </div>
     );
   }

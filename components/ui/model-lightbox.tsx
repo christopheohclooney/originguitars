@@ -6,7 +6,7 @@ import { useCallback, useEffect, useRef, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 
 import { centeringPosition } from "@/lib/crop";
-import { slant } from "@/lib/style";
+import { frameRadius, slant } from "@/lib/style";
 import type { ModelMedia } from "@/data/model-media";
 
 /*
@@ -234,7 +234,7 @@ export function ModelLightbox({
                   animate={{ opacity: i === index ? 1 : 0 }}
                   transition={fade}
                   data-frame-glow
-                  className="relative overflow-hidden rounded-2xl border border-line bg-canvas"
+                  className={`relative overflow-hidden ${frameRadius} border border-line bg-canvas`}
                   style={slideBoxStyle(slide.ratio)}
                 >
                   <Image
@@ -297,7 +297,7 @@ export function ModelLightbox({
                 onClick={() => onNavigate(i)}
                 aria-label={`Show image ${i + 1} of ${count}: ${slide.alt}`}
                 aria-current={i === index || undefined}
-                className={`relative h-10 w-14 shrink-0 overflow-hidden rounded-lg border bg-canvas transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink md:h-12 md:w-16 ${
+                className={`relative h-10 w-14 shrink-0 overflow-hidden ${frameRadius} border bg-canvas transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink md:h-12 md:w-16 ${
                   i === index
                     ? "border-ink"
                     : "border-line hover:border-line-strong"
