@@ -106,7 +106,7 @@ function centeringPosition(
 export function ModelDetailFrames({ media }: { media: ModelMedia | null }) {
   if (!media) {
     return (
-      <div className="grid gap-6 sm:grid-cols-2">
+      <div className="grid gap-3 sm:grid-cols-2">
         <ImagePlaceholder className="aspect-[4/3] w-full rounded-2xl" />
         <ImagePlaceholder className="aspect-[4/3] w-full rounded-2xl" />
       </div>
@@ -124,8 +124,13 @@ export function ModelDetailFrames({ media }: { media: ModelMedia | null }) {
    * origin is what chooses which side survives — the horn crop biases left
    * because that is where the horn is.
    */
+  /*
+   * gap-3 rather than the card grids' gap-6: these are five views of one
+   * instrument, and the tight seam is what makes them read as a set — the
+   * page grid's lg row gap matches it for the same reason.
+   */
   return (
-    <div className="grid gap-6 sm:grid-cols-2">
+    <div className="grid gap-3 sm:grid-cols-2">
       {media.frames.map((frame) => {
         const boxRatio = frame.ratio.w / frame.ratio.h;
         const y = centeringPosition(frame.focus.y, imageRatio, boxRatio);

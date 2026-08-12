@@ -96,7 +96,16 @@ export default async function ModelPage({ params }: { params: Params }) {
           track's default minimum is its content, and a wide image will
           otherwise blow its column out.
         */}
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:items-start lg:gap-16">
+        {/*
+          The two gap axes are deliberately unalike from lg: the columns keep
+          their 4rem of air between the photographs and the panel, but the
+          rows tighten to the same 0.75rem the detail grid uses inside
+          itself, so the five frames read as one run of photography rather
+          than as separated sections. The base gap stays generous because on
+          a phone the panel sits between the lead frame and the details —
+          there it *is* a section break.
+        */}
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:items-start lg:gap-x-16 lg:gap-y-3">
           <div className="lg:col-start-1 lg:row-start-1">
             <ModelLeadFrame media={media} modelName={model.name} />
           </div>
@@ -170,7 +179,15 @@ export default async function ModelPage({ params }: { params: Params }) {
             </p>
           </aside>
 
-          <div className="lg:col-start-1 lg:row-start-2">
+          {/*
+            The bottom padding is the pinned panel's overstay. Sticky releases
+            when its grid area ends, and the area ends where this column does
+            — so without the extra foot the panel starts scrolling away the
+            moment the last photograph is reached, which read as the price
+            and the CTA leaving early. Desktop only: on a phone nothing is
+            pinned and the padding would just be a hole.
+          */}
+          <div className="lg:col-start-1 lg:row-start-2 lg:pb-64">
             <ModelDetailFrames media={media} />
           </div>
         </div>
