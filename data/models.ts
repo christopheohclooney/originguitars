@@ -32,6 +32,23 @@ export type Model = {
   fromPricePence: number;
   description: string;
   specs: ModelSpec[];
+  /*
+   * The detail page's fields, optional because a coming-soon model has none
+   * of them — and deliberately so. Nothing is invented for Lance or the bass:
+   * a model earns a detail page by having real content to fill one, and
+   * modelHref below is what expresses that as a rule rather than a habit.
+   */
+  /** The line under the name in the detail page's pinned panel. */
+  tagline?: string;
+  /*
+   * The Details section's descriptive copy — what the instrument is, not the
+   * card blurb. Separate from `description`, which stays the one-paragraph
+   * catalogue entry: the two read at different lengths in different places
+   * and sharing a field would force one page to carry the other's copy.
+   */
+  overview?: string[];
+  /** The Features accordion panel, one line each. */
+  features?: string[];
 };
 
 export const models: Model[] = [
@@ -43,13 +60,35 @@ export const models: Model[] = [
     fromPricePence: 79_900,
     description:
       "The shape Origin started with. A contemporary double-cut built for players who want reach and comfort without the instrument announcing itself. Every option in the builder starts from this base spec — change what matters to you and leave the rest.",
+    tagline: "Super strat — the shape Origin started with",
+    overview: [
+      "The Element is a contemporary double-cut built for players who want reach and comfort without the instrument announcing itself. The body is contoured where your arm and ribs actually land, the heel is carved away so the top frets are somewhere you play rather than somewhere you visit, and the whole geometry is tuned for a player who moves.",
+      "It is also the base every build starts from. Everything listed below is the standard specification — the guitar you get if you change nothing — and every line of it is a decision the builder lets you take back. Swap the timbers, the construction, the pickups, the finish; the Element stays the Element.",
+      "Made to order in every case. Nothing is built until you order it, which is why the option list runs as deep as it does and why the lead time is honest rather than optimistic.",
+    ],
+    features: [
+      "Contoured double-cut body with a sculpted heel for upper-fret access",
+      "Bolt-on construction as standard, with set-neck and neck-through options in the builder",
+      "Two humbuckers, wired for clarity at high gain",
+      "Hardtail bridge with through-body stringing",
+      "Locking tuners at an 18:1 ratio",
+      "Assembled and inspected by hand in the UK before it ships",
+    ],
     specs: [
       { label: "Shape", value: "Double-cut, contoured" },
-      { label: "Scale length", value: "25.5\"" },
       { label: "Body", value: "Alder" },
       { label: "Neck", value: "Maple, bolt-on" },
-      { label: "Fretboard", value: "Rosewood, 24 frets" },
+      { label: "Neck profile", value: "Slim C" },
+      { label: "Scale length", value: "25.5\"" },
+      { label: "Fretboard", value: "Rosewood" },
+      { label: "Radius", value: "12\"–16\" compound" },
+      { label: "Frets", value: "24, jumbo stainless" },
+      { label: "Nut", value: "Graphite, 42mm" },
       { label: "Pickups", value: "Humbucker / humbucker" },
+      { label: "Controls", value: "Volume, tone, 3-way" },
+      { label: "Bridge", value: "Hardtail, string-through" },
+      { label: "Tuners", value: "Locking, 18:1" },
+      { label: "Hardware finish", value: "Black" },
     ],
   },
   {
@@ -75,6 +114,19 @@ export const models: Model[] = [
 ];
 
 export const availableModels = models.filter((m) => m.status === "available");
+
+/*
+ * Where a model's detail page lives, or null if it has none to link to.
+ *
+ * One place decides which models are reachable, so Home's cards, the
+ * catalogue and the detail page's own "other models" strip cannot disagree.
+ * Keyed off status rather than a hand-kept list: a model earns a detail page
+ * by being orderable, which is also what guarantees it has real content —
+ * /models/[slug] prerenders exactly the available set and 404s the rest.
+ */
+export function modelHref(model: Model): string | null {
+  return model.status === "available" ? `/models/${model.slug}` : null;
+}
 export const comingSoonModels = models.filter(
   (m) => m.status === "coming-soon",
 );
