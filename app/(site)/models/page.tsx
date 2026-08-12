@@ -4,7 +4,7 @@ import Link from "next/link";
 import { ImagePlaceholder } from "@/components/image-placeholder";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
-import { availableModels, comingSoonModels } from "@/data/models";
+import { availableModels, comingSoonModels, modelHref } from "@/data/models";
 import { shell, slant, unslant } from "@/lib/style";
 
 export const metadata: Metadata = {
@@ -92,12 +92,29 @@ export default function ModelsPage() {
                     ))}
                   </dl>
 
-                  <Link
-                    href="/builder"
-                    className={`${buttonClasses({ size: "lg" })} mt-10 w-full sm:w-auto sm:self-start`}
-                  >
-                    Build your own
-                  </Link>
+                  {/*
+                    Primary into the builder, secondary through to the
+                    model's own page — added when /models/[slug] landed, and
+                    deliberately the only change here: this page's overhaul
+                    is its own pass. The link comes from modelHref so this
+                    section cannot point at a page that does not exist.
+                  */}
+                  <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:self-start">
+                    <Link
+                      href="/builder"
+                      className={`${buttonClasses({ size: "lg" })} w-full sm:w-auto`}
+                    >
+                      Build your own
+                    </Link>
+                    {modelHref(model) && (
+                      <Link
+                        href={modelHref(model)!}
+                        className={`${buttonClasses({ variant: "secondary", size: "lg" })} w-full sm:w-auto`}
+                      >
+                        View the {model.name}
+                      </Link>
+                    )}
+                  </div>
                 </div>
               </div>
             </Reveal>

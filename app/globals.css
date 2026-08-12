@@ -203,6 +203,19 @@ body:has([data-canvas]) {
 }
 
 /*
+ * The same pool of light, for a single frame rather than the builder's stage.
+ *
+ * A separate attribute rather than [data-canvas] reused, because that one is
+ * load-bearing beyond its own box: body:has([data-canvas]) switches the whole
+ * page onto the canvas tone. The model gallery wants only the glow — a
+ * near-black cut-out needs something lifting the ground behind it to keep its
+ * silhouette — without re-grounding every page it appears on.
+ */
+[data-frame-glow] {
+  background-image: var(--canvas-glow);
+}
+
+/*
   The hero photograph's edges, dissolved into the page ground so it ends by
   fading out rather than on a rectangle.
 

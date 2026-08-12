@@ -22,6 +22,16 @@ import { glassPill } from "@/lib/style";
  * the ground uniformly dark that compromise is gone.
  */
 
+/*
+ * A link is lit on its own page and on any page beneath it — /models/element
+ * should light "Models". Exact match alone was fine until the site grew its
+ * first child route; the trailing slash in the prefix test is what keeps
+ * "/faq" from ever lighting on "/faq-something".
+ */
+function isActive(pathname: string, href: string): boolean {
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
 function Wordmark({ className = "" }: { className?: string }) {
   return (
     // eslint-disable-next-line @next/next/no-img-element
@@ -79,7 +89,7 @@ export function SiteHeader() {
         <nav aria-label="Primary" className="hidden md:block">
           <ul className="flex items-center gap-9">
             {primaryNav.map((link) => {
-              const active = pathname === link.href;
+              const active = isActive(pathname, link.href);
               return (
                 <li key={link.href} className="relative">
                   {/*
@@ -168,9 +178,13 @@ export function SiteHeader() {
                   <Link
                     href={link.href}
                     onClick={() => setOpen(false)}
-                    aria-current={pathname === link.href ? "page" : undefined}
+                    aria-current={
+                      isActive(pathname, link.href) ? "page" : undefined
+                    }
                     className={`block py-5 text-[1.375rem] font-semibold tracking-[-0.015em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
-                      pathname === link.href ? "text-white" : "text-white/60"
+                      isActive(pathname, link.href)
+                        ? "text-white"
+                        : "text-white/60"
                     }`}
                   >
                     {link.label}
