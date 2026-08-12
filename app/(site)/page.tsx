@@ -5,10 +5,10 @@ import { HeroPhoto } from "@/components/motion/hero-entrance";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { ImagePlaceholder } from "@/components/image-placeholder";
 import { buttonClasses } from "@/components/ui/button";
-import { ModelCard } from "@/components/ui/model-card";
+import { ModelTile } from "@/components/ui/model-tile";
 import { Overline } from "@/components/ui/overline";
 import { fromPricePence, models } from "@/data/models";
-import { publicPhoto } from "@/lib/media";
+import { modelCardPhoto, publicPhoto } from "@/lib/media";
 import { formatFromPrice } from "@/lib/pricing";
 import { shell } from "@/lib/style";
 
@@ -495,26 +495,36 @@ export default function HomePage() {
           </Reveal>
 
           {/*
-            Two columns from md, as the reference sets it, which leaves the
-            third card alone on its own row. Deliberate rather than a gap to
-            fill: the subheading says more are coming, and an empty cell beside
-            the newest shape says it better than a filler card would.
+            The catalogue's own row, rendered here rather than restated: same
+            component, same photography, same two states, so Home and /models
+            cannot show a visitor two different versions of the same three
+            instruments. What stays behind on /models is the page's heading —
+            this section keeps its own.
+
+            Three columns rather than the two this section used to run. Two
+            left the third card alone on its own row, which was defensible
+            while the cards were squares and the empty cell read as "more are
+            coming"; with the catalogue's proportions it reads as a row that
+            did not finish loading. The tighter column gap is the catalogue's
+            too, and for the same reason — three views of one range, seamed
+            close enough to read as a set.
           */}
           <Stagger
             as="ul"
-            className="mt-14 grid gap-6 md:mt-20 md:grid-cols-2 md:gap-8"
+            className="mt-14 grid gap-12 md:mt-20 md:grid-cols-3 md:gap-5"
           >
             {models.map((model) => (
               <StaggerItem as="li" key={model.slug}>
                 {/*
-                  Square, which is roughly the reference's proportion and
-                  holds it at any column width — a fixed height would go
-                  letterbox at 1920 and portrait at 1440. The card itself
-                  lives in components/ui/model-card.tsx, shared with the
-                  detail page's "other models" strip; a model with a detail
-                  page renders as a stretched link, the rest as plain cards.
+                  h3, not the h2 the catalogue's own page gives these: here
+                  they sit under "Latest models", so they are a level further
+                  down the outline.
                 */}
-                <ModelCard model={model} />
+                <ModelTile
+                  model={model}
+                  headingLevel={3}
+                  {...modelCardPhoto(model.slug, model.name)}
+                />
               </StaggerItem>
             ))}
           </Stagger>

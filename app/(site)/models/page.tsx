@@ -5,8 +5,8 @@ import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
 import { ModelTile } from "@/components/ui/model-tile";
 import { PageHero } from "@/components/ui/page-hero";
-import { models, type Model } from "@/data/models";
-import { publicPhoto } from "@/lib/media";
+import { models } from "@/data/models";
+import { modelCardPhoto } from "@/lib/media";
 import { shell } from "@/lib/style";
 
 export const metadata: Metadata = {
@@ -32,53 +32,6 @@ export const metadata: Metadata = {
  * price pill and the builder's step counter — brand devices — rather than
  * doing structural work on a content page.
  */
-
-/*
- * Card photography, resolved off disk rather than statically imported — the
- * same call Home's frames make, and for the reason lib/media.ts documents:
- * the shots are dropped in by hand as they are chosen, and a static import of
- * a file that is not there yet fails the build.
- *
- * Two locations, in order. A model's own shot lives at
- * public/models/<slug>/card.<ext> — the folder the detail page's photography
- * already uses — and is picked up the moment it lands, with no change here.
- * Until then every tile falls back to one shared stand-in: the Element
- * cut-out the detail page's lead frame and the builder both already show,
- * referenced where it sits rather than copied to a placeholder name. One
- * asset, three references, which is the same call the Lance drawing gets
- * wherever it stands in for photography.
- *
- * It is also the right shape for the job — a full-length instrument on a
- * real alpha channel, so the frame's own pool of light reads behind it
- * instead of a photograph's grey studio ground sitting in a hole in the
- * card.
- *
- * With neither present the tile stands an ImagePlaceholder in the frame and
- * the row still holds its shape.
- */
-const STAND_IN = "models/element/element-full";
-
-const standInCard = publicPhoto(STAND_IN);
-
-function cardPhoto(model: Model) {
-  const own = publicPhoto(`models/${model.slug}/card`);
-
-  /*
-   * Alt describes what is in the frame, so it follows the file rather than
-   * the tile. The stand-in is the Element, which makes it true on the
-   * Element's tile and a borrowed picture on the other two — calling it the
-   * Lance would be writing a caption that is wrong for two cards out of
-   * three. Empty and out of the accessibility tree in that case; the
-   * category, name and price directly below carry the tile either way, and
-   * the alt arrives with the real shot.
-   */
-  const depictsThisModel = Boolean(own) || model.slug === "element";
-
-  return {
-    photo: own ?? standInCard,
-    photoAlt: depictsThisModel ? `The Origin ${model.name}, full length` : "",
-  };
-}
 
 export default function ModelsPage() {
   return (
@@ -120,13 +73,22 @@ export default function ModelsPage() {
         Stacked below md rather than paired: at phone width a two-up row puts
         a full-length instrument in a frame about 150px wide, which is a
         photograph of nothing in particular.
+
+        The column gap is tighter than the card grids elsewhere on the site
+        and deliberately so — these are three views of one catalogue, and the
+        close seam is what makes them read as a set rather than as three
+        separate offers that happen to be next to each other. It is the same
+        call the detail page's gallery makes at gap-3. The stacked gap stays
+        wider, because on a phone the run is vertical and the space between
+        one card's price and the next card's photograph is the only thing
+        separating them.
       */}
       <section className="pb-24 md:pb-32">
         <div className={shell}>
-          <Stagger as="ul" className="grid gap-10 md:grid-cols-3 md:gap-8">
+          <Stagger as="ul" className="grid gap-12 md:grid-cols-3 md:gap-5">
             {models.map((model) => (
               <StaggerItem as="li" key={model.slug}>
-                <ModelTile model={model} {...cardPhoto(model)} />
+                <ModelTile model={model} {...modelCardPhoto(model.slug, model.name)} />
               </StaggerItem>
             ))}
           </Stagger>

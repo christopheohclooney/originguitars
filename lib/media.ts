@@ -120,3 +120,53 @@ export function publicPhoto(basename: string): PublicPhoto | null {
   }
   return null;
 }
+
+/*
+ * A catalogue card's photograph, and what to call it.
+ *
+ * Lives here rather than on a page because two pages draw the same row of
+ * cards — the catalogue and Home — and a model that shows its own shot on one
+ * of them and the stand-in on the other would be the same bug twice. It
+ * cannot live in data/model-media.ts, which is imported by the gallery's
+ * client component and so can carry no filesystem access.
+ *
+ * Two locations, in order. A model's own shot lives at
+ * public/models/<slug>/card.<ext> — the folder the detail page's photography
+ * already uses — and is picked up the moment it lands, with no change here.
+ * Until then every card falls back to one shared stand-in: the Element
+ * cut-out the detail page's lead frame and the builder both already show,
+ * referenced where it sits rather than copied to a placeholder name. One
+ * asset, three references, which is the same call the Lance drawing gets
+ * wherever it stands in for photography.
+ *
+ * It is also the right shape for the job — a full-length instrument on a real
+ * alpha channel, so a card's own pool of light reads behind it instead of a
+ * photograph's grey studio ground sitting in a hole in the frame.
+ *
+ * With neither present the caller is handed null and stands an
+ * ImagePlaceholder in the frame, so the row still holds its shape.
+ */
+const CARD_STAND_IN = publicPhoto("models/element/element-full");
+
+export function modelCardPhoto(
+  slug: string,
+  name: string,
+): { photo: PublicPhoto | null; photoAlt: string } {
+  const own = publicPhoto(`models/${slug}/card`);
+
+  /*
+   * Alt describes what is in the frame, so it follows the file rather than
+   * the card. The stand-in is the Element, which makes it true on the
+   * Element's card and a borrowed picture on the other two — calling it the
+   * Lance would be writing a caption that is wrong for two cards out of
+   * three. Empty and out of the accessibility tree in that case; the
+   * category, name and price directly below carry the card either way, and
+   * the alt arrives with the real shot.
+   */
+  const depictsThisModel = Boolean(own) || slug === "element";
+
+  return {
+    photo: own ?? CARD_STAND_IN,
+    photoAlt: depictsThisModel ? `The Origin ${name}, full length` : "",
+  };
+}

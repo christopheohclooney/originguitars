@@ -58,14 +58,25 @@ export function ModelTile({
   model,
   photo,
   photoAlt,
+  headingLevel = 2,
 }: {
   model: Model;
-  /* Null while there is no photography — see the note in app/(site)/models. */
+  /* Null while there is no photography — see lib/media.ts · modelCardPhoto. */
   photo: PublicPhoto | null;
   photoAlt: string;
+  /*
+   * Where this row sits in the page's outline, which is not the same question
+   * on the two pages that draw it. On /models the grid follows the page's h1
+   * with nothing between them, so the names are the second level. On Home it
+   * sits under the section heading "Latest models", which makes them the
+   * third. A card cannot know that about itself, and a page that guesses
+   * leaves a hole in its own heading outline.
+   */
+  headingLevel?: 2 | 3;
 }) {
   const href = modelHref(model);
   const available = model.status === "available";
+  const Heading = headingLevel === 2 ? "h2" : "h3";
 
   return (
     <article className="group relative flex flex-col">
@@ -128,12 +139,7 @@ export function ModelTile({
             {model.category}
           </p>
 
-          {/*
-            h2 rather than h3: this grid sits directly under the page's h1
-            with no section heading between them, so these are the page's
-            second level.
-          */}
-          <h2 className="mt-2.5 font-display text-[1.5rem] font-medium leading-[1.2] tracking-[-0.015em]">
+          <Heading className="mt-2.5 font-display text-[1.5rem] font-medium leading-[1.2] tracking-[-0.015em]">
             {href ? (
               /*
                 The stretched link, the pattern Home's card and Contact's
@@ -153,7 +159,7 @@ export function ModelTile({
             ) : (
               model.name
             )}
-          </h2>
+          </Heading>
         </div>
 
         <div className="flex shrink-0 items-center gap-4">
