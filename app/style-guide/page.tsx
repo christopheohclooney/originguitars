@@ -10,10 +10,14 @@ import {
   buttonVariants,
 } from "@/components/ui/button";
 import { FaqAccordion } from "@/components/ui/faq-accordion";
+import { ModelBadge } from "@/components/ui/model-badge";
+import { ModelTile } from "@/components/ui/model-tile";
 import { Overline, OriginMark } from "@/components/ui/overline";
 import { PageHero } from "@/components/ui/page-hero";
 import { PriceBar as SharedPriceBar } from "@/components/ui/price-bar";
 import { pickFaqs } from "@/data/faqs";
+import { models } from "@/data/models";
+import { modelCardPhoto } from "@/lib/media";
 import {
   cardSurface,
   fieldControl,
@@ -240,6 +244,15 @@ function PriceBar({ fixed }: { fixed?: boolean }) {
     />
   );
 }
+
+/*
+ * One of each state, from the real catalogue — so the specimen shows the two
+ * treatments against each other rather than one card twice.
+ */
+const specimenModels = [
+  models.find((m) => m.status === "available")!,
+  models.find((m) => m.status === "coming-soon")!,
+];
 
 /* Two real entries, so the specimen carries the site's own words. */
 const specimenFaqs = pickFaqs("lead-time", "changes");
@@ -1210,55 +1223,45 @@ export default function StyleGuidePage() {
               <p>
                 One surface: the lifted tone inside a hairline, the border
                 warming as you approach, on the 500ms curve the rest of the site
-                eases with. Home&apos;s model cards, Contact&apos;s method cards
-                and the contact form&apos;s own panel are all this recipe at
-                different sizes.
+                eases with. Contact&apos;s method cards and the contact
+                form&apos;s own panel are that recipe at different sizes.
+              </p>
+              <p className="mt-5">
+                The catalogue card is its own thing and is rendered here from
+                the component itself — a photograph at the tight
+                product-photography corner with the caption underneath, shown
+                at the size every caller draws it. /models, Home&apos;s Latest
+                models and the detail page&apos;s Other models strip are all
+                this one component, so a model cannot look like two different
+                products depending on where you meet it.
               </p>
             </>
           }
         >
-          <Sub title="The surface">
-            <div className="grid gap-6 md:grid-cols-2">
-              <article
-                className={`${cardSurface} group relative flex aspect-square flex-col overflow-hidden`}
-              >
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 overflow-hidden transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.045] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                >
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src="/lance-skeleton-front.svg"
-                    alt=""
-                    width={1133}
-                    height={396}
-                    className="absolute left-1/2 top-[44%] w-[185%] max-w-none -translate-x-1/2 -translate-y-1/2 -rotate-90 opacity-50 transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-95 motion-reduce:transition-none"
-                  />
-                </div>
-                <div
-                  aria-hidden
-                  className="pointer-events-none absolute inset-0 bg-white/[0.035] opacity-0 transition-opacity duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:opacity-100 motion-reduce:transition-none"
+          <Sub title="The catalogue card">
+            {/*
+              The real component, both states side by side, in the three-column
+              grid every page draws it in — so the specimen is the card that
+              ships rather than a replica that stops matching it.
+            */}
+            <div className="grid gap-12 md:grid-cols-3 md:gap-5">
+              {specimenModels.map((model) => (
+                <ModelTile
+                  key={model.slug}
+                  model={model}
+                  headingLevel={3}
+                  {...modelCardPhoto(model.slug, model.name)}
                 />
-                <div
-                  aria-hidden
-                  data-model-scrim
-                  className="pointer-events-none absolute inset-0"
-                />
-                <div className="relative flex justify-end p-5 md:p-6">
-                  <span className="rounded-full bg-ink px-4 py-1.5 font-mono text-[0.75rem] uppercase tracking-[0.08em] text-ink-inverse">
-                    New
-                  </span>
-                </div>
-                <div className="relative mt-auto p-5 md:p-6">
-                  <h4 className="text-[1.5rem] font-medium leading-[1.2] tracking-[-0.015em]">
-                    Element
-                  </h4>
-                  <p className="mt-2 font-mono text-[0.9375rem] tabular-nums text-ink-muted transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:text-ink">
-                    From £799.00
-                  </p>
-                </div>
-              </article>
+              ))}
+            </div>
+            <Note>
+              components/ui/model-tile.tsx — 5:7 frame, rounded-sm,
+              [data-frame-glow], gap-5 between columns
+            </Note>
+          </Sub>
 
+          <Sub title="The panel surface">
+            <div className="grid gap-6 md:grid-cols-2">
               <article
                 className={`${cardSurface} group relative flex h-full flex-col items-center px-8 py-10 text-center md:px-10 md:py-12`}
               >
@@ -1310,12 +1313,8 @@ export default function StyleGuidePage() {
 
           <Sub title="Badges, price and hover" className="mb-0">
             <div className="flex flex-wrap items-center gap-5">
-              <span className="rounded-full bg-ink px-4 py-1.5 font-mono text-[0.75rem] uppercase tracking-[0.08em] text-ink-inverse">
-                New
-              </span>
-              <span className="rounded-full border border-line-strong bg-surface/70 px-4 py-1.5 font-mono text-[0.75rem] uppercase tracking-[0.08em] text-ink-muted backdrop-blur-sm">
-                Coming soon
-              </span>
+              <ModelBadge status="available" />
+              <ModelBadge status="coming-soon" />
             </div>
             <Note>
               status by weight, not colour — a solid light chip against a
@@ -1331,14 +1330,19 @@ export default function StyleGuidePage() {
                     note: "The card's own edge warms on approach. 500ms.",
                   },
                   {
-                    name: "lift",
-                    value: "white 3.5%",
-                    note: "Fades in over the whole card, raising the drawing with it rather than repainting a tone.",
+                    name: "photograph",
+                    value: "scale 1.03",
+                    note: "700ms, inside the frame's own overflow, cancelled under motion-reduce.",
                   },
                   {
-                    name: "drawing",
-                    value: "scale 1.045 · opacity .5 → .95",
-                    note: "700ms on the scale, 500ms on the opacity, both cancelled under motion-reduce.",
+                    name: "coming soon",
+                    value: "grayscale .95 · brightness .8",
+                    note: "Plus surface at 25% over the frame. The weight is on the saturation: the instrument is near-black on a near-black card, so dimming is the axis that costs the silhouette.",
+                  },
+                  {
+                    name: "chevron",
+                    value: "line-strong → ink",
+                    note: "Decoration, not a control — the whole tile is already the link, and on a coming-soon card there is nowhere to go.",
                   },
                   {
                     name: "price",

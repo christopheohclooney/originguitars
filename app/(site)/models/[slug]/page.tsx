@@ -6,7 +6,7 @@ import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
 import { Disclosure, DisclosureItem } from "@/components/ui/disclosure";
 import { ModelBadge } from "@/components/ui/model-badge";
-import { ModelCard } from "@/components/ui/model-card";
+import { ModelTile } from "@/components/ui/model-tile";
 import {
   ModelDetailFrames,
   ModelGalleryProvider,
@@ -16,6 +16,7 @@ import { Overline } from "@/components/ui/overline";
 import { modelMedia } from "@/data/model-media";
 import { availableModels, models } from "@/data/models";
 import { formatFromPrice } from "@/lib/pricing";
+import { modelCardPhoto } from "@/lib/media";
 import { shell } from "@/lib/style";
 
 /*
@@ -322,13 +323,28 @@ export default async function ModelPage({ params }: { params: Params }) {
               </h2>
             </Reveal>
 
+            {/*
+              The catalogue's own tile, at the catalogue's own size. Three
+              columns for two cards, rather than two columns that would blow
+              each frame up to twice the size it is on /models and Home — the
+              point of sharing the card is that a model looks the same
+              wherever it is shown, and a card scaled to fill a wider column
+              is not the same card. The unfilled third cell is the honest
+              shape of a catalogue with three models in it, one of which is
+              the page you are on; it fills itself as the range grows.
+            */}
             <Stagger
               as="ul"
-              className="mt-12 grid gap-6 md:mt-16 md:grid-cols-2 md:gap-8"
+              className="mt-12 grid gap-12 md:mt-16 md:grid-cols-3 md:gap-5"
             >
               {otherModels.map((other) => (
                 <StaggerItem as="li" key={other.slug}>
-                  <ModelCard model={other} />
+                  {/* h3 — these sit under this section's "Other models" h2. */}
+                  <ModelTile
+                    model={other}
+                    headingLevel={3}
+                    {...modelCardPhoto(other.slug, other.name)}
+                  />
                 </StaggerItem>
               ))}
             </Stagger>

@@ -11,15 +11,16 @@ import { frameRadius } from "@/lib/style";
 /*
  * The catalogue tile — /models' card, one per shape.
  *
- * A photograph with a caption under it rather than a panel with type inside
- * it, which is what separates this from Home's square ModelCard. The two are
- * deliberately not the same component: Home's card is a tile in a marketing
- * grid, with the name and price set over the artwork and a watermark drawing
- * behind them; this is the catalogue itself, where the instrument gets the
- * whole frame and the words sit below it on the page ground, the way a
- * product listing reads. What they do share — the badge, the frame's corner,
- * the pool of light behind a near-black cut-out, the "from" figure's format —
- * is shared as code rather than as a matching pair of literals.
+ * A photograph with a caption under it: the instrument gets the whole frame
+ * and the words sit below it on the page ground, the way a product listing
+ * reads.
+ *
+ * The only model card there is. It replaced a square one that set the name
+ * and price over a watermark drawing, which Home and the detail page's
+ * "other models" strip both used — three places showing the same three
+ * instruments, in two treatments, is a catalogue disagreeing with itself
+ * about what its own products look like. Every caller now renders this, at
+ * the same size, so a model looks the same wherever it appears.
  *
  * The frame is the model gallery's frame: the lifted tone inside a hairline
  * at the tight product-photography corner, with [data-frame-glow] behind the
