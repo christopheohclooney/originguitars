@@ -1776,7 +1776,7 @@ export default function StyleGuidePage() {
               {
                 name: "closing headings",
                 value: "clamp vs fixed",
-                note: "About's and Home's closing headings scale — clamp(2rem, 3.4vw, 2.75rem). The FAQ's Got another question? is a flat 2rem, so at 1920 it is noticeably smaller than its equivalents.",
+                note: "About and /models close through one component — components/ui/closing-cta.tsx — whose heading scales at clamp(2rem, 3.4vw, 2.75rem), and Home's matches it. The FAQ's Got another question? is a flat 2rem and still hand-rolled, so at 1920 it is noticeably smaller than its equivalents.",
               },
               {
                 name: "card hover",

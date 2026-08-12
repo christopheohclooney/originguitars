@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
+import { ClosingCta } from "@/components/ui/closing-cta";
 import { ModelTile } from "@/components/ui/model-tile";
 import { PageHero } from "@/components/ui/page-hero";
 import { models } from "@/data/models";
@@ -83,7 +84,15 @@ export default function ModelsPage() {
         one card's price and the next card's photograph is the only thing
         separating them.
       */}
-      <section className="pb-24 md:pb-32">
+      {/*
+        `scroll-mt` is the header's height: the pill sits in flow at the top
+        of the viewport, so an anchor jump without it lands the row's first
+        few pixels underneath the chrome.
+      */}
+      <section
+        id="catalogue"
+        className="scroll-mt-[var(--header-h)] pb-4"
+      >
         <div className={shell}>
           <Stagger as="ul" className="grid gap-12 md:grid-cols-3 md:gap-5">
             {models.map((model) => (
@@ -96,47 +105,42 @@ export default function ModelsPage() {
       </section>
 
       {/*
-        Closing block, and the page's last word before the footer. Carried
-        over from the previous version of this page with its copy unchanged
-        and its treatment brought onto the current system — Archivo at medium
-        rather than Geist at bold, and no hairline above it, following every
-        other content page.
+        The closing block, shared with About — see
+        components/ui/closing-cta.tsx. It replaces the "Not sure where to
+        start?" section this page used to end on, which was written for a
+        catalogue that laid every specification out in front of you and
+        needed to say the builder would explain itself. The page no longer
+        does that, and the last word before the footer is better spent on the
+        offer than on reassurance about a page that is now three cards.
       */}
-      <section className="pb-24 md:pb-32">
-        <div className={shell}>
-          <Stagger>
-            <StaggerItem as="div">
-              <h2 className="max-w-[22ch] font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
-                Not sure where to start?
-              </h2>
-            </StaggerItem>
-
-            <StaggerItem as="div">
-              <p className="mt-5 max-w-[52ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
-                The builder explains each option as you go, and nothing is
-                committed until you reach the review step.
-              </p>
-            </StaggerItem>
-
-            <StaggerItem as="div">
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-                <Link
-                  href="/builder"
-                  className={`${buttonClasses({ size: "lg" })} w-full sm:w-auto`}
-                >
-                  Start your build
-                </Link>
-                <Link
-                  href="/faq"
-                  className={`${buttonClasses({ variant: "secondary", size: "lg" })} w-full sm:w-auto`}
-                >
-                  Read the FAQ
-                </Link>
-              </div>
-            </StaggerItem>
-          </Stagger>
-        </div>
-      </section>
+      <ClosingCta
+        heading="Ready to build yours?"
+        body="No signature deal, no waiting list, no compromise on what it looks and sounds like. Just your spec, built properly."
+        actions={
+          <>
+            {/*
+              The secondary goes back up to the row rather than to /models,
+              which is the page it is on — a control that reloads what you
+              are already looking at is a dead one, and dropping it would
+              leave the block's pair unbalanced against About's. An in-page
+              anchor is a real destination, works with no JavaScript, and
+              reads honestly: the models are up there.
+            */}
+            <Link
+              href="#catalogue"
+              className={`${buttonClasses({ variant: "secondary" })} w-full sm:w-auto`}
+            >
+              See the models
+            </Link>
+            <Link
+              href="/builder"
+              className={`${buttonClasses()} w-full sm:w-auto`}
+            >
+              Build your own
+            </Link>
+          </>
+        }
+      />
     </main>
   );
 }

@@ -11,6 +11,7 @@ import { Parallax } from "@/components/motion/parallax";
 import { Reveal, Stagger, StaggerItem, WordReveal } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
 import { ArtistCarousel, type Artist } from "@/components/ui/artist-carousel";
+import { ClosingCta } from "@/components/ui/closing-cta";
 import { Overline } from "@/components/ui/overline";
 import { PageHero } from "@/components/ui/page-hero";
 import { shell } from "@/lib/style";
@@ -288,94 +289,33 @@ export default function AboutPage() {
       {/*
         Closing CTA, following the FAQ's closing section: the drawing across
         the top of the column, then copy left and the way out right on one
-        baseline.
+        baseline. The block itself is components/ui/closing-cta.tsx, shared
+        with the catalogue, which closes on the same beat.
 
         No rule above it. The full-bleed hairline is the builder's device for
         dividing chrome from stage; on a content page it cuts the vertical
         run, which is why it is absent from every other section here.
       */}
-      <section className="py-20 md:py-28">
-        <div className={shell}>
-          {/*
-            The Lance face-on, measured to the content column like the side
-            view on the FAQ. Decorative — the heading below already says what
-            this is — so no alt text and out of the accessibility tree.
-
-            Held back below md for the same reason as the FAQ's: the detail
-            that makes it worth having (bridge, tuners, frets) stops being
-            legible at phone width and turns into noise.
-
-            The fade down into the copy is a mask rather than part of the
-            export, so it stays a single flat drawing that can be reused at
-            any size — and so the falloff is tunable without a re-export.
-          */}
-          <Reveal>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              data-blueprint
-              src="/lance-skeleton-front.svg"
-              alt=""
-              aria-hidden
-              width={1133}
-              height={396}
-              className="hidden h-auto w-full md:block"
-            />
-          </Reveal>
-
-          {/*
-            Copy left, the two ways forward right, sat on one baseline from
-            md up and stacked below it. `items-end` is what aligns the
-            buttons to the foot of the paragraph rather than its top.
-
-            Primary sits last in the source, which puts it at the right-hand
-            end of the row — the far end of the reading direction, and the
-            position the designs give it.
-          */}
-          <div className="flex flex-col gap-10 md:mt-2 md:flex-row md:items-end md:justify-between md:gap-16">
-            <Reveal>
-              {/*
-                Archivo at medium, like every other heading on the page. This
-                was the one still carrying the pre-redesign treatment — Geist
-                at bold — which is why it read heavier than everything above
-                it rather than merely larger.
-
-                Medium rather than the normal the section headings use: this
-                is the page's last word, so it holds a little more weight than
-                the ones it follows without going back to bold.
-
-                Tracking eased off with it. Archivo needs less negative than
-                Geist at this size; keeping -0.025em closed the counters that
-                the lighter weight is there to open.
-              */}
-              <h2 className="max-w-[18ch] font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.05] tracking-[-0.02em]">
-                Ready to build yours?
-              </h2>
-              <p className="mt-5 max-w-[40ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
-                No signature deal, no waiting list, no compromise on what it
-                looks and sounds like. Just your spec, built properly.
-              </p>
-            </Reveal>
-
-            <Reveal
-              delay={0.12}
-              className="flex shrink-0 flex-col gap-4 sm:flex-row"
+      <ClosingCta
+        heading="Ready to build yours?"
+        body="No signature deal, no waiting list, no compromise on what it looks and sounds like. Just your spec, built properly."
+        actions={
+          <>
+            <Link
+              href="/models"
+              className={`${buttonClasses({ variant: "secondary" })} w-full sm:w-auto`}
             >
-              <Link
-                href="/models"
-                className={`${buttonClasses({ variant: "secondary" })} w-full sm:w-auto`}
-              >
-                See the models
-              </Link>
-              <Link
-                href="/builder"
-                className={`${buttonClasses()} w-full sm:w-auto`}
-              >
-                Build your own
-              </Link>
-            </Reveal>
-          </div>
-        </div>
-      </section>
+              See the models
+            </Link>
+            <Link
+              href="/builder"
+              className={`${buttonClasses()} w-full sm:w-auto`}
+            >
+              Build your own
+            </Link>
+          </>
+        }
+      />
     </main>
   );
 }
