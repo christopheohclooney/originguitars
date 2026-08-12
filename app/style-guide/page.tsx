@@ -1755,13 +1755,13 @@ export default function StyleGuidePage() {
             rows={[
               {
                 name: "/models",
-                value: "pre-redesign",
-                note: "Still on the old system entirely: a plain Geist 700 h1 rather than the metallic PageHero every other page opens on, slanted accent rules where the overline should be, and the skewed badge. Home links to it, so the jump is visible. Overhaul in progress.",
+                value: "resolved",
+                note: "Rebuilt on the current system: the metallic PageHero every other page opens on, a row of three catalogue tiles, and no hairlines between its sections. The per-model spec section it used to carry is gone — /models/[slug] is that page now, and the tile's job is to get you there.",
               },
               {
                 name: "badges",
-                value: "settled",
-                note: "The rounded mono chip is the badge — solid ink for New, bordered for Coming soon, as Home's model cards have it. The 12° skewed box goes with the /models overhaul, which leaves the slant device on the price pill and the builder's step counter.",
+                value: "resolved",
+                note: "One component — components/ui/model-badge.tsx — for Home's cards, the catalogue tiles and the detail page's panel: solid ink for New, bordered for Coming soon. The 12° skewed box went with the /models overhaul, which leaves the slant device on the price pill and the builder's step counter.",
               },
               {
                 name: "builder chrome",
@@ -1796,7 +1796,7 @@ export default function StyleGuidePage() {
               {
                 name: "from price",
                 value: "resolved",
-                note: "The catalogue's from figure and the builder's base price used to disagree — £799 on Home against £1,899 in the builder. Reconciled on the catalogue's figure, and BASE_PRICE_PENCE now imports it rather than restating it, so the two cannot drift apart again. The figure itself is still placeholder.",
+                note: "The catalogue's from figure and the builder's base price used to disagree — £799 on Home against £1,899 in the builder. Reconciled on the catalogue's figure, and BASE_PRICE_PENCE now imports it rather than restating it, so the two cannot drift apart again. Every from figure also formats through formatFromPrice, which drops the pence a round base price does not have; the builder's running total and option deltas keep them. The figure itself is still placeholder.",
               },
             ]}
           />

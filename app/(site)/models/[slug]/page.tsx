@@ -5,6 +5,7 @@ import { notFound } from "next/navigation";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
 import { Disclosure, DisclosureItem } from "@/components/ui/disclosure";
+import { ModelBadge } from "@/components/ui/model-badge";
 import { ModelCard } from "@/components/ui/model-card";
 import {
   ModelDetailFrames,
@@ -14,7 +15,7 @@ import {
 import { Overline } from "@/components/ui/overline";
 import { modelMedia } from "@/data/model-media";
 import { availableModels, models } from "@/data/models";
-import { formatPrice } from "@/lib/pricing";
+import { formatFromPrice } from "@/lib/pricing";
 import { shell } from "@/lib/style";
 
 /*
@@ -54,7 +55,7 @@ export async function generateMetadata({
 
   return {
     title: `${model.name} — Origin Guitars`,
-    description: `The ${model.name}, from ${formatPrice(model.fromPricePence)}. ${model.subtitle} — full specification, features, and the builder to make it yours.`,
+    description: `The ${model.name}, from ${formatFromPrice(model.fromPricePence)}. ${model.subtitle} — full specification, features, and the builder to make it yours.`,
   };
 }
 
@@ -123,10 +124,8 @@ export default async function ModelPage({ params }: { params: Params }) {
           </div>
 
           <aside className="lg:sticky lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:top-[calc(var(--header-h)+1rem)] lg:self-start">
-            {/* The settled badge — the rounded mono chip, solid for available. */}
-            <span className="inline-flex rounded-full bg-ink px-4 py-1.5 font-mono text-[0.75rem] uppercase tracking-[0.08em] text-ink-inverse">
-              New
-            </span>
+            {/* The catalogue chip — see components/ui/model-badge.tsx. */}
+            <ModelBadge status={model.status} />
 
             {/*
               The page's one metallic heading, and it is the h1 — the rule
@@ -149,7 +148,7 @@ export default async function ModelPage({ params }: { params: Params }) {
                 From
               </span>
               <span className="font-mono text-[1.5rem] tabular-nums">
-                {formatPrice(model.fromPricePence)}
+                {formatFromPrice(model.fromPricePence)}
               </span>
             </p>
 

@@ -18,6 +18,31 @@ export function formatPrice(pence: number): string {
   return gbp.format(pence / 100);
 }
 
+/*
+ * A catalogue "from" figure: 79900 → "£799".
+ *
+ * The pence are dropped when there are none, which is every catalogue price —
+ * a base build is a round number, and "£799.00" on a card sets an exactness
+ * the figure does not have. It is a headline, not a total: the two pence
+ * digits belong on the builder's running total and the detail page's price,
+ * where they are counting real option deltas.
+ *
+ * `?? 0` rather than a bare cast: minimumFractionDigits is typed optional on
+ * the resolved options even though Intl always resolves one for a currency
+ * format. A price that is not whole still gets its pence.
+ */
+export function formatFromPrice(pence: number): string {
+  const whole = pence % 100 === 0;
+  if (!whole) return formatPrice(pence);
+
+  return new Intl.NumberFormat("en-GB", {
+    style: "currency",
+    currency: "GBP",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(pence / 100);
+}
+
 /** A delta as it should read on an option: 0 → "Included", 12000 → "+£120.00". */
 export function formatDelta(pence: number): string {
   if (pence === 0) return "Included";

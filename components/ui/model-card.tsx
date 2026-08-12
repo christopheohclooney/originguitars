@@ -1,6 +1,7 @@
 import Link from "next/link";
 
-import { formatPrice } from "@/lib/pricing";
+import { ModelBadge } from "@/components/ui/model-badge";
+import { formatFromPrice } from "@/lib/pricing";
 import { cardSurface } from "@/lib/style";
 import { modelHref, type Model } from "@/data/models";
 
@@ -73,23 +74,9 @@ export function ModelCard({ model }: { model: Model }) {
         className="pointer-events-none absolute inset-0"
       />
 
-      {/*
-        Badge treatment follows the system rather than colour. The palette
-        reserves colour for the instrument, so the two states are told apart
-        by weight instead: available is a solid light chip, still to come is
-        a bordered dark one. Mono uppercase at the same size and tracking as
-        every other label on the site.
-      */}
+      {/* The catalogue chip — see components/ui/model-badge.tsx. */}
       <div className="relative flex justify-end p-5 md:p-6">
-        {model.status === "available" ? (
-          <span className="rounded-full bg-ink px-4 py-1.5 font-mono text-[0.75rem] uppercase tracking-[0.08em] text-ink-inverse">
-            New
-          </span>
-        ) : (
-          <span className="rounded-full border border-line-strong bg-surface/70 px-4 py-1.5 font-mono text-[0.75rem] uppercase tracking-[0.08em] text-ink-muted backdrop-blur-sm">
-            Coming soon
-          </span>
-        )}
+        <ModelBadge status={model.status} />
       </div>
 
       {/*
@@ -118,7 +105,7 @@ export function ModelCard({ model }: { model: Model }) {
           )}
         </h3>
         <p className="mt-2 font-mono text-[0.9375rem] tabular-nums text-ink-muted transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:text-ink">
-          From {formatPrice(model.fromPricePence)}
+          From {formatFromPrice(model.fromPricePence)}
         </p>
       </div>
     </article>

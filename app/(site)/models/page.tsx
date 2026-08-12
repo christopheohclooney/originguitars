@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 
-import { ImagePlaceholder } from "@/components/image-placeholder";
-import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
+import { Stagger, StaggerItem } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
-import { availableModels, comingSoonModels, modelHref } from "@/data/models";
-import { shell, slant, unslant } from "@/lib/style";
+import { ModelTile } from "@/components/ui/model-tile";
+import { PageHero } from "@/components/ui/page-hero";
+import { models, type Model } from "@/data/models";
+import { publicPhoto } from "@/lib/media";
+import { shell } from "@/lib/style";
 
 export const metadata: Metadata = {
   title: "Models — Origin Guitars",
@@ -13,184 +15,164 @@ export const metadata: Metadata = {
     "The Element, available to build now. Lance and Element Bass in development.",
 };
 
-function ComingSoonBadge() {
-  return (
-    <span className="inline-flex bg-canvas px-4 py-1.5" style={slant}>
-      <span
-        className="text-[0.75rem] font-medium uppercase tracking-[0.08em] text-ink-muted"
-        style={unslant}
-      >
-        Coming soon
-      </span>
-    </span>
-  );
+/*
+ * The catalogue.
+ *
+ * One row of three, the whole page above the closing block: the hero says
+ * what this is, the tiles say what there is. The old version of this page
+ * gave the Element a full-width section with its specification laid out in
+ * it, which was written before /models/[slug] existed and now duplicates it —
+ * the tile's job is to get you to that page, not to be it.
+ *
+ * This is also the /models overhaul the style guide has been flagging. The
+ * page was the last one still on the pre-redesign system: a Geist 700 h1
+ * where every other page opens on the metallic PageHero, slanted accent rules
+ * standing in for the overline, skewed badges, and full-bleed hairlines
+ * between its sections. All four are gone, which leaves the 12° slant on the
+ * price pill and the builder's step counter — brand devices — rather than
+ * doing structural work on a content page.
+ */
+
+/*
+ * Card photography, resolved off disk rather than statically imported — the
+ * same call Home's frames make, and for the reason lib/media.ts documents:
+ * the shots are dropped in by hand as they are chosen, and a static import of
+ * a file that is not there yet fails the build.
+ *
+ * Two locations, in order. A model's own shot lives at
+ * public/models/<slug>/card.<ext> — the folder the detail page's photography
+ * already uses — and is picked up the moment it lands, with no change here.
+ * Until then every tile falls back to one shared stand-in: the Element
+ * cut-out the detail page's lead frame and the builder both already show,
+ * referenced where it sits rather than copied to a placeholder name. One
+ * asset, three references, which is the same call the Lance drawing gets
+ * wherever it stands in for photography.
+ *
+ * It is also the right shape for the job — a full-length instrument on a
+ * real alpha channel, so the frame's own pool of light reads behind it
+ * instead of a photograph's grey studio ground sitting in a hole in the
+ * card.
+ *
+ * With neither present the tile stands an ImagePlaceholder in the frame and
+ * the row still holds its shape.
+ */
+const STAND_IN = "models/element/element-full";
+
+const standInCard = publicPhoto(STAND_IN);
+
+function cardPhoto(model: Model) {
+  const own = publicPhoto(`models/${model.slug}/card`);
+
+  /*
+   * Alt describes what is in the frame, so it follows the file rather than
+   * the tile. The stand-in is the Element, which makes it true on the
+   * Element's tile and a borrowed picture on the other two — calling it the
+   * Lance would be writing a caption that is wrong for two cards out of
+   * three. Empty and out of the accessibility tree in that case; the
+   * category, name and price directly below carry the tile either way, and
+   * the alt arrives with the real shot.
+   */
+  const depictsThisModel = Boolean(own) || model.slug === "element";
+
+  return {
+    photo: own ?? standInCard,
+    photoAlt: depictsThisModel ? `The Origin ${model.name}, full length` : "",
+  };
 }
 
 export default function ModelsPage() {
   return (
     <main>
-      {/* Header */}
-      <section className={`${shell} pt-16 pb-16 md:pt-24 md:pb-20`}>
-        <p className="font-mono text-[0.8125rem] text-ink-muted">Models</p>
-        <h1 className="mt-6 max-w-[18ch] text-[clamp(2.75rem,6vw,4rem)] font-bold leading-[1.02] tracking-[-0.03em]">
-          One shape now, more on the bench
-        </h1>
-        <p className="mt-8 max-w-[62ch] text-[1.125rem] leading-[1.55] text-ink-muted">
-          Every Origin starts from a base specification and goes wherever you
-          take it. The Element is buildable today. Two more are in development,
-          and they will appear here the moment they are ready to order.
-        </p>
-      </section>
+      <PageHero
+        title="Models"
+        /*
+          One sentence per line, as the reference sets it — the same device
+          Home's hero uses for the same reason. Left to wrap against a measure
+          the pair breaks mid-clause, which loses the pairing of the two
+          statements.
 
-      {/* Available models */}
-      {availableModels.map((model) => (
-        <section key={model.slug} className="border-t border-line py-16 md:py-24">
-          <div className={shell}>
-            <Reveal>
-              {/*
-                minmax(0,…) and items-center are both load-bearing. As a
-                stretched grid item the image fills the row height, and
-                aspect-ratio then derives its *width* from that height — which
-                blew the column out to 947px and left the spec column at 178px.
-              */}
-              <div className="grid gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center lg:gap-16">
-                <ImagePlaceholder
-                  className="aspect-[4/3] w-full"
-                  label={`${model.name} photography to follow`}
-                />
+          Block spans rather than two paragraphs or a break element: it stays
+          one sentence pair, so what a screen reader announces and what you
+          copy out are both still the whole thing, and each line still wraps
+          normally on a narrow screen instead of forcing a measure nothing
+          fits.
+        */
+        intro={
+          <>
+            <span className="block">
+              Our flagship shapes. Designed with intent, built by craftsmen.
+            </span>
+            <span className="block">This is where every Origin starts.</span>
+          </>
+        }
+        /*
+          Widened from the 54ch default, which is narrower than the longer of
+          the two sentences and would break it again inside its own span.
+        */
+        introMeasure="64ch"
+      />
 
-                <div className="flex flex-col justify-center">
-                  <div
-                    aria-hidden
-                    className="h-[5px] w-11 bg-ink"
-                    style={slant}
-                  />
-                  <h2 className="mt-6 text-[clamp(2rem,4.5vw,2.75rem)] font-bold leading-[1.06] tracking-[-0.025em]">
-                    {model.name}
-                  </h2>
-                  <p className="mt-2 text-[1.0625rem] text-ink-muted">
-                    {model.subtitle}
-                  </p>
+      {/*
+        The row. Three across from md, which is what the reference draws and
+        what the catalogue is — three equal things, so they get equal columns
+        rather than a lead card and two followers.
 
-                  <p className="mt-7 max-w-[54ch] text-[1.0625rem] leading-[1.65]">
-                    {model.description}
-                  </p>
-
-                  <dl className="mt-9 border-t border-line">
-                    {model.specs.map((spec) => (
-                      <div
-                        key={spec.label}
-                        className="flex items-baseline justify-between gap-6 border-b border-line py-3.5"
-                      >
-                        <dt className="text-[0.75rem] font-medium uppercase tracking-[0.08em] text-ink-muted">
-                          {spec.label}
-                        </dt>
-                        <dd className="text-right font-mono text-[0.875rem]">
-                          {spec.value}
-                        </dd>
-                      </div>
-                    ))}
-                  </dl>
-
-                  {/*
-                    Primary into the builder, secondary through to the
-                    model's own page — added when /models/[slug] landed, and
-                    deliberately the only change here: this page's overhaul
-                    is its own pass. The link comes from modelHref so this
-                    section cannot point at a page that does not exist.
-                  */}
-                  <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:self-start">
-                    <Link
-                      href="/builder"
-                      className={`${buttonClasses({ size: "lg" })} w-full sm:w-auto`}
-                    >
-                      Build your own
-                    </Link>
-                    {modelHref(model) && (
-                      <Link
-                        href={modelHref(model)!}
-                        className={`${buttonClasses({ variant: "secondary", size: "lg" })} w-full sm:w-auto`}
-                      >
-                        View the {model.name}
-                      </Link>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </Reveal>
-          </div>
-        </section>
-      ))}
-
-      {/* Coming soon */}
-      <section className="border-t border-line py-20 md:py-28">
+        Stacked below md rather than paired: at phone width a two-up row puts
+        a full-length instrument in a frame about 150px wide, which is a
+        photograph of nothing in particular.
+      */}
+      <section className="pb-24 md:pb-32">
         <div className={shell}>
-          <Reveal>
-            <div
-              aria-hidden
-              className="mb-6 h-[5px] w-11 bg-ink"
-              style={slant}
-            />
-            <h2 className="text-[2rem] font-bold leading-[1.1] tracking-[-0.02em]">
-              In development
-            </h2>
-            <p className="mt-4 max-w-[60ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
-              Not orderable yet. No date to promise you — they go live here when
-              they are genuinely ready, not before.
-            </p>
-          </Reveal>
-
-          <Stagger className="mt-14 grid gap-12 md:grid-cols-2 md:gap-10">
-            {comingSoonModels.map((model) => (
-              <StaggerItem key={model.slug}>
-                <ImagePlaceholder
-                  className="aspect-[4/3] w-full"
-                  label="In development"
-                />
-                <div className="mt-6 flex flex-wrap items-center gap-4">
-                  <h3 className="text-[1.375rem] font-semibold leading-[1.2] tracking-[-0.015em]">
-                    {model.name}
-                  </h3>
-                  <ComingSoonBadge />
-                </div>
-                <p className="mt-1.5 text-[0.9375rem] text-ink-muted">
-                  {model.subtitle}
-                </p>
-                <p className="mt-4 max-w-[46ch] text-[0.9375rem] leading-[1.6] text-ink-muted">
-                  {model.description}
-                </p>
+          <Stagger as="ul" className="grid gap-10 md:grid-cols-3 md:gap-8">
+            {models.map((model) => (
+              <StaggerItem as="li" key={model.slug}>
+                <ModelTile model={model} {...cardPhoto(model)} />
               </StaggerItem>
             ))}
           </Stagger>
         </div>
       </section>
 
-      {/* Closing */}
-      <section className="border-t border-line py-20 md:py-28">
+      {/*
+        Closing block, and the page's last word before the footer. Carried
+        over from the previous version of this page with its copy unchanged
+        and its treatment brought onto the current system — Archivo at medium
+        rather than Geist at bold, and no hairline above it, following every
+        other content page.
+      */}
+      <section className="pb-24 md:pb-32">
         <div className={shell}>
-          <Reveal>
-            <h2 className="max-w-[22ch] text-[2rem] font-bold leading-[1.1] tracking-[-0.02em]">
-              Not sure where to start?
-            </h2>
-            <p className="mt-4 max-w-[60ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
-              The builder explains each option as you go, and nothing is
-              committed until you reach the review step.
-            </p>
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <Link
-                href="/builder"
-                className={`${buttonClasses({ size: "lg" })} w-full sm:w-auto`}
-              >
-                Start your build
-              </Link>
-              <Link
-                href="/faq"
-                className={`${buttonClasses({ variant: "secondary", size: "lg" })} w-full sm:w-auto`}
-              >
-                Read the FAQ
-              </Link>
-            </div>
-          </Reveal>
+          <Stagger>
+            <StaggerItem as="div">
+              <h2 className="max-w-[22ch] font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
+                Not sure where to start?
+              </h2>
+            </StaggerItem>
+
+            <StaggerItem as="div">
+              <p className="mt-5 max-w-[52ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
+                The builder explains each option as you go, and nothing is
+                committed until you reach the review step.
+              </p>
+            </StaggerItem>
+
+            <StaggerItem as="div">
+              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                <Link
+                  href="/builder"
+                  className={`${buttonClasses({ size: "lg" })} w-full sm:w-auto`}
+                >
+                  Start your build
+                </Link>
+                <Link
+                  href="/faq"
+                  className={`${buttonClasses({ variant: "secondary", size: "lg" })} w-full sm:w-auto`}
+                >
+                  Read the FAQ
+                </Link>
+              </div>
+            </StaggerItem>
+          </Stagger>
         </div>
       </section>
     </main>

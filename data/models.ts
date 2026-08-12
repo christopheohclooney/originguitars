@@ -36,6 +36,17 @@ export type Model = {
   slug: string;
   name: string;
   subtitle: string;
+  /*
+   * What kind of instrument it is, for the catalogue tile's eyebrow.
+   *
+   * Separate from `subtitle`, which says what shape it is — "Super strat",
+   * "V shape". The eyebrow answers the coarser question a visitor scanning a
+   * row of three cards is asking first, which is whether they are looking at
+   * a guitar or a bass. A union rather than a free string: two values today,
+   * and a third should be a deliberate addition rather than a typo that
+   * renders.
+   */
+  category: "Guitar" | "Bass";
   status: ModelStatus;
   /*
    * The "from" price — the base build with nothing added. Lives here rather
@@ -69,6 +80,7 @@ export const models: Model[] = [
     slug: "element",
     name: "Element",
     subtitle: "Super strat",
+    category: "Guitar",
     status: "available",
     fromPricePence: ELEMENT_BASE_PENCE,
     description:
@@ -108,6 +120,7 @@ export const models: Model[] = [
     slug: "lance",
     name: "Lance",
     subtitle: "V shape",
+    category: "Guitar",
     status: "coming-soon",
     fromPricePence: 89_900,
     description:
@@ -116,8 +129,9 @@ export const models: Model[] = [
   },
   {
     slug: "element-bass",
-    name: "Element (Bass)",
+    name: "Element Bass",
     subtitle: "Four string",
+    category: "Bass",
     status: "coming-soon",
     fromPricePence: 89_900,
     description:

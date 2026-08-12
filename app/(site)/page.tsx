@@ -9,7 +9,7 @@ import { ModelCard } from "@/components/ui/model-card";
 import { Overline } from "@/components/ui/overline";
 import { fromPricePence, models } from "@/data/models";
 import { publicPhoto } from "@/lib/media";
-import { formatPrice } from "@/lib/pricing";
+import { formatFromPrice } from "@/lib/pricing";
 import { shell } from "@/lib/style";
 
 /*
@@ -216,7 +216,7 @@ export default function HomePage() {
                 the site.
               */}
               <p className="font-mono text-[0.9375rem] tabular-nums text-ink-muted">
-                From {formatPrice(fromPricePence)}
+                From {formatFromPrice(fromPricePence)}
               </p>
               <Link
                 href="/builder"
