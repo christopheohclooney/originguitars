@@ -206,9 +206,19 @@ export default async function ModelPage({ params }: { params: Params }) {
         </ModelGalleryProvider>
       </section>
 
-      {/* Details — the descriptive copy, then the specification. */}
+      {/*
+        Details — the descriptive copy, then the specification.
+
+        No rule above it, and none above the section below either. The
+        hairline is the builder canvas's device for dividing its chrome from
+        its stage; on a content page it interrupts the vertical run, which is
+        the reasoning the FAQ already carries for not putting one under its
+        hero. None of the rebuilt pages divide their sections with a rule —
+        these two came in from the pre-redesign /models, and the section
+        rhythm is what separates a section from the one above it.
+      */}
       {(model.overview || model.specs.length > 0 || model.features) && (
-        <section className="border-t border-line py-20 md:py-28">
+        <section className="py-20 md:py-28">
           <div className={shell}>
             <Reveal>
               <Overline gradientId="model-details">Details</Overline>
@@ -304,7 +314,7 @@ export default async function ModelPage({ params }: { params: Params }) {
 
       {/* The rest of the catalogue — Home's cards, minus the one you are on. */}
       {otherModels.length > 0 && (
-        <section className="border-t border-line py-20 md:py-28">
+        <section className="py-20 md:py-28">
           <div className={shell}>
             <Reveal>
               <Overline gradientId="model-others">More from Origin</Overline>
