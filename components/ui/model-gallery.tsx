@@ -1,13 +1,26 @@
+"use client";
+
 import Image from "next/image";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 import { ImagePlaceholder } from "@/components/image-placeholder";
 import { Reveal } from "@/components/motion/reveal";
+import { ModelLightbox } from "@/components/ui/model-lightbox";
+import { centeringPosition } from "@/lib/crop";
 import type { ModelMedia } from "@/data/model-media";
 
 /*
  * The detail page's image frames: one full-length lead frame, then a grid of
- * detail crops. Every frame is the same cut-out, cropped in CSS — see the
- * note in data/model-media.ts for why there are no per-frame exports.
+ * detail crops, every one of them a way into the full-screen viewer. Each
+ * frame is the same cut-out, cropped in CSS — see the note in
+ * data/model-media.ts for why there are no per-frame exports.
  *
  * Two components rather than one gallery block, because the page's grid
  * needs them as separate items: on desktop the pinned panel sits beside the
@@ -16,6 +29,12 @@ import type { ModelMedia } from "@/data/model-media";
  * screen or two, not below five full-height photographs. Splitting here is
  * what lets the page express that with grid placement instead of duplicated
  * DOM.
+ *
+ * The provider is what lets the split survive the lightbox: the two frame
+ * components sit in different grid cells with the panel between them, so
+ * the open-a-slide call reaches them through context rather than through
+ * props threaded around the aside. It also owns the focus contract — the
+ * viewer opens from a click and closes back to the frame that opened it.
  *
  * One `sizes` string across every frame, deliberately. Same src plus same
  * sizes means the browser resolves one optimised variant and serves it to
@@ -35,7 +54,66 @@ const SIZES = "(min-width: 1024px) 60vw, 100vw";
  * that pool without [data-canvas]'s page-wide side effect.
  */
 const frameClasses =
-  "relative w-full overflow-hidden rounded-2xl border border-line bg-canvas";
+  "relative w-full overflow-hidden rounded-2xl border border-line bg-canvas transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:border-line-strong";
+
+/*
+ * The button each frame sits in. cursor-zoom-in is the affordance — the
+ * frames carry no caption or icon, and the cursor is what says "this
+ * opens" without decorating the photography.
+ */
+const frameButtonClasses =
+  "group block w-full cursor-zoom-in rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink";
+
+const OpenLightboxContext = createContext<(index: number) => void>(() => {});
+
+/*
+ * Wraps the detail page's showcase grid. Renders the viewer alongside the
+ * children rather than inside either frame component, so one dialog serves
+ * the lead frame and the detail grid alike — and so the aside between them
+ * stays a plain server-rendered grid item.
+ */
+export function ModelGalleryProvider({
+  media,
+  modelName,
+  children,
+}: {
+  media: ModelMedia | null;
+  modelName: string;
+  children: ReactNode;
+}) {
+  const [index, setIndex] = useState<number | null>(null);
+  const openerRef = useRef<HTMLElement | null>(null);
+
+  /*
+   * The focus contract: remember what opened the viewer, put focus back on
+   * it when the viewer closes. Without this, closing drops keyboard focus
+   * at the top of the document and the reader has to walk back down.
+   */
+  const open = useCallback((i: number) => {
+    openerRef.current = document.activeElement as HTMLElement | null;
+    setIndex(i);
+  }, []);
+
+  const close = useCallback(() => {
+    setIndex(null);
+    openerRef.current?.focus();
+  }, []);
+
+  return (
+    <OpenLightboxContext.Provider value={open}>
+      {children}
+      {media && (
+        <ModelLightbox
+          media={media}
+          modelName={modelName}
+          index={index}
+          onNavigate={setIndex}
+          onClose={close}
+        />
+      )}
+    </OpenLightboxContext.Provider>
+  );
+}
 
 export function ModelLeadFrame({
   media,
@@ -44,9 +122,12 @@ export function ModelLeadFrame({
   media: ModelMedia | null;
   modelName: string;
 }) {
+  const open = useContext(OpenLightboxContext);
+
   /*
    * No photography yet — the layout stands anyway, on the same honest-empty
-   * panel /models uses, in the frame the photograph will occupy.
+   * panel /models uses, in the frame the photograph will occupy. Not a
+   * button: an empty panel has nothing to open.
    */
   if (!media) {
     return (
@@ -66,44 +147,29 @@ export function ModelLeadFrame({
    * whole instrument.
    */
   return (
-    <div data-frame-glow className={`${frameClasses} aspect-[4/5]`}>
-      <Image
-        src={media.image}
-        alt={media.leadAlt}
-        fill
-        preload
-        sizes={SIZES}
-        className="object-contain p-8 md:p-12"
-      />
-    </div>
+    <button
+      type="button"
+      onClick={() => open(0)}
+      aria-label={`View image 1 of ${media.frames.length + 1} full screen: ${media.leadAlt}`}
+      className={frameButtonClasses}
+    >
+      <div data-frame-glow className={`${frameClasses} aspect-[4/5]`}>
+        <Image
+          src={media.image}
+          alt={media.leadAlt}
+          fill
+          preload
+          sizes={SIZES}
+          className="object-contain p-8 md:p-12"
+        />
+      </div>
+    </button>
   );
 }
 
-/*
- * Where object-position has to sit for the image's focal row to land in the
- * *centre* of the box. Not the focal percentage itself: a percentage
- * object-position aligns the image's p% with the box's p%, so feeding the
- * focal point straight in parks it at its own percentage of the frame —
- * which is how the first pass put every crop's subject in the wrong place.
- *
- * Cover on a portrait image in a landscape box is width-limited, so the
- * displayed height is boxWidth / imageRatio and the box holds boxWidth /
- * boxRatio of it. Solving "focal row at box centre" for the object-position
- * fraction q gives the expression below; clamped because a focal point near
- * an edge cannot be centred without showing past the image.
- */
-function centeringPosition(
-  focalY: number,
-  imageRatio: number,
-  boxRatio: number,
-): number {
-  const displayed = 1 / imageRatio;
-  const box = 1 / boxRatio;
-  const q = ((focalY / 100) * displayed - box / 2) / (displayed - box);
-  return Math.min(100, Math.max(0, q * 100));
-}
-
 export function ModelDetailFrames({ media }: { media: ModelMedia | null }) {
+  const open = useContext(OpenLightboxContext);
+
   if (!media) {
     return (
       <div className="grid gap-3 sm:grid-cols-2">
@@ -114,47 +180,54 @@ export function ModelDetailFrames({ media }: { media: ModelMedia | null }) {
   }
 
   const imageRatio = media.image.width / media.image.height;
+  const count = media.frames.length + 1;
 
   /*
    * The detail crops, below the fold, arriving on the site's standard
-   * reveal. The crop centres the focal row, then the zoom scales about the
-   * box's centre, so the subject stays put while the frame tightens around
-   * it. The transform-origin's x is the one part left to the frame: before
-   * the zoom there is no horizontal overflow to position, and after it the
-   * origin is what chooses which side survives — the horn crop biases left
-   * because that is where the horn is.
-   */
-  /*
+   * reveal. The crop centres the focal row (lib/crop.ts), then the zoom
+   * scales about the box's centre, so the subject stays put while the frame
+   * tightens around it. The transform-origin's x is the one part left to
+   * the frame: before the zoom there is no horizontal overflow to position,
+   * and after it the origin is what chooses which side survives — the horn
+   * crop biases left because that is where the horn is.
+   *
    * gap-3 rather than the card grids' gap-6: these are five views of one
    * instrument, and the tight seam is what makes them read as a set — the
    * page grid's lg row gap matches it for the same reason.
    */
   return (
     <div className="grid gap-3 sm:grid-cols-2">
-      {media.frames.map((frame) => {
+      {media.frames.map((frame, i) => {
         const boxRatio = frame.ratio.w / frame.ratio.h;
         const y = centeringPosition(frame.focus.y, imageRatio, boxRatio);
 
         return (
           <Reveal key={frame.alt}>
-            <div
-              data-frame-glow
-              className={frameClasses}
-              style={{ aspectRatio: `${frame.ratio.w} / ${frame.ratio.h}` }}
+            <button
+              type="button"
+              onClick={() => open(i + 1)}
+              aria-label={`View image ${i + 2} of ${count} full screen: ${frame.alt}`}
+              className={frameButtonClasses}
             >
-              <Image
-                src={media.image}
-                alt={frame.alt}
-                fill
-                sizes={SIZES}
-                className="object-cover"
-                style={{
-                  objectPosition: `50% ${y}%`,
-                  transformOrigin: `${frame.focus.x}% 50%`,
-                  transform: `scale(${frame.zoom})`,
-                }}
-              />
-            </div>
+              <div
+                data-frame-glow
+                className={frameClasses}
+                style={{ aspectRatio: `${frame.ratio.w} / ${frame.ratio.h}` }}
+              >
+                <Image
+                  src={media.image}
+                  alt={frame.alt}
+                  fill
+                  sizes={SIZES}
+                  className="object-cover"
+                  style={{
+                    objectPosition: `50% ${y}%`,
+                    transformOrigin: `${frame.focus.x}% 50%`,
+                    transform: `scale(${frame.zoom})`,
+                  }}
+                />
+              </div>
+            </button>
           </Reveal>
         );
       })}

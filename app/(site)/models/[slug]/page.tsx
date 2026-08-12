@@ -6,7 +6,11 @@ import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
 import { Disclosure, DisclosureItem } from "@/components/ui/disclosure";
 import { ModelCard } from "@/components/ui/model-card";
-import { ModelDetailFrames, ModelLeadFrame } from "@/components/ui/model-gallery";
+import {
+  ModelDetailFrames,
+  ModelGalleryProvider,
+  ModelLeadFrame,
+} from "@/components/ui/model-gallery";
 import { Overline } from "@/components/ui/overline";
 import { modelMedia } from "@/data/model-media";
 import { availableModels, models } from "@/data/models";
@@ -105,6 +109,14 @@ export default async function ModelPage({ params }: { params: Params }) {
           a phone the panel sits between the lead frame and the details —
           there it *is* a section break.
         */}
+        {/*
+          The provider is the frames' shared way into the full-screen viewer
+          — clicking any of the five opens it at that slide. It wraps the
+          grid rather than either frame component because the two sit in
+          different cells with the panel between them, and one dialog has to
+          serve both.
+        */}
+        <ModelGalleryProvider media={media} modelName={model.name}>
         <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,24rem)] lg:items-start lg:gap-x-16 lg:gap-y-3">
           <div className="lg:col-start-1 lg:row-start-1">
             <ModelLeadFrame media={media} modelName={model.name} />
@@ -191,6 +203,7 @@ export default async function ModelPage({ params }: { params: Params }) {
             <ModelDetailFrames media={media} />
           </div>
         </div>
+        </ModelGalleryProvider>
       </section>
 
       {/* Details — the descriptive copy, then the specification. */}
