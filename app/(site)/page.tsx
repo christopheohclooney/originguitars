@@ -252,7 +252,12 @@ export default function HomePage() {
                 a caption — the price strip below the fold carries the figure
                 there, at a size that reads as one.
               */}
-              <p className="hidden font-mono text-[0.9375rem] tabular-nums text-ink-muted sm:block">
+              {/*
+                17px — the lg button's own type size, since the two sit as a
+                pair. At 15px the figure read as a caption next to the pill
+                and got lost, and it is the price.
+              */}
+              <p className="hidden font-mono text-[1.0625rem] tabular-nums text-ink-muted sm:block">
                 From {formatFromPrice(fromPricePence)}
               </p>
               <Link
