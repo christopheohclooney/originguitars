@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 
 import { NavGlow, useNavGlide } from "@/components/motion/nav-glow";
 import { buttonClasses } from "@/components/ui/button";
+import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
 import { primaryNav } from "@/lib/nav";
 import { glassPill } from "@/lib/style";
 
@@ -163,23 +164,15 @@ export function SiteHeader() {
           className="-mr-1 inline-flex h-11 w-11 items-center justify-center rounded-full text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white md:hidden"
         >
           <span className="sr-only">{open ? "Close menu" : "Open menu"}</span>
-          <span aria-hidden className="relative block h-4 w-6">
-            <span
-              className={`absolute left-0 block h-[2px] w-6 bg-white transition-transform duration-200 ${
-                open ? "top-[7px] rotate-45" : "top-0"
-              }`}
-            />
-            <span
-              className={`absolute left-0 top-[7px] block h-[2px] w-6 bg-white transition-opacity duration-200 ${
-                open ? "opacity-0" : "opacity-100"
-              }`}
-            />
-            <span
-              className={`absolute left-0 block h-[2px] w-6 bg-white transition-transform duration-200 ${
-                open ? "top-[7px] -rotate-45" : "top-[14px]"
-              }`}
-            />
-          </span>
+          {/*
+            The three-bar stack this replaced crossed its bars in place, which
+            is the same gesture every site makes. This one draws the top bar
+            around a curl into the second stroke of the ✕ — see
+            components/ui/menu-toggle-icon.tsx. 400ms rather than the
+            component's 500: the panel underneath opens on a click, so the mark
+            should be finished about when the eye has finished moving to it.
+          */}
+          <MenuToggleIcon aria-hidden open={open} className="size-6" duration={400} />
         </button>
       </div>
 
