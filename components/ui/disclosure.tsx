@@ -255,9 +255,12 @@ function Indicator({
     >
       <span className="absolute left-0 top-1/2 h-px w-full -translate-y-1/2 bg-ink" />
       {/*
-        Centred with a margin, not -translate-x-1/2: Motion writes scaleY into
-        `transform`, which would overwrite a Tailwind translate on the same
-        element. Same reason the hero rule keeps its skew on a wrapper.
+        Centred with a margin rather than -translate-x-1/2. Not because the two
+        would collide — under Tailwind v4 they do not, as the note above on the
+        hover nudge records and as the header's travelling glow relies on: the
+        translate compiles to the standalone `translate` property and composes
+        with whatever Motion writes into `transform`. A half-pixel margin on a
+        1px rule is simply the plainer way to centre a hairline, and it stays.
       */}
       <m.span
         animate={{ scaleY: open ? 0 : 1 }}

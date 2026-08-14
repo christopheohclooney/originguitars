@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
+import { NavGlow, useNavGlide } from "@/components/motion/nav-glow";
 import { buttonClasses } from "@/components/ui/button";
 import { primaryNav } from "@/lib/nav";
 import { glassPill } from "@/lib/style";
@@ -48,6 +49,14 @@ function Wordmark({ className = "" }: { className?: string }) {
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  /*
+   * The lit link, or null on a page the nav does not cover (/contact, legal).
+   * Resolved once here and reused, so "which link is lit" and "where the glow
+   * should be" can never answer differently.
+   */
+  const activeHref =
+    primaryNav.find((link) => isActive(pathname, link.href))?.href ?? null;
+  const { navRef, entrance } = useNavGlide(activeHref);
 
   /* Escape closes, and the page behind shouldn't scroll while it's open. */
   useEffect(() => {
@@ -87,28 +96,40 @@ export function SiteHeader() {
 
         {/* Desktop */}
         <nav aria-label="Primary" className="hidden md:block">
-          <ul className="flex items-center gap-9">
+          <ul ref={navRef} className="flex items-center gap-9">
             {primaryNav.map((link) => {
-              const active = isActive(pathname, link.href);
+              const active = link.href === activeHref;
               return (
-                <li key={link.href} className="relative">
+                <li
+                  key={link.href}
+                  data-nav-item={link.href}
+                  className="relative"
+                >
                   {/*
-                    The active marker: ambient light under the label rather
-                    than a rule. An ellipse sat low behind the text and blurred
-                    past its own bounds, so there is no edge anywhere — what
-                    shows is the bloom, and the pill clips the rest.
+                    The active marker, and the light that travels between
+                    items — see components/motion/nav-glow.tsx for both the
+                    treatment and the movement.
                   */}
-                  {active && (
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute left-1/2 top-[1.6rem] h-7 w-[130%] min-w-[4rem] -translate-x-1/2 rounded-[50%] bg-white/45 blur-[20px]"
-                    />
-                  )}
+                  {active && <NavGlow entrance={entrance} />}
                   <Link
                     href={link.href}
                     aria-current={active ? "page" : undefined}
-                    className={`relative text-[0.9375rem] transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
-                      active ? "font-medium text-white" : "text-white/60"
+                    /*
+                      The label lights on the glide's clock and dims on its
+                      own, so the arriving label brightens with its light
+                      rather than 300ms ahead of it, while a hover — which
+                      shares this transition — stays crisp.
+
+                      One duration class per branch rather than a base and an
+                      override: Tailwind resolves same-property conflicts by
+                      stylesheet order, not by the order they are written
+                      here, which is the trap the wrapper below already
+                      documents.
+                    */
+                    className={`relative text-[0.9375rem] transition-colors ease-[cubic-bezier(0.32,0.72,0,1)] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white motion-reduce:transition-none ${
+                      active
+                        ? "font-medium text-white duration-[450ms]"
+                        : "text-white/60 duration-150"
                     }`}
                   >
                     {link.label}

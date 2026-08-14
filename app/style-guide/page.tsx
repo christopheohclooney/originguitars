@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 
 import { ImagePlaceholder } from "@/components/image-placeholder";
 import { MotionProvider } from "@/components/motion/motion-provider";
+import { NavGlow } from "@/components/motion/nav-glow";
 import {
   Button,
   buttonBase,
@@ -1394,11 +1395,14 @@ export default function StyleGuidePage() {
                   className="h-[18px] w-auto shrink-0"
                 />
                 <ul className="hidden items-center gap-9 text-[0.9375rem] md:flex">
+                  {/*
+                    The shipping component, not a copy of it — the same reason
+                    glassPill is a shared string. This specimen used to hold a
+                    hand-written duplicate of the glow's classes, which is how
+                    the sheet and the site quietly stop matching.
+                  */}
                   <li className="relative">
-                    <span
-                      aria-hidden
-                      className="pointer-events-none absolute left-1/2 top-[1.6rem] h-7 w-[130%] min-w-[4rem] -translate-x-1/2 rounded-[50%] bg-white/45 blur-[20px]"
-                    />
+                    <NavGlow />
                     <span className="relative font-medium text-white">
                       About
                     </span>
@@ -1424,9 +1428,12 @@ export default function StyleGuidePage() {
               the glass on scroll. The active link is marked by ambient light
               rather than a rule: an ellipse sat low behind the label and
               blurred past its own bounds, with the pill&apos;s overflow
-              clipping the rest. Nav labels are set in white alphas rather than
-              the ink tokens, because the pill is transparent and its ground is
-              whatever photograph is behind it.
+              clipping the rest. It slides to the newly lit label when a page
+              commits rather than when its link is clicked, so it confirms
+              where you have arrived instead of predicting it. Nav labels are
+              set in white alphas rather than the ink tokens, because the pill
+              is transparent and its ground is whatever photograph is behind
+              it.
             </p>
           </Sub>
 
@@ -1637,6 +1644,11 @@ export default function StyleGuidePage() {
                 name: "Indicator",
                 value: "spring 340 / 26",
                 note: "Springs answer direct manipulation. The accordion's plus and nothing else.",
+              },
+              {
+                name: "Nav glide",
+                value: "450ms SWIFT · x only",
+                note: "The header's active light slides from the label it left to the one it lit, on commit rather than on click. A hand-written FLIP: layoutId needs the projection engine, which the domAnimation bundle does not carry, and it fails silently rather than loudly.",
               },
               {
                 name: "LoadingImage",
