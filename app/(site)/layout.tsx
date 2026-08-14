@@ -1,4 +1,5 @@
 import { MotionProvider } from "@/components/motion/motion-provider";
+import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 
@@ -15,6 +16,8 @@ export default function SiteLayout({
 }) {
   return (
     <MotionProvider>
+      {/* Renders nothing — wires Lenis to the window. See the component. */}
+      <SmoothScroll />
       {/*
         Stacking is explicit rather than left to z-index: -1. A negative layer
         would depend on body's background propagating to the canvas to stay

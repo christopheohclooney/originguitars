@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import { Reveal } from "@/components/motion/reveal";
 import { buttonClasses } from "@/components/ui/button";
 import { FaqAccordion } from "@/components/ui/faq-accordion";
 import { PageHero } from "@/components/ui/page-hero";
@@ -36,9 +37,16 @@ export default function FaqPage() {
             read as headings, narrow enough that the eye is not tracking a
             full page width to reach the indicator.
           */}
-          <div className="mx-auto max-w-[51.5rem]">
+          {/*
+            One Reveal for the whole list rather than a stagger by row. The
+            rows are hairline-ruled, and rows arriving one after another
+            would draw each rule twice — once as it lands, once as its
+            neighbour does. The list is one object; it arrives as one. This
+            was the last page whose sections did not arrive on scroll.
+          */}
+          <Reveal className="mx-auto max-w-[51.5rem]">
             <FaqAccordion items={faqs} />
-          </div>
+          </Reveal>
         </div>
       </section>
 
@@ -59,15 +67,18 @@ export default function FaqPage() {
             width they land near a single device pixel. That thinness is the
             drawing; scaling it up would thicken them.
           */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src="/lance-skeleton-side.svg"
-            alt=""
-            aria-hidden
-            width={1133}
-            height={73}
-            className="hidden h-auto w-full md:block"
-          />
+          {/* The drawing arrives first, as ClosingCta's does — same beat. */}
+          <Reveal>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/lance-skeleton-side.svg"
+              alt=""
+              aria-hidden
+              width={1133}
+              height={73}
+              className="hidden h-auto w-full md:block"
+            />
+          </Reveal>
 
           {/*
             Copy left, the way out right — the two sit on one baseline from md
@@ -75,8 +86,13 @@ export default function FaqPage() {
             than a label on one, so what you read is what you get when you tap
             it.
           */}
+          {/*
+            Copy first, the way out a beat behind — the same order and the
+            same 0.12s ClosingCta stages its pair with, so the two closing
+            blocks on the site move as one system.
+          */}
           <div className="flex flex-col gap-10 md:mt-20 md:flex-row md:items-end md:justify-between md:gap-16">
-            <div>
+            <Reveal>
               <h2 className="max-w-[22ch] font-display text-[2rem] font-medium leading-[1.1] tracking-[-0.02em]">
                 Got another question?
               </h2>
@@ -85,15 +101,17 @@ export default function FaqPage() {
                 be here. Send it over and the UK team will get back to you
                 directly.
               </p>
-            </div>
+            </Reveal>
 
             {/* The address itself, from the one place it is written down. */}
-            <a
-              href={`mailto:${CONTACT_INBOX}`}
-              className={`${buttonClasses({ size: "lg" })} w-full shrink-0 md:w-auto`}
-            >
-              {CONTACT_INBOX}
-            </a>
+            <Reveal delay={0.12} className="w-full shrink-0 md:w-auto">
+              <a
+                href={`mailto:${CONTACT_INBOX}`}
+                className={`${buttonClasses({ size: "lg" })} w-full`}
+              >
+                {CONTACT_INBOX}
+              </a>
+            </Reveal>
           </div>
         </div>
       </section>

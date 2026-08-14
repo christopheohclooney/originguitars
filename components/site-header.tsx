@@ -164,8 +164,10 @@ export function SiteHeader() {
 
       {/* Mobile panel — a card under the pill, on the same gutter. */}
       {open && (
+        /* data-lenis-prevent: a wheel inside the panel must not reach the page. */
         <div
           id="mobile-nav"
+          data-lenis-prevent
           className="pointer-events-auto fixed inset-x-4 top-[var(--header-h)] z-40 max-h-[calc(100svh-var(--header-h)-1rem)] overflow-y-auto rounded-3xl border border-white/10 bg-[#141414]/95 backdrop-blur-xl md:hidden"
         >
           <nav aria-label="Primary" className="px-6 py-4">

@@ -146,6 +146,28 @@ body {
 }
 
 /*
+  Lenis support rules — the subset of lenis/dist/lenis.css this site needs,
+  written here rather than imported so what applies is what is read.
+
+  The first is the one that matters: Lenis animates the scroll position
+  itself, so CSS smoothing on top of it would ease an ease. The second
+  keeps a wheel turned inside a scrollable panel (the mobile nav) from
+  chaining out to the page behind it.
+
+  The stock html.lenis { height: auto } rule is deliberately not copied in.
+  It guards layouts that clip the viewport with height:100% + overflow
+  hidden; this one does not, and the rule would override the h-full that
+  body's min-h-full — the footer's floor on short pages — measures against.
+*/
+html.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+/*
   The builder is set on the stage tone rather than the page ground.
 
   The header is transparent and sits in flow, so the band it occupies shows
