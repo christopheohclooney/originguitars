@@ -172,7 +172,7 @@ export function SiteHeader() {
             component's 500: the panel underneath opens on a click, so the mark
             should be finished about when the eye has finished moving to it.
           */}
-          <MenuToggleIcon aria-hidden open={open} className="size-6" duration={400} />
+          <MenuToggleIcon aria-hidden open={open} className="size-8" duration={400} />
         </button>
       </div>
 
