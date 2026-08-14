@@ -1,7 +1,7 @@
 "use client";
 
 import { m, useReducedMotion, useScroll, useTransform } from "motion/react";
-import { useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 /*
  * Scroll-linked drift.
@@ -34,6 +34,27 @@ export function Parallax({
   const reduced = useReducedMotion();
 
   /*
+   * Desktop only. The device was built for neighbours sitting side by side,
+   * where unmatched distances open and close the gap *between* the columns.
+   * Below md those neighbours stack into one column, and the same unmatched
+   * distances close the vertical gap instead — About's photo pair (40 against
+   * 90) drifts through its own 24px gap and the frames collide mid-scroll.
+   *
+   * False on the server and until the first effect runs, same shape as
+   * useReducedMotion's null first pass: the travel starts at 0 everywhere and
+   * widens to `distance` on desktop after mount, so the server and client
+   * trees match and a phone never sees the drift at all.
+   */
+  const [wideEnough, setWideEnough] = useState(false);
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 768px)");
+    const update = () => setWideEnough(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
+  /*
    * Measured across the element's whole pass through the viewport — 0 as it
    * enters from the bottom, 1 as it leaves the top — so the drift is spent
    * over the full time it is on screen rather than in a burst.
@@ -52,7 +73,7 @@ export function Parallax({
    * here follows, since `useReducedMotion` is null on the server and would
    * otherwise render different markup on each side.
    */
-  const travel = reduced ? 0 : distance;
+  const travel = reduced || !wideEnough ? 0 : distance;
   const y = useTransform(scrollYProgress, [0, 1], [-travel, travel]);
 
   return (

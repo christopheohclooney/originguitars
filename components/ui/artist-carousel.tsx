@@ -55,7 +55,17 @@ export function ArtistCarousel({
       aria-label={heading}
       className="py-20 md:py-28"
     >
-      <div className="relative aspect-[3/4] w-full overflow-hidden sm:aspect-[16/10] lg:aspect-[15/8]">
+      {/*
+        The frame's height. From sm it is an aspect of the viewport's width,
+        which is what the design draws. Below sm it is the viewport's height
+        instead — one screen, less the header. At 3:4 of a phone's width the
+        band came to ~520px, of which the overlaid heading and intro at the
+        top and the name and blurb at the bottom consumed ~400: the section
+        read as two blocks of copy with a sliver of photograph between them.
+        svh rather than vh for the reason Home's hero documents — on a phone,
+        vh is the height with the browser chrome collapsed.
+      */}
+      <div className="relative h-[calc(100svh-var(--header-h))] w-full overflow-hidden sm:h-auto sm:aspect-[16/10] lg:aspect-[15/8]">
         {artists.map((artist, i) => (
           <m.div
             key={artist.name + i}

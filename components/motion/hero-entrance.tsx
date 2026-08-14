@@ -57,8 +57,14 @@ export function HeroPhoto({ src, alt = "" }: { src: string; alt?: string }) {
         left the fretboard riding the top edge with dead space beneath it.
 
         Only from md. A portrait frame crops the sides rather than the top and
-        bottom, so there is little vertical slack to redistribute, and the
-        centre is already where the contrast work landed.
+        bottom, so there is little vertical slack to redistribute — what it
+        needs instead is the horizontal position below. The subject sits in
+        the right half of the source (the shot composes it against the copy's
+        clear left), so a centred portrait crop showed the empty left of the
+        frame and cut the headstock off at the right edge. 72% brings the
+        hand and the headstock wholly into the slice; the copy no longer
+        needs the empty left, because on a phone it sits on the scrim, not
+        beside the subject.
       */}
       <Image
         src={src}
@@ -66,7 +72,7 @@ export function HeroPhoto({ src, alt = "" }: { src: string; alt?: string }) {
         fill
         preload
         sizes="100vw"
-        className="object-cover object-center md:object-[50%_28%]"
+        className="object-cover object-[72%_50%] md:object-[50%_28%]"
       />
     </m.div>
   );

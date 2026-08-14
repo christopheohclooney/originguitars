@@ -336,9 +336,14 @@ export default function HomePage() {
               </StaggerItem>
 
               <StaggerItem as="div">
+                {/*
+                  Full-width below sm, like every other primary CTA on the
+                  site while its row is stacked — this was the one standalone
+                  primary still sitting at label width on a phone.
+                */}
                 <Link
                   href="/builder"
-                  className={`${buttonClasses({ size: "md" })} mt-9`}
+                  className={`${buttonClasses({ size: "md" })} mt-9 w-full sm:w-auto`}
                 >
                   Build yours
                 </Link>

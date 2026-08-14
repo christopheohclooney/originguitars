@@ -4,8 +4,12 @@ import type { CSSProperties } from "react";
  * The page gutter. Every section measures from this, so it stays in one place.
  * The width itself is --shell in globals.css, where the header pill and the
  * full-bleed frames can read the same number.
+ *
+ * 1rem on mobile, which is also the gutter the header pill and the mobile nav
+ * panel already sit on (px-4 / inset-x-4 in site-header.tsx) — one number, so
+ * the chrome and the content share a left edge on a phone.
  */
-export const shell = "mx-auto w-full max-w-[var(--shell)] px-6 md:px-10";
+export const shell = "mx-auto w-full max-w-[var(--shell)] px-4 md:px-10";
 
 /*
  * A link inside a sentence. The tertiary button's underline without the box —

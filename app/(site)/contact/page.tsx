@@ -322,7 +322,11 @@ export default function ContactPage() {
               same reasoning as Home's centred model grid.
             */}
             <StaggerItem className="mt-12 flex justify-center md:mt-14">
-              <Link href="/faq" className={buttonClasses({ size: "lg" })}>
+              {/* Full-width below sm, per the site-wide rule for primary CTAs. */}
+              <Link
+                href="/faq"
+                className={`${buttonClasses({ size: "lg" })} w-full sm:w-auto`}
+              >
                 Read more FAQs
               </Link>
             </StaggerItem>

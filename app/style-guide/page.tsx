@@ -1697,7 +1697,7 @@ export default function StyleGuidePage() {
               },
               {
                 name: "gutter",
-                value: "px-6 md:px-10",
+                value: "px-4 md:px-10",
                 note: "lib/style.ts · shell — every section measures from this one string.",
               },
               {
