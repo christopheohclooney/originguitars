@@ -120,22 +120,35 @@ export function ProcessSteps({ steps }: { steps: ProcessStepData[] }) {
         the row's height, which is the steps column's.
       */}
       <div aria-hidden className="relative hidden lg:block lg:self-stretch">
-        <div className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-line" />
-        <m.div
-          className="absolute top-0 left-1/2 h-full w-px origin-top -translate-x-1/2 bg-ink"
-          style={{ scaleY: scrollYProgress }}
-        />
-        {dotTops?.map((top, i) => (
-          <span
-            key={i}
-            className={`absolute left-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
-              activeIndex >= i
-                ? "border-ink bg-ink"
-                : "border-line-strong bg-surface"
-            }`}
-            style={{ top }}
-          />
-        ))}
+        {/*
+          Everything hangs from the first dot rather than the row's top edge:
+          started at zero the line showed a stub above the first marker, and
+          the dot should be the first thing the rail presents. Rendered only
+          once measured, so that stub never flashes before the offsets land.
+        */}
+        {dotTops && (
+          <div
+            className="absolute inset-x-0 bottom-0"
+            style={{ top: dotTops[0] }}
+          >
+            <div className="absolute inset-y-0 left-1/2 w-px -translate-x-1/2 bg-line" />
+            <m.div
+              className="absolute top-0 left-1/2 h-full w-px origin-top -translate-x-1/2 bg-ink"
+              style={{ scaleY: scrollYProgress }}
+            />
+            {dotTops.map((top, i) => (
+              <span
+                key={i}
+                className={`absolute left-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border transition-colors duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+                  activeIndex >= i
+                    ? "border-ink bg-ink"
+                    : "border-line-strong bg-surface"
+                }`}
+                style={{ top: top - dotTops[0] }}
+              />
+            ))}
+          </div>
+        )}
       </div>
 
       <ol

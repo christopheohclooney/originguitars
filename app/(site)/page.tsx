@@ -445,7 +445,7 @@ export default function HomePage() {
           <div className="grid gap-y-14 lg:grid-cols-[minmax(0,1fr)_24px_minmax(0,1fr)] lg:items-start lg:gap-x-12">
             <div className="lg:sticky lg:top-[calc(var(--header-h)+1rem)] lg:self-start">
               <Reveal>
-                <Overline gradientId="steps-mark">How it works</Overline>
+                <Overline gradientId="steps-mark">Our process</Overline>
                 <h2 className="mt-7 max-w-[16ch] font-display text-[clamp(1.875rem,2.6vw,2.375rem)] font-medium leading-[1.15] tracking-[-0.02em]">
                   How your Origin build comes together
                 </h2>
@@ -471,16 +471,16 @@ export default function HomePage() {
                 */}
                 <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:w-fit lg:grid-cols-1">
                   <Link
-                    href="/models"
-                    className={`${buttonClasses({ variant: "secondary" })} w-full`}
-                  >
-                    See the models
-                  </Link>
-                  <Link
                     href="/faq"
                     className={`${buttonClasses()} w-full`}
                   >
                     Common Questions
+                  </Link>
+                  <Link
+                    href="/models"
+                    className={`${buttonClasses({ variant: "secondary" })} w-full`}
+                  >
+                    See the models
                   </Link>
                 </div>
               </Reveal>
