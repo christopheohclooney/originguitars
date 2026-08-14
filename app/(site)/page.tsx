@@ -263,7 +263,13 @@ export default function HomePage() {
           on the same photograph and scrim as the copy above it.
         */}
         <div className={`${shell} relative pb-14 sm:hidden`}>
-          <p className="flex items-baseline gap-3">
+          {/*
+            Centred, because what it sits under is a full-width button. Left
+            aligned it hung off the button's left edge with the rest of the
+            row empty — the copy above has a left edge to line up with, but
+            the CTA spans the column, so the price belongs on its centre.
+          */}
+          <p className="flex items-baseline justify-center gap-3">
             <span className="text-[0.75rem] font-medium uppercase tracking-[0.08em] text-ink-muted">
               Prices start from
             </span>
@@ -536,10 +542,22 @@ export default function HomePage() {
       <section className="pb-24 pt-4 md:pb-32">
         <div className={shell}>
           <Reveal>
-            <h2 className="mx-auto max-w-[18ch] text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
+            {/*
+              Left on a phone, centred from sm — the site-wide rule for
+              reading content. Centring is a device for a block that has a
+              symmetrical field around it; a phone column has no such field,
+              so a centred heading and its copy just lose the left edge every
+              other line of type on the screen is hung from, and a ragged
+              left is harder to read down.
+
+              `sm:mx-auto` moves with the alignment. Left-aligned text inside
+              a centred narrow box would sit the block in from the gutter
+              while its own text ran left — a second, invisible margin.
+            */}
+            <h2 className="max-w-[18ch] font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em] sm:mx-auto sm:text-center">
               Latest models
             </h2>
-            <p className="mx-auto mt-5 max-w-[52ch] text-center text-[1.0625rem] leading-[1.6] text-ink-muted md:text-[1.125rem]">
+            <p className="mt-5 max-w-[52ch] text-[1.0625rem] leading-[1.6] text-ink-muted sm:mx-auto sm:text-center md:text-[1.125rem]">
               Made to order, one shape at a time. More on the way as we grow.
             </p>
           </Reveal>

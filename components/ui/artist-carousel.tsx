@@ -117,10 +117,11 @@ export function ArtistCarousel({
 
         {/* Section heading — fixed, it belongs to the section not the slide. */}
         <div className={`${shell} absolute inset-x-0 top-0 pt-8 md:pt-12`}>
-          <h2 className="mx-auto max-w-[20ch] text-center font-display text-[clamp(1.75rem,3.4vw,3rem)] font-medium leading-[1.1] tracking-[-0.02em]">
+          {/* Left on a phone, centred from sm — the site-wide rule. */}
+          <h2 className="max-w-[20ch] font-display text-[clamp(1.75rem,3.4vw,3rem)] font-medium leading-[1.1] tracking-[-0.02em] sm:mx-auto sm:text-center">
             {heading}
           </h2>
-          <p className="mx-auto mt-4 max-w-[44ch] text-center text-[0.9375rem] leading-[1.55] text-white/85 md:text-[1.0625rem]">
+          <p className="mt-4 max-w-[44ch] text-[0.9375rem] leading-[1.55] text-white/85 sm:mx-auto sm:text-center md:text-[1.0625rem]">
             {intro}
           </p>
         </div>
@@ -138,10 +139,11 @@ export function ArtistCarousel({
               exit={{ opacity: 0, y: reduced ? 0 : -8 }}
               transition={reduced ? INSTANT : { duration: 0.32, ease: EASE }}
             >
-              <h3 className="text-center font-display text-[clamp(1.25rem,2.2vw,1.875rem)] font-medium leading-[1.2] tracking-[-0.015em]">
+              {/* Left on a phone, centred from sm — the site-wide rule. */}
+              <h3 className="font-display text-[clamp(1.25rem,2.2vw,1.875rem)] font-medium leading-[1.2] tracking-[-0.015em] sm:text-center">
                 {current.name}
               </h3>
-              <p className="mx-auto mt-3 max-w-[52ch] text-center text-[0.9375rem] leading-[1.6] text-white/85 md:text-[1rem]">
+              <p className="mt-3 max-w-[52ch] text-[0.9375rem] leading-[1.6] text-white/85 sm:mx-auto sm:text-center md:text-[1rem]">
                 {current.blurb}
               </p>
             </m.div>

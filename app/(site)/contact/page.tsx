@@ -179,8 +179,14 @@ export default function ContactPage() {
                 run-on link.
               */
               <StaggerItem key={method.heading}>
+                {/*
+                  Left on a phone, centred from sm — the site-wide rule. The
+                  card's icon, heading, body and address all move together:
+                  half-centring one column of a card is worse than either
+                  alignment on its own.
+                */}
                 <article
-                  className={`${cardSurface} group relative flex h-full flex-col items-center px-8 py-10 text-center md:px-10 md:py-12`}
+                  className={`${cardSurface} group relative flex h-full flex-col items-start px-8 py-10 md:px-10 md:py-12 sm:items-center sm:text-center`}
                 >
                   {/*
                     The chip is white alpha rather than a third solid tone, the
@@ -267,7 +273,8 @@ export default function ContactPage() {
         <div className={shell}>
           <Stagger className="mx-auto max-w-[51.5rem]">
             <StaggerItem>
-              <h2 className="text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
+              {/* Left on a phone, centred from sm — the site-wide rule. */}
+              <h2 className="font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em] sm:text-center">
                 Send a message
               </h2>
             </StaggerItem>
@@ -307,7 +314,8 @@ export default function ContactPage() {
         <div className={shell}>
           <Stagger className="mx-auto max-w-[51.5rem]">
             <StaggerItem>
-              <h2 className="text-center font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em]">
+              {/* Left on a phone, centred from sm — the site-wide rule. */}
+              <h2 className="font-display text-[clamp(2rem,3.4vw,2.75rem)] font-medium leading-[1.1] tracking-[-0.02em] sm:text-center">
                 Have a question?
               </h2>
             </StaggerItem>

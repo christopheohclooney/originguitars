@@ -107,7 +107,8 @@ export function ContactForm() {
 
   if (state.status === "sent") {
     return (
-      <div className={`${cardSurface} px-8 py-14 text-center md:px-12`}>
+      /* Left on a phone, centred from sm — the site-wide rule. */
+      <div className={`${cardSurface} px-8 py-14 sm:text-center md:px-12`}>
         {/*
           `role="status"` rather than an alert: the form it replaces was the
           thing being interacted with, so this is announced politely on the
@@ -117,7 +118,7 @@ export function ContactForm() {
           <h3 className="font-display text-[1.5rem] font-medium leading-[1.2] tracking-[-0.015em]">
             Message sent
           </h3>
-          <p className="mx-auto mt-4 max-w-[46ch] text-[1.0625rem] leading-[1.7] text-ink-muted">
+          <p className="mt-4 max-w-[46ch] text-[1.0625rem] leading-[1.7] text-ink-muted sm:mx-auto">
             It has landed in the UK team&apos;s inbox and a reply will come back
             to the address you gave. Nothing else to do at your end.
           </p>

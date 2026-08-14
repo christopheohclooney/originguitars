@@ -75,10 +75,22 @@ export function PageHero(props: PageHeroProps) {
           text, so `max-w-[${titleMeasure}]` would compile to a class no
           stylesheet ever generates — the cap would silently vanish.
         */}
+        {/*
+          Left on a phone, centred from sm — the site-wide rule for reading
+          content, and this hero is where it matters most, since it is the
+          first type on six pages. Centring is a device for a block with a
+          symmetrical field around it; a phone column has none, so a centred
+          title and standfirst just lose the left edge everything below them
+          is hung from.
+
+          `sm:mx-auto` moves with the alignment: the measures above are
+          narrower than a phone column, so a centred box holding left-aligned
+          text would indent the block from the gutter for no reason.
+        */}
         <h1
           data-metal
           style={{ maxWidth: titleMeasure }}
-          className="mx-auto text-center font-display text-[clamp(2.75rem,7vw,4.75rem)] font-normal leading-[1.04] tracking-[-0.02em]"
+          className="font-display text-[clamp(2.75rem,7vw,4.75rem)] font-normal leading-[1.04] tracking-[-0.02em] sm:mx-auto sm:text-center"
         >
           {title}
         </h1>
@@ -87,7 +99,7 @@ export function PageHero(props: PageHeroProps) {
           /* Inline for the same reason as the title's — see the note above. */
           <p
             style={{ maxWidth: introMeasure }}
-            className="mx-auto mt-6 text-center text-[1.0625rem] leading-[1.6] text-ink-muted md:text-[1.125rem]"
+            className="mt-6 text-[1.0625rem] leading-[1.6] text-ink-muted sm:mx-auto sm:text-center md:text-[1.125rem]"
           >
             {intro}
           </p>
