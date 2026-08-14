@@ -195,7 +195,7 @@ export default function HomePage() {
           */}
           <h1
             data-metal
-            className="mt-7 max-w-[16ch] font-display text-[clamp(2.75rem,7.4vw,5rem)] font-normal leading-[1.04] tracking-[-0.02em] min-[1440px]:text-[min(5.56vw,6.75rem)]"
+            className="mt-4 max-w-[16ch] font-display text-[clamp(2.75rem,7.4vw,5rem)] font-normal leading-[1.04] tracking-[-0.02em] md:mt-7 min-[1440px]:text-[min(5.56vw,6.75rem)]"
           >
             Time to play by your&nbsp;own rules.
           </h1>
@@ -205,7 +205,16 @@ export default function HomePage() {
             from md up — the same closing pattern About and the FAQ use, which
             is where it came from.
           */}
-          <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-16">
+          {/*
+            Tighter on a phone than at md, and the reason is the photograph
+            rather than the type. The hero bottom-aligns into a full screen,
+            so every pixel the copy block gives back is a pixel of the
+            instrument showing above it — and this is the first sight of it
+            anyone gets. The ramps are untouched; only the air between them
+            moves, and it lands on the 24px PageHero already sets between a
+            heading and its standfirst rather than on a new number.
+          */}
+          <div className="mt-6 flex flex-col gap-6 md:mt-8 md:flex-row md:items-end md:justify-between md:gap-16">
             {/*
               One sentence per line from sm up, as the reference sets it. Left
               to wrap on its own the pair broke mid-clause — "No waiting list
