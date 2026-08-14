@@ -87,7 +87,15 @@ export default function HomePage() {
         actually see until you scroll. svh is the visible height, which is
         what "one screen" is supposed to mean.
       */}
-      <section className="relative mt-[calc(var(--header-h)*-1)] flex min-h-[100svh] flex-col justify-end overflow-hidden bg-white/[0.02] pt-[var(--header-h)]">
+      {/*
+        The screen-filling box is the inner wrapper rather than the section,
+        so the mobile price strip below it can live inside the hero — same
+        photograph, same scrim — while sitting past the fold. On desktop the
+        strip does not render and the wrapper is the whole section, so the
+        geometry is exactly what it was when the section carried these
+        classes itself.
+      */}
+      <section className="relative mt-[calc(var(--header-h)*-1)] overflow-hidden bg-white/[0.02]">
         {heroPhoto && <HeroPhoto src={heroPhoto.src} />}
 
         {/*
@@ -118,6 +126,7 @@ export default function HomePage() {
         {/* Lays the ground back in under the copy — see globals.css. */}
         <div aria-hidden data-hero-scrim className="absolute inset-0" />
 
+        <div className="flex min-h-[100svh] flex-col justify-end pt-[var(--header-h)]">
         <div className={`${shell} relative pb-16 md:pb-24`}>
           {/*
             Explicit gradient id. The mark's fill is a real gradient, and an
@@ -182,27 +191,34 @@ export default function HomePage() {
           */}
           <div className="mt-8 flex flex-col gap-8 md:flex-row md:items-end md:justify-between md:gap-16">
             {/*
-              One sentence per line, as the reference sets it. Left to wrap on
-              its own the pair broke mid-clause — "No waiting list or" rode up
-              onto the first line — which loses the deliberate pairing of the
-              two statements.
+              One sentence per line from sm up, as the reference sets it. Left
+              to wrap on its own the pair broke mid-clause — "No waiting list
+              or" rode up onto the first line — which loses the deliberate
+              pairing of the two statements.
 
               Block spans rather than a break element or two paragraphs: it
               stays one paragraph, so what a screen reader announces and what
-              you copy out are both still the whole sentence pair, and each
-              line still wraps normally on a narrow screen instead of forcing
-              a measure nothing fits.
+              you copy out are both still the whole sentence pair.
+
+              Below sm the spans go back to inline and the pair wraps as one
+              run of prose. The reference's device needs a measure that holds
+              a sentence to a line; a phone has no such measure, so there the
+              blocks were just mid-paragraph breaks landing wherever the
+              sentences happened to end — four ragged lines instead of prose.
+              The literal space between the spans is what keeps the two
+              sentences separated when they are inline; JSX drops the
+              newline-only whitespace between the tags.
 
               The measure holds the longer of the two sentences at 74
               characters. Wide for body copy, but this is two lines under a
               hero rather than a passage to read.
             */}
             <p className="max-w-[76ch] text-[1.0625rem] leading-[1.6] text-ink-muted md:text-[1.125rem]">
-              <span className="block">
+              <span className="sm:block">
                 We make custom builds for self-driven players in any music
                 scene.
-              </span>
-              <span className="block">
+              </span>{" "}
+              <span className="sm:block">
                 No waiting list or signature-artist price tag, to get what you
                 really want.
               </span>
@@ -214,8 +230,13 @@ export default function HomePage() {
                 beside it in data/options.ts, where it contradicts the
                 builder's own base price. Mono, like every other numeral on
                 the site.
+
+                From sm only. On a phone this line sat alone between the copy
+                and the button, too small to be the price and too close to be
+                a caption — the price strip below the fold carries the figure
+                there, at a size that reads as one.
               */}
-              <p className="font-mono text-[0.9375rem] tabular-nums text-ink-muted">
+              <p className="hidden font-mono text-[0.9375rem] tabular-nums text-ink-muted sm:block">
                 From {formatFromPrice(fromPricePence)}
               </p>
               <Link
@@ -226,6 +247,30 @@ export default function HomePage() {
               </Link>
             </div>
           </div>
+        </div>
+        </div>
+
+        {/*
+          The price, on a phone — one small scroll past the button, since the
+          screen-filling wrapper above ends exactly at the fold. The figure
+          at this size replaces the mono caption hidden above: down there it
+          was a line nobody could read as the price; here it is the first
+          thing the first scroll reveals.
+
+          The treatment is the detail page's price row — the uppercase FROM
+          label against the mono figure — so the number reads the same way
+          wherever the site states it. Still inside the section, so it sits
+          on the same photograph and scrim as the copy above it.
+        */}
+        <div className={`${shell} relative pb-14 sm:hidden`}>
+          <p className="flex items-baseline gap-3">
+            <span className="text-[0.75rem] font-medium uppercase tracking-[0.08em] text-ink-muted">
+              Prices start from
+            </span>
+            <span className="font-mono text-[1.5rem] tabular-nums">
+              {formatFromPrice(fromPricePence)}
+            </span>
+          </p>
         </div>
       </section>
 
