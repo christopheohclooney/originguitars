@@ -436,7 +436,13 @@ export default function HomePage() {
       */}
       <section className="py-20 md:py-28">
         <div className={shell}>
-          <div className="grid gap-y-14 lg:grid-cols-[24rem_24px_minmax(0,1fr)] lg:items-start lg:gap-x-12">
+          {/*
+            The two fr tracks are equal on purpose: with the same gap either
+            side of the 24px rail track, equal columns are what put the line
+            down the exact centre of the shell rather than wherever a fixed
+            copy column happens to leave it.
+          */}
+          <div className="grid gap-y-14 lg:grid-cols-[minmax(0,1fr)_24px_minmax(0,1fr)] lg:items-start lg:gap-x-12">
             <div className="lg:sticky lg:top-[calc(var(--header-h)+1rem)] lg:self-start">
               <Reveal>
                 <Overline gradientId="steps-mark">How it works</Overline>
@@ -455,16 +461,24 @@ export default function HomePage() {
                   FAQ, and the Stage 1 brief requires all four destinations
                   be reachable from body content, not only the nav.
                 */}
-                <div className="mt-9 flex flex-col gap-4 sm:flex-row lg:flex-col lg:items-start">
+                {/*
+                  A grid rather than a flex row so the pair always share one
+                  width: stacked they fill the single column, side by side
+                  from sm they split the container in half, and from lg the
+                  stack shrink-wraps to the wider label — the cells keep them
+                  equal in every case, where auto-width pills sized each to
+                  its own text.
+                */}
+                <div className="mt-9 grid gap-4 sm:grid-cols-2 lg:w-fit lg:grid-cols-1">
                   <Link
                     href="/models"
-                    className={`${buttonClasses({ variant: "secondary" })} w-full sm:w-auto lg:w-auto`}
+                    className={`${buttonClasses({ variant: "secondary" })} w-full`}
                   >
                     See the models
                   </Link>
                   <Link
                     href="/faq"
-                    className={`${buttonClasses()} w-full sm:w-auto lg:w-auto`}
+                    className={`${buttonClasses()} w-full`}
                   >
                     Common Questions
                   </Link>

@@ -211,7 +211,7 @@ function StepBlock({
               width={step.photo.width}
               height={step.photo.height}
               alt={step.alt}
-              sizes="(min-width: 1024px) 36rem, 100vw"
+              sizes="(min-width: 1024px) 50vw, 100vw"
               className="h-auto w-full rounded-2xl"
             />
           ) : (
