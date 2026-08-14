@@ -432,11 +432,6 @@ export default function StyleGuidePage() {
                   note: "Lays the ground back under the copy, weighted bottom-left. Far heavier below md, where the portrait crop puts the subject directly behind the words.",
                 },
                 {
-                  name: "[data-steps-scrim]",
-                  value: "home, how it works",
-                  note: "Weighted to both ends with the middle left clear — copy sits above and below one photograph.",
-                },
-                {
                   name: "[data-model-scrim]",
                   value: "home, model cards",
                   note: "Lifts the head of the card and darkens under the name and price.",

@@ -2,6 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { HeroPhoto } from "@/components/motion/hero-entrance";
+import {
+  ProcessSteps,
+  type ProcessStepData,
+} from "@/components/motion/process-scroll";
 import { Reveal, Stagger, StaggerItem } from "@/components/motion/reveal";
 import { ImagePlaceholder } from "@/components/image-placeholder";
 import { buttonClasses } from "@/components/ui/button";
@@ -18,29 +22,41 @@ import { shell } from "@/lib/style";
  */
 const heroPhoto = publicPhoto("home-hero");
 const precisionPhoto = publicPhoto("home-precision");
-const stepsPhoto = publicPhoto("home-how-it-works");
 
-/* Titles and copy verbatim from the design reference. */
-const steps = [
+/*
+ * The four process steps. Photos land at public/home-step-<n> and appear
+ * without a code change; until then each slot stands the placeholder.
+ * Alt text is written when a photograph exists to describe — the same rule
+ * modelCardPhoto follows: alt follows the file, not the slot.
+ */
+const processSteps: ProcessStepData[] = [
   {
-    n: "01",
-    title: "Design it",
+    label: "Step 1",
+    title: "Build it",
     body: "Work through construction, timber, finish and hardware one step at a time, with the price updating as you go.",
+    photo: publicPhoto("home-step-1"),
+    alt: "",
   },
   {
-    n: "02",
+    label: "Step 2",
     title: "Place your order",
-    body: "Confirm the spec and pay in full. Your order number comes straight back by email and our team handles the rest.",
+    body: "Confirm the spec and pay in full. Your order number comes straight back by email.",
+    photo: publicPhoto("home-step-2"),
+    alt: "",
   },
   {
-    n: "03",
+    label: "Step 3",
     title: "We build it",
     body: "Built by hand in the UK, then inspected by the same team before it leaves the bench.",
+    photo: publicPhoto("home-step-3"),
+    alt: "",
   },
   {
-    n: "04",
-    title: "Fulfillment",
+    label: "Step 4",
+    title: "Fulfilment",
     body: "Up to six months depending on complexity. If yours runs longer we tell you directly.",
+    photo: publicPhoto("home-step-4"),
+    alt: "",
   },
 ];
 
@@ -405,130 +421,59 @@ export default function HomePage() {
       </section>
 
       {/*
-        How it works — a full-bleed band with the workshop photograph running
-        under the whole of it, per the design reference.
+        How it works — a sticky-scroll process, per the supplied reference.
 
-        The copy sits at both ends of the picture rather than on one side of
-        it: heading and the two ways out at the top, the four steps along the
-        bottom, and the shot showing between them. `justify-between` on the
-        column is what holds that without either block being given a height,
-        so the band keeps its shape as the copy reflows.
+        Three grid tracks from lg: the copy column, pinned below the header
+        pill while the steps scroll past; a 24px track for the progress rail;
+        and the steps themselves. The sticky column follows the model detail
+        page's recipe exactly — sticky, self-start and the parent's
+        items-start are all required together, and no ancestor may carry a
+        transform, which is why the sticky wrapper is outside the Reveal
+        rather than inside it.
 
-        The slanted rules between the numerals are gone. They were the brand
-        angle used as architecture on a plain ground; over a photograph they
-        are a second system competing with it, and the reference does not
-        have them.
+        Below lg the grid has no columns, so everything stacks in source
+        order — copy, then the four steps — and the rail stays hidden.
       */}
-      <section
-        className={`relative flex flex-col overflow-hidden py-20 md:py-24 ${
-          stepsPhoto ? "min-h-[46rem] md:min-h-[52rem]" : ""
-        }`}
-      >
-        {/*
-          The same dissolve the precision frame carries, so the two sections
-          let go of their photographs the same way — the band's far left and
-          right fall off into the ground rather than ending on the viewport
-          edge.
-        */}
-        {stepsPhoto && (
-          <Image
-            data-lens-media="soft"
-            src={stepsPhoto.src}
-            alt=""
-            aria-hidden
-            fill
-            sizes="100vw"
-            className="object-cover object-center"
-          />
-        )}
+      <section className="py-20 md:py-28">
+        <div className={shell}>
+          <div className="grid gap-y-14 lg:grid-cols-[24rem_24px_minmax(0,1fr)] lg:items-start lg:gap-x-12">
+            <div className="lg:sticky lg:top-[calc(var(--header-h)+1rem)] lg:self-start">
+              <Reveal>
+                <Overline gradientId="steps-mark">How it works</Overline>
+                <h2 className="mt-7 max-w-[16ch] font-display text-[clamp(1.875rem,2.6vw,2.375rem)] font-medium leading-[1.15] tracking-[-0.02em]">
+                  How your Origin build comes together
+                </h2>
+                <p className="mt-5 max-w-[34ch] text-[1.0625rem] leading-[1.6] text-ink-muted">
+                  Four steps, start to finish. Design, order, build and
+                  delivery — carried through by the same team, one build at a
+                  time.
+                </p>
 
-        {/* Protects both ends and leaves the middle clear — see globals.css. */}
-        <div aria-hidden data-steps-scrim className="absolute inset-0" />
-
-        <div className={`${shell} relative flex flex-1 flex-col`}>
-          <Reveal>
-            <Overline gradientId="steps-mark">How it works</Overline>
-
-            {/*
-              Copy left, the two ways out right, on one baseline from md up.
-              `items-start` rather than `items-end`: the heading runs to two
-              lines and the buttons to one, and the reference hangs them from
-              the same top edge rather than the same baseline.
-            */}
-            <div className="mt-7 flex flex-col gap-8 md:flex-row md:items-start md:justify-between md:gap-16">
-              <h2 className="max-w-[16ch] font-display text-[clamp(1.875rem,2.6vw,2.375rem)] font-medium leading-[1.15] tracking-[-0.02em]">
-                How your Origin build comes together
-              </h2>
-
-              {/*
-                Secondary then primary, left to right, which is the order the
-                reference has them and the same order About's closing pair
-                uses — the primary sits at the far end of the reading
-                direction.
-              */}
-              <div className="flex shrink-0 flex-col gap-4 sm:flex-row">
-                <Link
-                  href="/models"
-                  className={`${buttonClasses({ variant: "secondary" })} w-full sm:w-auto`}
-                >
-                  See the models
-                </Link>
-                <Link
-                  href="/faq"
-                  className={`${buttonClasses()} w-full sm:w-auto`}
-                >
-                  Common Questions
-                </Link>
-              </div>
-            </div>
-          </Reveal>
-
-          {/*
-            `mt-auto` drops the steps to the foot of the band, and the padding
-            is the floor under that — on a short viewport, or once the copy
-            has reflowed into more lines, it is what stops them closing up
-            against the heading.
-
-            Both the band's height and that gap are conditional on the
-            photograph. The height exists to give the picture room between the
-            two blocks of copy; with no picture there it is just a hole, and
-            the section should close up to the spacing any other section on
-            the page would use.
-          */}
-          <Stagger
-            as="ol"
-            className={`mt-auto grid gap-14 md:grid-cols-4 md:gap-10 ${
-              stepsPhoto ? "pt-24 md:pt-32" : "pt-16 md:pt-20"
-            }`}
-          >
-            {steps.map((step) => (
-              <StaggerItem as="li" key={step.n}>
                 {/*
-                  The numeral carries the slash, and the slash is the only
-                  part of it that is decoration — the list is an <ol>, so the
-                  ordering is already in the markup. Marked aria-hidden so it
-                  is read as "01" rather than "01 slash", and split into its
-                  own element so it can be toned without touching the figure.
-
-                  Mono, like every numeral on the site, and at --color-ink
-                  rather than the line tone the plain-ground version used:
-                  over a photograph a #333 numeral disappears.
+                  The two ways out the old band carried, kept: this is Home's
+                  only body-content route into the catalogue index and the
+                  FAQ, and the Stage 1 brief requires all four destinations
+                  be reachable from body content, not only the nav.
                 */}
-                <p className="font-mono text-[3.5rem] font-normal leading-none tracking-[-0.03em] text-ink">
-                  {step.n}
-                  <span aria-hidden className="text-ink-muted">
-                    /
-                  </span>
-                </p>
-                <h3 className="mt-6 text-[1.375rem] font-medium leading-[1.2] tracking-[-0.015em]">
-                  {step.title}
-                </h3>
-                <p className="mt-3 max-w-[34ch] text-[0.9375rem] leading-[1.6] text-ink-muted">
-                  {step.body}
-                </p>
-              </StaggerItem>
-            ))}
-          </Stagger>
+                <div className="mt-9 flex flex-col gap-4 sm:flex-row lg:flex-col lg:items-start">
+                  <Link
+                    href="/models"
+                    className={`${buttonClasses({ variant: "secondary" })} w-full sm:w-auto lg:w-auto`}
+                  >
+                    See the models
+                  </Link>
+                  <Link
+                    href="/faq"
+                    className={`${buttonClasses()} w-full sm:w-auto lg:w-auto`}
+                  >
+                    Common Questions
+                  </Link>
+                </div>
+              </Reveal>
+            </div>
+
+            <ProcessSteps steps={processSteps} />
+          </div>
         </div>
       </section>
 
