@@ -37,25 +37,54 @@ export function SmoothScroll() {
     let lenis: Lenis | null = null;
     let frame = 0;
     let lock: MutationObserver | null = null;
+    let growth: ResizeObserver | null = null;
 
     const start = () => {
       if (lenis) return;
 
       /*
-       * anchors: true makes in-page anchors scroll instead of jump — the
-       * catalogue's "See the models" is the one on the site today. No
-       * offset is passed: Lenis reads scroll-margin off the target itself,
-       * so the scroll-mt the catalogue already carries for native jumps is
-       * honoured here too, from the one place it is written. (Verified
-       * against dist — an offset here would be applied on top of it.)
+       * Anchors are left to the browser.
+       *
+       * Lenis can glide to them, and it was doing so, but it derives the
+       * target from its own animated scroll position rather than the real
+       * one — and those two separate whenever the page has been jumped or
+       * over-scrolled, which is exactly the state you are in when you reach
+       * a closing block and click "See the models". Measured on a phone:
+       * the catalogue landed 545px past itself, from a target that was
+       * wrong before the animation started, while the browser's own jump
+       * put it correctly under the header.
+       *
+       * Native handling reads scroll-margin off the target, so the
+       * catalogue's scroll-mt does the work from the one place it is
+       * written, and it cannot drift. The jump is instant — which is what
+       * this anchor did before any of this smoothing existed, so nothing
+       * regresses; a wrong landing would have.
        */
-      lenis = new Lenis({ lerp: 0.12, anchors: true });
+      lenis = new Lenis({ lerp: 0.12 });
 
       const loop = (time: number) => {
         lenis?.raf(time);
         frame = requestAnimationFrame(loop);
       };
       frame = requestAnimationFrame(loop);
+
+      /*
+       * Re-measure whenever the page's own height changes.
+       *
+       * Lenis watches <html> for this, and <html> is now free to grow with
+       * its content (see app/layout.tsx) — so this is a belt to that
+       * braces rather than the fix. It is here because the failure mode is
+       * bad out of proportion to the cost: a stale height does not degrade
+       * the scroll, it puts a floor under it, and the bottom of the page
+       * simply cannot be reached. One observer on the element whose box is
+       * the content is worth that.
+       *
+       * body rather than <html>: it is min-h-screen and otherwise auto, so
+       * its box height *is* the page height. resize() only reads layout, so
+       * this cannot feed itself.
+       */
+      growth = new ResizeObserver(() => lenis?.resize());
+      growth.observe(document.body);
 
       lock = new MutationObserver(() => {
         if (!lenis) return;
@@ -70,6 +99,8 @@ export function SmoothScroll() {
 
     const stop = () => {
       cancelAnimationFrame(frame);
+      growth?.disconnect();
+      growth = null;
       lock?.disconnect();
       lock = null;
       lenis?.destroy();

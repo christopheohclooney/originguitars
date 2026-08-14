@@ -52,12 +52,30 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
+    /*
+      No height on <html>, deliberately.
+
+      It carried h-full, and body's floor was min-h-full measured against it.
+      That is load-bearing for Lenis: it observes <html> with a ResizeObserver
+      to know when the page got taller, and an element pinned to height:100%
+      has a box that is always exactly the viewport — it never resizes when
+      content grows. So Lenis kept whatever page height it measured at init,
+      and anything that landed after that (photographs finishing, fonts
+      swapping) was below a scroll limit that never moved. Measured: content
+      grown by 3000px after init left exactly 3000px unreachable.
+
+      min-h-screen is the same floor measured against the viewport instead of
+      the parent, so the footer still sits at the bottom of a short page and
+      <html> is free to be as tall as its content. This is what Lenis's own
+      `html.lenis { height: auto }` rule exists to force; done here, it needs
+      no override.
+    */
     <html
       lang="en-GB"
-      className={`${archivo.variable} ${GeistSans.variable} ${GeistMono.variable} h-full antialiased`}
+      className={`${archivo.variable} ${GeistSans.variable} ${GeistMono.variable} antialiased`}
     >
       {/* `relative` is the containing block for the light leak in (site)/layout. */}
-      <body className="relative min-h-full flex flex-col bg-canvas text-ink">
+      <body className="relative min-h-screen flex flex-col bg-canvas text-ink">
         {children}
       </body>
     </html>

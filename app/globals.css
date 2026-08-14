@@ -154,10 +154,12 @@ body {
   keeps a wheel turned inside a scrollable panel (the mobile nav) from
   chaining out to the page behind it.
 
-  The stock html.lenis { height: auto } rule is deliberately not copied in.
-  It guards layouts that clip the viewport with height:100% + overflow
-  hidden; this one does not, and the rule would override the h-full that
-  body's min-h-full — the footer's floor on short pages — measures against.
+  The stock html.lenis { height: auto } rule is not copied in because it is
+  not needed: <html> carries no height at all now. It used to carry h-full,
+  which is precisely what that rule exists to undo — a root pinned to the
+  viewport height never fires the ResizeObserver Lenis uses to notice the
+  page got taller, so the scroll limit froze at whatever the page measured
+  before its photographs landed. See the note in app/layout.tsx.
 */
 html.lenis.lenis-smooth {
   scroll-behavior: auto !important;
