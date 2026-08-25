@@ -44,14 +44,18 @@ import { useEffect, useState, useSyncExternalStore } from "react";
  * layout: sibling effects run in render order, and the scroll lock below
  * only works if Lenis's MutationObserver is watching before the lock lands.
  *
- * The timeline is fixed at 1.34s plus a 0.24s exit — deliberately not gated
- * on the network or the hero photograph. A preloader that lingers is a tax,
- * and this one's whole budget is under two seconds. The hero is not gated
- * either: HeroPhoto's 1.8s settle runs underneath from hydration, so by the
- * time the ground fades the photograph is still and the reveal shows a
- * finished frame. Gating it would double the authored moment and hold the
- * LCP element behind an animation, which is the one thing that component
- * exists to not do.
+ * The timeline is fixed at 2.7s plus a 0.24s exit — deliberately not gated
+ * on the network or the hero photograph. It opened at 1.34s under a
+ * two-second ceiling and was lengthened to roughly three on review: at the
+ * short length the rain never established itself before the merge took
+ * over, and the review asked for the fall to breathe — slower passes, more
+ * air between the beats. Three seconds is the ceiling now, not the target
+ * to grow toward; it plays once per session, which is what buys it the
+ * length at all. The hero is not gated either: HeroPhoto's 1.8s settle
+ * runs underneath from hydration, so by the time the ground fades the
+ * photograph is long still and the reveal shows a finished frame. Gating
+ * it would stack the two moments and hold the LCP element behind an
+ * animation, which is the one thing that component exists to not do.
  */
 
 const EASE = [0.16, 1, 0.3, 1] as const;
@@ -65,7 +69,7 @@ const INSTANT = { duration: 0 } as const;
  * boundary below is a literal second you can read off the source, and there
  * is nothing to orchestrate and nothing to race.
  */
-const TIMELINE = 1.34;
+const TIMELINE = 2.7;
 /* The lightbox's overlay fade, exactly — one "a full screen goes away"
    duration on the site, not two that nearly agree. */
 const EXIT = 0.24;
@@ -91,12 +95,17 @@ const SPREAD = [
 
 /*
  * The moment the strings hold as six, and the moment they have become one.
- * Convergence opens at 0.78 — late enough that the rain has established
- * itself as six separate paces before the field starts to move — and the
- * merge is done by 1.18, leaving the last 0.16s to the note.
+ * Convergence opens at 1.9 — a full rain phase first, long enough that the
+ * six paces register as six before the field starts to move — and the merge
+ * takes half a second rather than the 0.4 it had, so the travel reads as
+ * gathering rather than snapping shut. Done by 2.4, leaving the last 0.3s
+ * to the note.
  */
-const REST = 0.78;
-const MERGED = 1.18;
+const REST = 1.9;
+const MERGED = 2.4;
+
+/* When the note and its bloom arrive — a beat after the merge lands. */
+const FLARE = 2.55;
 
 /*
  * The comets' choreography — where each streak starts, when it leaves, and
@@ -108,22 +117,27 @@ const MERGED = 1.18;
  * between already-in-frame and well above it, so the pre-hydration frame (a
  * slow connection holds it for a moment) already shows light on the strings
  * rather than an empty ground, and the falling reads from the first tick.
- * One pass each, no loop: the visible window before the merge is under a
- * second, and a comet restarting mid-screen reads as a glitch.
+ * One pass each, no loop: the passes are long enough to span the rain
+ * phase on their own, and a comet restarting mid-screen reads as a glitch.
  *
  * The passes are spread across the whole timeline, not front-loaded. The
  * first cut had every comet clear the frame by ~1s, which left the merge
  * playing out over rails alone — and the merge is exactly where the rain
  * has to be, because rain landing on the one remaining string is the beat
- * that reads as six becoming one. The three late comets finish between
- * 1.27 and 1.48, so light is still falling through the flare itself. One
- * constraint ties starts to delays: a comet that waits must start above
- * the frame (below -24vh, its own tail height), because a streak sitting
- * motionless mid-screen while its delay runs is a hang, not a rest.
+ * that reads as six becoming one. The late comets finish between 2.55 and
+ * 2.9, so light is still falling through the flare itself. One constraint
+ * ties starts to delays: a comet that waits must start above the frame
+ * (below -24vh, its own tail height), because a streak sitting motionless
+ * mid-screen while its delay runs is a hang, not a rest.
+ *
+ * The durations put the fall at roughly 65vh per second — half the speed
+ * of the 1.34s cut, which is where the review's "slower, more natural"
+ * lands: fast enough to still be falling, slow enough to be watched rather
+ * than registered.
  */
-const COMET_START = ["-2vh", "-26vh", "10vh", "-30vh", "-24vh", "-36vh"];
-const COMET_DELAY = [0, 0.42, 0.1, 0.55, 0.22, 0.68];
-const COMET_DURATION = [0.95, 0.85, 1.1, 0.75, 1.0, 0.8];
+const COMET_START = ["-2vh", "-30vh", "8vh", "-34vh", "-26vh", "-38vh"];
+const COMET_DELAY = [0, 0.85, 0.15, 1.15, 0.45, 1.4];
+const COMET_DURATION = [2.1, 1.75, 2.3, 1.6, 2.05, 1.5];
 
 /*
  * The group: left-1/2 puts the hairline's left edge on centre; the
@@ -238,7 +252,7 @@ export function Preloader() {
      * firing. Well past the timeline so it can only fire when something
      * has genuinely stalled.
      */
-    const belt = window.setTimeout(skip, 2600);
+    const belt = window.setTimeout(skip, 4200);
 
     return () => {
       window.clearTimeout(belt);
@@ -339,7 +353,7 @@ export function Preloader() {
                 className={railClasses}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={reduced ? INSTANT : { duration: 0.3, ease: EASE }}
+                transition={reduced ? INSTANT : { duration: 0.5, ease: EASE }}
               />
               {/*
                 One pass, linear. A light streak at constant velocity is the
@@ -379,7 +393,7 @@ export function Preloader() {
             animate={{ opacity: [0, 0, 1, 0.4] }}
             /*
               The exit carries its own transition. Without one it inherits
-              the element's `transition` below — a 1.34s duration with a
+              the element's `transition` below — the full timeline with a
               four-stop `times` array meant for the entrance — so the exit
               ran for the length of the whole timeline and AnimatePresence
               held the overlay mounted until it finished. Measured: the
@@ -395,7 +409,7 @@ export function Preloader() {
                 ? INSTANT
                 : {
                     duration: TIMELINE,
-                    times: [0, MERGED / TIMELINE, 1.26 / TIMELINE, 1],
+                    times: [0, MERGED / TIMELINE, FLARE / TIMELINE, 1],
                     ease: ["linear", EASE, EASE],
                   }
             }
@@ -433,7 +447,7 @@ export function Preloader() {
                 ? INSTANT
                 : {
                     duration: TIMELINE,
-                    times: [0, MERGED / TIMELINE, 1.26 / TIMELINE, 1],
+                    times: [0, MERGED / TIMELINE, FLARE / TIMELINE, 1],
                     ease: ["linear", EASE, EASE],
                   }
             }
