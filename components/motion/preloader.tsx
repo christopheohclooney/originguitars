@@ -44,13 +44,14 @@ import { useEffect, useState, useSyncExternalStore } from "react";
  * layout: sibling effects run in render order, and the scroll lock below
  * only works if Lenis's MutationObserver is watching before the lock lands.
  *
- * The timeline is fixed at 2.7s plus a 0.24s exit — deliberately not gated
+ * The timeline is fixed at 3.6s plus a 0.24s exit — deliberately not gated
  * on the network or the hero photograph. It opened at 1.34s under a
- * two-second ceiling and was lengthened to roughly three on review: at the
- * short length the rain never established itself before the merge took
- * over, and the review asked for the fall to breathe — slower passes, more
- * air between the beats. Three seconds is the ceiling now, not the target
- * to grow toward; it plays once per session, which is what buys it the
+ * two-second ceiling and has been lengthened twice on review, to three and
+ * then to just under four: at the short lengths the rain never established
+ * itself before the merge took over, and the review kept asking for the
+ * fall to breathe — slower passes, more air between the beats. Four
+ * seconds is the ceiling now, not the target to grow toward; it plays once
+ * per session, and any input skips it, which together are what buy it the
  * length at all. The hero is not gated either: HeroPhoto's 1.8s settle
  * runs underneath from hydration, so by the time the ground fades the
  * photograph is long still and the reveal shows a finished frame. Gating
@@ -69,7 +70,7 @@ const INSTANT = { duration: 0 } as const;
  * boundary below is a literal second you can read off the source, and there
  * is nothing to orchestrate and nothing to race.
  */
-const TIMELINE = 2.7;
+const TIMELINE = 3.6;
 /* The lightbox's overlay fade, exactly — one "a full screen goes away"
    duration on the site, not two that nearly agree. */
 const EXIT = 0.24;
@@ -95,17 +96,16 @@ const SPREAD = [
 
 /*
  * The moment the strings hold as six, and the moment they have become one.
- * Convergence opens at 1.9 — a full rain phase first, long enough that the
+ * Convergence opens at 2.6 — a full rain phase first, long enough that the
  * six paces register as six before the field starts to move — and the merge
- * takes half a second rather than the 0.4 it had, so the travel reads as
- * gathering rather than snapping shut. Done by 2.4, leaving the last 0.3s
- * to the note.
+ * takes 0.6s, so the travel reads as gathering rather than snapping shut.
+ * Done by 3.2, leaving the last 0.4s to the note.
  */
-const REST = 1.9;
-const MERGED = 2.4;
+const REST = 2.6;
+const MERGED = 3.2;
 
 /* When the note and its bloom arrive — a beat after the merge lands. */
-const FLARE = 2.55;
+const FLARE = 3.38;
 
 /*
  * The comets' choreography — where each streak starts, when it leaves, and
@@ -124,20 +124,20 @@ const FLARE = 2.55;
  * first cut had every comet clear the frame by ~1s, which left the merge
  * playing out over rails alone — and the merge is exactly where the rain
  * has to be, because rain landing on the one remaining string is the beat
- * that reads as six becoming one. The late comets finish between 2.55 and
- * 2.9, so light is still falling through the flare itself. One constraint
+ * that reads as six becoming one. The late comets finish between 3.2 and
+ * 3.85, so light is still falling through the flare itself. One constraint
  * ties starts to delays: a comet that waits must start above the frame
  * (below -24vh, its own tail height), because a streak sitting motionless
  * mid-screen while its delay runs is a hang, not a rest.
  *
- * The durations put the fall at roughly 65vh per second — half the speed
- * of the 1.34s cut, which is where the review's "slower, more natural"
- * lands: fast enough to still be falling, slow enough to be watched rather
- * than registered.
+ * The durations put the fall at roughly 55vh per second — a third of the
+ * 1.34s cut's speed, which is where the review's "slower, more natural"
+ * landed after two rounds: fast enough to still be falling, slow enough to
+ * be watched rather than registered.
  */
 const COMET_START = ["-2vh", "-30vh", "8vh", "-34vh", "-26vh", "-38vh"];
-const COMET_DELAY = [0, 0.85, 0.15, 1.15, 0.45, 1.4];
-const COMET_DURATION = [2.1, 1.75, 2.3, 1.6, 2.05, 1.5];
+const COMET_DELAY = [0, 1.15, 0.2, 1.6, 0.6, 1.95];
+const COMET_DURATION = [2.7, 2.3, 2.9, 2.1, 2.6, 1.9];
 
 /*
  * The group: left-1/2 puts the hairline's left edge on centre; the
@@ -252,7 +252,7 @@ export function Preloader() {
      * firing. Well past the timeline so it can only fire when something
      * has genuinely stalled.
      */
-    const belt = window.setTimeout(skip, 4200);
+    const belt = window.setTimeout(skip, 5600);
 
     return () => {
       window.clearTimeout(belt);
@@ -353,7 +353,7 @@ export function Preloader() {
                 className={railClasses}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={reduced ? INSTANT : { duration: 0.5, ease: EASE }}
+                transition={reduced ? INSTANT : { duration: 0.7, ease: EASE }}
               />
               {/*
                 One pass, linear. A light streak at constant velocity is the

@@ -1632,7 +1632,7 @@ export default function StyleGuidePage() {
               },
               {
                 name: "Preloader",
-                value: "2.7s + 0.24s exit",
+                value: "3.6s + 0.24s exit",
                 note: "Six ghosted rails — the six strings — with a bright streak of light falling down each at its own pace, linear, one pass. The rails converge on EASE into one string, the rain lands on it, and a lit line flares and opens vertically as the ground fades. The site's own light leak and canvas glow ground the field. Once per session, Home only, decided before first paint by an inline script in the root layout; the exit is the lightbox's 0.24s.",
               },
               {
