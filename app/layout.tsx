@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import localFont from "next/font/local";
+
+import { SessionGate } from "@/components/session-gate";
 import "./globals.css";
 
 /*
@@ -70,12 +72,25 @@ export default function RootLayout({
       `html.lenis { height: auto }` rule exists to force; done here, it needs
       no override.
     */
+    /*
+      suppressHydrationWarning because of the session gate below: its script
+      may stamp data-preloader-play on <html> before React hydrates, and an
+      attribute React never rendered is exactly the class of mismatch the
+      flag exists to accept. It reaches no deeper than this one element.
+    */
     <html
       lang="en-GB"
+      suppressHydrationWarning
       className={`${archivo.variable} ${GeistSans.variable} ${GeistMono.variable} antialiased`}
     >
       {/* `relative` is the containing block for the light leak in (site)/layout. */}
       <body className="relative min-h-screen flex flex-col bg-canvas text-ink">
+        {/*
+          First child of body, so it runs before anything visible is parsed.
+          It decides — before first paint — whether this session gets the
+          Home preloader. See components/session-gate.tsx.
+        */}
+        <SessionGate />
         {children}
       </body>
     </html>

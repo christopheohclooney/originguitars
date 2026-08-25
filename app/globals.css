@@ -204,6 +204,37 @@ body:has([data-canvas]) {
 }
 
 /*
+  The preloader's gate — the inverse polarity of the safety net above,
+  deliberately. A reveal must fail visible, because a broken reveal hides a
+  section; a preloader must fail absent, because a broken preloader hides
+  the site. So the overlay is hidden by default, and only the inline script
+  in components/session-gate.tsx — running before first paint, on a fresh
+  session, on Home — opts it in by stamping the attribute on <html>. A
+  blocked script, a script error, JavaScript off and a returning visitor
+  all resolve the same way: no overlay, no flash of one.
+*/
+[data-preloader] {
+  display: none;
+}
+
+html[data-preloader-play] [data-preloader] {
+  display: block;
+}
+
+/*
+  Reduced motion sees none of it, and the guarantee is CSS rather than the
+  hook for the same reason as [data-reveal] above. !important is not the
+  reveal rule's idiom copied blindly: the opt-in above carries two attribute
+  selectors to this rule's one, so without it the media query would lose on
+  specificity — a media query adds none of its own.
+*/
+@media (prefers-reduced-motion: reduce) {
+  [data-preloader] {
+    display: none !important;
+  }
+}
+
+/*
   Builder option tiles wrap a visually-hidden radio, so keyboard focus lands on
   an invisible input. This lifts the focus ring onto the tile the user can
   actually see. Written here for the same reason as the rule above — the

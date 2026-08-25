@@ -467,6 +467,11 @@ export default function StyleGuidePage() {
                   note: "Marks anything whose hidden state is server-rendered, so CSS can force it visible under reduced motion or with JavaScript off.",
                 },
                 {
+                  name: "[data-preloader]",
+                  value: "home, first visit",
+                  note: "The reveal guard's polarity inverted: hidden by default, opted in by a pre-paint script only for a fresh session landing on Home. A reveal must fail visible; a preloader must fail absent.",
+                },
+                {
                   name: "[data-option-tile]",
                   value: "builder",
                   note: "Lifts the focus ring off the visually-hidden radio onto the tile you can actually see.",
@@ -1626,6 +1631,16 @@ export default function StyleGuidePage() {
                 note: "Home's one authored moment. Opacity stays at 1 throughout so the photograph can still be the LCP element.",
               },
               {
+                name: "Preloader",
+                value: "1.34s + 0.24s exit",
+                note: "Six hairlines — the six strings — fall at their own rates, slowest on the left where the low E would be, rest for a beat, then converge into one lit line that opens vertically as the ground fades. Once per session, Home only, decided before first paint by an inline script in the root layout. The fall is SWIFT (travel you can see), the merge is EASE (an arrival), the exit is the lightbox's 0.24s.",
+              },
+              {
+                name: "Preloader skip",
+                value: "keydown / pointerdown / wheel",
+                note: "Any input ends it on the same exit fade. Not a dialog and not focus-managed — it asks nothing of the visitor, so moving focus into it would only steal focus from someone already tabbing. Scroll is locked while it holds, which is why the wheel has to end it: a wheel that does nothing is worse than no preloader.",
+              },
+              {
                 name: "Parallax",
                 value: "±40 / ±90px",
                 note: "Scroll-linked drift on About's two frames. Deliberately unmatched: matching them would slide the pair as one block.",
@@ -1671,6 +1686,15 @@ export default function StyleGuidePage() {
               prefers-reduced-motion rule in globals.css that forces every
               [data-reveal] visible, and a noscript style in MotionProvider that
               does the same with JavaScript off. Neither depends on a hook.
+            </p>
+            <p className={`mt-5 ${proseClasses}`}>
+              The preloader inverts that polarity on purpose. [data-preloader]
+              is display: none by default, and only a pre-paint script in the
+              root layout — a fresh session, landing on Home — opts it in. So a
+              blocked inline script, a script error and JavaScript off all
+              resolve to no overlay at all. A reveal has to fail visible,
+              because a broken reveal hides a section; a preloader has to fail
+              absent, because a broken preloader hides the site.
             </p>
           </div>
         </Section>

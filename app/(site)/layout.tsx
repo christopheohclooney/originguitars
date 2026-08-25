@@ -1,4 +1,5 @@
 import { MotionProvider } from "@/components/motion/motion-provider";
+import { Preloader } from "@/components/motion/preloader";
 import { SmoothScroll } from "@/components/motion/smooth-scroll";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
@@ -28,6 +29,15 @@ export default function SiteLayout({
       */}
       <div aria-hidden data-light-leak />
       <SiteHeader />
+      {/*
+        After SmoothScroll, and the ordering is load-bearing: sibling effects
+        run in render order, and the preloader's scroll lock only registers
+        if Lenis's MutationObserver is already watching the body when the
+        lock lands. A sibling of the header rather than a child of the
+        content wrapper below, whose `relative z-10` is a stacking context
+        nothing inside it can escape — the same trap the lightbox documents.
+      */}
+      <Preloader />
       <div className="relative z-10 flex-1">{children}</div>
       <SiteFooter />
     </MotionProvider>
