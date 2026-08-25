@@ -84,14 +84,21 @@ const EXIT = 0.24;
  * vmin rather than vw: on an ultrawide, vw blows the spread into six
  * unrelated lines; bound to the scarce axis it stays a set. The gaps are
  * even, like a nut's.
+ *
+ * 8.6vmin between them, tightened from 9.6 on review: at the wider spacing
+ * the six read as distant marks that happen to share a screen rather than
+ * as one instrument's strings, and grouping is what makes them a set. It
+ * also shortens what the convergence has to travel, so the merge lands as
+ * a gathering rather than a long journey to the middle — which is the
+ * subtler resolve the wider spacing was working against.
  */
 const SPREAD = [
-  "-24vmin",
-  "-14.4vmin",
-  "-4.8vmin",
-  "4.8vmin",
-  "14.4vmin",
-  "24vmin",
+  "-21.5vmin",
+  "-12.9vmin",
+  "-4.3vmin",
+  "4.3vmin",
+  "12.9vmin",
+  "21.5vmin",
 ];
 
 /*
