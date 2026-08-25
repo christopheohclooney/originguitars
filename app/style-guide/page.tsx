@@ -1631,6 +1631,11 @@ export default function StyleGuidePage() {
                 note: "Home's one authored moment. Opacity stays at 1 throughout so the photograph can still be the LCP element.",
               },
               {
+                name: "Hero scrub",
+                value: "200vh · 4s clip",
+                note: "Home's hero pins for two viewports while the clip's currentTime tracks scroll progress — one seek per painted frame off a MotionValue, never a scroll listener. Desktop fine pointers only: touch and reduced motion keep the photograph hero and never download the clip. The encode is part of the mechanic — all-intra, so any seek decodes exactly one frame. components/motion/hero-scrub.tsx.",
+              },
+              {
                 name: "Preloader",
                 value: "3.6s + 0.24s exit",
                 note: "Six ghosted rails — the six strings — with a bright streak of light falling down each at its own pace, linear, one pass. The rails converge on EASE into one string, the rain lands on it, and a lit line flares and opens vertically as the ground fades. The site's own light leak and canvas glow ground the field. Once per session, Home only, decided before first paint by an inline script in the root layout; the exit is the lightbox's 0.24s.",

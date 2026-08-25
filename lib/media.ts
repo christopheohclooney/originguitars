@@ -170,3 +170,28 @@ export function modelCardPhoto(
     photoAlt: depictsThisModel ? `The Origin ${name}, full length` : "",
   };
 }
+
+/*
+ * Resolve a video in /public by name, the way publicPhoto resolves a
+ * photograph — dropped in by hand, referenced by path, missing handled
+ * rather than assumed. A section holding a <video> pointed at a file that
+ * is not there renders a dead player, which is worse than the photograph
+ * it would otherwise stand on.
+ *
+ * No dimensions read off the file, deliberately. publicPhoto parses headers
+ * because <Image> needs intrinsic size to reserve layout; the one video on
+ * the site is a full-bleed cover layer with no intrinsic space to reserve,
+ * and parsing MP4 boxes to learn a number nothing consumes is machinery
+ * without a caller.
+ */
+const VIDEO_EXTENSIONS = ["mp4", "webm"] as const;
+
+export type PublicVideo = { src: string };
+
+export function publicVideo(basename: string): PublicVideo | null {
+  for (const extension of VIDEO_EXTENSIONS) {
+    const src = `/${basename}.${extension}`;
+    if (existsSync(join(process.cwd(), "public", src))) return { src };
+  }
+  return null;
+}

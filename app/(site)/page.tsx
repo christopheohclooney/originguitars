@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { HeroPhoto } from "@/components/motion/hero-entrance";
+import { HeroScrub } from "@/components/motion/hero-scrub";
 import {
   ProcessSteps,
   type ProcessStepData,
@@ -12,7 +13,7 @@ import { buttonClasses } from "@/components/ui/button";
 import { ModelTile } from "@/components/ui/model-tile";
 import { Overline } from "@/components/ui/overline";
 import { fromPricePence, models } from "@/data/models";
-import { modelCardPhoto, publicPhoto } from "@/lib/media";
+import { modelCardPhoto, publicPhoto, publicVideo } from "@/lib/media";
 import { formatFromPrice } from "@/lib/pricing";
 import { shell } from "@/lib/style";
 
@@ -22,6 +23,15 @@ import { shell } from "@/lib/style";
  */
 const heroPhoto = publicPhoto("home-hero");
 const precisionPhoto = publicPhoto("home-precision");
+
+/*
+ * The hero's scroll-scrub clip, resolved the same way. Missing, the hero is
+ * the photograph section it always was — HeroScrub renders no pin and no
+ * player. Present, desktop fine-pointer visitors get the clip scrubbed by
+ * scroll across a pinned screen; everyone else still gets the photograph.
+ * The gates and the encode contract live in components/motion/hero-scrub.tsx.
+ */
+const heroVideo = publicVideo("home-hero-scrub");
 
 /*
  * The four process steps. Photos land at public/home-step-<n> and appear
@@ -111,9 +121,18 @@ export default function HomePage() {
         geometry is exactly what it was when the section carried these
         classes itself.
       */}
-      <section className="relative mt-[calc(var(--header-h)*-1)] overflow-hidden bg-white/[0.02]">
-        {heroPhoto && <HeroPhoto src={heroPhoto.src} />}
-
+      {/*
+        The section shell and the 2% ground now live in HeroScrub, which pins
+        the hero and scrubs the clip against scroll where its gates pass —
+        and renders this exact section, inert, where they do not. The
+        photograph goes in as the media layer because it is load-bearing four
+        ways: the mobile hero, the reduced-motion hero, the poster the video
+        fades up from, and the ground that holds if the clip never loads.
+      */}
+      <HeroScrub
+        videoSrc={heroVideo?.src ?? null}
+        media={heroPhoto && <HeroPhoto src={heroPhoto.src} />}
+      >
         {/*
           The light leak, again, over the photograph.
 
@@ -308,7 +327,7 @@ export default function HomePage() {
             </span>
           </p>
         </div>
-      </section>
+      </HeroScrub>
 
       {/*
         Photograph left, copy right, the photograph running off the left edge
