@@ -5,14 +5,23 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState, useSyncExternalStore } from "react";
 
 /*
- * The preloader — six strings falling, tuning to one note.
+ * The preloader — light falling down six strings, tuning to one note.
  *
  * A first impression for a cold arrival on Home, and nothing else: six
- * vertical hairlines fall against the page ground, come to rest, converge
- * on the centre and resolve into a single bright line that opens vertically
- * as the ground fades off the hero. Six on purpose — the instrument has six
- * strings, and the count is the one thing here that must not be "tidied" to
- * a rounder number.
+ * ghosted rails stand against the page ground with a bright streak of light
+ * running down each at its own pace, then the six converge on the centre
+ * and resolve into a single lit line that opens vertically as the ground
+ * fades off the hero. Six on purpose — the instrument has six strings, and
+ * the count is the one thing here that must not be "tidied" to a rounder
+ * number.
+ *
+ * Rail-and-streak rather than lines that are themselves the falling
+ * objects, which is what the first pass did: a line that drops once and
+ * stops reads as "lines appear, then wrap into one", with no ongoing sense
+ * of falling. Splitting the string from the light that travels it gives the
+ * field a persistent structure and continuous motion at six different
+ * speeds — and it is truer to the object: a string does not fall, what
+ * falls is what is played down it.
  *
  * It plays once per session, on the first page load, on Home only. The
  * decision is made before first paint by the inline script in
@@ -46,7 +55,6 @@ import { useEffect, useState, useSyncExternalStore } from "react";
  */
 
 const EASE = [0.16, 1, 0.3, 1] as const;
-const SWIFT = [0.32, 0.72, 0, 1] as const;
 const INSTANT = { duration: 0 } as const;
 
 /*
@@ -82,42 +90,72 @@ const SPREAD = [
 ];
 
 /*
- * Arrival times. Monotonic left to right, not symmetric: on the instrument
- * the low E is the heaviest string and the slowest to speak, so the slowest
- * fall belongs to the leftmost line — and the rake it produces reads better
- * than a symmetric closing gesture at this size anyway.
- */
-const FALL = [0.72, 0.68, 0.64, 0.6, 0.56, 0.52];
-
-/*
- * The rest, then the merge. Convergence opens 0.06s after the last string
- * lands — without that beat the fall and the slide blur into one continuous
- * movement and the "six strings" reading is lost. The eye needs a frame of
- * six things at rest before they become one.
+ * The moment the strings hold as six, and the moment they have become one.
+ * Convergence opens at 0.78 — late enough that the rain has established
+ * itself as six separate paces before the field starts to move — and the
+ * merge is done by 1.18, leaving the last 0.16s to the note.
  */
 const REST = 0.78;
 const MERGED = 1.18;
 
 /*
- * A segment, not a full-height rule — a line that already spans the screen
- * cannot visibly fall. 38vh tall, coming to rest with its middle on the
- * viewport's centre (31 + 38/2 = 50). The start height leaves the bottom
- * 8vh hanging in frame: the animation cannot begin until hydration, so on a
- * slow connection this first keyframe *is* the page for a moment, and six
- * faint hairlines at the top of a dark screen is a composed frame where
- * fully off-screen lines would be a black void.
+ * The comets' choreography — where each streak starts, when it leaves, and
+ * how long its pass takes. Scrambled by hand rather than generated: the
+ * server renders the first frame, so the values must be the same on every
+ * run, and Math.random would hand back a different overlay per request. The
+ * scrambling is the point — six comets at six unrelated heights and speeds
+ * is what makes the field read as rain rather than a squadron. Starts vary
+ * between already-in-frame and well above it, so the pre-hydration frame (a
+ * slow connection holds it for a moment) already shows light on the strings
+ * rather than an empty ground, and the falling reads from the first tick.
+ * One pass each, no loop: the visible window before the merge is under a
+ * second, and a comet restarting mid-screen reads as a glitch.
+ *
+ * The passes are spread across the whole timeline, not front-loaded. The
+ * first cut had every comet clear the frame by ~1s, which left the merge
+ * playing out over rails alone — and the merge is exactly where the rain
+ * has to be, because rain landing on the one remaining string is the beat
+ * that reads as six becoming one. The three late comets finish between
+ * 1.27 and 1.48, so light is still falling through the flare itself. One
+ * constraint ties starts to delays: a comet that waits must start above
+ * the frame (below -24vh, its own tail height), because a streak sitting
+ * motionless mid-screen while its delay runs is a hang, not a rest.
  */
-const DROP_FROM = "-30vh";
-const REST_Y = "31vh";
+const COMET_START = ["-2vh", "-26vh", "10vh", "-30vh", "-24vh", "-36vh"];
+const COMET_DELAY = [0, 0.42, 0.1, 0.55, 0.22, 0.68];
+const COMET_DURATION = [0.95, 0.85, 1.1, 0.75, 1.0, 0.8];
 
 /*
- * left-1/2 puts the line's left edge on centre; the half-pixel margin puts
- * its middle there. Invisible at this width, but it is the difference
- * between six lines converging on the centre and six converging half a
- * pixel to the right of it.
+ * The group: left-1/2 puts the hairline's left edge on centre; the
+ * half-pixel margin puts its middle there. Invisible at this width, but it
+ * is the difference between six strings converging on the centre and six
+ * converging half a pixel to the right of it.
  */
-const stringClasses =
-  "absolute left-1/2 top-0 -ml-[0.5px] h-[38vh] w-px bg-ink-muted will-change-transform";
+const groupClasses =
+  "absolute left-1/2 top-0 -ml-[0.5px] h-full w-px will-change-transform";
+
+/*
+ * The rail — the string itself, a ghosted full-height hairline. White alpha
+ * rather than the line tokens, because it stands over the light leak and
+ * the glow, and everything over a variable ground in this system composites
+ * as alpha rather than restating a solid. 7% is quiet enough to be
+ * structure rather than content, and it is doing double duty: where the six
+ * rails coincide at the merge, translucent layers stack to ~35% — the
+ * merged string brightens by compositing, not by an animation timed to
+ * pretend it did.
+ */
+const railClasses = "absolute inset-y-0 left-0 w-px bg-white/[0.07]";
+
+/*
+ * The comet — the light running down the string. A streak with a bright
+ * leading edge and a fading tail, which is what makes direction legible on
+ * a one-pixel column. Light, not paint: white alpha like the bloom, the
+ * leak and --canvas-glow, which is how a near-white element squares with
+ * the rule that pure white belongs to primary CTAs — that rule governs
+ * surfaces and type.
+ */
+const cometClasses =
+  "absolute left-0 top-0 h-[22vh] w-px bg-[linear-gradient(to_bottom,transparent,rgba(255,255,255,0.9))] will-change-transform";
 
 /*
  * "Should this play?" as an external-store read — the lightbox's
@@ -235,49 +273,96 @@ export function Preloader() {
           exit={{ opacity: 0 }}
           transition={exitTransition}
         >
+          {/*
+            The light leak, the same rule every page carries — reused here
+            for the reason Home's hero reuses it over its photograph: the
+            overlay is a page for 1.6 seconds, and a page on this site is
+            not a flat black rectangle. The rule brings its own SVG-noise
+            dither, so the falloff does not band, and the overlay's
+            overflow-hidden clips it exactly as a section would.
+          */}
+          <div aria-hidden data-light-leak />
+
+          {/*
+            The canvas glow, pooled behind the strings — the same light the
+            builder stands the instrument in and the model gallery lifts its
+            cut-outs with. Here it is what gives six ghosted rails a ground
+            to stand against; on flat black their feet and heads dissolve
+            and the field reads as floating marks rather than strings. A
+            static gradient, like the leak: nothing here repaints.
+          */}
+          <div aria-hidden data-frame-glow className="absolute inset-0" />
+
           {SPREAD.map((offset, i) => (
             /*
-              Five keyframes per string: fall, land, rest, merge, yield.
-              The fall is SWIFT, not EASE — across 61vh of travel,
-              easeOutExpo covers nearly everything in the first frames and
-              reads as the snap-then-nothing the style guide already warns
-              about; SWIFT keeps the travel visible, and its firm arrival
-              reads as a string plucked into place. The convergence is EASE,
-              because it is an arrival: six things landing as one, sold by
-              the decelerating settle. The hold between them is written
-              "linear" to say it is a rest, not a movement.
+              Each string is a group carrying the x offset, so the
+              convergence is one `x: 0` per group while the light inside
+              keeps falling on its own clock — during the merge the rain
+              visibly lands on the one remaining string, which is the beat
+              that makes the resolve read as six becoming one rather than
+              five vanishing. Four keyframes: hold, hold, merge, yield. The
+              merge is EASE because it is an arrival — six things landing as
+              one, sold by the decelerating settle; the holds are written
+              "linear" to say they are rests, not movements.
             */
             <m.div
               key={offset}
-              className={stringClasses}
+              className={groupClasses}
               /*
                 The initial matches the first keyframe exactly. It is not
                 redundant: Motion renders `initial` as inline style on the
                 server, and that style is the composed frame a slow
                 connection holds between first paint and hydration.
               */
-              initial={{ y: DROP_FROM, x: offset, opacity: 0.35 }}
+              initial={{ x: offset, opacity: 1 }}
               animate={{
-                y: [DROP_FROM, REST_Y, REST_Y, REST_Y, REST_Y],
-                x: [offset, offset, offset, "0vmin", "0vmin"],
-                opacity: [0.35, 1, 1, 1, 0],
+                x: [offset, offset, "0vmin", "0vmin"],
+                opacity: [1, 1, 1, 0],
               }}
               transition={
                 reduced
                   ? INSTANT
                   : {
                       duration: TIMELINE,
-                      times: [
-                        0,
-                        FALL[i] / TIMELINE,
-                        REST / TIMELINE,
-                        MERGED / TIMELINE,
-                        1,
-                      ],
-                      ease: [SWIFT, "linear", EASE, EASE],
+                      times: [0, REST / TIMELINE, MERGED / TIMELINE, 1],
+                      ease: ["linear", EASE, EASE],
                     }
               }
-            />
+            >
+              {/*
+                The rail arrives on a fast fade rather than standing in the
+                server frame: the comets carry that frame alone, and the
+                strings materialising under light already in motion is a
+                better first tick than a fence that was simply there.
+              */}
+              <m.div
+                className={railClasses}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={reduced ? INSTANT : { duration: 0.3, ease: EASE }}
+              />
+              {/*
+                One pass, linear. A light streak at constant velocity is the
+                pattern's read — eased travel would make it a UI element
+                arriving somewhere, and rain does not arrive, it passes.
+                112vh, so the tail fully clears the frame before the pass
+                ends.
+              */}
+              <m.div
+                className={cometClasses}
+                initial={{ y: COMET_START[i] }}
+                animate={{ y: "112vh" }}
+                transition={
+                  reduced
+                    ? INSTANT
+                    : {
+                        duration: COMET_DURATION[i],
+                        delay: COMET_DELAY[i],
+                        ease: "linear",
+                      }
+                }
+              />
+            </m.div>
           ))}
 
           {/*

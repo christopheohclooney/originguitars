@@ -1633,7 +1633,7 @@ export default function StyleGuidePage() {
               {
                 name: "Preloader",
                 value: "1.34s + 0.24s exit",
-                note: "Six hairlines — the six strings — fall at their own rates, slowest on the left where the low E would be, rest for a beat, then converge into one lit line that opens vertically as the ground fades. Once per session, Home only, decided before first paint by an inline script in the root layout. The fall is SWIFT (travel you can see), the merge is EASE (an arrival), the exit is the lightbox's 0.24s.",
+                note: "Six ghosted rails — the six strings — with a bright streak of light falling down each at its own pace, linear, one pass. The rails converge on EASE into one string, the rain lands on it, and a lit line flares and opens vertically as the ground fades. The site's own light leak and canvas glow ground the field. Once per session, Home only, decided before first paint by an inline script in the root layout; the exit is the lightbox's 0.24s.",
               },
               {
                 name: "Preloader skip",
