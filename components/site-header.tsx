@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, m, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -47,9 +48,64 @@ function Wordmark({ className = "" }: { className?: string }) {
   );
 }
 
+/*
+ * The menu's entrance: a curtain of the canvas tone unmasked top-down with
+ * clip-path, so the page is covered rather than pushed — the items don't
+ * ride in on a moving slab, they surface in place once the ground has
+ * arrived. Exit reverses the mask upward, faster: an opening is an arrival
+ * and can take its time, a dismissal already has the user's answer.
+ *
+ * clip-path over transform deliberately. A y-translated panel would drag
+ * its contents with it; the mask moves while everything under it holds
+ * still, which is what reads as elegant rather than mechanical.
+ */
+const CURTAIN_EASE = [0.16, 1, 0.3, 1] as const;
+
 export function SiteHeader() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
+  const reduceMotion = useReducedMotion();
+
+  /*
+   * Built here rather than at module scope because reduced motion collapses
+   * the choreography to a plain crossfade — the mask sweep and the item rise
+   * are both movement, and both go together.
+   */
+  const panelVariants = {
+    hidden: reduceMotion
+      ? { opacity: 0 }
+      : { clipPath: "inset(0% 0% 100% 0%)" },
+    show: reduceMotion
+      ? { opacity: 1, transition: { duration: 0.15 } }
+      : {
+          clipPath: "inset(0% 0% 0% 0%)",
+          transition: {
+            duration: 0.5,
+            ease: CURTAIN_EASE,
+            /*
+             * Items start once the curtain is well underway — the 0.12s
+             * head start keeps the first title from appearing on ground
+             * that isn't there yet.
+             */
+            delayChildren: 0.12,
+            staggerChildren: 0.06,
+          },
+        },
+    exit: reduceMotion
+      ? { opacity: 0, transition: { duration: 0.1 } }
+      : {
+          clipPath: "inset(0% 0% 100% 0%)",
+          transition: { duration: 0.35, ease: CURTAIN_EASE },
+        },
+  };
+
+  const itemVariants = {
+    hidden: reduceMotion ? {} : { opacity: 0, y: 16 },
+    show: reduceMotion
+      ? {}
+      : { opacity: 1, y: 0, transition: { duration: 0.45, ease: CURTAIN_EASE } },
+    /* No exit on items: the curtain covers them, they don't need to leave. */
+  };
   /*
    * The lit link, or null on a page the nav does not cover (/contact, legal).
    * Resolved once here and reused, so "which link is lit" and "where the glow
@@ -186,13 +242,19 @@ export function SiteHeader() {
         top of this slab — a later sibling with any z would otherwise paint
         over them.
       */}
-      {open && (
-        /* data-lenis-prevent: a wheel inside the panel must not reach the page. */
-        <div
-          id="mobile-nav"
-          data-lenis-prevent
-          className="pointer-events-auto fixed inset-0 overflow-y-auto bg-canvas motion-safe:animate-[menu-fade_200ms_ease-out] md:hidden"
-        >
+      <AnimatePresence>
+        {open && (
+          /* data-lenis-prevent: a wheel inside the panel must not reach the page. */
+          <m.div
+            key="mobile-nav"
+            id="mobile-nav"
+            data-lenis-prevent
+            variants={panelVariants}
+            initial="hidden"
+            animate="show"
+            exit="exit"
+            className="pointer-events-auto fixed inset-0 overflow-y-auto bg-canvas md:hidden"
+          >
           <nav
             aria-label="Primary"
             className="flex min-h-full flex-col px-6 pt-[calc(var(--header-h)+1.5rem)] pb-[max(env(safe-area-inset-bottom),1.25rem)]"
@@ -205,7 +267,12 @@ export function SiteHeader() {
             */}
             <ul className="flex flex-col pl-3">
               {primaryNav.map((link, i) => (
-                <li key={link.href}>
+                /*
+                 * m.li so the panel's variants reach it — the stagger is
+                 * orchestrated by the parent, each item only knows its own
+                 * rise.
+                 */
+                <m.li key={link.href} variants={itemVariants}>
                   <Link
                     href={link.href}
                     onClick={() => setOpen(false)}
@@ -233,10 +300,10 @@ export function SiteHeader() {
                       {String(i + 1).padStart(2, "0")}
                     </span>
                   </Link>
-                </li>
+                </m.li>
               ))}
             </ul>
-            <div className="mt-auto pt-10">
+            <m.div variants={itemVariants} className="mt-auto pt-10">
               <Link
                 href="/builder"
                 onClick={() => setOpen(false)}
@@ -244,10 +311,11 @@ export function SiteHeader() {
               >
                 Build yours
               </Link>
-            </div>
+            </m.div>
           </nav>
-        </div>
-      )}
+          </m.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
