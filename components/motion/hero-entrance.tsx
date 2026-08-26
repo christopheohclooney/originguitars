@@ -60,13 +60,20 @@ export function HeroPhoto({ src, alt = "" }: { src: string; alt?: string }) {
         Centred, that third is the middle of the body — the least characterful
         part of the shot, and it cuts the neck and headstock off entirely.
 
-        100% pins the slice to the right edge, which is where the picture's
-        interest is: the neck rakes up to the top-right corner and the
-        headstock and tuners sit just inside it, with the upper bout and the
-        knobs below. Anything short of 100% starts clipping the headstock tip
-        at the right before it gains anything on the left — the tuners run to
-        roughly x 900 of 974, so the margin is about 7% of the source and not
-        worth spending.
+        90%, not 100%. The interest is all on the right — the neck rakes to
+        the top-right corner with the headstock and tuners just inside it —
+        but the shot carries dead ground beyond them: measured off a column
+        luminance profile, the last column holding any subject brightness is
+        x 891 of 974, so a slice pinned hard right spends its final 83px on
+        empty background. That is a quarter of everything a phone can see,
+        given the window is only ~325 source px wide.
+
+        90% lands the slice's right edge at x 909 — the headstock kept whole
+        with about 18px to spare — and spends the 65px it reclaims on more
+        neck and upper bout instead. The margin holds across the sub-md
+        range: the window barely moves between 360 and 430 wide (317–325px,
+        modern phone aspects being what they are) and only grows past that,
+        so the headstock cannot clip before md takes over.
 
         No vertical term to tune: scaling to the height means the height fits
         exactly, so there is no vertical slack to redistribute and the Y value
@@ -84,7 +91,7 @@ export function HeroPhoto({ src, alt = "" }: { src: string; alt?: string }) {
         fill
         preload
         sizes="100vw"
-        className="object-cover object-[100%_50%] md:object-[50%_50%]"
+        className="object-cover object-[90%_50%] md:object-[50%_50%]"
       />
     </m.div>
   );
