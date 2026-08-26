@@ -79,11 +79,18 @@ export function HeroPhoto({ src, alt = "" }: { src: string; alt?: string }) {
         exactly, so there is no vertical slack to redistribute and the Y value
         is inert on a phone whatever it is set to.
 
-        From md the viewport is wider than the source's 1.384, so `cover`
-        scales to the width instead and it is the top and bottom that go —
-        very little of either. Centred, because this is the poster the video
-        fades up from and it should sit where the clip's own first frame does;
-        the old 28% was tuned against a 0.959 source that no longer exists.
+        From md the value is left exactly where it was. The viewport is wider
+        than the source's 1.384 there, so `cover` scales to the width and it
+        is the top and bottom that go — at 1440x900 about 141px of vertical
+        slack, which 28% versus centred moves by roughly 31px. Small, and on
+        desktop this frame is only the poster the video fades up from, so it
+        is on screen for the length of a load and no longer.
+
+        28% was originally derived against the 0.959 portrait source, so
+        there is an argument for re-deriving it now the shot is landscape.
+        Not taken: desktop is signed off as it stands, and a poster that
+        briefly disagrees with the clip's first frame by 31px is not worth
+        reopening it. If the video is ever re-cut, re-derive both together.
       */}
       <Image
         src={src}
@@ -91,7 +98,7 @@ export function HeroPhoto({ src, alt = "" }: { src: string; alt?: string }) {
         fill
         preload
         sizes="100vw"
-        className="object-cover object-[90%_50%] md:object-[50%_50%]"
+        className="object-cover object-[90%_50%] md:object-[50%_28%]"
       />
     </m.div>
   );
