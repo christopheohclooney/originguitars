@@ -50,21 +50,33 @@ export function HeroPhoto({ src, alt = "" }: { src: string; alt?: string }) {
       transition={reduced ? INSTANT : { duration: 1.8, ease: EASE }}
     >
       {/*
-        The crop sits high of centre on desktop.
-        `object-position` picks which slice of an over-tall image survives the
-        cover crop, and moving it *up* the source shows more of what is above
-        the subject — which pushes the subject itself down the frame. Centred
-        left the fretboard riding the top edge with dead space beneath it.
+        The frame is landscape now — 974×704, from the same set as the scrub
+        clip — which inverts the crop problem the portrait shot had.
 
-        Only from md. A portrait frame crops the sides rather than the top and
-        bottom, so there is little vertical slack to redistribute — what it
-        needs instead is the horizontal position below. The subject sits in
-        the right half of the source (the shot composes it against the copy's
-        clear left), so a centred portrait crop showed the empty left of the
-        frame and cut the headstock off at the right edge. 72% brings the
-        hand and the headstock wholly into the slice; the copy no longer
-        needs the empty left, because on a phone it sits on the scrim, not
-        beside the subject.
+        On a phone the viewport is portrait and the source is wide, so `cover`
+        scales to the height and the *sides* are what get discarded: at 390×844
+        the picture lands 1168 wide against a 390 slot, so two thirds of the
+        source is off-screen and the only question is which third survives.
+        Centred, that third is the middle of the body — the least characterful
+        part of the shot, and it cuts the neck and headstock off entirely.
+
+        100% pins the slice to the right edge, which is where the picture's
+        interest is: the neck rakes up to the top-right corner and the
+        headstock and tuners sit just inside it, with the upper bout and the
+        knobs below. Anything short of 100% starts clipping the headstock tip
+        at the right before it gains anything on the left — the tuners run to
+        roughly x 900 of 974, so the margin is about 7% of the source and not
+        worth spending.
+
+        No vertical term to tune: scaling to the height means the height fits
+        exactly, so there is no vertical slack to redistribute and the Y value
+        is inert on a phone whatever it is set to.
+
+        From md the viewport is wider than the source's 1.384, so `cover`
+        scales to the width instead and it is the top and bottom that go —
+        very little of either. Centred, because this is the poster the video
+        fades up from and it should sit where the clip's own first frame does;
+        the old 28% was tuned against a 0.959 source that no longer exists.
       */}
       <Image
         src={src}
@@ -72,7 +84,7 @@ export function HeroPhoto({ src, alt = "" }: { src: string; alt?: string }) {
         fill
         preload
         sizes="100vw"
-        className="object-cover object-[72%_50%] md:object-[50%_28%]"
+        className="object-cover object-[100%_50%] md:object-[50%_50%]"
       />
     </m.div>
   );
