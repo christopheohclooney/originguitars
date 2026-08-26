@@ -85,7 +85,7 @@ export function SiteHeader() {
         floating under the bar.
       */}
       <div
-        className={`${glassPill} pointer-events-auto mx-auto flex h-16 w-full max-w-[var(--shell)] items-center justify-between gap-8 overflow-hidden px-5 md:px-6`}
+        className={`${glassPill} pointer-events-auto relative z-10 mx-auto flex h-16 w-full max-w-[var(--shell)] items-center justify-between gap-8 overflow-hidden px-5 md:px-6`}
       >
         <Link
           href="/"
@@ -176,45 +176,69 @@ export function SiteHeader() {
         </button>
       </div>
 
-      {/* Mobile panel — a card under the pill, on the same gutter. */}
+      {/*
+        Mobile panel — a full-screen takeover, not a card. Solid canvas tone,
+        no blur: nothing of the page may read through while it is open.
+
+        A child of the header, so it lives inside the header's z-50 stacking
+        context: against the page it is already above everything, and the
+        pill above carries relative z-10 so the wordmark and the ✕ stay on
+        top of this slab — a later sibling with any z would otherwise paint
+        over them.
+      */}
       {open && (
         /* data-lenis-prevent: a wheel inside the panel must not reach the page. */
         <div
           id="mobile-nav"
           data-lenis-prevent
-          className="pointer-events-auto fixed inset-x-4 top-[var(--header-h)] z-40 max-h-[calc(100svh-var(--header-h)-1rem)] overflow-y-auto rounded-3xl border border-white/10 bg-[#141414]/95 backdrop-blur-xl md:hidden"
+          className="pointer-events-auto fixed inset-0 overflow-y-auto bg-canvas motion-safe:animate-[menu-fade_200ms_ease-out] md:hidden"
         >
-          <nav aria-label="Primary" className="px-6 py-4">
+          <nav
+            aria-label="Primary"
+            className="flex min-h-full flex-col px-6 pt-[calc(var(--header-h)+1.5rem)] pb-[max(env(safe-area-inset-bottom),1.25rem)]"
+          >
             <ul className="flex flex-col">
-              {primaryNav.map((link) => (
-                <li
-                  key={link.href}
-                  className="border-b border-white/10 last:border-b-0"
-                >
+              {primaryNav.map((link, i) => (
+                <li key={link.href}>
                   <Link
                     href={link.href}
                     onClick={() => setOpen(false)}
                     aria-current={
                       isActive(pathname, link.href) ? "page" : undefined
                     }
-                    className={`block py-5 text-[1.375rem] font-semibold tracking-[-0.015em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
+                    className={`flex items-baseline gap-4 py-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
                       isActive(pathname, link.href)
                         ? "text-white"
                         : "text-white/60"
                     }`}
                   >
-                    {link.label}
+                    {/*
+                      A schematic index, not a design element: small, mono,
+                      barely there. aria-hidden — "01 About" read aloud is
+                      noise.
+                    */}
+                    <span
+                      aria-hidden
+                      className="w-6 shrink-0 font-mono text-[0.6875rem] leading-none tracking-[0.15em] text-white/30"
+                    >
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    <span className="text-[3rem] font-light leading-[1.1] tracking-[-0.02em]">
+                      {link.label}
+                    </span>
                   </Link>
                 </li>
               ))}
             </ul>
-            <Link
-              href="/builder"
-              onClick={() => setOpen(false)}
-              className={`${buttonClasses({ size: "lg" })} my-6 w-full`}
-            >
-              Build yours
-            </Link>
+            <div className="mt-auto pt-10">
+              <Link
+                href="/builder"
+                onClick={() => setOpen(false)}
+                className={`${buttonClasses({ size: "lg" })} w-full`}
+              >
+                Build yours
+              </Link>
+            </div>
           </nav>
         </div>
       )}
