@@ -197,7 +197,13 @@ export function SiteHeader() {
             aria-label="Primary"
             className="flex min-h-full flex-col px-6 pt-[calc(var(--header-h)+1.5rem)] pb-[max(env(safe-area-inset-bottom),1.25rem)]"
           >
-            <ul className="flex flex-col">
+            {/*
+              pl-3 sets the titles flush with the wordmark: the header's 1rem
+              gutter plus the pill's 1.25rem padding put the logo 2.25rem from
+              the viewport edge, and this nav's px-6 covers 1.5rem of that.
+              Changing either padding above moves this too.
+            */}
+            <ul className="flex flex-col pl-3">
               {primaryNav.map((link, i) => (
                 <li key={link.href}>
                   <Link
@@ -206,25 +212,25 @@ export function SiteHeader() {
                     aria-current={
                       isActive(pathname, link.href) ? "page" : undefined
                     }
-                    className={`flex items-baseline gap-4 py-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
+                    className={`flex items-baseline gap-3 py-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white ${
                       isActive(pathname, link.href)
                         ? "text-white"
                         : "text-white/60"
                     }`}
                   >
+                    <span className="text-[3rem] font-light leading-[1.1] tracking-[-0.02em]">
+                      {link.label}
+                    </span>
                     {/*
                       A schematic index, not a design element: small, mono,
-                      barely there. aria-hidden — "01 About" read aloud is
-                      noise.
+                      barely there, trailing the title. aria-hidden — "About
+                      01" read aloud is noise.
                     */}
                     <span
                       aria-hidden
-                      className="w-6 shrink-0 font-mono text-[0.6875rem] leading-none tracking-[0.15em] text-white/30"
+                      className="font-mono text-[0.6875rem] leading-none tracking-[0.15em] text-white/30"
                     >
                       {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="text-[3rem] font-light leading-[1.1] tracking-[-0.02em]">
-                      {link.label}
                     </span>
                   </Link>
                 </li>
