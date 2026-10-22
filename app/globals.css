@@ -246,6 +246,16 @@ html[data-preloader-play] [data-preloader] {
 }
 
 /*
+  Option tiles get tapped in quick succession, and iOS Safari reads two taps
+  as a double-tap zoom, leaving the page zoomed in and drifting sideways.
+  `manipulation` keeps taps and pinch-zoom and drops only the double tap.
+*/
+[data-option-tile],
+[data-spec-sheet] :is(button, select, label) {
+  touch-action: manipulation;
+}
+
+/*
   The builder canvas.
 
   Light, no paint: the ground comes from the body rule above and this adds

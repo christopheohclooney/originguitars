@@ -18,7 +18,12 @@ export const metadata: Metadata = {
 
 export default function SpecSheetPage() {
   return (
-    <main>
+    /*
+      overflow-x: clip, not hidden: it stops anything on the sheet widening
+      the page on a phone without making <main> a scroll container, which
+      would stop the summary card sticking on desktop.
+    */
+    <main data-spec-sheet className="overflow-x-clip">
       <PageHero
         title="Specified by you, built by us."
         titleMeasure="15ch"
