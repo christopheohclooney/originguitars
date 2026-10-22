@@ -23,7 +23,7 @@ export default function SpecSheetPage() {
         title="Specified by you, built by us."
         titleMeasure="15ch"
         intro="Choose every option for your Origin build. The price updates as you go. When you're done, download the sheet as a PDF so you and the workshop sign off on the same guitar."
-        introMeasure="60ch"
+        introMeasure="66ch"
       />
       <div className={shell}>
         <SpecSheet />
