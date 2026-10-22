@@ -108,15 +108,13 @@ const QUILT_BILLOW =
 const quilt = (centre: string, mid: string, edge: string) =>
   `${QUILT_BILLOW} 0 0 / 15px 12px, ${QUILT_BILLOW} 7.5px 6px / 15px 12px, ${burst(centre, mid, edge)}`;
 
-/* Crackle: the colour broken by black fissures. */
-const CRACK = "#121212";
-const crackle = (base: string) =>
-  [
-    `linear-gradient(32deg, transparent 0 44%, ${CRACK} 44% 47%, transparent 47%)`,
-    `linear-gradient(-58deg, transparent 0 58%, ${CRACK} 58% 61%, transparent 61%)`,
-    `linear-gradient(80deg, transparent 0 24%, ${CRACK} 24% 26.5%, transparent 26.5%)`,
-    base,
-  ].join(", ");
+/*
+ * Crackle: supplied artwork in public/swatches, one file per colour, drawn
+ * to cover the swatch. The hex is the artwork's colour and paints behind it
+ * until the file arrives.
+ */
+const crackle = (file: string, base: string) =>
+  `url("/swatches/${file}.svg") center / cover no-repeat, ${base}`;
 
 /* Colour prices sit on the family; every colour inside one is included. */
 const colours: BuilderOption[] = [
@@ -153,10 +151,10 @@ const colours: BuilderOption[] = [
   { id: "quilted-maple-black", label: "Quilted Maple Black", swatch: "#1E1E1E", swatchFill: quilt("#424242", "#1E1E1E", "#080808"), priceDeltaPence: 0, family: COLOUR_FAMILIES.transparent },
 
   // Crackle
-  { id: "yellow-crackle", label: "Yellow Crackle", swatch: "#F2C200", swatchFill: crackle("#F2C200"), priceDeltaPence: 0, family: COLOUR_FAMILIES.crackle },
-  { id: "white-crackle", label: "White Crackle", swatch: "#EDEDE8", swatchFill: crackle("#EDEDE8"), priceDeltaPence: 0, family: COLOUR_FAMILIES.crackle },
-  { id: "red-crackle", label: "Red Crackle", swatch: "#C4161C", swatchFill: crackle("#C4161C"), priceDeltaPence: 0, family: COLOUR_FAMILIES.crackle },
-  { id: "blue-crackle", label: "Blue Crackle", swatch: "#1F57B8", swatchFill: crackle("#1F57B8"), priceDeltaPence: 0, family: COLOUR_FAMILIES.crackle },
+  { id: "yellow-crackle", label: "Yellow Crackle", swatch: "#E0B91B", swatchFill: crackle("crackle-yellow", "#E0B91B"), priceDeltaPence: 0, family: COLOUR_FAMILIES.crackle },
+  { id: "white-crackle", label: "White Crackle", swatch: "#FFFFFF", swatchFill: crackle("crackle-white", "#FFFFFF"), priceDeltaPence: 0, family: COLOUR_FAMILIES.crackle },
+  { id: "red-crackle", label: "Red Crackle", swatch: "#C4161B", swatchFill: crackle("crackle-red", "#C4161B"), priceDeltaPence: 0, family: COLOUR_FAMILIES.crackle },
+  { id: "blue-crackle", label: "Blue Crackle", swatch: "#2358B4", swatchFill: crackle("crackle-blue", "#2358B4"), priceDeltaPence: 0, family: COLOUR_FAMILIES.crackle },
 ];
 
 /* ----------------------------------------------------------------- steps */
