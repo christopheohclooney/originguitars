@@ -12,7 +12,7 @@ import { shell } from "@/lib/style";
 export const metadata: Metadata = {
   title: "Build spec sheet — Origin Guitars",
   description:
-    "Choose every option for your Origin build, then download the sheet as a PDF to sign off.",
+    "Choose every option for your Origin build and submit it. We'll email your spec and the next steps.",
   robots: { index: false, follow: false },
 };
 
@@ -27,7 +27,7 @@ export default function SpecSheetPage() {
       <PageHero
         title="Specified by you, built by us."
         titleMeasure="15ch"
-        intro="Choose every option for your Origin build. The price updates as you go. When you're done, download the sheet as a PDF so you and the workshop sign off on the same guitar."
+        intro="Choose every option for your Origin build. The price updates as you go. When you're done, submit it and we'll email you your spec and what happens next."
         introMeasure="66ch"
       />
       <div className={shell}>

@@ -5,11 +5,10 @@ import { CONTACT_INBOX } from "@/lib/contact";
 /*
  * The mail layer.
  *
- * Everything the site sends goes through here. Today that is the contact form;
- * the order confirmation that Stripe's checkout will need is the next caller,
- * which is why this is a transport with a `sendEmail` on it rather than a
- * function called `sendContactMessage` with an API key inside it. A second
- * caller should have to supply a subject and a body, not a provider.
+ * Everything the site sends goes through here: the contact form, and the spec
+ * sheet's submission — the customer's confirmation and the lead it sends to
+ * the team. A transport with a `sendEmail` on it rather than a function per
+ * message, so a caller supplies a subject and a body, not a provider.
  *
  * Server-only by construction — it reads a secret and talks to Resend, so it
  * must never be imported from a component that ships to the browser. There is
@@ -46,14 +45,23 @@ export type SendResult =
 
 export type SendEmailInput = {
   to: string;
+  /* Copied in, visibly — the team on the customer's thread, not hidden from it. */
+  cc?: string | string[];
   subject: string;
-  /*
-   * Plain text only, and no `html` sibling. Nothing being sent today is worth
-   * a layout, and a text body cannot carry markup written by whoever filled
-   * the form into a mail client that renders it.
-   */
+  /* Always sent, and the whole message in clients that do not render HTML. */
   text: string;
+  /*
+   * Optional branded version. Whoever builds it must escape anything a
+   * visitor typed (see escapeHtml in lib/spec-email.ts) — this layer sends
+   * what it is given.
+   */
+  html?: string;
   replyTo?: string;
+  /*
+   * Content as base64 text, Resend's documented format. A raw Buffer goes
+   * through the SDK's JSON as an array of byte values, several times larger.
+   */
+  attachments?: { filename: string; content: string }[];
 };
 
 /*
@@ -72,7 +80,10 @@ export async function sendEmail({
   to,
   subject,
   text,
+  html,
   replyTo,
+  cc,
+  attachments,
 }: SendEmailInput): Promise<SendResult> {
   const resend = client();
 
@@ -94,7 +105,10 @@ export async function sendEmail({
       to,
       subject,
       text,
+      html,
       replyTo,
+      cc,
+      attachments,
     });
 
     if (error) {

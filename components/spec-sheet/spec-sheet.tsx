@@ -1,21 +1,22 @@
 "use client";
 
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useRef, useState } from "react";
 
+import { submitBuild } from "@/app/(site)/spec-sheet/actions";
+import {
+  validateSubmission,
+  type SpecChecks,
+  type SpecDetails,
+  type SubmitField,
+} from "@/app/(site)/spec-sheet/submission";
 import { OptionControl } from "@/components/builder/option-control";
 import { buttonClasses, buttonDisabledClasses } from "@/components/ui/button";
 import { Disclosure, DisclosureItem } from "@/components/ui/disclosure";
 import { ModelBadge } from "@/components/ui/model-badge";
 import { specSheetModels } from "@/data/models";
-import {
-  BASE_PRICE_PENCE,
-  builderSteps,
-  type BuilderStep,
-  type OptionGroup,
-} from "@/data/options";
+import { builderSteps, type BuilderStep, type OptionGroup } from "@/data/options";
 import { applyRules, defaultSelections } from "@/lib/builder-rules";
 import {
-  calculateTotalPence,
   formatDelta,
   formatFromPrice,
   formatPrice,
@@ -24,11 +25,20 @@ import {
   visibleGroups,
   type Selections,
 } from "@/lib/pricing";
+import {
+  defaultSpecModel,
+  modelBasePence,
+  restoreSelections,
+  specLines,
+  specTotalPence,
+} from "@/lib/spec";
 import { cardSurface, fieldControl, fieldLabel, slant } from "@/lib/style";
 
 /*
- * The build spec sheet — an interim, printable record of a build that the
- * customer and the workshop both sign off.
+ * The build spec sheet — where a customer specifies a build and submits it.
+ * "Submit my build" sends it to actions.ts, which emails the customer a
+ * confirmation with their PDF attached and the orders inbox copied in. The
+ * PDF can still be downloaded on its own.
  *
  * Every option, price and rule comes from the builder's own sources:
  * builderSteps for the list, applyRules for the conditional logic and
@@ -81,16 +91,7 @@ const sectionOfGroup = new Map(
  */
 const DRAFT_KEY = "origin-spec-draft-v2";
 
-type Details = {
-  name: string;
-  email: string;
-  phone: string;
-  order: string;
-  address: string;
-  notes: string;
-  signedBy: string;
-  date: string;
-};
+type Details = SpecDetails;
 
 const emptyDetails: Details = {
   name: "",
@@ -103,7 +104,7 @@ const emptyDetails: Details = {
   date: "",
 };
 
-type Checks = { spec: boolean; time: boolean };
+type Checks = SpecChecks;
 
 const SIGN_OFF: { id: keyof Checks; label: string }[] = [
   { id: "spec", label: "I confirm this spec is the guitar I want built." },
@@ -121,16 +122,18 @@ type DetailField = {
   type?: "text" | "email" | "tel";
   autoComplete?: string;
   wide?: boolean;
+  required?: boolean;
 };
 
 const DETAIL_FIELDS: DetailField[] = [
-  { id: "name", label: "Name", placeholder: "Full name", autoComplete: "name" },
+  { id: "name", label: "Name", placeholder: "Full name", autoComplete: "name", required: true },
   {
     id: "email",
     label: "Email",
     placeholder: "you@example.com",
     type: "email",
     autoComplete: "email",
+    required: true,
   },
   { id: "phone", label: "Phone", placeholder: "07…", type: "tel", autoComplete: "tel" },
   { id: "order", label: "Order number", placeholder: "Emailed after payment" },
@@ -142,44 +145,6 @@ const DETAIL_FIELDS: DetailField[] = [
     wide: true,
   },
 ];
-
-/* Every group with the step it belongs to, in builder order. */
-const ALL_GROUPS = builderSteps.flatMap((step) =>
-  step.groups.map((group) => ({ step, group })),
-);
-
-/*
- * The summary's row name for a group. A step with one group is named by the
- * step; a second group is named by its own label, prefixed with the step's
- * title when the label alone would be ambiguous ("Finish" means two things).
- * The title is matched without a plural "s", so "Inlay colour" under
- * "Inlays" reads as itself rather than as "Inlays inlay colour".
- */
-function rowLabel(step: BuilderStep, group: OptionGroup) {
-  if (step.groups.length < 2 || !group.label) return step.title;
-  const label = group.label.toLowerCase();
-  const title = step.title.toLowerCase();
-  if (label === title || label.includes(title.replace(/s$/, ""))) return group.label;
-  return `${step.title} ${label}`;
-}
-
-/*
- * A saved draft is read back through the same rules as a click, and only for
- * ids the builder still has, so a draft from before an option was renamed or
- * removed cannot put a stale or impossible choice on the sheet.
- */
-function restoreSelections(saved: unknown, touched: ReadonlySet<string>) {
-  const next = defaultSelections();
-  if (saved && typeof saved === "object") {
-    for (const { group } of ALL_GROUPS) {
-      const id = (saved as Record<string, unknown>)[group.id];
-      if (typeof id === "string" && group.options.some((o) => o.id === id)) {
-        next[group.id] = id;
-      }
-    }
-  }
-  return applyRules(next, touched);
-}
 
 /* Filled when the customer picked the option, hollow while it is a default. */
 function ChoiceDot({ chosen }: { chosen: boolean }) {
@@ -668,7 +633,7 @@ function PdfSheet({
  * long is scaled down to fit rather than sliced. Both libraries are imported
  * on click, so nobody who only fills the form in pays for them.
  */
-async function downloadPdf(node: HTMLElement, filename: string) {
+async function renderPdf(node: HTMLElement) {
   const [{ default: html2canvas }, { jsPDF }] = await Promise.all([
     import("html2canvas-pro"),
     import("jspdf"),
@@ -700,15 +665,13 @@ async function downloadPdf(node: HTMLElement, filename: string) {
     w,
     h,
   );
-  pdf.save(filename);
+  return pdf;
 }
 
 const toSlug = (v: string) =>
   v.trim().replace(/[^A-Za-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
-/* The model a sheet opens on, and resets to: the first one that can be ordered. */
-const defaultModel =
-  specSheetModels.find((m) => m.status === "available") ?? specSheetModels[0];
+const defaultModel = defaultSpecModel;
 
 export function SpecSheet() {
   const [{ selections, touched }, setState] = useState<{
@@ -724,7 +687,16 @@ export function SpecSheet() {
   const [status, setStatus] = useState<{ text: string; error?: boolean }>({
     text: "",
   });
-  const [busy, setBusy] = useState(false);
+  const [busy, setBusy] = useState<"submit" | "download" | null>(null);
+  const [errors, setErrors] = useState<Partial<Record<SubmitField, string>>>({});
+  /* Set once the build is in: the card shows the confirmation instead. */
+  const [submitted, setSubmitted] = useState<{
+    reference: string;
+    email: string;
+    hasPdf: boolean;
+  } | null>(null);
+  /* The honeypot's value. Stays empty for every person. */
+  const [company, setCompany] = useState("");
   /*
    * Summary groups start closed: their headers carry the count and the
    * subtotal, which is the at-a-glance read. A group opens when something in
@@ -812,47 +784,19 @@ export function SpecSheet() {
 
   const model =
     specSheetModels.find((m) => m.slug === modelSlug) ?? defaultModel;
-  const modelBase = model.basePricePence ?? BASE_PRICE_PENCE;
+  const modelBase = modelBasePence(model);
+  const totalPence = specTotalPence(selections, model);
 
-  /*
-   * The builder's total, rebased onto the chosen model. Only orderable models
-   * can be picked, and today that is the Element, whose base is the builder's
-   * base — so this is calculateTotalPence exactly. Written as a rebase so a
-   * second orderable model is priced from its own base rather than silently
-   * from the Element's.
-   */
-  const totalPence =
-    calculateTotalPence(selections) - BASE_PRICE_PENCE + modelBase;
-
-  const rows = useMemo<Row[]>(() => {
-    const out: Row[] = [
-      {
-        key: "base",
-        label: "Base",
-        value: model.name,
-        delta: formatPrice(modelBase),
-        pence: modelBase,
-        section: "base",
-        chosen: true,
-      },
-    ];
-    for (const step of builderSteps) {
-      for (const group of visibleGroups(step, selections)) {
-        const option = selectedOption(group, selections);
-        if (!option) continue;
-        out.push({
-          key: group.id,
-          label: rowLabel(step, group),
-          value: optionLabel(option, selections),
-          delta: formatDelta(option.priceDeltaPence),
-          pence: option.priceDeltaPence,
-          section: sectionOfStep(step.id),
-          chosen: touched.has(group.id),
-        });
-      }
-    }
-    return out;
-  }, [selections, touched, model.name, modelBase]);
+  const rows: Row[] = specLines(selections, model).map((line) =>
+    line.key === "base"
+      ? { ...line, delta: formatPrice(line.pence), section: "base", chosen: true }
+      : {
+          ...line,
+          delta: formatDelta(line.pence),
+          section: sectionOfStep(line.stepId),
+          chosen: touched.has(line.key),
+        },
+  );
 
   const total = formatPrice(totalPence);
 
@@ -873,9 +817,19 @@ export function SpecSheet() {
     .filter((sec) => sec.rows.length > 0);
   const sectionCount = builderSteps.length + 4;
 
+  const clearError = (field: SubmitField) =>
+    setErrors((prev) => {
+      if (!(field in prev)) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+
   const setDetail = (id: keyof Details) =>
-    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+    (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       setDetails((d) => ({ ...d, [id]: e.target.value }));
+      if (id === "name" || id === "email") clearError(id);
+    };
 
   const reset = () => {
     setState({
@@ -888,29 +842,120 @@ export function SpecSheet() {
     });
   };
 
+  const pdfName = `${[
+    "Origin",
+    toSlug(model.name),
+    "spec",
+    toSlug(submitted?.reference ?? "") || toSlug(details.order) || toSlug(details.name),
+  ]
+    .filter(Boolean)
+    .join("-")}.pdf`;
+
   const download = async () => {
     if (!sheetRef.current) return;
-    setBusy(true);
+    setBusy("download");
     setStatus({ text: "Preparing your PDF…" });
-    const filename = `${[
-      "Origin",
-      toSlug(model.name),
-      "spec",
-      toSlug(details.order) || toSlug(details.name),
-    ]
-      .filter(Boolean)
-      .join("-")}.pdf`;
     try {
-      await downloadPdf(sheetRef.current, filename);
-      setStatus({ text: `Saved ${filename}.` });
+      (await renderPdf(sheetRef.current)).save(pdfName);
+      setStatus({ text: `Saved ${pdfName}.` });
     } catch {
       setStatus({
         text: "Couldn't create the PDF. Try again in a moment.",
         error: true,
       });
     } finally {
-      setBusy(false);
+      setBusy(null);
     }
+  };
+
+  /* Moves the customer to the first thing that needs their attention. */
+  const focusFirstError = (found: Partial<Record<SubmitField, string>>) => {
+    const order: SubmitField[] = ["name", "email", "spec", "time"];
+    const first = order.find((f) => found[f]);
+    if (!first) return;
+    const el = document.getElementById(`${formId}-${first}`);
+    el?.scrollIntoView({ behavior: "smooth", block: "center" });
+    el?.focus({ preventScroll: true });
+  };
+
+  /*
+   * Checks the required fields here first, so a missing name is pointed at
+   * before any time goes on the PDF, then sends the build and its PDF to the
+   * action — which checks everything again, because it cannot trust this.
+   */
+  const submit = async () => {
+    const found = validateSubmission(details, checks);
+    setErrors(found);
+    if (Object.keys(found).length > 0) {
+      setStatus({
+        text: "A few details are needed before you submit. They're marked on the sheet.",
+        error: true,
+      });
+      focusFirstError(found);
+      return;
+    }
+
+    setBusy("submit");
+    setStatus({ text: "Sending your build…" });
+
+    /* The PDF is a courtesy copy: if it fails to render, the build still goes. */
+    let pdf: Blob | null = null;
+    try {
+      if (sheetRef.current) pdf = (await renderPdf(sheetRef.current)).output("blob");
+    } catch {
+      pdf = null;
+    }
+
+    const form = new FormData();
+    form.set(
+      "payload",
+      JSON.stringify({
+        modelSlug: model.slug,
+        selections,
+        touched: [...touched],
+        details,
+        checks,
+        company,
+      }),
+    );
+    if (pdf) form.set("pdf", new File([pdf], pdfName, { type: "application/pdf" }));
+
+    try {
+      const result = await submitBuild(form);
+      if (result.status === "sent") {
+        setSubmitted({
+          reference: result.reference,
+          email: result.email,
+          hasPdf: result.hasPdf,
+        });
+        setStatus({ text: "" });
+        // The build is in; a reload should not offer to send it again.
+        try {
+          localStorage.removeItem(DRAFT_KEY);
+        } catch {
+          // Storage blocked: nothing to clear.
+        }
+      } else {
+        setErrors(result.errors ?? {});
+        setStatus({ text: result.message, error: true });
+        if (result.errors) focusFirstError(result.errors);
+      }
+    } catch {
+      setStatus({
+        text: "We couldn't reach the server. Check your connection and try again.",
+        error: true,
+      });
+    } finally {
+      setBusy(null);
+    }
+  };
+
+  const startAgain = () => {
+    setSubmitted(null);
+    setErrors({});
+    setChecks({ spec: false, time: false });
+    reset();
+    setStatus({ text: "" });
   };
 
   let index = 0;
@@ -919,8 +964,14 @@ export function SpecSheet() {
   return (
     <>
       <div className="grid gap-8 pb-24 md:pb-32 lg:grid-cols-[minmax(0,1fr)_21.25rem] lg:items-start lg:gap-12">
+        {/*
+          Once the build is in, the sheet is a record of what was sent: inert
+          and dimmed, so a change cannot look as though it went with it.
+          "Start a new build" in the card is the way back.
+        */}
         <form
-          className="flex min-w-0 flex-col"
+          className={`flex min-w-0 flex-col transition-opacity ${submitted ? "opacity-50" : ""}`}
+          inert={submitted !== null}
           noValidate
           onSubmit={(e) => e.preventDefault()}
         >
@@ -1026,10 +1077,18 @@ export function SpecSheet() {
             <div className="grid gap-6 md:grid-cols-2 md:gap-x-8">
               {DETAIL_FIELDS.map((f) => {
                 const id = `${formId}-${f.id}`;
+                const fieldError =
+                  f.id === "name" || f.id === "email" ? errors[f.id] : undefined;
                 return (
                   <div key={f.id} className={f.wide ? "md:col-span-2" : undefined}>
                     <label htmlFor={id} className={fieldLabel}>
                       {f.label}
+                      {f.required && (
+                        /* Marked as the contact form marks it; `required` tells a screen reader. */
+                        <span aria-hidden className="ml-1 text-danger">
+                          *
+                        </span>
+                      )}
                     </label>
                     <input
                       id={id}
@@ -1038,11 +1097,34 @@ export function SpecSheet() {
                       placeholder={f.placeholder}
                       value={details[f.id]}
                       onChange={setDetail(f.id)}
+                      required={f.required}
+                      aria-invalid={fieldError ? true : undefined}
+                      aria-describedby={fieldError ? `${id}-error` : undefined}
                       className={`${fieldControl} mt-2.5 h-12`}
                     />
+                    {fieldError && (
+                      <p id={`${id}-error`} className="mt-2 text-[0.875rem] text-danger">
+                        {fieldError}
+                      </p>
+                    )}
                   </div>
                 );
               })}
+            </div>
+            {/*
+              The honeypot, as on the contact form: off-screen rather than
+              display:none, out of the tab order and the accessibility tree.
+            */}
+            <div aria-hidden className="absolute left-[-9999px] h-px w-px overflow-hidden">
+              <label htmlFor={`${formId}-company`}>Company</label>
+              <input
+                id={`${formId}-company`}
+                type="text"
+                tabIndex={-1}
+                autoComplete="off"
+                value={company}
+                onChange={(e) => setCompany(e.target.value)}
+              />
             </div>
           </Section>
 
@@ -1060,11 +1142,15 @@ export function SpecSheet() {
                 >
                   <span className="relative mt-0.5 inline-flex h-5 w-5 shrink-0">
                     <input
+                      id={`${formId}-${c.id}`}
                       type="checkbox"
                       checked={checks[c.id]}
-                      onChange={(e) =>
-                        setChecks((prev) => ({ ...prev, [c.id]: e.target.checked }))
-                      }
+                      onChange={(e) => {
+                        setChecks((prev) => ({ ...prev, [c.id]: e.target.checked }));
+                        if (e.target.checked) clearError(c.id);
+                      }}
+                      aria-invalid={errors[c.id] ? true : undefined}
+                      aria-describedby={errors[c.id] ? `${formId}-${c.id}-error` : undefined}
                       className="peer h-5 w-5 cursor-pointer appearance-none rounded-md border border-line-strong bg-white/[0.025] transition-colors checked:border-ink checked:bg-ink hover:border-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
                     />
                     <svg
@@ -1078,7 +1164,17 @@ export function SpecSheet() {
                       <path d="M3.5 8.5l3 3 6-7" strokeLinecap="square" />
                     </svg>
                   </span>
-                  <span>{c.label}</span>
+                  <span>
+                    {c.label}
+                    {errors[c.id] && (
+                      <span
+                        id={`${formId}-${c.id}-error`}
+                        className="mt-1 block text-[0.875rem] text-danger"
+                      >
+                        {errors[c.id]}
+                      </span>
+                    )}
+                  </span>
                 </label>
               ))}
             </div>
@@ -1247,38 +1343,89 @@ export function SpecSheet() {
                 <span className="font-mono text-[1.5rem] tabular-nums">{total}</span>
               </div>
 
-              <div className="grid gap-2.5">
-                <button
-                  type="button"
-                  onClick={download}
-                  disabled={busy}
-                  className={`${buttonClasses({ size: "md" })} ${buttonDisabledClasses} gap-3.5`}
-                >
-                  <span>{busy ? "Preparing…" : "Download PDF"}</span>
-                  <span
-                    aria-hidden
-                    className="inline-block h-5 w-px bg-ink-inverse/30"
-                    style={slant}
-                  />
-                  <span className="font-mono text-[0.8125rem] tabular-nums">{total}</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={reset}
-                  className={buttonClasses({ variant: "secondary", size: "md" })}
-                >
-                  Reset to base spec
-                </button>
-                <p
-                  role="status"
-                  aria-live="polite"
-                  className={`min-h-[1.2em] text-[0.8125rem] ${
-                    status.error ? "text-danger" : "text-ink-muted"
-                  }`}
-                >
-                  {status.text}
-                </p>
-              </div>
+              {submitted ? (
+                /*
+                  The confirmation takes the buttons' place, in the card the
+                  customer was already looking at — on a phone that is the
+                  foot of the page, right where they tapped Submit.
+                */
+                <div role="status" className="grid gap-4">
+                  <div>
+                    <p className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-muted">
+                      Build submitted · {submitted.reference}
+                    </p>
+                    <h3 className="mt-2 font-display text-[1.25rem] font-medium leading-[1.25] tracking-[-0.01em]">
+                      Thanks, we&apos;ve got your build.
+                    </h3>
+                    <p className="mt-2 text-[0.875rem] leading-[1.55] text-ink-muted">
+                      We&apos;ve emailed a confirmation
+                      {submitted.hasPdf ? " and your PDF" : ""} to{" "}
+                      <span className="text-ink">{submitted.email}</span>. Our
+                      customer team will be in touch with your final invoice and
+                      next steps.
+                    </p>
+                  </div>
+                  <div className="grid gap-2.5">
+                    <button
+                      type="button"
+                      onClick={download}
+                      disabled={busy !== null}
+                      className={`${buttonClasses({ variant: "secondary", size: "md" })} ${buttonDisabledClasses}`}
+                    >
+                      {busy === "download" ? "Preparing…" : "Download a copy (PDF)"}
+                    </button>
+                    <button
+                      type="button"
+                      onClick={startAgain}
+                      className={`${buttonClasses({ variant: "tertiary", size: "sm" })} justify-self-center`}
+                    >
+                      Start a new build
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="grid gap-2.5">
+                  <button
+                    type="button"
+                    onClick={submit}
+                    disabled={busy !== null}
+                    className={`${buttonClasses({ size: "md" })} ${buttonDisabledClasses} gap-3.5`}
+                  >
+                    <span>{busy === "submit" ? "Sending…" : "Submit my build"}</span>
+                    <span
+                      aria-hidden
+                      className="inline-block h-5 w-px bg-ink-inverse/30"
+                      style={slant}
+                    />
+                    <span className="font-mono text-[0.8125rem] tabular-nums">{total}</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={download}
+                    disabled={busy !== null}
+                    className={`${buttonClasses({ variant: "secondary", size: "md" })} ${buttonDisabledClasses}`}
+                  >
+                    {busy === "download" ? "Preparing…" : "Download PDF"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={reset}
+                    className={`${buttonClasses({ variant: "tertiary", size: "sm" })} justify-self-center`}
+                  >
+                    Reset to base spec
+                  </button>
+                </div>
+              )}
+
+              <p
+                role="status"
+                aria-live="polite"
+                className={`-mt-2 min-h-[1.2em] text-[0.8125rem] leading-[1.45] ${
+                  status.error ? "text-danger" : "text-ink-muted"
+                }`}
+              >
+                {status.text}
+              </p>
             </div>
           </div>
         </aside>
