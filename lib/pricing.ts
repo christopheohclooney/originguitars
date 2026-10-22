@@ -1,6 +1,7 @@
 import {
   BASE_PRICE_PENCE,
   builderSteps,
+  type BuilderOption,
   type BuilderStep,
   type OptionGroup,
 } from "@/data/options";
@@ -61,6 +62,15 @@ export function visibleGroups(
   return step.groups.filter((g) => g.visibleWhen?.(selections) ?? true);
 }
 
+/**
+ * What an option is called given the rest of the build — the EMG 81 is the
+ * "EMG 81-7" on a seven-string. Everything that prints a label goes through
+ * here, so the option, the summary and the PDF cannot disagree.
+ */
+export function optionLabel(option: BuilderOption, selections: Selections) {
+  return option.labelWhen?.(selections) ?? option.label;
+}
+
 /** The option currently chosen in a group, if any. */
 export function selectedOption(group: OptionGroup, selections: Selections) {
   return group.options.find((o) => o.id === selections[group.id]);
@@ -92,5 +102,6 @@ export function summaryLabel(
   const groups = visibleGroups(step, selections);
   const target =
     groups.find((g) => g.id === step.summaryGroupId) ?? groups[0];
-  return target ? (selectedOption(target, selections)?.label ?? "Not selected") : "—";
+  const option = target && selectedOption(target, selections);
+  return target ? (option ? optionLabel(option, selections) : "Not selected") : "—";
 }

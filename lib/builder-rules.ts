@@ -1,4 +1,4 @@
-import { builderSteps, TRANSPARENT_COLOUR_IDS } from "@/data/options";
+import { BLACK_HEADSTOCK_FAMILIES, builderSteps } from "@/data/options";
 import type { Selections } from "@/lib/pricing";
 
 /*
@@ -10,8 +10,6 @@ import type { Selections } from "@/lib/pricing";
  * impossible combination can never be held in state, even briefly — rather
  * than each control policing itself and hoping the others agree.
  */
-
-const HEADSTOCK_FINISHES_HIDING_A_BLACK_LOGO = ["black", "transparent"];
 
 /** Every group's default, for first render and for reset. */
 export function defaultSelections(): Selections {
@@ -52,22 +50,26 @@ export function applyRules(
     }
   }
 
-  // 2. A transparent body finish defaults the headstock to black. Only until
-  //    the person sets the headstock themselves — after that it is theirs.
+  // 2. A transparent or crackle finish defaults the headstock to black. Only
+  //    until the person sets the headstock themselves — after that it is theirs.
   if (
-    TRANSPARENT_COLOUR_IDS.has(next.colour) &&
+    BLACK_HEADSTOCK_FAMILIES.includes(next.colourFamily) &&
     !touched.has("headstockFinish")
   ) {
     next.headstockFinish = "black";
   }
 
-  // 3. A black logo is invisible on a black or transparent headstock. The
-  //    option renders disabled, and anyone already holding it is moved off.
+  // 3. A black logo is lost on a black headstock, and is not offered on
+  //    transparent or crackle finishes. The option renders disabled (see the
+  //    logo group in data/options.ts), and anyone already holding it is moved
+  //    to white. Nothing moves them back: when it becomes available again it
+  //    is simply selectable.
   if (
-    HEADSTOCK_FINISHES_HIDING_A_BLACK_LOGO.includes(next.headstockFinish) &&
-    next.logoColour === "black"
+    next.logoColour === "black" &&
+    (next.headstockFinish === "black" ||
+      BLACK_HEADSTOCK_FAMILIES.includes(next.colourFamily))
   ) {
-    next.logoColour = "silver";
+    next.logoColour = "white";
   }
 
   return next;

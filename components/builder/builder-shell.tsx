@@ -13,6 +13,7 @@ import {
   calculateTotalPence,
   formatDelta,
   formatPrice,
+  optionLabel,
   selectedOption,
   summaryLabel,
   visibleGroups,
@@ -258,6 +259,7 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
               const shownOptions = group.options.filter(
                 (o) => group.optionVisible?.(o, selections) ?? true,
               );
+              const current = selectedOption(group, selections);
               const hasUnavailable = shownOptions.some(
                 (o) => !(group.optionAvailable?.(o, selections) ?? true),
               );
@@ -286,6 +288,7 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
                           key={option.id}
                           group={group}
                           option={option}
+                          label={optionLabel(option, selections)}
                           isSelected={selections[group.id] === option.id}
                           isAvailable={available}
                           onSelect={() => choose(group.id, option.id)}
@@ -295,17 +298,14 @@ export function BuilderShell({ image }: { image: StaticImageData }) {
                   </div>
 
                   {/* Name the swatch, which cannot carry its own label. */}
-                  {shownOptions.some((o) => o.swatch) && (
+                  {shownOptions.some((o) => o.swatch) && current && (
                     <p className="mt-3 text-center text-[0.875rem] text-ink-muted">
                       <span className="font-medium text-ink">
-                        {selectedOption(group, selections)?.label}
+                        {optionLabel(current, selections)}
                       </span>
                       <span className="mx-2 text-line-strong">·</span>
                       <span className="font-mono text-[0.8125rem]">
-                        {formatDelta(
-                          selectedOption(group, selections)?.priceDeltaPence ??
-                            0,
-                        )}
+                        {formatDelta(current.priceDeltaPence)}
                       </span>
                     </p>
                   )}

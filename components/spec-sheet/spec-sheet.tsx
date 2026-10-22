@@ -5,7 +5,7 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 import { OptionControl } from "@/components/builder/option-control";
 import { buttonClasses, buttonDisabledClasses } from "@/components/ui/button";
 import { ModelBadge } from "@/components/ui/model-badge";
-import { availableModels, models } from "@/data/models";
+import { specSheetModels } from "@/data/models";
 import {
   BASE_PRICE_PENCE,
   builderSteps,
@@ -18,6 +18,7 @@ import {
   formatDelta,
   formatFromPrice,
   formatPrice,
+  optionLabel,
   selectedOption,
   visibleGroups,
   type Selections,
@@ -39,10 +40,19 @@ import { cardSurface, fieldControl, fieldLabel, slant } from "@/lib/style";
  * on the shared data. A group not listed falls back to the builder's own
  * rendering, which is what keeps a new group visible without touching this.
  */
-const DROPDOWN_GROUPS = new Set(["fretboard", "inlay", "headstockFinish"]);
+const DROPDOWN_GROUPS = new Set([
+  "fretboard",
+  "inlay",
+  "binding",
+  "headstockFinish",
+]);
 
-/* The draft lives in this browser only, so a refresh does not lose a sheet. */
-const DRAFT_KEY = "origin-spec-draft-v1";
+/*
+ * The draft lives in this browser only, so a refresh does not lose a sheet.
+ * Versioned with the option list: a v1 draft was made against ids that no
+ * longer exist, so it is left behind rather than half-restored.
+ */
+const DRAFT_KEY = "origin-spec-draft-v2";
 
 type Details = {
   name: string;
@@ -115,12 +125,14 @@ const ALL_GROUPS = builderSteps.flatMap((step) =>
  * The summary's row name for a group. A step with one group is named by the
  * step; a second group is named by its own label, prefixed with the step's
  * title when the label alone would be ambiguous ("Finish" means two things).
+ * The title is matched without a plural "s", so "Inlay colour" under
+ * "Inlays" reads as itself rather than as "Inlays inlay colour".
  */
 function rowLabel(step: BuilderStep, group: OptionGroup) {
   if (step.groups.length < 2 || !group.label) return step.title;
   const label = group.label.toLowerCase();
   const title = step.title.toLowerCase();
-  if (label === title || label.includes(title)) return group.label;
+  if (label === title || label.includes(title.replace(/s$/, ""))) return group.label;
   return `${step.title} ${label}`;
 }
 
@@ -235,7 +247,7 @@ function GroupControl({
           >
             {shown.map((o) => (
               <option key={o.id} value={o.id} disabled={!isAvailable(o)}>
-                {o.label} — {formatDelta(o.priceDeltaPence)}
+                {optionLabel(o, selections)} — {formatDelta(o.priceDeltaPence)}
               </option>
             ))}
           </select>
@@ -278,6 +290,7 @@ function GroupControl({
             key={o.id}
             group={group}
             option={o}
+            label={optionLabel(o, selections)}
             isSelected={selections[group.id] === o.id}
             isAvailable={isAvailable(o)}
             onSelect={() => onChoose(group.id, o.id)}
@@ -286,7 +299,9 @@ function GroupControl({
       </div>
       {shown.some((o) => o.swatch) && current && (
         <p className="text-[0.875rem] text-ink-muted">
-          <span className="font-medium text-ink">{current.label}</span>
+          <span className="font-medium text-ink">
+            {optionLabel(current, selections)}
+          </span>
           <span className="mx-2 text-line-strong">·</span>
           <span className="font-mono text-[0.8125rem]">
             {formatDelta(current.priceDeltaPence)}
@@ -339,6 +354,7 @@ type Row = { key: string; label: string; value: string; delta: string };
 function PdfSheet({
   sheetRef,
   modelName,
+  baseSpec,
   rows,
   total,
   details,
@@ -346,6 +362,7 @@ function PdfSheet({
 }: {
   sheetRef: React.Ref<HTMLDivElement>;
   modelName: string;
+  baseSpec: string[];
   rows: Row[];
   total: string;
   details: Details;
@@ -480,6 +497,18 @@ function PdfSheet({
                 <td style={pdfCell}>{dash(v)}</td>
               </tr>
             )),
+          )}
+          {baseSpec.length > 0 && (
+            <>
+              <div style={pdfLabel}>Base spec</div>
+              {table(
+                baseSpec.map((line) => (
+                  <tr key={line}>
+                    <td style={pdfCell}>{line}</td>
+                  </tr>
+                )),
+              )}
+            </>
           )}
           <div style={pdfLabel}>Notes for the workshop</div>
           <div
@@ -628,6 +657,10 @@ async function downloadPdf(node: HTMLElement, filename: string) {
 const toSlug = (v: string) =>
   v.trim().replace(/[^A-Za-z0-9]+/g, "-").replace(/^-|-$/g, "");
 
+/* The model a sheet opens on, and resets to: the first one that can be ordered. */
+const defaultModel =
+  specSheetModels.find((m) => m.status === "available") ?? specSheetModels[0];
+
 export function SpecSheet() {
   const [{ selections, touched }, setState] = useState<{
     selections: Selections;
@@ -636,7 +669,7 @@ export function SpecSheet() {
     selections: applyRules(defaultSelections(), new Set()),
     touched: new Set<string>(),
   }));
-  const [modelSlug, setModelSlug] = useState(availableModels[0]?.slug ?? "element");
+  const [modelSlug, setModelSlug] = useState(defaultModel.slug);
   const [details, setDetails] = useState<Details>(emptyDetails);
   const [checks, setChecks] = useState<Checks>({ spec: false, time: false });
   const [status, setStatus] = useState<{ text: string; error?: boolean }>({
@@ -710,7 +743,9 @@ export function SpecSheet() {
     });
   }, []);
 
-  const model = models.find((m) => m.slug === modelSlug) ?? models[0];
+  const model =
+    specSheetModels.find((m) => m.slug === modelSlug) ?? defaultModel;
+  const modelBase = model.basePricePence ?? BASE_PRICE_PENCE;
 
   /*
    * The builder's total, rebased onto the chosen model. Only orderable models
@@ -720,7 +755,7 @@ export function SpecSheet() {
    * from the Element's.
    */
   const totalPence =
-    calculateTotalPence(selections) - BASE_PRICE_PENCE + model.fromPricePence;
+    calculateTotalPence(selections) - BASE_PRICE_PENCE + modelBase;
 
   const rows = useMemo<Row[]>(() => {
     const out: Row[] = [
@@ -728,7 +763,7 @@ export function SpecSheet() {
         key: "base",
         label: "Base",
         value: model.name,
-        delta: formatPrice(model.fromPricePence),
+        delta: formatPrice(modelBase),
       },
     ];
     for (const step of builderSteps) {
@@ -738,13 +773,13 @@ export function SpecSheet() {
         out.push({
           key: group.id,
           label: rowLabel(step, group),
-          value: option.label,
+          value: optionLabel(option, selections),
           delta: formatDelta(option.priceDeltaPence),
         });
       }
     }
     return out;
-  }, [selections, model]);
+  }, [selections, model.name, modelBase]);
 
   const total = formatPrice(totalPence);
   const sectionCount = builderSteps.length + 4;
@@ -758,8 +793,10 @@ export function SpecSheet() {
       selections: applyRules(defaultSelections(), new Set()),
       touched: new Set(),
     });
-    setModelSlug(availableModels[0]?.slug ?? "element");
-    setStatus({ text: `Reset to the ${availableModels[0]?.name ?? "base"} base spec. Your details are kept.` });
+    setModelSlug(defaultModel.slug);
+    setStatus({
+      text: `Reset to the ${defaultModel.name} base spec. Your details are kept.`,
+    });
   };
 
   const download = async () => {
@@ -838,7 +875,7 @@ export function SpecSheet() {
               aria-labelledby={`${formId}-model`}
               className="grid gap-3 sm:grid-cols-3"
             >
-              {models.map((m) => {
+              {specSheetModels.map((m) => {
                 const orderable = m.status === "available";
                 const selected = m.slug === modelSlug;
                 return (
@@ -864,10 +901,13 @@ export function SpecSheet() {
                     <span className="font-display text-[1.375rem] font-medium tracking-[-0.01em]">
                       {m.name}
                     </span>
-                    <span className="text-[0.875rem] text-ink-muted">{m.subtitle}</span>
-                    <span className="mt-2 font-mono text-[0.8125rem] text-ink-muted tabular-nums">
-                      From {formatFromPrice(m.fromPricePence)}
-                    </span>
+                    <span className="text-[0.875rem] text-ink-muted">{m.shape}</span>
+                    {/* No price is shown for a model that does not have one yet. */}
+                    {m.basePricePence !== null && (
+                      <span className="mt-2 font-mono text-[0.8125rem] text-ink-muted tabular-nums">
+                        From {formatFromPrice(m.basePricePence)}
+                      </span>
+                    )}
                   </label>
                 );
               })}
@@ -998,6 +1038,14 @@ export function SpecSheet() {
               >
                 Origin {model.name}
               </h2>
+              {model.baseSpec && (
+                /* The fixed spec every build of this model starts from. */
+                <ul className="mt-3 grid gap-1 text-[0.8125rem] leading-[1.45] text-ink-muted">
+                  {model.baseSpec.map((line) => (
+                    <li key={line}>{line}</li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             <ul className="grid">
@@ -1065,6 +1113,7 @@ export function SpecSheet() {
       <PdfSheet
         sheetRef={sheetRef}
         modelName={model.name}
+        baseSpec={model.baseSpec ?? []}
         rows={rows}
         total={total}
         details={details}

@@ -10,16 +10,21 @@ import { formatDelta } from "@/lib/pricing";
  * rather than a copy of it. The tile is a styled label around a visually
  * hidden radio, so arrow keys, focus and form semantics all come from the
  * browser; the focus ring is drawn by [data-option-tile] in globals.css.
+ *
+ * `label` is passed in rather than read off the option, because some labels
+ * depend on the rest of the build — see `optionLabel` in lib/pricing.ts.
  */
 export function OptionControl({
   group,
   option,
+  label,
   isSelected,
   isAvailable,
   onSelect,
 }: {
   group: OptionGroup;
   option: BuilderOption;
+  label: string;
   isSelected: boolean;
   isAvailable: boolean;
   onSelect: () => void;
@@ -41,7 +46,7 @@ export function OptionControl({
     return (
       <label
         data-option-tile
-        title={`${option.label} · ${formatDelta(option.priceDeltaPence)}`}
+        title={`${label} · ${formatDelta(option.priceDeltaPence)}`}
         className={`relative inline-flex h-11 w-11 items-center justify-center rounded-full transition-shadow ${
           isAvailable ? "cursor-pointer" : "cursor-not-allowed opacity-40"
         } ${
@@ -54,10 +59,10 @@ export function OptionControl({
         <span
           aria-hidden
           className="h-full w-full rounded-full border border-line-strong"
-          style={{ backgroundColor: option.swatch }}
+          style={{ background: option.swatchFill ?? option.swatch }}
         />
         <span className="sr-only">
-          {option.label}, {formatDelta(option.priceDeltaPence)}
+          {label}, {formatDelta(option.priceDeltaPence)}
           {isAvailable ? "" : " — unavailable"}
         </span>
       </label>
@@ -78,9 +83,9 @@ export function OptionControl({
       }`}
     >
       {input}
-      <span className="text-[0.9375rem] font-medium">{option.label}</span>
+      <span className="text-[0.9375rem] font-medium">{label}</span>
       {option.tooltip && (
-        <InfoTip text={option.tooltip} label={option.label} />
+        <InfoTip text={option.tooltip} label={label} />
       )}
       <span className="font-mono text-[0.8125rem] text-ink-muted">
         {formatDelta(option.priceDeltaPence)}

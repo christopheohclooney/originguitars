@@ -164,3 +164,52 @@ export const comingSoonModels = models.filter(
  * the lowest one in the grid is a catalogue that has drifted.
  */
 export const fromPricePence = Math.min(...models.map((m) => m.fromPricePence));
+
+/*
+ * The spec sheet's model list (Flow 1).
+ *
+ * Kept apart from `models` above, which drives Home, /models and the detail
+ * pages. Tempest and Cleaver are listed here as coming soon but stay off the
+ * catalogue, and the catalogue's own "from" figures for Lance and the bass
+ * are left as they are until the catalogue is updated in its own right.
+ *
+ * `basePricePence` is null where no price is set; the sheet hides it then.
+ * Only an available model can be chosen, and its options are the builder's
+ * (data/options.ts), whose base is the Element's — hence the shared constant.
+ */
+export type SpecSheetModel = {
+  slug: string;
+  name: string;
+  shape: string;
+  status: ModelStatus;
+  basePricePence: number | null;
+  /** The fixed specification every build of this model starts from. */
+  baseSpec?: string[];
+};
+
+export const specSheetModels: SpecSheetModel[] = [
+  {
+    slug: "element",
+    name: "Element",
+    shape: "Super strat shape",
+    status: "available",
+    basePricePence: ELEMENT_BASE_PENCE,
+    baseSpec: [
+      '25.5" scale length',
+      "Indian Mahogany body",
+      "USA Hard Maple neck",
+      "Origin Signature Stock Humbucker, passive (other pickups coming soon)",
+      "Single volume knob",
+    ],
+  },
+  {
+    slug: "element-bass",
+    name: "Element Bass",
+    shape: "Bass",
+    status: "coming-soon",
+    basePricePence: 79_900,
+  },
+  { slug: "lance", name: "Lance", shape: "V shape", status: "coming-soon", basePricePence: null },
+  { slug: "tempest", name: "Tempest", shape: "X shape", status: "coming-soon", basePricePence: null },
+  { slug: "cleaver", name: "Cleaver", shape: "Ex-shape", status: "coming-soon", basePricePence: null },
+];
