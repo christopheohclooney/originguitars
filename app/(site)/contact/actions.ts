@@ -1,13 +1,18 @@
 "use server";
 
-import { headers } from "next/headers";
-
 import type {
   ContactField,
   ContactFormState,
 } from "@/app/(site)/contact/form-state";
 import { CONTACT_INBOX } from "@/lib/contact";
 import { sendEmail } from "@/lib/email";
+import {
+  callerKey,
+  EMAIL_PATTERN,
+  multiLine,
+  overRateLimit,
+  singleLine,
+} from "@/lib/form-input";
 
 /*
  * The contact form's action.
@@ -30,82 +35,6 @@ const LIMITS = {
   subject: 160,
   message: 5000,
 } as const;
-
-/*
- * Deliberately permissive. The job here is to catch a typo before it becomes a
- * reply that bounces, not to adjudicate the RFC — every regex that tries to do
- * the latter ends up rejecting somebody's real address.
- */
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
-
-/*
- * Single-line fields get their control characters removed before they go
- * anywhere near a mail header. Resend takes JSON over HTTPS rather than
- * speaking SMTP, so a newline in a subject is not the header-injection hole it
- * would be against a raw sendmail — but the value is still being pasted into a
- * header by somebody downstream, and stripping is one line.
- */
-function singleLine(value: FormDataEntryValue | null): string {
-  if (typeof value !== "string") return "";
-  return value
-    .replace(/[\u0000-\u001f\u007f]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function multiLine(value: FormDataEntryValue | null): string {
-  if (typeof value !== "string") return "";
-  return value
-    .replace(/\r\n?/g, "\n")
-    .replace(/[\u0000-\u0009\u000b-\u001f\u007f]/g, "")
-    .trim();
-}
-
-/*
- * Rate limiting, in memory, and honest about what that is worth: the counter
- * lives in one server instance, so a platform running several of them enforces
- * this per instance and a cold start forgets everything. It is a speed bump
- * against a script hammering one endpoint, not a defence — the honeypot below
- * catches more, and a real limiter needs a store this project does not have
- * yet. Worth having anyway: it costs nothing and it caps the damage a single
- * loop can do to the sending reputation of the domain.
- */
-const WINDOW_MS = 10 * 60 * 1000;
-const MAX_PER_WINDOW = 5;
-const recent = new Map<string, number[]>();
-
-function overRateLimit(key: string): boolean {
-  const now = Date.now();
-  const hits = (recent.get(key) ?? []).filter((at) => now - at < WINDOW_MS);
-
-  if (hits.length >= MAX_PER_WINDOW) {
-    recent.set(key, hits);
-    return true;
-  }
-
-  hits.push(now);
-  recent.set(key, hits);
-
-  /* Keep the map from growing forever on a long-lived instance. */
-  if (recent.size > 5000) {
-    for (const [k, times] of recent) {
-      if (times.every((at) => now - at >= WINDOW_MS)) recent.delete(k);
-    }
-  }
-
-  return false;
-}
-
-async function callerKey(): Promise<string> {
-  const h = await headers();
-  /*
-   * x-forwarded-for is set by the proxy in front of this and can be a list;
-   * the first entry is the client. Spoofable in principle, which is another
-   * reason the limiter above is described as a speed bump.
-   */
-  const forwarded = h.get("x-forwarded-for");
-  return forwarded?.split(",")[0]?.trim() || h.get("x-real-ip") || "unknown";
-}
 
 export async function sendContactMessage(
   _previous: ContactFormState,
