@@ -64,14 +64,24 @@ const INSTANT = { duration: 0 } as const;
 const sizes = {
   faq: {
     button:
-      "py-7 text-[clamp(1.0625rem,1.7vw,1.6875rem)] md:py-12 lg:py-[4.6rem]",
+      "gap-8 py-7 text-[clamp(1.0625rem,1.7vw,1.6875rem)] md:py-12 lg:py-[4.6rem]",
     indicator: "h-5 w-5 md:h-6 md:w-6",
     panel: "pb-9 md:pb-12",
   },
   compact: {
-    button: "py-6 text-[1.0625rem] md:py-7 md:text-[1.1875rem]",
+    button: "gap-8 py-6 text-[1.0625rem] md:py-7 md:text-[1.1875rem]",
     indicator: "h-5 w-5",
     panel: "pb-8 md:pb-10",
+  },
+  /*
+   * A summary panel's group — the spec sheet's running build. A sidebar row
+   * at body size, so a stack of them reads as a list of headings rather than
+   * as an accordion of questions.
+   */
+  summary: {
+    button: "gap-3 py-3.5 text-[0.9375rem]",
+    indicator: "h-3 w-3",
+    panel: "pb-3",
   },
 } as const;
 
@@ -141,15 +151,32 @@ export function DisclosureItem({
 
 export function Disclosure({
   label,
+  meta,
   size = "faq",
+  open: openProp,
+  onOpenChange,
   children,
 }: {
-  label: string;
+  label: ReactNode;
+  /** Sits between the label and the indicator — a count or a subtotal. */
+  meta?: ReactNode;
   size?: DisclosureSize;
+  /*
+   * Optional control from outside, for a row that should open in response to
+   * something other than its own button. Left out, the row keeps its own
+   * state, which is every use before the spec sheet.
+   */
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
   /** The panel's content — stagger anything that should stage via DisclosureItem. */
   children: ReactNode;
 }) {
-  const [open, setOpen] = useState(false);
+  const [openState, setOpenState] = useState(false);
+  const open = openProp ?? openState;
+  const setOpen = (next: boolean) => {
+    if (openProp === undefined) setOpenState(next);
+    onOpenChange?.(next);
+  };
   const reduced = useReducedMotion();
   const s = sizes[size];
 
@@ -175,8 +202,8 @@ export function Disclosure({
           type="button"
           aria-expanded={open}
           aria-controls={panelId}
-          onClick={() => setOpen((v) => !v)}
-          className={`group flex w-full cursor-pointer items-center justify-between gap-8 text-left font-medium leading-[1.3] tracking-[-0.015em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${s.button}`}
+          onClick={() => setOpen(!open)}
+          className={`group flex w-full cursor-pointer items-center justify-between text-left font-medium leading-[1.3] tracking-[-0.015em] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${s.button}`}
         >
           {/*
             The label leans toward the cursor on hover, and the indicator
@@ -195,9 +222,12 @@ export function Disclosure({
             `transform`, so they compose with whatever Motion writes instead
             of fighting it. Both are on elements Motion does not touch anyway.
           */}
-          <span className="transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-[3px] motion-reduce:transition-none motion-reduce:group-hover:translate-x-0">
+          {/* flex-1 so a `meta` sits beside the indicator, not mid-row. */}
+          <span className="min-w-0 flex-1 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-[3px] motion-reduce:transition-none motion-reduce:group-hover:translate-x-0">
             {label}
           </span>
+
+          {meta}
 
           <span className="shrink-0 transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:scale-110 group-active:scale-95 motion-reduce:transition-none motion-reduce:group-hover:scale-100">
             <Indicator open={open} reduced={reduced} className={s.indicator} />

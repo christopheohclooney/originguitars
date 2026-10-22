@@ -4,6 +4,7 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react"
 
 import { OptionControl } from "@/components/builder/option-control";
 import { buttonClasses, buttonDisabledClasses } from "@/components/ui/button";
+import { Disclosure, DisclosureItem } from "@/components/ui/disclosure";
 import { ModelBadge } from "@/components/ui/model-badge";
 import { specSheetModels } from "@/data/models";
 import {
@@ -46,6 +47,32 @@ const DROPDOWN_GROUPS = new Set([
   "binding",
   "headstockFinish",
 ]);
+
+/*
+ * The summary's groups, by the part of the instrument each step is about.
+ * A presentation choice like DROPDOWN_GROUPS above, so it lives here. A step
+ * not listed lands in "Other" rather than vanishing from the summary.
+ */
+const SUMMARY_SECTIONS = [
+  { id: "body", title: "Body", steps: ["construction", "colour"] },
+  { id: "neck", title: "Neck", steps: ["strings", "fretboard", "inlay", "binding"] },
+  {
+    id: "headstock",
+    title: "Headstock",
+    steps: ["headstock", "headstockFinish", "logoColour", "tuners"],
+  },
+  { id: "hardware", title: "Hardware", steps: ["bridge", "hardware", "pickup"] },
+];
+const OTHER_SECTION = { id: "other", title: "Other", steps: [] as string[] };
+
+const sectionOfStep = (stepId: string) =>
+  (SUMMARY_SECTIONS.find((sec) => sec.steps.includes(stepId)) ?? OTHER_SECTION).id;
+
+const sectionOfGroup = new Map(
+  builderSteps.flatMap((step) =>
+    step.groups.map((group) => [group.id, sectionOfStep(step.id)] as const),
+  ),
+);
 
 /*
  * The draft lives in this browser only, so a refresh does not lose a sheet.
@@ -152,6 +179,18 @@ function restoreSelections(saved: unknown, touched: ReadonlySet<string>) {
     }
   }
   return applyRules(next, touched);
+}
+
+/* Filled when the customer picked the option, hollow while it is a default. */
+function ChoiceDot({ chosen }: { chosen: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className={`block h-1.5 w-1.5 shrink-0 rounded-full ${
+        chosen ? "bg-ink" : "border border-ink-disabled"
+      }`}
+    />
+  );
 }
 
 /* The section header's counter: "03 / 14", on the builder's slant divider. */
@@ -349,7 +388,17 @@ const pdfCell: React.CSSProperties = {
   verticalAlign: "top",
 };
 
-type Row = { key: string; label: string; value: string; delta: string };
+type Row = {
+  key: string;
+  label: string;
+  value: string;
+  delta: string;
+  pence: number;
+  /** Which summary group the row sits in — see SUMMARY_SECTIONS. */
+  section: string;
+  /** Picked by the customer, rather than a default left as it was. */
+  chosen: boolean;
+};
 
 function PdfSheet({
   sheetRef,
@@ -676,6 +725,21 @@ export function SpecSheet() {
     text: "",
   });
   const [busy, setBusy] = useState(false);
+  /*
+   * Summary groups start closed: their headers carry the count and the
+   * subtotal, which is the at-a-glance read. A group opens when something in
+   * it is chosen, and the customer can open or close any of them.
+   */
+  const [openSections, setOpenSections] = useState<ReadonlySet<string>>(
+    () => new Set(),
+  );
+  const toggleSection = (id: string, open: boolean) =>
+    setOpenSections((prev) => {
+      const next = new Set(prev);
+      if (open) next.add(id);
+      else next.delete(id);
+      return next;
+    });
   /* Whether the draft has been read yet, so the first save cannot wipe it. */
   const [restored, setRestored] = useState(false);
   const sheetRef = useRef<HTMLDivElement>(null);
@@ -731,6 +795,9 @@ export function SpecSheet() {
   }, [restored, selections, touched, details, checks]);
 
   const choose = useCallback((groupId: string, optionId: string) => {
+    /* The summary opens the group being worked on, so the change is in view. */
+    const section = sectionOfGroup.get(groupId);
+    if (section) setOpenSections((prev) => new Set(prev).add(section));
     setState((prev) => {
       const nextTouched = new Set(prev.touched).add(groupId);
       return {
@@ -764,6 +831,9 @@ export function SpecSheet() {
         label: "Base",
         value: model.name,
         delta: formatPrice(modelBase),
+        pence: modelBase,
+        section: "base",
+        chosen: true,
       },
     ];
     for (const step of builderSteps) {
@@ -775,13 +845,32 @@ export function SpecSheet() {
           label: rowLabel(step, group),
           value: optionLabel(option, selections),
           delta: formatDelta(option.priceDeltaPence),
+          pence: option.priceDeltaPence,
+          section: sectionOfStep(step.id),
+          chosen: touched.has(group.id),
         });
       }
     }
     return out;
-  }, [selections, model.name, modelBase]);
+  }, [selections, touched, model.name, modelBase]);
 
   const total = formatPrice(totalPence);
+
+  /* The option rows, grouped for the summary, with a count and a subtotal each. */
+  const optionRows = rows.filter((r) => r.section !== "base");
+  const chosenCount = optionRows.filter((r) => r.chosen).length;
+  const summarySections = [...SUMMARY_SECTIONS, OTHER_SECTION]
+    .map((sec) => {
+      const secRows = optionRows.filter((r) => r.section === sec.id);
+      return {
+        id: sec.id,
+        title: sec.title,
+        rows: secRows,
+        chosen: secRows.filter((r) => r.chosen).length,
+        pence: secRows.reduce((sum, r) => sum + r.pence, 0),
+      };
+    })
+    .filter((sec) => sec.rows.length > 0);
   const sectionCount = builderSteps.length + 4;
 
   const setDetail = (id: keyof Details) =>
@@ -1027,8 +1116,13 @@ export function SpecSheet() {
           aria-labelledby={`${formId}-summary`}
           className="min-w-0 lg:sticky lg:top-[calc(var(--header-h)+1.5rem)]"
         >
-          <div className="grid gap-5 rounded-2xl border border-line bg-canvas p-6">
-            <div>
+          {/*
+            On desktop the card is held to the viewport: the header and the
+            total stay put and only the groups between them scroll, so the
+            download button is never pushed out of reach by an open group.
+          */}
+          <div className="flex flex-col rounded-2xl border border-line bg-canvas lg:max-h-[calc(100svh-var(--header-h)-3rem)]">
+            <div className="px-6 pt-6 pb-5">
               <p className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-muted">
                 Your build
               </p>
@@ -1038,73 +1132,153 @@ export function SpecSheet() {
               >
                 Origin {model.name}
               </h2>
-              {model.baseSpec && (
-                /* The fixed spec every build of this model starts from. */
-                <ul className="mt-3 grid gap-1 text-[0.8125rem] leading-[1.45] text-ink-muted">
-                  {model.baseSpec.map((line) => (
-                    <li key={line}>{line}</li>
+
+              <p className="mt-4 text-[0.8125rem] text-ink-muted">
+                <span className="text-ink tabular-nums">{chosenCount}</span> of{" "}
+                <span className="tabular-nums">{optionRows.length}</span> chosen
+              </p>
+              <div
+                aria-hidden
+                className="mt-2 h-0.5 overflow-hidden rounded-full bg-line-strong"
+              >
+                <div
+                  className="h-full rounded-full bg-ink transition-[width] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none"
+                  style={{ width: `${(chosenCount / Math.max(optionRows.length, 1)) * 100}%` }}
+                />
+              </div>
+              <p className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-[0.75rem] text-ink-muted">
+                <span className="inline-flex items-center gap-1.5">
+                  <ChoiceDot chosen /> Chosen
+                </span>
+                <span className="inline-flex items-center gap-1.5">
+                  <ChoiceDot chosen={false} /> Default, not changed yet
+                </span>
+              </p>
+            </div>
+
+            <div
+              data-lenis-prevent
+              className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6"
+            >
+              <Disclosure
+                size="summary"
+                label="Base spec"
+                meta={
+                  <span className="font-mono text-[0.8125rem] text-ink-muted tabular-nums">
+                    {formatPrice(modelBase)}
+                  </span>
+                }
+                open={openSections.has("base")}
+                onOpenChange={(open) => toggleSection("base", open)}
+              >
+                <ul className="grid gap-1.5 text-[0.8125rem] leading-[1.45] text-ink-muted">
+                  <DisclosureItem as="li" className="text-ink">
+                    Origin {model.name}
+                  </DisclosureItem>
+                  {(model.baseSpec ?? []).map((line) => (
+                    <DisclosureItem as="li" key={line}>
+                      {line}
+                    </DisclosureItem>
                   ))}
                 </ul>
-              )}
+              </Disclosure>
+
+              {summarySections.map((sec) => (
+                <Disclosure
+                  key={sec.id}
+                  size="summary"
+                  label={
+                    <span className="flex items-baseline gap-2">
+                      {sec.title}
+                      <span className="font-mono text-[0.75rem] font-normal text-ink-muted tabular-nums">
+                        {sec.chosen}/{sec.rows.length}
+                        <span className="sr-only"> chosen</span>
+                      </span>
+                    </span>
+                  }
+                  meta={
+                    <span
+                      className={`font-mono text-[0.8125rem] tabular-nums ${
+                        sec.pence ? "text-ink-muted" : "text-ink-disabled"
+                      }`}
+                    >
+                      {formatDelta(sec.pence)}
+                    </span>
+                  }
+                  open={openSections.has(sec.id)}
+                  onOpenChange={(open) => toggleSection(sec.id, open)}
+                >
+                  <ul className="grid">
+                    {sec.rows.map((r) => (
+                      <DisclosureItem
+                        as="li"
+                        key={r.key}
+                        className="grid grid-cols-[0.375rem_minmax(0,0.9fr)_minmax(0,1.1fr)] items-start gap-x-3 py-1.5 text-[0.8125rem] leading-[1.4]"
+                      >
+                        <span className="pt-[0.35rem]">
+                          <ChoiceDot chosen={r.chosen} />
+                        </span>
+                        <span className={r.chosen ? "text-ink-muted" : "text-ink-disabled"}>
+                          {r.label}
+                        </span>
+                        <span className="text-right">
+                          <span className={r.chosen ? "font-medium text-ink" : "text-ink-muted"}>
+                            {r.value}
+                          </span>
+                          <span className="sr-only">{r.chosen ? ", chosen" : ", default"}</span>
+                          {r.pence !== 0 && (
+                            <span className="block font-mono text-[0.75rem] text-ink-muted tabular-nums">
+                              {r.delta}
+                            </span>
+                          )}
+                        </span>
+                      </DisclosureItem>
+                    ))}
+                  </ul>
+                </Disclosure>
+              ))}
             </div>
 
-            <ul className="grid">
-              {rows.map((r, i) => (
-                <li
-                  key={r.key}
-                  className={`grid grid-cols-[minmax(0,1fr)_auto] gap-x-3 gap-y-1 text-[0.875rem] ${
-                    i === 0 ? "pb-2.5" : "border-t border-line py-2.5"
+            <div className="grid gap-5 border-t border-line-strong px-6 pt-4 pb-6">
+              <div className="flex items-baseline justify-between">
+                <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-muted">
+                  Total
+                </span>
+                <span className="font-mono text-[1.5rem] tabular-nums">{total}</span>
+              </div>
+
+              <div className="grid gap-2.5">
+                <button
+                  type="button"
+                  onClick={download}
+                  disabled={busy}
+                  className={`${buttonClasses({ size: "md" })} ${buttonDisabledClasses} gap-3.5`}
+                >
+                  <span>{busy ? "Preparing…" : "Download PDF"}</span>
+                  <span
+                    aria-hidden
+                    className="inline-block h-5 w-px bg-ink-inverse/30"
+                    style={slant}
+                  />
+                  <span className="font-mono text-[0.8125rem] tabular-nums">{total}</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={reset}
+                  className={buttonClasses({ variant: "secondary", size: "md" })}
+                >
+                  Reset to base spec
+                </button>
+                <p
+                  role="status"
+                  aria-live="polite"
+                  className={`min-h-[1.2em] text-[0.8125rem] ${
+                    status.error ? "text-danger" : "text-ink-muted"
                   }`}
                 >
-                  <span className="col-span-2 font-mono text-[0.6875rem] uppercase tracking-[0.1em] text-ink-muted">
-                    {r.label}
-                  </span>
-                  <span className="min-w-0">{r.value}</span>
-                  <span className="text-right font-mono text-[0.8125rem] text-ink-muted tabular-nums">
-                    {r.delta}
-                  </span>
-                </li>
-              ))}
-            </ul>
-
-            <div className="flex items-baseline justify-between border-t border-line-strong pt-4">
-              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-muted">
-                Total
-              </span>
-              <span className="font-mono text-[1.5rem] tabular-nums">{total}</span>
-            </div>
-
-            <div className="grid gap-2.5">
-              <button
-                type="button"
-                onClick={download}
-                disabled={busy}
-                className={`${buttonClasses({ size: "md" })} ${buttonDisabledClasses} gap-3.5`}
-              >
-                <span>{busy ? "Preparing…" : "Download PDF"}</span>
-                <span
-                  aria-hidden
-                  className="inline-block h-5 w-px bg-ink-inverse/30"
-                  style={slant}
-                />
-                <span className="font-mono text-[0.8125rem] tabular-nums">{total}</span>
-              </button>
-              <button
-                type="button"
-                onClick={reset}
-                className={buttonClasses({ variant: "secondary", size: "md" })}
-              >
-                Reset to base spec
-              </button>
-              <p
-                role="status"
-                aria-live="polite"
-                className={`min-h-[1.2em] text-[0.8125rem] ${
-                  status.error ? "text-danger" : "text-ink-muted"
-                }`}
-              >
-                {status.text}
-              </p>
+                  {status.text}
+                </p>
+              </div>
             </div>
           </div>
         </aside>

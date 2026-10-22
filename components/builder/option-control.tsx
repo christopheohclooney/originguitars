@@ -37,6 +37,12 @@ export function OptionControl({
       checked={isSelected}
       disabled={!isAvailable}
       onChange={onSelect}
+      /*
+       * A click on the option already selected fires no change event. It
+       * still counts as choosing it — the spec sheet marks the option as the
+       * customer's pick rather than a default left alone.
+       */
+      onClick={isSelected ? onSelect : undefined}
       className="sr-only"
     />
   );
