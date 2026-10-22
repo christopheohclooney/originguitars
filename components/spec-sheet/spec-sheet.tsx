@@ -925,35 +925,6 @@ export function SpecSheet() {
           onSubmit={(e) => e.preventDefault()}
         >
           <Section
-            id={`${formId}-details`}
-            title="Your details"
-            index={next()}
-            total={sectionCount}
-          >
-            <div className="grid gap-6 md:grid-cols-2 md:gap-x-8">
-              {DETAIL_FIELDS.map((f) => {
-                const id = `${formId}-${f.id}`;
-                return (
-                  <div key={f.id} className={f.wide ? "md:col-span-2" : undefined}>
-                    <label htmlFor={id} className={fieldLabel}>
-                      {f.label}
-                    </label>
-                    <input
-                      id={id}
-                      type={f.type ?? "text"}
-                      autoComplete={f.autoComplete}
-                      placeholder={f.placeholder}
-                      value={details[f.id]}
-                      onChange={setDetail(f.id)}
-                      className={`${fieldControl} mt-2.5 h-12`}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </Section>
-
-          <Section
             id={`${formId}-model`}
             title="Model"
             index={next()}
@@ -1043,6 +1014,35 @@ export function SpecSheet() {
                 onChange={setDetail("notes")}
                 className={`${fieldControl} mt-2.5 min-h-[8rem] resize-y py-3.5 leading-[1.6]`}
               />
+            </div>
+          </Section>
+
+          <Section
+            id={`${formId}-details`}
+            title="Your details"
+            index={next()}
+            total={sectionCount}
+          >
+            <div className="grid gap-6 md:grid-cols-2 md:gap-x-8">
+              {DETAIL_FIELDS.map((f) => {
+                const id = `${formId}-${f.id}`;
+                return (
+                  <div key={f.id} className={f.wide ? "md:col-span-2" : undefined}>
+                    <label htmlFor={id} className={fieldLabel}>
+                      {f.label}
+                    </label>
+                    <input
+                      id={id}
+                      type={f.type ?? "text"}
+                      autoComplete={f.autoComplete}
+                      placeholder={f.placeholder}
+                      value={details[f.id]}
+                      onChange={setDetail(f.id)}
+                      className={`${fieldControl} mt-2.5 h-12`}
+                    />
+                  </div>
+                );
+              })}
             </div>
           </Section>
 
