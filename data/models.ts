@@ -169,9 +169,9 @@ export const fromPricePence = Math.min(...models.map((m) => m.fromPricePence));
  * The spec sheet's model list (Flow 1).
  *
  * Kept apart from `models` above, which drives Home, /models and the detail
- * pages. Tempest and Cleaver are listed here as coming soon but stay off the
- * catalogue, and the catalogue's own "from" figures for Lance and the bass
- * are left as they are until the catalogue is updated in its own right.
+ * pages. The catalogue's own "from" figures for Lance and the bass are left
+ * as they are until the catalogue is updated in its own right. Tempest and
+ * Cleaver are left off both while they are on hold.
  *
  * `basePricePence` is null where no price is set; the sheet hides it then.
  * Only an available model can be chosen, and its options are the builder's
@@ -210,6 +210,4 @@ export const specSheetModels: SpecSheetModel[] = [
     basePricePence: 79_900,
   },
   { slug: "lance", name: "Lance", shape: "V shape", status: "coming-soon", basePricePence: null },
-  { slug: "tempest", name: "Tempest", shape: "X shape", status: "coming-soon", basePricePence: null },
-  { slug: "cleaver", name: "Cleaver", shape: "Ex-shape", status: "coming-soon", basePricePence: null },
 ];
